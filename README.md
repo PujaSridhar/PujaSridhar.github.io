@@ -8,13 +8,13 @@ Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging 
 - B.E., Artificial Intelligence and Machine Learning | BMS Institute of Technology and Management (_Aug 2019 - Jun 2023_)
 
 ## Work Experience
-** AI Developer Intern @ Resolute (HumanFractal.ai) (_Feb 2023 - May 2023_) **
+**AI Developer Intern @ Resolute (HumanFractal.ai) (_Feb 2023 - May 2023_)**
 - Developed the AI co-pilot, Filomena, enhancing user interaction by 40% using OpenAI models and AWS products through prompt engineering.
 
-** Data Science Intern @ Exposys Data Labs (_Sept 2022 - Oct 2022_) **
+**Data Science Intern @ Exposys Data Labs (_Sept 2022 - Oct 2022_)**
 - Analyzed and compared multiple regression models to predict startup profits, identifying the Random Forest Regressor as the most accurate model with 96% accuracy.
 
-** Alumni Relations Intern @ Vaave (_Nov 2020 - Dec 2021_) **
+**Alumni Relations Intern @ Vaave (_Nov 2020 - Dec 2021_)**
 - Coordinated outreach with over 200 alumni, providing insights into career opportunities, and improving student success by 30%.
 
 ## Projects
