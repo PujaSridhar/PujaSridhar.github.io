@@ -26,7 +26,7 @@ Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging 
 
 ## Leadership
 **Class Representative | BMS Institute of Technology and Management (_Jun 2020 - May 2023_)**
-- Communicated essential updates and announcements from the school administration to over 70 classmates, ensuring timely information dissemination and alignment with institutional goals.
+- Communicated essential updates and announcements from the school administration to over 60 classmates, ensuring timely information dissemination and alignment with institutional goals.
 - Maintained departmental discipline, resulting in a 15% annual reduction in misconduct incidents.
   
 **Event Head | BMS Institute of Technology and Management (_Nov 2022 - Dec 2022_)**
