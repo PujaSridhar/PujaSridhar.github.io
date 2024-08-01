@@ -26,9 +26,12 @@ Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging 
 
 ## Certifications
 - Oracle Cloud Infrastructure Foundations Associate | Oracle University (Aug 2023)
-- Demystifying Machine Learning Concepts | Impavid Technologies (May 2021)
-- AI for Everyone | DeepLearning.AI (Sep 2020)
-- Programming for Everybody & Python Data Structures | University of Michigan (Sep 2020)
+  ![Oracle Cloud Infrastructure Foundations Associate]()
+- [Demystifying Machine Learning Concepts](file:///C:/Users/Pujasridhar/OneDrive/Documents/Desktop/certificates/Puja%20S%20FDP%20Certificate.pdf) | Impavid Technologies (May 2021)
+- [AI for Everyone](https://coursera.org/share/7c044a28fe65edc8d23c984ab3c51a50) | DeepLearning.AI (Sep 2020)
+- [Programming for Everybody](https://coursera.org/share/eb846c2ec1f83b2472db7c5efe0ce4da) | University of Michigan (Sep 2020)
+- [Python Data Structures](https://coursera.org/share/c5f8756b5e841c310c431b27d2057b20) | University of Michigan (Sep 2020)
+- 
 
 ## Connect with Me
 - [LinkedIn](https://www.linkedin.com/in/pujasridhar)
