@@ -36,3 +36,4 @@ Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging 
 ## Connect with Me
 - [LinkedIn](https://www.linkedin.com/in/pujasridhar)
 - [GitHub](https://github.com/pujasridhar)
+- [Email](mailto:pujasridhar28@gmail.com)  
