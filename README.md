@@ -1,7 +1,12 @@
 # Data Scientist & AI Enthusiast
 Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging Artificial Intelligence and Machine Learning to solve real-world problems. I have a strong background in Computer Science and Artificial Intelligence, with hands-on experience in various technical domains.
 
-#### Technical Skills: Python, Tableau, AWS (Lambda, EC2, S3, DynamoDB), MATLAB, Pytorch, Pygame, TensorFlow, Keras, Data Science, Deep Learning, Cloud Computing, SPSS
+#### Technical Skills:
+- **Programming Languages**: Python, MATLAB
+- **Data Analysis & Visualization**: Tableau, SPSS
+- **Machine Learning & AI Frameworks**: TensorFlow, Keras, Pytorch
+- **Cloud Computing**: AWS (Lambda, EC2, S3, DynamoDB)
+- **Others**: Pygame, Data Science, Deep Learning, Cloud Computing
 
 ## Education
 - M.S., Computer Science | Rutgers University, The State University of New Jersey (_Jan 2024 - Present_)
@@ -31,6 +36,8 @@ Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging 
 - [AI for Everyone](https://coursera.org/share/7c044a28fe65edc8d23c984ab3c51a50) | DeepLearning.AI (Sep 2020)
 - [Programming for Everybody](https://coursera.org/share/eb846c2ec1f83b2472db7c5efe0ce4da) | University of Michigan (Sep 2020)
 - [Python Data Structures](https://coursera.org/share/c5f8756b5e841c310c431b27d2057b20) | University of Michigan (Sep 2020)
+
+## Awards & Honors
 - 
 
 ## Connect with Me
