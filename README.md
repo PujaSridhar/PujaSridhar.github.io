@@ -25,11 +25,11 @@ Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging 
 - Delivered a seminar on " Traffic Management Using AI" at BMS Institute of Technology and Management, Spring 2023.
 
 ## Certifications
--Oracle Cloud Infrastructure Foundations Associate | Oracle University (Aug 2023)
--Demystifying Machine Learning Concepts | Impavid Technologies (May 2021)
--AI for Everyone | DeepLearning.AI (Sep 2020)
--Programming for Everybody & Python Data Structures | University of Michigan (Sep 2020)
+- Oracle Cloud Infrastructure Foundations Associate | Oracle University (Aug 2023)
+- Demystifying Machine Learning Concepts | Impavid Technologies (May 2021)
+- AI for Everyone | DeepLearning.AI (Sep 2020)
+- Programming for Everybody & Python Data Structures | University of Michigan (Sep 2020)
 
 ## Connect with Me
--[LinkedIn](https://www.linkedin.com/in/pujasridhar)
--[GitHub](https://github.com/pujasridhar)
+- [LinkedIn](https://www.linkedin.com/in/pujasridhar)
+- [GitHub](https://github.com/pujasridhar)
