@@ -1,5 +1,4 @@
-# Data Scientist & AI Enthusiast
-Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging Artificial Intelligence and Machine Learning to solve real-world problems. I have a strong background in Computer Science and Artificial Intelligence, with hands-on experience in various technical domains.
+# MSCS Student
 
 #### Technical Skills:
 - **Programming Languages**: Python, MATLAB, SQL
@@ -17,12 +16,25 @@ Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging 
 - Engineered the Resolute co-pilot, Filomena, by crafting precise prompts using prompt engineering principles and exploring OpenAI models and AWS products, enhancing AI capabilities and enhancing user interaction by 40\%.
 
 **Data Science Intern @ Exposys Data Labs (_Sept 2022 - Oct 2022_)**
-- Analyzed and compared multiple regression models to predict startup profits, identifying the Random Forest Regressor as the most accurate model with 96% accuracy.
+- Developed and compared Linear Regression, SVR, Decision Tree, and Random Forest models to predict startup profits. Achieved a 93.94% R² score and an RMSE of 8803.78 with a Linear Regression. The Random Forest model performed well with a 96.04% R² score and an RMSE of 7112.99, providing valuable insights to optimize financial strategies and investment decisions for the company.
 
 **Alumni Relations Intern @ Vaave (_Nov 2020 - Dec 2021_)**
 - Coordinated outreach with over 200 alumni, providing insights into career opportunities, and improving student success by 30%.
 
 ## Projects
+
+### [Emotion Detection Using Facial Expressions](https://github.com/PujaSridhar/Emotion-Recognition-using-Facial-Expressions)
+- Designed a deep learning model using MobileNet architecture to detect emotions from images, leveraging transfer learning for efficient training.
+- Achieved 96% accuracy, enhancing the ability to understand and respond to human emotions, contributing to advancements in AI-driven customer service and mental health monitoring.
+
+### [Sentiment Analysis of Movie Reviews](https://github.com/PujaSridhar/Sentiment-analysis-of-movie-reviews)
+- Conducted sentiment analysis on over 1,000 movie reviews to discern overall viewer reactions; utilized natural language processing techniques to improve review classification accuracy by 25%.
+- Employed Naive Bayes’ Theorem to develop a predictive model with a 95% accuracy rate, enhancing data analysis capabilities and revising decision-making processes.
+
+### [Credit Card Fraud Detection](https://github.com/PujaSridhar/Credit_Card_Fraud_Detection)
+- Developed and integrated machine learning models to detect and prevent 95% of fraudulent transactions, ensuring accurate customer charges.
+- Performed a comparative analysis of Isolation Forest, Local Outlier Factor, and SVM algorithms, with Isolation Forest proving the most effective and improving anomaly detection times by 25%.
+
 
 ## Leadership
 **Class Representative | BMS Institute of Technology and Management (_Jun 2020 - May 2023_)**
@@ -39,7 +51,7 @@ Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging 
   
 ## Talks & Lectures
 - Delivered a seminar on "How to Prepare for an AI Developer role through Campus Placements" at BMS Institute of Technology and Management, Summer 2023.
-- Delivered a seminar on " Traffic Management Using AI" at BMS Institute of Technology and Management, Spring 2023.
+- Delivered a " Traffic Management Using AI" seminar at BMS Institute of Technology and Management, Spring 2023.
 
 ## Certifications
 - Oracle Cloud Infrastructure Foundations Associate | Oracle University (Aug 2023)
@@ -48,9 +60,6 @@ Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging 
 - [AI for Everyone](https://coursera.org/share/7c044a28fe65edc8d23c984ab3c51a50) | DeepLearning.AI (Sep 2020)
 - [Programming for Everybody](https://coursera.org/share/eb846c2ec1f83b2472db7c5efe0ce4da) | University of Michigan (Sep 2020)
 - [Python Data Structures](https://coursera.org/share/c5f8756b5e841c310c431b27d2057b20) | University of Michigan (Sep 2020)
-
-## Awards & Honors
-- 
 
 ## Connect with Me
 - [LinkedIn](https://www.linkedin.com/in/pujasridhar)
