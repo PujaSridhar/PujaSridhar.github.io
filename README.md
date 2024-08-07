@@ -13,6 +13,7 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 - B.E., Artificial Intelligence and Machine Learning | BMS Institute of Technology and Management (_Aug 2019 - Jun 2023_)
 
 ## Work Experience
+
 **AI Developer Intern @ Resolute (HumanFractal.ai) (_Feb 2023 - May 2023_)**                                                                                      
 Engineered the Resolute co-pilot, Filomena, by crafting precise prompts using prompt engineering principles and exploring OpenAI models and AWS products, enhancing AI capabilities and enhancing user interaction by 40%.
 
