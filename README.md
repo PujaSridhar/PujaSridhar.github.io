@@ -26,7 +26,7 @@ Coordinated outreach with over 200 alumni, providing insights into career opport
 
 ## Projects
 
-###[Rescue the Captain: Pathfinding Algorithms in Alien-Infested Environments](https://github.com/PujaSridhar/AI-Project1/tree/main)
+### [Rescue the Captain: Pathfinding Algorithms in Alien-Infested Environments](https://github.com/PujaSridhar/AI-Project1/tree/main)
 - Developed and tested four bot algorithms for navigating a dynamic ship grid with obstacles and aliens, using the A-Star algorithm for pathfinding.
 - Implemented random ship layout generation and visualized the bot’s path and game status, adapting to alien movements.
 - Evaluated and compared bot performance based on success rates and survival times, with visual results for effectiveness.
