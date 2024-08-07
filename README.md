@@ -14,7 +14,7 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 
 ## Work Experience
 
-**AI Developer Intern @ Resolute (HumanFractal.ai) (_Feb 2023 - May 2023_)**<br>                                             
+**AI Developer Intern @ Resolute (HumanFractal.ai) (_Feb 2023 - May 2023_)**                                    
 Engineered the Resolute co-pilot, Filomena, by crafting precise prompts using prompt engineering principles and exploring OpenAI models and AWS products, enhancing AI capabilities and enhancing user interaction by 40%.
 
 **Data Science Intern @ Exposys Data Labs (_Sept 2022 - Oct 2022_)**<br>
