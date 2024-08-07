@@ -16,10 +16,12 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 Engineered the Resolute co-pilot, Filomena, by crafting precise prompts using prompt engineering principles and exploring OpenAI models and AWS products, enhancing AI capabilities and enhancing user interaction by 40%.
 
 **Data Science Intern @ Exposys Data Labs (_Sept 2022 - Oct 2022_)**
-- Developed and compared Linear Regression, SVR, Decision Tree, and Random Forest models to predict startup profits. Achieved a 93.94% R² score and an RMSE of 8803.78 with a Linear Regression. The Random Forest model performed well with a 96.04% R² score and an RMSE of 7112.99, providing valuable insights to optimize the company's financial strategies and investment decisions.
+
+Developed and compared Linear Regression, SVR, Decision Tree, and Random Forest models to predict startup profits. Achieved a 93.94% R² score and an RMSE of 8803.78 with a Linear Regression. The Random Forest model performed well with a 96.04% R² score and an RMSE of 7112.99, providing valuable insights to optimize the company's financial strategies and investment decisions.
 
 **Alumni Relations Intern @ Vaave (_Nov 2020 - Dec 2021_)**
-- Coordinated outreach with over 200 alumni, providing insights into career opportunities, and improving student success by 30%.
+
+Coordinated outreach with over 200 alumni, providing insights into career opportunities, and improving student success by 30%.
 
 ## Projects
 
