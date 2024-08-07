@@ -2,11 +2,11 @@
 Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging Artificial Intelligence and Machine Learning to solve real-world problems. I have a strong background in Computer Science and Artificial Intelligence, with hands-on experience in various technical domains.
 
 #### Technical Skills:
-- **Programming Languages**: Python, MATLAB
+- **Programming Languages**: Python, MATLAB, SQL
 - **Data Analysis & Visualization**: Tableau, SPSS
 - **Machine Learning & AI Frameworks**: TensorFlow, Keras, Pytorch
 - **Cloud Computing**: AWS (Lambda, EC2, S3, DynamoDB)
-- **Others**: Pygame, Data Science, Deep Learning, Cloud Computing
+- **Others**: Pygame, Data Science, Deep Learning
 
 ## Education
 - M.S., Computer Science | Rutgers University, The State University of New Jersey (_Jan 2024 - Present_)
@@ -14,7 +14,7 @@ Hello! I'm Puja Sridhar, a passionate Data Scientist with a focus on leveraging 
 
 ## Work Experience
 **AI Developer Intern @ Resolute (HumanFractal.ai) (_Feb 2023 - May 2023_)**
-- Developed the AI co-pilot, Filomena, enhancing user interaction by 40% using OpenAI models and AWS products through prompt engineering.
+- Engineered the Resolute co-pilot, Filomena, by crafting precise prompts using prompt engineering principles and exploring OpenAI models and AWS products, enhancing AI capabilities and enhancing user interaction by 40\%.
 
 **Data Science Intern @ Exposys Data Labs (_Sept 2022 - Oct 2022_)**
 - Analyzed and compared multiple regression models to predict startup profits, identifying the Random Forest Regressor as the most accurate model with 96% accuracy.
