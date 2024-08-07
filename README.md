@@ -10,8 +10,8 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 
 ## Education
 
-- | M.S., Computer Science | Rutgers University, The State University of New Jersey | Jan 2024 - Present |
-- | B.E., Artificial Intelligence and Machine Learning | BMS Institute of Technology and Management | Aug 2019 - Jun 2023 |
+- M.S., Computer Science | Rutgers University, The State University of New Jersey | Jan 2024 - Present |
+- B.E., Artificial Intelligence and Machine Learning | BMS Institute of Technology and Management | Aug 2019 - Jun 2023 |
 
 ## Work Experience
 
