@@ -26,6 +26,11 @@ Coordinated outreach with over 200 alumni, providing insights into career opport
 
 ## Projects
 
+###[Rescue the Captain: Pathfinding Algorithms in Alien-Infested Environments](https://github.com/PujaSridhar/AI-Project1/tree/main)
+- Developed and tested four bot algorithms for navigating a dynamic ship grid with obstacles and aliens, using the A-Star algorithm for pathfinding.
+- Implemented random ship layout generation and visualized the bot’s path and game status, adapting to alien movements.
+- Evaluated and compared bot performance based on success rates and survival times, with visual results for effectiveness.
+
 ### [Emotion Detection Using Facial Expressions](https://github.com/PujaSridhar/Emotion-Recognition-using-Facial-Expressions)
 - Designed a deep learning model using MobileNet architecture to detect emotions from images, leveraging transfer learning for efficient training.
 - Achieved 96% accuracy, enhancing the ability to understand and respond to human emotions, contributing to advancements in AI-driven customer service and mental health monitoring.
