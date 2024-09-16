@@ -1,5 +1,5 @@
 # MSCS Student
-Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Science @ Rutgers University and I hold a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management. 
+Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Science @ Rutgers University and I hold a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management.
 
 #### Technical Skills:
 - **Programming Languages**: Python, MATLAB, SQL
