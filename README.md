@@ -16,9 +16,9 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 ## Work Experience
 
 **Graduate Teaching Assistant @ Rutgers University (_September 2024 - Present_)**
-- Provide support in teaching key AI topics such as machine learning, deep learning, and graph search techniques (DFS, BFS, A*, UCS).
-- Assist students in understanding probabilistic inference, constraint satisfaction, and search algorithms.
-- Conduct office hours and lead discussions to clarify course material and aid in project and assignment completion.
+- Assist the lead professor in delivering lectures and course materials for the Intro to AI course, focusing on foundational concepts and practical applications of artificial intelligence.
+- Facilitate student learning through group discussions, and office hours, addressing questions and providing support on assignments and projects.
+- Evaluate and grade student work, including assignments, projects, and exams, ensuring timely and constructive feedback to support academic growth.
 
 **AI Developer Intern @ Resolute (HumanFractal.ai) (_February 2023 - May 2023_)**                                    
 - Worked on building the Resolute co-pilot, Filomena.
