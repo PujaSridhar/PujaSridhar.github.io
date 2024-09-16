@@ -4,9 +4,9 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 #### Technical Skills:
 - **Programming Languages**: Python, MATLAB, SQL
 - **Data Analysis & Visualization**: Tableau, SPSS
-- **Machine Learning & AI Frameworks**: TensorFlow, Keras, Pytorch
+- **Machine Learning & AI Frameworks**: TensorFlow, Keras, Pytorch, Pygame
 - **Cloud Computing**: AWS (Lambda, EC2, S3, DynamoDB)
-- **Others**: Pygame, Data Science, Deep Learning
+- **Others**: Data Science, Artificial Intelligence, Machine Learning, Deep Learning, Operating Systems, Database Management, Business Intelligence, Robotics Process Automation 
 
 ## Education
 
