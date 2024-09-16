@@ -15,13 +15,18 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 
 ## Work Experience
 
-**AI Developer Intern @ Resolute (HumanFractal.ai) (_Feb 2023 - May 2023_)**                                    
+**Graduate Teaching Assistant @ Rutgers University (_September 2024 - Present)**
+- Provide support in teaching key AI topics such as machine learning, deep learning, and graph search techniques (DFS, BFS, A*, UCS).
+- Assist students in understanding probabilistic inference, constraint satisfaction, and search algorithms.
+- Conduct office hours and lead discussions to clarify course material and aid in project and assignment completion.
+
+**AI Developer Intern @ Resolute (HumanFractal.ai) (_February 2023 - May 2023_)**                                    
 Engineered the Resolute co-pilot, Filomena, by crafting precise prompts using prompt engineering principles and exploring OpenAI models and AWS products, enhancing AI capabilities and enhancing user interaction by 40%.
 
-**Data Science Intern @ Exposys Data Labs (_Sept 2022 - Oct 2022_)**<br>
+**Data Science Intern @ Exposys Data Labs (_September 2022 - October 2022_)**<br>
 Developed and compared Linear Regression, SVR, Decision Tree, and Random Forest models to predict startup profits. Achieved a 93.94% R² score and an RMSE of 8803.78 with a Linear Regression. The Random Forest model performed well with a 96.04% R² score and an RMSE of 7112.99, providing valuable insights to optimize the company's financial strategies and investment decisions.
 
-**Alumni Relations Intern @ Vaave (_Nov 2020 - Dec 2021_)**<br>
+**Alumni Relations Intern @ Vaave (_November 2020 - December 2021_)**<br>
 Coordinated outreach with over 200 alumni, providing insights into career opportunities and improving student success by 30%.
 
 ## Projects
@@ -45,15 +50,15 @@ Coordinated outreach with over 200 alumni, providing insights into career opport
 
 
 ## Leadership
-**Class Representative | BMS Institute of Technology and Management (_Jun 2020 - May 2023_)**
+**Class Representative | BMS Institute of Technology and Management (_June 2020 - May 2023_)**
 - Communicated essential updates and announcements from the school administration to over 60 classmates, ensuring timely information dissemination and alignment with institutional goals.
 - Maintained departmental discipline, resulting in a 15% annual reduction in misconduct incidents.
   
-**Event Head | BMS Institute of Technology and Management (_Nov 2022 - Dec 2022_)**
+**Event Head | BMS Institute of Technology and Management (_November 2022 - December 2022_)**
 - Executed event strategies aligned with organizational objectives, leading to a 20% increase in event attendance.
 - Fostered a collaborative and high-performance environment among the team members.
 
-**Finance Head | BMS Institute of Technology and Management (_Sep 2019 - Oct 2019_)**
+**Finance Head | BMS Institute of Technology and Management (_September 2019 - October 2019_)**
 - Implemented cost-saving measures that resulted in a 15% reduction in operational expenses.
 - Led and motivated a finance team, fostering a culture of excellence, accountability, and continuous improvement.
   
@@ -62,11 +67,11 @@ Coordinated outreach with over 200 alumni, providing insights into career opport
 - Delivered a " Traffic Management Using AI" seminar at BMS Institute of Technology and Management, Spring 2023.
 
 ## Certifications
-- [Oracle Cloud Infrastructure Foundations Associate](https://drive.google.com/file/d/1HiIjc0MNB5iEeUawWgNuQVs051v2f7mu/view?usp=sharing) | Oracle University (Aug 2023)
+- [Oracle Cloud Infrastructure Foundations Associate](https://drive.google.com/file/d/1HiIjc0MNB5iEeUawWgNuQVs051v2f7mu/view?usp=sharing) | Oracle University (August 2023)
 - [Demystifying Machine Learning Concepts](https://drive.google.com/file/d/1rP8fQXfc1Q8gB6MNXZPyHo2wY9JhZfRU/view?usp=sharing) | Impavid Technologies (May 2021)
-- [AI for Everyone](https://coursera.org/share/7c044a28fe65edc8d23c984ab3c51a50) | DeepLearning.AI (Sep 2020)
-- [Programming for Everybody](https://coursera.org/share/eb846c2ec1f83b2472db7c5efe0ce4da) | University of Michigan (Sep 2020)
-- [Python Data Structures](https://coursera.org/share/c5f8756b5e841c310c431b27d2057b20) | University of Michigan (Sep 2020)
+- [AI for Everyone](https://coursera.org/share/7c044a28fe65edc8d23c984ab3c51a50) | DeepLearning.AI (September 2020)
+- [Programming for Everybody](https://coursera.org/share/eb846c2ec1f83b2472db7c5efe0ce4da) | University of Michigan (September 2020)
+- [Python Data Structures](https://coursera.org/share/c5f8756b5e841c310c431b27d2057b20) | University of Michigan (September 2020)
 
 ## Connect with Me
 - [LinkedIn](https://www.linkedin.com/in/pujasridhar)
