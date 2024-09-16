@@ -33,7 +33,6 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 **Alumni Relations Intern @ Vaave (_November 2020 - December 2021_)**<br>
 - Coordinated outreach efforts with over 200 alumni to foster connections between alumni and current students.
 - Organized virtual events and networking opportunities to facilitate mentorship and career guidance.
-- Collaborated with alumni to provide students with insights into industry trends and career paths.
 - Increased student engagement by 30% through targeted alumni interaction and outreach programs.
 
 
