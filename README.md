@@ -21,10 +21,14 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 - Conduct office hours and lead discussions to clarify course material and aid in project and assignment completion.
 
 **AI Developer Intern @ Resolute (HumanFractal.ai) (_February 2023 - May 2023_)**                                    
-Engineered the Resolute co-pilot, Filomena, by crafting precise prompts using prompt engineering principles and exploring OpenAI models and AWS products, enhancing AI capabilities and enhancing user interaction by 40%.
+- Worked on building the Resolute co-pilot, Filomena.
+- Writing prompts for Filomena using the principles of prompt engineering.
+- Explored various OpenAI models, LLMs and few AWS products, enhancing AI capabilities and enhancing user interaction by 40%.
 
 **Data Science Intern @ Exposys Data Labs (_September 2022 - October 2022_)**<br>
-Developed and compared Linear Regression, SVR, Decision Tree, and Random Forest models to predict startup profits. Achieved a 93.94% R² score and an RMSE of 8803.78 with a Linear Regression. The Random Forest model performed well with a 96.04% R² score and an RMSE of 7112.99, providing valuable insights to optimize the company's financial strategies and investment decisions.
+- I was given a project where I had to predict the profit of 50 startups using various regression model and evaluate the best regression model.
+- The four different models built were Linear regression, SVR, Decision Tree regressor and Random forest regressor.
+- Achieved 96.04% accuracy with Random Forest, providing insights to optimize financial and investment strategies for the company.
 
 **Alumni Relations Intern @ Vaave (_November 2020 - December 2021_)**<br>
 - Coordinated outreach efforts with over 200 alumni to foster connections between alumni and current students.
