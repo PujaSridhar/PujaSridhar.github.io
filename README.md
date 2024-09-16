@@ -10,12 +10,12 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 
 ## Education
 
-- M.S., Computer Science | Rutgers University, The State University of New Jersey | Jan 2024 - Present |
-- B.E., Artificial Intelligence and Machine Learning | BMS Institute of Technology and Management | Aug 2019 - Jun 2023 |
+- M.S., Computer Science | Rutgers University, The State University of New Jersey | January 2024 - Present |
+- B.E., Artificial Intelligence and Machine Learning | BMS Institute of Technology and Management | August 2019 - June 2023 |
 
 ## Work Experience
 
-**Graduate Teaching Assistant @ Rutgers University (_September 2024 - Present)**
+**Graduate Teaching Assistant @ Rutgers University (_September 2024 - Present_)**
 - Provide support in teaching key AI topics such as machine learning, deep learning, and graph search techniques (DFS, BFS, A*, UCS).
 - Assist students in understanding probabilistic inference, constraint satisfaction, and search algorithms.
 - Conduct office hours and lead discussions to clarify course material and aid in project and assignment completion.
@@ -27,7 +27,11 @@ Engineered the Resolute co-pilot, Filomena, by crafting precise prompts using pr
 Developed and compared Linear Regression, SVR, Decision Tree, and Random Forest models to predict startup profits. Achieved a 93.94% R² score and an RMSE of 8803.78 with a Linear Regression. The Random Forest model performed well with a 96.04% R² score and an RMSE of 7112.99, providing valuable insights to optimize the company's financial strategies and investment decisions.
 
 **Alumni Relations Intern @ Vaave (_November 2020 - December 2021_)**<br>
-Coordinated outreach with over 200 alumni, providing insights into career opportunities and improving student success by 30%.
+- Coordinated outreach efforts with over 200 alumni to foster connections between alumni and current students.
+- Organized virtual events and networking opportunities to facilitate mentorship and career guidance.
+- Collaborated with alumni to provide students with insights into industry trends and career paths.
+- Increased student engagement by 30% through targeted alumni interaction and outreach programs.
+
 
 ## Projects
 
