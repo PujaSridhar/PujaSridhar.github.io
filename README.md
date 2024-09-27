@@ -15,22 +15,27 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 
 ## Work Experience
 
-**Graduate Teaching Assistant @ Rutgers University (_September 2024 - Present_)**
-- Assist the lead professor in delivering lectures and course materials for the Intro to AI course, focusing on foundational concepts and practical applications of artificial intelligence.
-- Facilitate student learning through group discussions, and office hours, addressing questions and providing support on assignments and projects.
-- Evaluate and grade student work, including assignments, projects, and exams, ensuring timely and constructive feedback to support academic growth.
+**Graduate Teaching Assistant @ Rutgers University School of Communication and Information (_September 2024 - Present_)**
+- Assist in teaching key Object-Oriented Programming (OOP) concepts in Python, including classes, inheritance, polymorphism, and encapsulation.
+- Grade weekly assignments, ensuring timely and constructive feedback to enhance student learning.
+- Address student queries via email, providing clarification on course materials and resolving doubts.
+  
+**Computer Science Grader @ Rutgers University (_September 2024 - Present_)**
+- Assess assignments and exams covering key AI topics such as graph-based search algorithms (DFS, BFS, A*), probabilistic inference, constraint satisfaction, machine learning, and deep learning.
+- Provide detailed feedback to enhance student understanding and performance in AI concepts.
+- Collaborate with course instructors to ensure consistent grading standards and maintain academic integrity.
 
 **AI Developer Intern @ Resolute (HumanFractal.ai) (_February 2023 - May 2023_)**                                    
 - Worked on building the Resolute co-pilot, Filomena.
 - Writing prompts for Filomena using the principles of prompt engineering.
 - Explored various OpenAI models, LLMs and few AWS products, enhancing AI capabilities and enhancing user interaction by 40%.
 
-**Data Science Intern @ Exposys Data Labs (_September 2022 - October 2022_)**<br>
+**Data Science Intern @ Exposys Data Labs (_September 2022 - October 2022_)** <br>
 - I was given a project where I had to predict the profit of 50 startups using various regression model and evaluate the best regression model.
 - The four different models built were Linear regression, SVR, Decision Tree regressor and Random forest regressor.
 - Achieved 96.04% accuracy with Random Forest, providing insights to optimize financial and investment strategies for the company.
 
-**Alumni Relations Intern @ Vaave (_November 2020 - December 2021_)**<br>
+**Alumni Relations Intern @ Vaave (_November 2020 - December 2021_)** <br>
 - Coordinated outreach efforts with over 200 alumni to foster connections between alumni and current students.
 - Organized virtual events and networking opportunities to facilitate mentorship and career guidance.
 - Increased student engagement by 30% through targeted alumni interaction and outreach programs.
