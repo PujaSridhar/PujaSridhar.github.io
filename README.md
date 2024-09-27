@@ -15,7 +15,7 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 
 ## Work Experience
 
-**Graduate Teaching Assistant @ Rutgers University School of Communication and Information (_September 2024 - Present_)**
+**Graduate Teaching Assistant @ Rutgers University - School of Communication and Information (_September 2024 - Present_)**
 - Assist in teaching key Object-Oriented Programming (OOP) concepts in Python, including classes, inheritance, polymorphism, and encapsulation.
 - Grade weekly assignments, ensuring timely and constructive feedback to enhance student learning.
 - Address student queries via email, providing clarification on course materials and resolving doubts.
