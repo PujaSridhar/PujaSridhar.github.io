@@ -21,9 +21,9 @@ Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Scien
 - Address student queries via email, providing clarification on course materials and resolving doubts.
   
 **Computer Science Grader @ Rutgers University (_September 2024 - Present_)**
-- Assess assignments and exams covering key AI topics such as graph-based search algorithms (DFS, BFS, A*), probabilistic inference, constraint satisfaction, machine learning, and deep learning.
+- Assess assignments covering key AI topics such as graph-based search algorithms (DFS, BFS, A*), probabilistic inference, constraint satisfaction, machine learning, and deep learning.
 - Provide detailed feedback to enhance student understanding and performance in AI concepts.
-- Collaborate with course instructors to ensure consistent grading standards and maintain academic integrity.
+- Collaborate with course instructor to ensure consistent grading standards and maintain academic integrity.
 
 **AI Developer Intern @ Resolute (HumanFractal.ai) (_February 2023 - May 2023_)**                                    
 - Worked on building the Resolute co-pilot, Filomena.
