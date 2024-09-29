@@ -1,7 +1,11 @@
 # MSCS Student
-Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Science @ Rutgers University and I hold a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management. I’m passionate about using AI and data science to tackle real-world problems, and I thrive on the challenges that come with developing innovative solutions.
+Hello! I'm Puja Sridhar, currently pursuing Masters of Science in Computer Science @ Rutgers University and I hold a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management. 
 
-As a Graduate Teaching Assistant, I enjoy sharing my knowledge and helping others grasp complex concepts. I’m eager to connect with fellow tech enthusiasts and explore opportunities that align with my skills and interests. Let’s create something impactful together!
+I’m passionate about using AI and data science to tackle real-world problems, and I thrive on the challenges that come with developing innovative solutions. My experiences, from internships to teaching, have shown me how powerful technology can be in making a difference. I enjoy working on projects that challenge me and allow me to learn something new, whether it’s developing a machine learning model or collaborating with classmates on coding assignments. 
+
+I’m passionate about sharing knowledge, which is why I love my role as a Graduate Teaching Assistant. It’s rewarding to help others understand complex concepts and see them grow.
+
+I’m eager to connect with fellow tech enthusiasts and explore opportunities that align with my skills and interests. Let’s create something impactful together!
 
 
 
