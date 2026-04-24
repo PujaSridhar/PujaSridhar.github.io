@@ -6,6 +6,7 @@ const RESUME_URL = 'https://drive.google.com/file/d/1XrZ5vb9nad2WnyswQOYPBe3D7sp
 const EMAIL_HREF = 'mailto:pujasridhar28@gmail.com?subject=Connecting%20with%20you%20via%20portfolio&body=Hi%20Puja,%0A%0AI%20came%20across%20your%20portfolio%20and%20wished%20to%20reach%20out.%0A%0APlease%20let%20me%20know%20a%20convenient%20time%20to%20connect.%0A%20Sincerely,%0A%20[Your%20Name]';
 const COMMAND_NAMES = [
   'help',
+  'man',
   'about',
   'education',
   'experience',
@@ -21,6 +22,91 @@ const COMMAND_NAMES = [
   'all',
   'clear',
 ];
+
+const COMMAND_MANUALS = {
+  help: {
+    summary: 'Show available commands and usage guidance.',
+    usage: 'help',
+    description:
+      'Lists the built-in terminal commands and reminds visitors that they can also ask natural-language questions.',
+  },
+  man: {
+    summary: 'Display a manual page for a built-in command.',
+    usage: 'man [command]',
+    description:
+      'Opens a Unix-style manual page with the command summary, usage, and behavior. Example: man projects',
+  },
+  about: {
+    summary: 'Print the personal background section.',
+    usage: 'about',
+    description: 'Shows Puja Sridhar’s story, interests, and current academic direction.',
+  },
+  education: {
+    summary: 'Show academic history.',
+    usage: 'education',
+    description: 'Prints degree, school, graduation, and GPA details.',
+  },
+  experience: {
+    summary: 'Show professional experience.',
+    usage: 'experience',
+    description: 'Lists internships, teaching roles, and day-to-day impact across positions.',
+  },
+  projects: {
+    summary: 'Show featured projects.',
+    usage: 'projects',
+    description: 'Prints selected projects, tech stacks, and links to source material.',
+  },
+  skills: {
+    summary: 'Show technical skill categories.',
+    usage: 'skills',
+    description: 'Displays grouped skills across languages, frameworks, tools, and domains.',
+  },
+  languages: {
+    summary: 'Show spoken languages.',
+    usage: 'languages',
+    description: 'Prints language fluency information.',
+  },
+  certifications: {
+    summary: 'Show certifications and credentials.',
+    usage: 'certifications',
+    description: 'Lists certifications with issuers and links where available.',
+  },
+  talks: {
+    summary: 'Show talks and presentations.',
+    usage: 'talks',
+    description: 'Prints speaking engagements, lecture topics, and venues.',
+  },
+  leadership: {
+    summary: 'Show leadership roles.',
+    usage: 'leadership',
+    description: 'Lists organizations, roles, and measurable leadership contributions.',
+  },
+  resume: {
+    summary: 'Open the latest resume.',
+    usage: 'resume',
+    description: 'Shows a direct link to the current hosted PDF resume.',
+  },
+  contact: {
+    summary: 'Show contact links.',
+    usage: 'contact',
+    description: 'Prints email, LinkedIn, and GitHub contact paths.',
+  },
+  creator: {
+    summary: 'Show the signature ASCII creator card.',
+    usage: 'creator',
+    description: 'Renders the portfolio’s ASCII art easter egg.',
+  },
+  all: {
+    summary: 'Print all portfolio sections in sequence.',
+    usage: 'all',
+    description: 'Outputs the full portfolio content as one long terminal session.',
+  },
+  clear: {
+    summary: 'Clear the terminal output and reboot the shell.',
+    usage: 'clear',
+    description: 'Resets terminal history and restarts the boot message.',
+  },
+};
 
 function formatBreaks(text) {
   return text.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
@@ -56,6 +142,27 @@ function buildHelpHtml() {
   return (
     `Available commands:<br>${COMMAND_NAMES.map((command) => `<span class="command">${command}</span>`).join(', ')}` +
     `<br><br>You can also ask me a question, like: <i>"What are her most recent projects?"</i>`
+  );
+}
+
+function buildManPageHtml(command) {
+  const manual = COMMAND_MANUALS[command];
+
+  if (!manual) {
+    return (
+      `<div class="skills-category-title">MANUAL NOT FOUND</div>` +
+      `No manual entry for <span class="command">${command}</span>.<br>` +
+      `Try <span class="command">help</span> to see the supported commands.`
+    );
+  }
+
+  return (
+    `<div class="skills-category-title">NAME</div>` +
+    `<span class="command">${command}</span> - ${manual.summary}<br><br>` +
+    `<div class="skills-category-title">SYNOPSIS</div>` +
+    `<span class="command">${manual.usage}</span><br><br>` +
+    `<div class="skills-category-title">DESCRIPTION</div>` +
+    `${manual.description}`
   );
 }
 
@@ -195,6 +302,8 @@ function getCommandEntries(command) {
   switch (command) {
     case 'help':
       return [makeOutputEntry(buildHelpHtml())];
+    case 'man':
+      return [makeOutputEntry(buildManPageHtml('man'))];
     case 'about':
       return [makeOutputEntry(buildAboutHtml())];
     case 'education':
@@ -506,6 +615,7 @@ export default function App() {
   const canvasRef = useRef(null);
   const audioRef = useRef({ context: null, ready: false });
   const conversationHistoryRef = useRef([]);
+  const activeRequestRef = useRef(null);
 
   const footerHtml = useMemo(
     () =>
@@ -754,8 +864,11 @@ export default function App() {
 
   async function requestAssistant(userInput) {
     const requestId = crypto.randomUUID();
+    const abortController = new AbortController();
     const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const apiBaseUrl = isDevelopment ? '' : 'https://puja-sridhar-github-io.vercel.app';
+
+    activeRequestRef.current = { id: requestId, controller: abortController };
 
     setTerminalHistory((previous) => [...previous, { id: requestId, type: 'output', html: 'Cogsworth is thinking...' }]);
 
@@ -766,6 +879,7 @@ export default function App() {
       const response = await fetch(`${apiBaseUrl}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: abortController.signal,
         body: JSON.stringify({
           prompt: userInput,
           conversationHistory: nextConversationHistory.slice(0, -1),
@@ -805,6 +919,15 @@ export default function App() {
 
       conversationHistoryRef.current = [...nextConversationHistory, { role: 'assistant', text: fullResponseText }];
     } catch (error) {
+      if (error.name === 'AbortError') {
+        setTerminalHistory((previous) =>
+          previous.map((entry) =>
+            entry.id === requestId ? { ...entry, html: "<span class='command'>^C</span> Request cancelled." } : entry
+          )
+        );
+        return;
+      }
+
       console.error('AI Fetch Error:', error);
       setTerminalHistory((previous) =>
         previous.map((entry) =>
@@ -813,11 +936,15 @@ export default function App() {
             : entry
         )
       );
+    } finally {
+      if (activeRequestRef.current?.id === requestId) {
+        activeRequestRef.current = null;
+      }
     }
   }
 
-  function handleSubmit() {
-    const userInput = inputValue.trim();
+  function handleSubmit(rawInput = inputValue) {
+    const userInput = rawInput.trim();
     if (!userInput) {
       return;
     }
@@ -825,8 +952,16 @@ export default function App() {
     initAudio();
     playSound(440, 'square', 0.08, 0.2);
 
-    const normalizedInput = userInput.toLowerCase();
-    const commandEntries = getCommandEntries(normalizedInput);
+    const [commandToken, ...args] = userInput.split(/\s+/);
+    const normalizedInput = commandToken.toLowerCase();
+    let commandEntries;
+
+    if (normalizedInput === 'man') {
+      const subject = args[0]?.toLowerCase();
+      commandEntries = [makeOutputEntry(buildManPageHtml(subject || 'man'))];
+    } else {
+      commandEntries = getCommandEntries(normalizedInput);
+    }
 
     setCommandHistory((previous) => [userInput, ...previous]);
     setHistoryIndex(-1);
@@ -850,11 +985,72 @@ export default function App() {
       initAudio();
     }
 
+    if (event.ctrlKey && event.key.toLowerCase() === 'c') {
+      event.preventDefault();
+
+      if (activeRequestRef.current) {
+        activeRequestRef.current.controller.abort();
+      }
+
+      if (inputValue) {
+        setTerminalHistory((previous) => [...previous, makeCommandEntry(inputValue), makeOutputEntry('<span class="command">^C</span>')]);
+        setCommandHistory((previous) => [inputValue, ...previous]);
+      } else if (!activeRequestRef.current) {
+        setTerminalHistory((previous) => [...previous, makeOutputEntry('<span class="command">^C</span>')]);
+      }
+
+      setInputValue('');
+      setHistoryIndex(-1);
+      return;
+    }
+
     if (event.key === 'Tab') {
       event.preventDefault();
-      const match = COMMAND_NAMES.find((command) => command.startsWith(inputValue.trim().toLowerCase()));
-      if (match) {
-        setInputValue(match);
+      const trimmedInput = inputValue.trim().toLowerCase();
+      const [commandToken, ...args] = trimmedInput.split(/\s+/);
+
+      if (commandToken === 'man') {
+        const subjectInput = args.join(' ');
+        const subjectMatches = COMMAND_NAMES.filter((command) => command.startsWith(subjectInput));
+
+        if (subjectMatches.length === 1) {
+          setInputValue(`man ${subjectMatches[0]}`);
+        } else if (subjectMatches.length > 1) {
+          const sharedPrefix = subjectMatches.reduce((prefix, command) => {
+            let nextPrefix = prefix;
+            while (!command.startsWith(nextPrefix) && nextPrefix) {
+              nextPrefix = nextPrefix.slice(0, -1);
+            }
+            return nextPrefix;
+          }, subjectMatches[0]);
+
+          setInputValue(`man ${sharedPrefix}`);
+          setTerminalHistory((previous) => [
+            ...previous,
+            makeOutputEntry(subjectMatches.map((command) => `<span class="command">${command}</span>`).join('&nbsp;&nbsp;')),
+          ]);
+        }
+        return;
+      }
+
+      const matches = COMMAND_NAMES.filter((command) => command.startsWith(commandToken));
+
+      if (matches.length === 1) {
+        setInputValue(matches[0]);
+      } else if (matches.length > 1) {
+        const sharedPrefix = matches.reduce((prefix, command) => {
+          let nextPrefix = prefix;
+          while (!command.startsWith(nextPrefix) && nextPrefix) {
+            nextPrefix = nextPrefix.slice(0, -1);
+          }
+          return nextPrefix;
+        }, matches[0]);
+
+        setInputValue(sharedPrefix);
+        setTerminalHistory((previous) => [
+          ...previous,
+          makeOutputEntry(matches.map((command) => `<span class="command">${command}</span>`).join('&nbsp;&nbsp;')),
+        ]);
       }
       return;
     }
