@@ -634,48 +634,67 @@ export default function App() {
 
   useEffect(() => {
     let cancelled = false;
-    const loadWeatherFromIp = async () => {
+    const loadWeather = async () => {
+      const apis = ['https://ipapi.co/json/', 'https://ip-api.com/json/?fields=lat,lon', 'https://ipwho.is/'];
+
+      let latitude = null;
+      let longitude = null;
+
+      for (const api of apis) {
+        try {
+          const res = await fetch(api);
+          if (!res.ok) {
+            continue;
+          }
+
+          const data = await res.json();
+          const lat = Number(data.latitude ?? data.lat);
+          const lon = Number(data.longitude ?? data.lon);
+
+          if (!Number.isNaN(lat) && !Number.isNaN(lon)) {
+            latitude = lat;
+            longitude = lon;
+            break;
+          }
+        } catch {
+          continue;
+        }
+      }
+
+      if (latitude === null || longitude === null) {
+        if (!cancelled) {
+          setWeatherText('N/A');
+        }
+        return;
+      }
+
       try {
-        const locationResponse = await fetch('https://ipapi.co/json/');
-        if (!locationResponse.ok) {
-          throw new Error(`IP lookup failed with status ${locationResponse.status}`);
-        }
-
-        const locationData = await locationResponse.json();
-        const latitude = Number(locationData.latitude);
-        const longitude = Number(locationData.longitude);
-
-        if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
-          throw new Error('IP lookup did not return valid coordinates');
-        }
-
-        const weatherResponse = await fetch(
+        const weatherRes = await fetch(
           `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&temperature_unit=fahrenheit`
         );
 
-        if (!weatherResponse.ok) {
-          throw new Error(`Weather lookup failed with status ${weatherResponse.status}`);
+        if (!weatherRes.ok) {
+          throw new Error('Weather fetch failed');
         }
 
-        const weatherData = await weatherResponse.json();
+        const weatherData = await weatherRes.json();
         const temperature = weatherData?.current?.temperature_2m;
 
         if (typeof temperature !== 'number') {
-          throw new Error('Weather response did not include a temperature');
+          throw new Error('No temperature');
         }
 
         if (!cancelled) {
           setWeatherText(`${Math.round(temperature)}°F`);
         }
-      } catch (error) {
-        console.error('Failed to fetch IP-based weather:', error);
+      } catch {
         if (!cancelled) {
-          setWeatherText('Error');
+          setWeatherText('N/A');
         }
       }
     };
 
-    void loadWeatherFromIp();
+    void loadWeather();
 
     return () => {
       cancelled = true;
