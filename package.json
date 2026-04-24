@@ -2,9 +2,11 @@
   "name": "pujasridhar.github.io",
   "version": "1.0.0",
   "description": "Welcome to my interactive portfolio, a unique terminal-style website designed to showcase my skills and experience. This project features a custom AI assistant named Cogsworth, built to answer questions about my work in a conversational way.",
-  "main": "portfolio-data.js",
   "type": "module",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,10 +24,14 @@
     "@google/genai": "^1.19.0",
     "@pinecone-database/pinecone": "^6.1.2",
     "@supabase/supabase-js": "^2.57.4",
-    "dotenv": "^17.2.2"
+    "dotenv": "^17.4.2",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
     "@types/node": "^24.4.0",
-    "node": "^24.8.0"
+    "@vitejs/plugin-react": "^6.0.1",
+    "node": "^24.8.0",
+    "vite": "^8.0.10"
   }
 }

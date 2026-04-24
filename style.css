@@ -71,11 +71,11 @@ body {
     outline: none;
     color: #4a3f36;
     font-family: 'Courier Prime', monospace;
-    caret-color: transparent;
-    word-break: break-all;
-    -webkit-user-modify: read-write-plaintext-only;
+    caret-color: currentColor;
     flex-grow: 1;
     position: relative;
+    min-width: 0;
+    width: 100%;
 }
 
 #terminal-input:focus {
@@ -151,6 +151,14 @@ body {
     cursor: pointer;
 }
 
+#contact-icons .icon-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
 #contact-icons a:hover,
 #contact-icons .icon-button:hover {
     opacity: 0.6;
@@ -164,6 +172,11 @@ body {
 
 .output-entry {
     margin-bottom: 0.75rem;
+}
+
+.prompt-line-wrapper {
+    display: flex;
+    align-items: flex-start;
 }
 
 .skills-category-title {
@@ -223,7 +236,7 @@ body.dark #gui-mode {
 }
 
 body.dark #terminal-input {
-    caret-color: transparent;
+    caret-color: currentColor;
 }
 
 body.dark .link,
@@ -301,23 +314,6 @@ body.dark #moon-icon {
 
 body.dark #gui-footer {
     border-top-color: rgba(235, 219, 178, 0.2);
-}
-
-#terminal-input::after {
-    content: '';
-    display: inline-block;
-    width: 0.15ch;
-    height: 1.1em;
-    background-color: currentColor;
-    vertical-align: middle;
-    margin-top: -0.2em;
-    animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
 }
 
 .gui-tabs-nav {
