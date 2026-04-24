@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { portfolioData } from '../portfolio-data.js';
 
 const PROMPT_TEXT = 'Cogsworth@linux ~ % ';
@@ -200,7 +200,7 @@ function buildProjectsHtml() {
         `<span class="command">${project.name}</span><br>` +
         `Tech: ${project.tech}<br>` +
         project.desc.map((point) => `- ${point}`).join('<br>') +
-        `<br><a href="${project.url}" class="link">View on GitHub -></a>`
+        `<br><a href="${project.url}" target="_blank" rel="noreferrer" class="link">View on GitHub -></a>`
     )
     .join('<br><br>');
 
@@ -302,8 +302,6 @@ function getCommandEntries(command) {
   switch (command) {
     case 'help':
       return [makeOutputEntry(buildHelpHtml())];
-    case 'man':
-      return [makeOutputEntry(buildManPageHtml('man'))];
     case 'about':
       return [makeOutputEntry(buildAboutHtml())];
     case 'education':
@@ -523,7 +521,7 @@ function GuiView({ activeTab, onTabChange, footerHtml }) {
                     <li key={`${project.name}-${index}`} dangerouslySetInnerHTML={{ __html: point }} />
                   ))}
                 </ul>
-                <a href={project.url} className="link">
+                <a href={project.url} target="_blank" rel="noreferrer" className="link">
                   View on GitHub -&gt;
                 </a>
               </div>
@@ -616,17 +614,10 @@ export default function App() {
   const audioRef = useRef({ context: null, ready: false });
   const conversationHistoryRef = useRef([]);
   const activeRequestRef = useRef(null);
+  const currentYear = new Date().getFullYear();
 
-  const footerHtml = useMemo(
-    () =>
-      `&copy; ${new Date().getFullYear()} Puja Sridhar. All rights reserved. | <a href="${RESUME_URL}" class="link">View Resume</a>`,
-    []
-  );
-  const guiFooterHtml = useMemo(
-    () =>
-      `&copy; ${new Date().getFullYear()} Puja Sridhar. All rights reserved. | <a href="${RESUME_URL}" class="link">View Full Resume</a>`,
-    []
-  );
+  const footerHtml = `&copy; ${currentYear} Puja Sridhar. All rights reserved. | <a href="${RESUME_URL}" class="link">View Resume</a>`;
+  const guiFooterHtml = `&copy; ${currentYear} Puja Sridhar. All rights reserved. | <a href="${RESUME_URL}" class="link">View Full Resume</a>`;
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
@@ -705,7 +696,11 @@ export default function App() {
 
   useEffect(() => {
     const handleWindowKeyDown = (event) => {
-      if (event.ctrlKey || event.metaKey || event.altKey || !terminalMode) {
+      if (event.metaKey || event.altKey || !terminalMode) {
+        return;
+      }
+
+      if (event.ctrlKey) {
         return;
       }
 
@@ -990,12 +985,19 @@ export default function App() {
 
       if (activeRequestRef.current) {
         activeRequestRef.current.controller.abort();
+        setInputValue('');
+        setHistoryIndex(-1);
+        return;
       }
 
       if (inputValue) {
-        setTerminalHistory((previous) => [...previous, makeCommandEntry(inputValue), makeOutputEntry('<span class="command">^C</span>')]);
+        setTerminalHistory((previous) => [
+          ...previous,
+          makeCommandEntry(inputValue),
+          makeOutputEntry('<span class="command">^C</span>'),
+        ]);
         setCommandHistory((previous) => [inputValue, ...previous]);
-      } else if (!activeRequestRef.current) {
+      } else {
         setTerminalHistory((previous) => [...previous, makeOutputEntry('<span class="command">^C</span>')]);
       }
 
@@ -1010,7 +1012,13 @@ export default function App() {
       const [commandToken, ...args] = trimmedInput.split(/\s+/);
 
       if (commandToken === 'man') {
-        const subjectInput = args.join(' ');
+        const subjectInput = args.join(' ').trim();
+
+        if (!subjectInput) {
+          setInputValue('man ');
+          return;
+        }
+
         const subjectMatches = COMMAND_NAMES.filter((command) => command.startsWith(subjectInput));
 
         if (subjectMatches.length === 1) {
