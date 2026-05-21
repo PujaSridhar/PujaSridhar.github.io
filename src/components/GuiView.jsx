@@ -1,0 +1,128 @@
+import { portfolioData } from '../../portfolio-data.js';
+import { formatBreaks } from '../utils/terminalHelpers.js';
+
+export function GuiView({ activeTab, onTabChange, footerHtml }) {
+  const tabs = ['About', 'Experience', 'Projects', 'Skills', 'Education', 'Leadership', 'Certifications'];
+
+  return (
+    <div id="gui-mode" className="w-full rounded-lg shadow-2xl shadow-stone-500/20 p-8 overflow-y-auto" style={{ display: 'block' }}>
+      <div className="gui-tabs-nav">
+        {tabs.map((tab) => (
+          <button key={tab} type="button" className={`tab-button ${activeTab === tab ? 'active' : ''}`} onClick={() => onTabChange(tab)}>
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      <div className="gui-tabs-content">
+        {activeTab === 'About' && (
+          <div className="tab-content active">
+            <p dangerouslySetInnerHTML={{ __html: formatBreaks(portfolioData.about) }} />
+          </div>
+        )}
+
+        {activeTab === 'Experience' && (
+          <div className="tab-content active">
+            {portfolioData.experience.map((experience) => (
+              <div key={`${experience.role}-${experience.company}`} className="gui-item">
+                <div className="gui-item-title">
+                  {experience.role} @ {experience.company} ({experience.period})
+                </div>
+                <ul>
+                  {experience.desc.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'Projects' && (
+          <div className="tab-content active">
+            {portfolioData.projects.map((project) => (
+              <div key={project.name} className="gui-item">
+                <div className="gui-item-title">
+                  {project.name} <span className="text-sm">({project.tech})</span>
+                </div>
+                <ul>
+                  {project.desc.map((point, index) => (
+                    <li key={`${project.name}-${index}`} dangerouslySetInnerHTML={{ __html: point }} />
+                  ))}
+                </ul>
+                <a href={project.url} target="_blank" rel="noreferrer" className="link">
+                  View on GitHub -&gt;
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'Skills' && (
+          <div className="tab-content active">
+            {Object.entries(portfolioData.skills).map(([category, skills]) => (
+              <div key={category}>
+                <div className="skills-subcategory-title">{category}</div>
+                <div className="skills-grid">
+                  {skills.map((skill) => (
+                    <div key={skill} className="skill-box">
+                      {skill}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'Education' && (
+          <div className="tab-content active">
+            {portfolioData.education.map((education) => (
+              <div key={education.school} className="gui-item">
+                <div className="gui-item-title">{education.school}</div>
+                <div>{education.degree}</div>
+                <i>{education.details}</i>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'Leadership' && (
+          <div className="tab-content active">
+            {portfolioData.leadership.map((role) => (
+              <div key={`${role.role}-${role.org}`} className="gui-item">
+                <div className="gui-item-title">
+                  {role.role} | {role.org} ({role.period})
+                </div>
+                <ul>
+                  {role.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'Certifications' && (
+          <div className="tab-content active">
+            {portfolioData.certifications.map((certification) => (
+              <div key={certification.name} className="gui-item">
+                {certification.url ? (
+                  <a href={certification.url} className="link">
+                    <span className="gui-item-title">{certification.name}</span>
+                  </a>
+                ) : (
+                  <span className="gui-item-title">{certification.name}</span>
+                )}
+                <span> - {certification.issuer}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div id="gui-footer" dangerouslySetInnerHTML={{ __html: footerHtml }} />
+    </div>
+  );
+}
