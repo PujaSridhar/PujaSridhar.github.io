@@ -53,7 +53,7 @@ export default function App() {
   const footerHtml = `&copy; ${currentYear} Puja Sridhar. All rights reserved. | <a href="${RESUME_URL}" class="link">View Resume</a>`;
   const guiFooterHtml = `&copy; ${currentYear} Puja Sridhar. All rights reserved. | <a href="${RESUME_URL}" class="link">View Full Resume</a>`;
 
-  useAnimatedNetwork(canvasRef, darkMode, currentTheme);
+  useAnimatedNetwork(canvasRef, darkMode);
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);

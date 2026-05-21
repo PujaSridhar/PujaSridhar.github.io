@@ -16,7 +16,7 @@ export function getBootEntry() {
 export function buildHelpHtml() {
   return (
     `Available commands:<br>${COMMAND_NAMES.map((command) => `<span class="command">${command}</span>`).join(', ')}` +
-    `<br><br>You can also ask me a question, like: <i>"What are her most recent projects?"</i>`
+    `<br><br>You can also ask me a question, like: <i>"What are Puja's most recent projects?"</i>`
   );
 }
 
@@ -47,7 +47,7 @@ function buildAboutHtml() {
 
 export function buildThemeListHtml() {
   const rows = Object.entries(THEMES)
-    .map(([key, theme]) => `  <span class="command">${key.padEnd(12)}</span>- ${theme.name}`)
+    .map(([key, theme]) => `<span class="command">${key}</span>${'&nbsp;'.repeat(Math.max(1, 14 - key.length))}- ${theme.name}`)
     .join('<br>');
 
   return (
@@ -118,24 +118,166 @@ function buildLogHtml() {
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>` +
     `<div class="skills-category-title">[ACTIVE PROCESSES]</div>` +
-    `<pre class="log-entry">◉ Biking           - wind in hair, zero traffic excuses
-◉ Chess            - I will out-think you and be nice about it
-◉ Baking           - the only pipeline I tune by smell
-◉ Cooking          - Karnataka base. pineapple gojju on a Tuesday. no rules.
-◉ Ultimate Frisbee - I take it seriously. you've been warned.
-◉ Basketball       - chaos on the court, structured off it
-◉ Painting         - the original no-code project
-◉ Embroidery       - precision work. patience loaded.
-◉ Gardening        - I grow things. plants and codebases.</pre>`
+    `<pre class="log-entry">◉ Biking           — wind in hair, zero traffic excuses
+◉ Chess            — I will out-think you and be nice about it
+◉ Baking           — the only pipeline I tune by smell
+◉ Cooking          — Karnataka base. pineapple gojju on a Tuesday. no rules.
+◉ Ultimate Frisbee — I take it seriously. you've been warned.
+◉ Basketball       — chaos on the court, structured off it
+◉ Painting         — the original no-code project
+◉ Embroidery       — precision work. patience loaded.
+◉ Gardening        — I grow things. plants and codebases.</pre>`
   );
 }
 
 function buildVersionHtml() {
   return (
-    `<div class="skills-category-title">Cogsworth Release</div>` +
-    `Version: <span class="command">v25.0.0</span><br>` +
-    `Release date: June 28, 2026<br>` +
-    `Status: <span class="command">peak performance</span>`
+    `<div class="skills-category-title">COGSWORTH PROTOCOL - System Version</div>` +
+    `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Version:        25.0.0
+  Release date:   June 28, 2026
+  Codename:       Quarter Century Deploy
+  Status:         stable. took a minute. worth it.
+
+  Operator:       Puja Sridhar
+  Origin:         Pondicherry → Bangalore → New Jersey
+  Current node:   San Jose, CA
+
+  Core modules:
+    <span style="color:var(--color-accent);">◉ AI/ML Engineering      [ACTIVE]</span>
+    <span style="color:var(--color-accent);">◉ Data Engineering       [LEARNING + SHIPPING]</span>
+    <span style="color:var(--color-accent);">◉ Teaching &amp; Mentoring   [150 students. all survived.]</span>
+    <span style="color:var(--color-accent);">◉ Distributed Systems    [IN PROGRESS - ask me in 6 months]</span>
+    <span style="color:var(--color-accent);">◉ Pushups                [NEW. non-negotiable.]</span>
+    <span style="color:var(--color-accent);">◉ Caffeine independence  [somehow achieved]</span>
+
+  Stats:
+    Cities lived in:         4
+    Students taught:         150
+    Coffees today:           0  ← permanent
+    Browser tabs open:       too many to count
+    Projects said no to:     almost none (see known bugs)
+
+  Uptime:         25 years, 0 days
+  Crashes:        several. recovered every time.
+  Current mood:   building.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Type <span style="color:var(--color-accent);">'run interview'</span> to hear it from me directly.
+  Type <span style="color:var(--color-accent);">'sudo hire'</span> if you've already decided.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
+  );
+}
+
+function buildDiffHtml() {
+  return (
+    `<div class="skills-category-title">$ diff puja_v24.log puja_v25.log</div>` +
+    `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COMMIT: v25.0.0 — June 28, 2026
+AUTHOR: Puja Sridhar &lt;pujasridhar28@gmail.com&gt;
+MESSAGE: it's been a year. here's what actually changed.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<span style="color:var(--color-error);">- shrinking in rooms where I should have been loud</span>
+<span style="color:var(--color-accent);">+ still figuring out the volume. showing up anyway.</span>
+
+<span style="color:var(--color-error);">- measuring my worth by my job title (or lack of one)</span>
+<span style="color:var(--color-accent);">+ the work is real whether or not the title exists yet</span>
+
+<span style="color:var(--color-error);">- letting disrespect slide because confrontation is awkward</span>
+<span style="color:var(--color-accent);">+ awkward conversation &gt; silent resentment. every time.</span>
+
+<span style="color:var(--color-error);">- comparing my chapter 3 to everyone else's chapter 20</span>
+<span style="color:var(--color-accent);">+ deleted the comparison. focused on the draft.</span>
+
+<span style="color:var(--color-error);">- coffee. all of it. every day.</span>
+<span style="color:var(--color-accent);">+ quit. functioning. baffled by this myself.</span>
+
+<span style="color:var(--color-accent);">+ graduated with MS in CS at 24</span>
+  first in my family to do a master's abroad
+  didn't celebrate enough at the time. noting it here.
+
+<span style="color:var(--color-accent);">+ moved three cities across two countries</span>
+  Pondicherry → Bangalore → New Jersey → San Jose
+  each one taught me something the last one couldn't
+
+<span style="color:var(--color-accent);">+ got stronger. physically. pushups are real now.</span>
+  started from zero. didn't expect to care this much.
+  turns out the body keeping score goes both ways.
+
+<span style="color:var(--color-accent);">+ built v25 of this portfolio. you're in it right now.</span>
+  type 'run interview' if you want to hear the rest.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+net change: quieter ego, louder output.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
+  );
+}
+
+function buildPatchNotesHtml() {
+  return (
+    `<div class="skills-category-title">RELEASE NOTES - Puja Sridhar v25.0.0</div>` +
+    `<pre class="log-entry">Released: June 28, 2026
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DEPRECATED:
+  <span style="color:var(--color-error);">✕ imposter_syndrome.exe</span>
+    Ran silently in the background for years.
+    Resource hog. Produced nothing useful.
+    Uninstalled. Not missed.
+
+  <span style="color:var(--color-error);">✕ compare_timelines.js</span>
+    Kept crashing whenever I opened LinkedIn.
+    Incompatible with actual progress.
+    Removed.
+
+  <span style="color:var(--color-error);">✕ absorb_disrespect_quietly.config</span>
+    Was set as default for too long.
+    Hard reset applied.
+    New default: say something or walk away.
+
+  <span style="color:var(--color-error);">✕ coffee (all of it)</span>
+    Deprecated cold turkey, January 2026.
+    No withdrawal patch. Just vibes.
+    Still not sure how I did it.
+
+ADDED:
+  <span style="color:var(--color-accent);">✓ pushups_and_planks.daily</span>
+    Didn't think I could. Now I do.
+    Loads every morning before anything else.
+    Side effects: annoyingly good mood.
+
+  <span style="color:var(--color-accent);">✓ me_time.scheduler</span>
+    Previously always overridden by everyone else.
+    Now blocked out and non-negotiable.
+    Boundary enforcement: active.
+
+  <span style="color:var(--color-accent);">✓ self_respect.threshold = non-zero</span>
+    Finally shipping with a minimum requirement.
+    Applies to work, friendships, everything.
+
+  <span style="color:var(--color-accent);">✓ san_jose.env</span>
+    New city. Already here.
+    Warmer. Calmer. Good light for the plants.
+
+KNOWN BUGS:
+  <span style="color:var(--color-prompt);">⚠ says_yes_before_checking_capacity.loop</span>
+    Ongoing. Probably permanent.
+    I keep shipping features before the sprint ends.
+
+  <span style="color:var(--color-prompt);">⚠ browser_tabs &gt; available_memory</span>
+    Reproducible 100% of the time.
+    No fix in scope.
+
+  <span style="color:var(--color-prompt);">⚠ confidence.fluctuates_under_load</span>
+    Known issue. Being patched in real time.
+    ETA: unknown. Progress: real.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+v25 is not the version that has everything figured out.
+it's the version that stopped pretending to.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
   );
 }
 
@@ -292,6 +434,10 @@ export function getCommandEntries(command) {
       return [makeOutputEntry(buildVersionHtml())];
     case 'availability':
       return [makeOutputEntry(buildAvailabilityHtml())];
+    case 'diff':
+      return [makeOutputEntry(buildDiffHtml())];
+    case 'patch notes':
+      return [makeOutputEntry(buildPatchNotesHtml())];
     case 'help':
       return [makeOutputEntry(buildHelpHtml())];
     case 'about':

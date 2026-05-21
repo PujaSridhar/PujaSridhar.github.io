@@ -12,6 +12,8 @@ This project combines a React frontend with a Vercel serverless backend to answe
 
 - Terminal-style interface with command shortcuts like `help`, `projects`, and `skills`
 - Shell-like terminal UX with `Tab` autocomplete, `Ctrl+C` cancellation, and `man [command]`
+- Expanded terminal storytelling commands like `log`, `diff`, `patch notes`, `sudo hire`, and `cogsworth --version`
+- Runtime theme switching with `theme --list` and `theme [name]`, persisted across visits
 - Alternate GUI mode for more traditional browsing
 - Light and dark theme toggle
 - Animated background and sound effects
@@ -31,13 +33,17 @@ This project combines a React frontend with a Vercel serverless backend to answe
 
 ```text
 .
-├── api/chat.js          # Vercel serverless chat endpoint
-├── src/App.jsx          # Main React portfolio app
-├── src/main.jsx         # Vite/React entry point
-├── portfolio-data.js    # Portfolio content used by the UI and indexing
-├── index-data.mjs       # Pinecone indexing script
-├── style.css            # Global styling
-└── vite.config.js       # Vite config, including local /api proxy
+├── api/chat.js                  # Vercel serverless chat endpoint
+├── src/App.jsx                  # Main React portfolio app
+├── src/main.jsx                 # Vite/React entry point
+├── src/components/              # GUI/terminal UI components
+├── src/constants/terminal.js    # Terminal command registry + theme definitions
+├── src/hooks/                   # Weather, audio, and animated network hooks
+├── src/utils/                   # Terminal rendering helpers and theme utilities
+├── portfolio-data.js            # Portfolio content used by the UI and indexing
+├── index-data.mjs               # Pinecone indexing script
+├── style.css                    # Global styling
+└── vite.config.js               # Vite config, including local /api proxy
 ```
 
 ## How the Assistant Works
@@ -60,6 +66,17 @@ The terminal is designed to feel closer to a real shell than a novelty interface
 - `Ctrl+C` cancels an in-flight AI response
 - `man [command]` opens a built-in manual page for terminal commands
 - Arrow-up and arrow-down walk command history
+- `theme --list` and `theme [name]` switch between built-in visual themes instantly
+
+## Notable Commands
+
+- `cogsworth --version` shows the current v25 system profile
+- `log` prints a system-log style personal timeline
+- `diff` compares v24 to v25 as a terminal diff
+- `patch notes` shows the v25 release notes
+- `availability` shows current role availability and location
+- `download resume` triggers a resume download without leaving the terminal
+- `sudo hire` prints the concise hiring pitch with resume and scheduling links
 
 ## Local Development
 

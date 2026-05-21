@@ -40,19 +40,13 @@ body {
 #gui-mode {
     position: relative;
     background-color: var(--color-bg);
-    transition: background-color 0.3s;
     flex-grow: 1;
     overflow-y: auto;
     min-height: 0;
 }
 
 #terminal {
-    animation: flicker 0.15s infinite;
-    scrollbar-width: none;
-}
-
-#terminal::-webkit-scrollbar {
-    display: none;
+    animation: flicker 3s infinite;
 }
 
 #scanlines {
@@ -245,46 +239,6 @@ body {
     padding-bottom: 0.5rem;
 }
 
-body.dark {
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    text-shadow: none;
-}
-
-body.dark #terminal,
-body.dark #gui-mode {
-    background-color: var(--color-bg);
-}
-
-body.dark #terminal-input {
-    caret-color: currentColor;
-}
-
-body.dark .link,
-body.dark #contact-icons a,
-body.dark #contact-icons .icon-button {
-    color: var(--color-text);
-    caret-color: var(--color-text);
-}
-
-body.dark .link:hover {
-    color: var(--color-text);
-}
-
-body.dark .prompt-live {
-    color: var(--color-prompt);
-}
-
-body.dark .command,
-body.dark .skills-category-title {
-    color: var(--color-accent);
-}
-
-body.dark .skill-box {
-    background-color: var(--color-bg-secondary);
-    border-color: var(--color-border);
-}
-
 #moon-icon {
     display: none;
 }
@@ -306,9 +260,7 @@ body.dark #moon-icon {
 }
 
 #gui-mode {
-    display: none;
     background-color: var(--color-bg);
-    transition: background-color 0.3s;
 }
 
 #gui-mode .gui-item {
@@ -333,19 +285,11 @@ body.dark #moon-icon {
     border-top: 1px solid var(--color-border);
 }
 
-body.dark #gui-footer {
-    border-top-color: var(--color-border);
-}
-
 .gui-tabs-nav {
     display: flex;
     flex-wrap: wrap;
     border-bottom: 1px solid var(--color-border);
     margin-bottom: 2rem;
-}
-
-body.dark .gui-tabs-nav {
-    border-bottom-color: var(--color-border);
 }
 
 .tab-button {
@@ -371,11 +315,6 @@ body.dark .gui-tabs-nav {
     border-bottom-color: var(--color-accent);
 }
 
-body.dark .tab-button.active {
-    color: var(--color-accent);
-    border-bottom-color: var(--color-accent);
-}
-
 .tab-content {
     display: none;
 }
@@ -387,11 +326,6 @@ body.dark .tab-button.active {
 #terminal,
 #gui-mode {
     scrollbar-width: thin;
-    scrollbar-color: var(--color-accent) var(--color-bg);
-}
-
-body.dark #terminal,
-body.dark #gui-mode {
     scrollbar-color: var(--color-accent) var(--color-bg);
 }
 
@@ -410,12 +344,6 @@ body.dark #gui-mode {
     background-color: var(--color-accent);
     border-radius: 4px;
     border: 2px solid var(--color-bg);
-}
-
-body.dark #terminal::-webkit-scrollbar-thumb,
-body.dark #gui-mode::-webkit-scrollbar-thumb {
-    background-color: var(--color-accent);
-    border-color: var(--color-bg);
 }
 
 .error {
@@ -440,7 +368,7 @@ body.dark #gui-mode::-webkit-scrollbar-thumb {
     #contact-icons {
         justify-content: center;
         width: 100%;
-        padding: 0.5rem 0;
+        padding: 0.75rem 0;
     }
     
     #status-bar {

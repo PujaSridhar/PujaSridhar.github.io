@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export function useAnimatedNetwork(canvasRef, darkMode, themeKey) {
+export function useAnimatedNetwork(canvasRef, darkMode) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
@@ -11,10 +11,9 @@ export function useAnimatedNetwork(canvasRef, darkMode, themeKey) {
     const mouse = { x: undefined, y: undefined };
     let animationFrameId = 0;
     let nodes = [];
-    let networkColor = '74, 63, 54';
+    let networkColor = '90, 96, 80';
 
     const resizeCanvas = () => {
-      networkColor = getComputedStyle(document.documentElement).getPropertyValue('--network-rgb').trim() || '74, 63, 54';
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       const nodeCount = Math.floor((window.innerWidth * window.innerHeight) / 25000);
@@ -34,6 +33,7 @@ export function useAnimatedNetwork(canvasRef, darkMode, themeKey) {
     };
 
     const draw = () => {
+      networkColor = getComputedStyle(document.documentElement).getPropertyValue('--network-rgb').trim() || '90, 96, 80';
       context.clearRect(0, 0, canvas.width, canvas.height);
       const interactionRadius = 150;
 
@@ -92,5 +92,5 @@ export function useAnimatedNetwork(canvasRef, darkMode, themeKey) {
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [canvasRef, darkMode, themeKey]);
+  }, [canvasRef, darkMode]);
 }

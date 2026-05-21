@@ -163,7 +163,8 @@ export const COMMAND_NAMES = [
   'cogsworth --version',
   'availability',
   'download resume',
-  'theme',
+  'diff',
+  'patch notes',
   'theme --list',
   'help',
   'man',
@@ -195,6 +196,16 @@ export const COMMAND_MANUALS = {
     summary: 'Show current job search availability.',
     usage: 'availability',
     description: 'Shows open role types, preferred location setup, and immediate start status.',
+  },
+  diff: {
+    summary: 'Show what changed between v24 and v25.',
+    usage: 'diff',
+    description: 'Outputs a git-diff styled comparison of the past year — what was removed, what was added, what actually changed.',
+  },
+  'patch notes': {
+    summary: 'Read the v25.0.0 release notes.',
+    usage: 'patch notes',
+    description: 'Full release notes for Puja Sridhar v25.0.0. Deprecations, additions, known bugs, and a closing note.',
   },
   'download resume': {
     summary: 'Download the resume PDF without leaving the terminal.',
