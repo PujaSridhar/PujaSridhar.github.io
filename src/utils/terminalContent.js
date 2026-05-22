@@ -87,14 +87,14 @@ function buildLogHtml() {
 <span class="command">[2023-05-31]</span> SUCCESS     Built AI co-pilot systems that actually worked.
                          Shipped to production. Then shipped myself out.
 
-<span class="command">[2024-01-01]</span> MIGRATED    New Jersey, USA. Masters in CS @ Rutgers.
+<span class="command">[2024-01-01]</span> MIGRATED    New Brunswick, NJ, USA. Masters in CS @ Rutgers.
                          Left behind the weather I liked.
                          Brought the work ethic.
 
 <span class="command">[2024-09-01]</span> TEACHING    Graduate Teaching Assistant @ Rutgers
-                         OOP - 60 students
-                         Data Management &amp; Curation - 30 students
-                         Intro to AI - 60 students
+                         OOP — 60 students
+                         Data Management &amp; Curation — 30 students
+                         Intro to AI — 60 students
                          150 people. Real questions. No script.
                          Turns out I actually like explaining things.
 
@@ -141,7 +141,7 @@ function buildVersionHtml() {
   Status:         stable. took a minute. worth it.
 
   Operator:       Puja Sridhar
-  Origin:         Pondicherry → Bangalore → New Jersey
+  Origin:         Pondicherry → Bangalore → New Brunswick, NJ
   Current node:   San Jose, CA
 
   Core modules:
@@ -199,7 +199,7 @@ MESSAGE: it's been a year. here's what actually changed.
   didn't celebrate enough at the time. noting it here.
 
 <span style="color:var(--color-accent);">+ moved three cities across two countries</span>
-  Pondicherry → Bangalore → New Jersey → San Jose
+  Pondicherry → Bangalore → New Brunswick, NJ → San Jose
   each one taught me something the last one couldn't
 
 <span style="color:var(--color-accent);">+ got stronger. physically. pushups are real now.</span>
@@ -405,7 +405,7 @@ function buildContactHtml() {
 function buildSudoHireHtml() {
   return (
     `<div class="skills-category-title">sudo hire</div>` +
-    `<strong>not the loudest in the room. just the one who already shipped it.</strong><br><br>` +
+    `<i>not the loudest in the room. just the one who already shipped it.</i><br><br>` +
     `Resume: <a href="${RESUME_URL}" class="link">View resume</a><br>` +
     `Calendly: <a href="${CALENDLY_URL}" class="link">Book time</a>`
   );
@@ -415,6 +415,9 @@ function buildAllHtml() {
   return [
     buildAboutHtml(),
     buildLogHtml(),
+    buildDiffHtml(),
+    buildPatchNotesHtml(),
+    buildVersionHtml(),
     buildEducationHtml(),
     buildExperienceHtml(),
     buildProjectsHtml(),

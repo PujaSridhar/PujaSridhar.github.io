@@ -5,7 +5,7 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
   const tabs = ['About', 'Experience', 'Projects', 'Skills', 'Education', 'Leadership', 'Certifications'];
 
   return (
-    <div id="gui-mode" className="w-full rounded-lg shadow-2xl shadow-stone-500/20 p-8 overflow-y-auto" style={{ display: 'block' }}>
+    <div id="gui-mode" className="w-full rounded-lg shadow-2xl shadow-stone-500/20 p-8 overflow-y-auto">
       <div className="gui-tabs-nav">
         {tabs.map((tab) => (
           <button key={tab} type="button" className={`tab-button ${activeTab === tab ? 'active' : ''}`} onClick={() => onTabChange(tab)}>

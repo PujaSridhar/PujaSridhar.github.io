@@ -1,14 +1,14 @@
 export const portfolioData = {
-    about: `I’ve always been fascinated by puzzles, and to me, intelligence itself is the most interesting puzzle of all. This curiosity is what led me to pursue a specialized Bachelor’s degree in Artificial Intelligence and Machine Learning back in India. I wanted to do more than just use technology, I wanted to understand how to build it. That same drive brought me to Rutgers for my Master's in Computer Science, where I get to dive into even deeper challenges, like robotics and adaptive learning, alongside brilliant PhD students.\n\nBeyond the code, I’m a natural collaborator and organizer, having led events and served as a class representative. I believe the best solutions come from diverse minds working together. Ultimately, I'm a builder at heart, driven by the challenge of creating elegant solutions for complex problems and seeing them make a real-world impact.`,
+    about: `I’ve always been fascinated by puzzles, and to me, intelligence itself is the most interesting puzzle of all. That curiosity led me to pursue a Bachelor’s degree in Artificial Intelligence and Machine Learning in India, and later a Master’s in Computer Science at Rutgers University, where I deepened my foundation in AI systems, adaptive learning, and large-scale problem solving.\n\nSince then, I’ve focused on building practical systems that are useful in the real world, from AI product features and semantic search tools to teaching, mentoring, and translating complex ideas into something people can actually use. Now based in San Jose, I’m looking for roles where I can keep building at the intersection of AI, software engineering, and data. I’m a builder at heart, energized by hard problems, collaborative teams, and the chance to ship work that matters.`,
     education: [
-        { school: "Rutgers University, The State University of New Jersey", degree: "Masters of Science in Computer Science", details: "Expected Dec 2025 | GPA: 3.8/4.0" },
+        { school: "Rutgers University, The State University of New Jersey", degree: "Masters of Science in Computer Science", details: "Graduated Jan 2026 | GPA: 3.8/4.0" },
         { school: "BMS Institute of Technology and Management, India", degree: "Bachelor of Engineering in Artificial Intelligence and Machine Learning", details: "Graduated May 2023 | GPA: 8.64/10.0" }
     ],
     experience:[
         {
             role: "AI Engineering Intern",
             company: "Pennant Education",
-            period: "July 2025 - Present",
+            period: "July 2025 - September 2025",
             desc: [
                 "Developing and modularizing agentic RPA solutions using UiPath to create scalable tools for enterprise use.",
                 "Contributing to an AI-powered assessment platform featuring adaptive testing and dynamic learning recommendations.",
@@ -19,7 +19,7 @@ export const portfolioData = {
         {
             role: "Graduate Teaching Assistant",
             company: "Rutgers University - School of Communication and Information",
-            period: "September 2024 - Present",
+            period: "September 2024 - December 2025",
             desc: [
                 "Assist in teaching key Object-Oriented Programming (OOP) concepts in Python, including classes, inheritance, polymorphism, and encapsulation.",
                 "Grade weekly assignments, ensuring timely and constructive feedback to enhance student learning.",
@@ -29,7 +29,7 @@ export const portfolioData = {
         {
             role: "Computer Science Grader",
             company: "Rutgers University",
-            period: "September 2024 - Present",
+            period: "September 2024 - December 2025",
             desc: [
                 "Assess assignments covering key AI topics such as graph-based search algorithms (DFS, BFS, A*), probabilistic inference, constraint satisfaction, machine learning, and deep learning.",
                 "Provide detailed feedback to enhance student understanding and performance in AI concepts.",
@@ -37,8 +37,8 @@ export const portfolioData = {
             ]
         },
         {
-            role: "AI Developer Intern",
-            company: "Resolute (HumanFractal.ai)",
+            role: "AI Co-pilot Developer",
+            company: "HumanFractal.ai (Resolute)",
             period: "February 2023 - May 2023",
             desc: [
                 "Worked on building the Resolute co-pilot, Filomena.",
@@ -77,7 +77,7 @@ export const portfolioData = {
                 "<strong>Action:</strong> Developed an intelligent system using vector databases and LLMs to understand natural language queries and retrieve the most relevant document sections.",
                 "<strong>Result:</strong> Significantly improved search accuracy and user efficiency, allowing for contextual and semantic-based information retrieval rather than just keyword matching."
             ],
-            url: "https://github.com/pujasridhar"
+            url: "https://github.com/PujaSridhar/smart-doc-finder"
         },
         {
             name: "Multilingual Health Misinformation Detection",
@@ -132,7 +132,7 @@ export const portfolioData = {
                 "<strong>Action:</strong> Developed a predictive model using Naive Bayes' Theorem and natural language processing to classify over 1,000 movie reviews as positive or negative.",
                 "<strong>Result:</strong> Achieved a 95% accuracy rate in predicting viewer sentiment and improved overall review classification accuracy by 25%, providing a highly effective tool for data-driven analysis."
             ],
-            url: "https://github.com/pujasridhar"
+            url: "https://github.com/PujaSridhar/Sentiment-analysis-of-movie-reviews"
         },
         {
             name: "Credit Card Fraud Detection",

@@ -1,154 +1,126 @@
-# Puja Sridhar - Interactive AI Portfolio
+# Cogsworth Protocol — Puja Sridhar's Portfolio
 
-An interactive portfolio with a retro terminal experience, a tabbed GUI mode, and a custom RAG-powered assistant named **Cogsworth**.
+> A terminal-style AI portfolio that actually talks back.
+
+[![Live](https://img.shields.io/badge/live-pujasridhar.github.io-5A6050?style=flat-square)](https://pujasridhar.github.io)
 
 ![Portfolio Screenshot](Terminal.png)
 
-## Overview
+---
 
-This project combines a React frontend with a Vercel serverless backend to answer questions about Puja Sridhar's background, projects, and experience. The assistant uses portfolio-specific context stored in Pinecone, so the answers stay grounded in real portfolio data instead of generic model guesses.
+## What is this?
 
-## Features
+This is my personal portfolio — built as a fully interactive terminal with an AI assistant named **Cogsworth**. Instead of a static page with a PDF link, you get a shell-like experience where you can run commands, ask questions in plain English, switch colour themes, and read my career history formatted as a deployment log.
 
-- Terminal-style interface with command shortcuts like `help`, `projects`, and `skills`
-- Shell-like terminal UX with `Tab` autocomplete, `Ctrl+C` cancellation, and `man [command]`
-- Expanded terminal storytelling commands like `log`, `diff`, `patch notes`, `sudo hire`, and `cogsworth --version`
-- Runtime theme switching with `theme --list` and `theme [name]`, persisted across visits
-- Alternate GUI mode for more traditional browsing
-- Light and dark theme toggle
-- Animated background and sound effects
-- Real-time clock and IP-based weather display
-- RAG-backed assistant that answers questions using portfolio context
-- Responsive layout for desktop and mobile
+Type `help` to see what's available. Type `sudo hire` if you've already seen enough.
 
-## Tech Stack
+---
 
-- Frontend: React 19 + Vite
-- Styling: CSS + Tailwind utility classes
-- Backend: Vercel Serverless Functions
-- LLM: Google Gemini
-- Vector database: Pinecone
+## Commands worth trying
 
-## Project Structure
+| Command | What it does |
+|---|---|
+| `log` | My career as a system log — from Pondicherry to San Jose |
+| `diff` | What changed between v24 and v25 of me |
+| `patch notes` | v25.0.0 release notes — deprecations, additions, known bugs |
+| `cogsworth --version` | Current system profile |
+| `availability` | Role types, location, start date |
+| `download resume` | Downloads my resume without leaving the terminal |
+| `sudo hire` | The short case for hiring me |
+| `theme --list` | Switch between built-in colour themes |
+| `man [command]` | Unix-style manual page for any command |
+
+---
+
+## Tech stack
+
+- **Frontend** — React 19 + Vite
+- **Styling** — CSS custom properties + Tailwind utility classes
+- **Backend** — Vercel Serverless Functions
+- **AI** — Google Gemini with a RAG pipeline
+- **Vector DB** — Pinecone
+
+---
+
+## How Cogsworth works
+
+When you ask a question in plain English, Cogsworth doesn't just pass it to a language model and hope for the best:
+
+1. If there's conversation history, the question is rewritten into a standalone form
+2. The question is embedded with Gemini
+3. Pinecone is queried for the most relevant chunks from my actual portfolio data
+4. Those chunks are injected into the prompt as grounding context
+5. Gemini generates a response based only on what's in my portfolio
+
+This keeps the answers accurate and specific to my actual background — not a model hallucinating a plausible-sounding resume.
+
+---
+
+## Terminal UX details
+
+The terminal is designed to feel like a real shell, not a novelty widget:
+
+- `Tab` autocompletes commands with shared-prefix support (like bash)
+- `Ctrl+C` cancels an in-flight AI request mid-stream
+- `↑` / `↓` navigates command history
+- `man [command]` opens a formatted manual page
+- `theme [name]` switches the colour theme instantly and persists across visits
+
+---
+
+## Project structure
 
 ```text
 .
-├── api/chat.js                  # Vercel serverless chat endpoint
-├── src/App.jsx                  # Main React portfolio app
-├── src/main.jsx                 # Vite/React entry point
-├── src/components/              # GUI/terminal UI components
-├── src/constants/terminal.js    # Terminal command registry + theme definitions
-├── src/hooks/                   # Weather, audio, and animated network hooks
-├── src/utils/                   # Terminal rendering helpers and theme utilities
-├── portfolio-data.js            # Portfolio content used by the UI and indexing
-├── index-data.mjs               # Pinecone indexing script
-├── style.css                    # Global styling
-└── vite.config.js               # Vite config, including local /api proxy
+├── api/chat.js                  # Vercel serverless chat endpoint (RAG pipeline)
+├── src/App.jsx                  # Main app — terminal state, input handling, routing
+├── src/main.jsx                 # React + Vite entry point
+├── src/components/              # TerminalEntry, GuiView, SocialIcons
+├── src/constants/terminal.js    # Command registry, manuals, theme definitions
+├── src/hooks/                   # useIpWeather, useAudio, useAnimatedNetwork
+├── src/utils/                   # terminalContent, terminalHelpers, themeUtils
+├── portfolio-data.js            # Portfolio content (used by UI and Pinecone indexer)
+├── index-data.mjs               # One-time Pinecone indexing script
+├── style.css                    # Global styles with CSS custom property theming
+└── vite.config.js               # Vite config with local /api proxy
 ```
 
-## How the Assistant Works
+---
 
-When someone asks Cogsworth a question:
-
-1. The question is optionally rewritten into a standalone form if there is prior conversation context.
-2. The question is embedded with Gemini.
-3. Pinecone is queried for the most relevant chunks from the portfolio dataset.
-4. Those retrieved chunks are added to the prompt.
-5. Gemini generates the final grounded response.
-
-That flow keeps the assistant focused on Puja's actual portfolio content.
-
-## Terminal UX
-
-The terminal is designed to feel closer to a real shell than a novelty interface.
-
-- `Tab` autocompletes supported commands
-- `Ctrl+C` cancels an in-flight AI response
-- `man [command]` opens a built-in manual page for terminal commands
-- Arrow-up and arrow-down walk command history
-- `theme --list` and `theme [name]` switch between built-in visual themes instantly
-
-## Notable Commands
-
-- `cogsworth --version` shows the current v25 system profile
-- `log` prints a system-log style personal timeline
-- `diff` compares v24 to v25 as a terminal diff
-- `patch notes` shows the v25 release notes
-- `availability` shows current role availability and location
-- `download resume` triggers a resume download without leaving the terminal
-- `sudo hire` prints the concise hiring pitch with resume and scheduling links
-
-## Local Development
+## Local development
 
 ### Prerequisites
 
 - Node.js 20+
-- A Google AI API key
-- A Pinecone API key
-- A populated Pinecone index named `portfolio-rag`
+- Google AI API key
+- Pinecone API key + a populated index named `portfolio-rag`
 
 ### Setup
-
-1. Clone the repo:
 
 ```bash
 git clone https://github.com/PujaSridhar/PujaSridhar.github.io.git
 cd PujaSridhar.github.io
-```
-
-2. Install dependencies:
-
-```bash
 npm install
-```
-
-3. Create a local env file:
-
-```bash
 cp .env.example .env
-```
-
-4. Add your keys to `.env`:
-
-```env
-PINECONE_API_KEY=your_pinecone_api_key
-GOOGLE_AI_API_KEY=your_google_ai_api_key
-```
-
-5. Start the frontend:
-
-```bash
+# add your keys to .env
 npm run dev
 ```
 
-By default, Vite runs on `http://127.0.0.1:4173/`.
+Vite proxies `/api/*` requests to the deployed Vercel backend during local development so you don't need to run `vercel dev` separately.
 
-## Local API Behavior
-
-The frontend calls `/api/chat`.
-
-During local Vite development, `/api/*` requests are proxied to the deployed Vercel backend via `vite.config.js`, so you can test the React app locally without separately running `vercel dev`.
-
-## Production Build
-
-To generate a production bundle:
+### Build and preview
 
 ```bash
 npm run build
-```
-
-To preview that build locally:
-
-```bash
 npm run preview
 ```
 
-## Data Indexing
-
-The repository includes `index-data.mjs` for embedding and uploading portfolio content into Pinecone. Run it only after your `.env` is configured and your Pinecone index is ready.
+---
 
 ## Contact
 
-- LinkedIn: [linkedin.com/in/pujasridhar](https://www.linkedin.com/in/pujasridhar/)
-- GitHub: [github.com/pujasridhar](https://github.com/pujasridhar)
-- Email: [pujasridhar28@gmail.com](mailto:pujasridhar28@gmail.com)
+Built by Puja Sridhar — MS in CS, Rutgers University. Based in San Jose, CA.
+
+- [linkedin.com/in/pujasridhar](https://www.linkedin.com/in/pujasridhar/)
+- [github.com/pujasridhar](https://github.com/pujasridhar)
+- [pujasridhar28@gmail.com](mailto:pujasridhar28@gmail.com)

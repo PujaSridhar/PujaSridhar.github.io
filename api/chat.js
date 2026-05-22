@@ -11,6 +11,8 @@ const genAI = new GoogleGenAI({ apiKey: process.env.GOOGLE_AI_API_KEY });
 
 export default async function handler(req, res) {
     const allowedOrigins = [
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
         'https://pujasridhar.github.io',
         'https://puja-sridhar-github-io.vercel.app'
     ];

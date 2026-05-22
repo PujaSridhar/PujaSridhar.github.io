@@ -160,16 +160,16 @@ export const THEMES = {
 export const DEFAULT_THEME = 'ivory';
 
 export const COMMAND_NAMES = [
-  'cogsworth --version',
-  'availability',
-  'download resume',
-  'diff',
-  'patch notes',
-  'theme --list',
   'help',
   'man',
   'about',
   'log',
+  'cogsworth --version',
+  'diff',
+  'patch notes',
+  'availability',
+  'download resume',
+  'theme --list',
   'education',
   'experience',
   'projects',
@@ -211,11 +211,6 @@ export const COMMAND_MANUALS = {
     summary: 'Download the resume PDF without leaving the terminal.',
     usage: 'download resume',
     description: 'Triggers a browser download for the latest resume and prints the direct file link.',
-  },
-  theme: {
-    summary: 'List or apply a terminal color theme.',
-    usage: 'theme --list | theme [name]',
-    description: 'Shows the available themes or applies one instantly. The selected theme is saved for the next visit.',
   },
   'theme --list': {
     summary: 'Show all available colour themes.',
