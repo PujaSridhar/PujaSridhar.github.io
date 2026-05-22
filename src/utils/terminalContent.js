@@ -3,6 +3,26 @@ import { CALENDLY_URL, COMMAND_MANUALS, COMMAND_NAMES, EMAIL_HREF, RESUME_URL, T
 import { formatBreaks, makeOutputEntry } from './terminalHelpers.js';
 
 export function getBootEntry() {
+  const today = new Date();
+  const isBirthday = today.getFullYear() === 2026 && today.getMonth() === 5 && today.getDate() === 28;
+
+  if (isBirthday) {
+    return makeOutputEntry(
+      `<span style="color:var(--color-accent);">Initializing Cogsworth v25.0.0...</span><br>` +
+        `<span style="color:var(--color-accent);">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span><br>` +
+        `DEPLOYMENT SUCCESSFUL.<br>` +
+        `Version 25.0.0 is now live.<br>` +
+        `Operator uptime: 25 years. Systems nominal.<br><br>` +
+        `<span style="color:var(--color-accent);">◉ Channeling legacy of Babbage, Lovelace, Turing... OK.</span><br>` +
+        `<span style="color:var(--color-accent);">◉ Loading Quarter Century Deploy... OK.</span><br>` +
+        `<span style="color:var(--color-accent);">◉ Deprecated: imposter_syndrome.exe... REMOVED.</span><br>` +
+        `<span style="color:var(--color-accent);">◉ Initializing san_jose.env... ACTIVE.</span><br><br>` +
+        `Protocol established. Welcome to v25.<br><br>` +
+        `I am Cogsworth. Type <span class="command">'patch notes'</span> to see what changed,` +
+        ` or <span class="command">'help'</span> for all commands.`
+    );
+  }
+
   return makeOutputEntry(
     `Initializing Cogsworth v1.0...<br>` +
       `Channeling legacy of Babbage, Lovelace, Turing... OK.<br>` +
@@ -131,6 +151,11 @@ function buildLogHtml() {
 }
 
 function buildVersionHtml() {
+  const launch = new Date('2026-06-28');
+  const now = new Date();
+  const days = Math.max(0, Math.floor((now - launch) / (1000 * 60 * 60 * 24)));
+  const uptime = days === 0 ? '25 years, 0 days' : `25 years, ${days} days`;
+
   return (
     `<div class="skills-category-title">COGSWORTH PROTOCOL - System Version</div>` +
     `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -159,7 +184,7 @@ function buildVersionHtml() {
     Browser tabs open:       too many to count
     Projects said no to:     almost none (see known bugs)
 
-  Uptime:         25 years, 0 days
+  Uptime:         ${uptime}
   Crashes:        several. recovered every time.
   Current mood:   building.
 
@@ -406,8 +431,8 @@ function buildSudoHireHtml() {
   return (
     `<div class="skills-category-title">sudo hire</div>` +
     `<i>not the loudest in the room. just the one who already shipped it.</i><br><br>` +
-    `Resume: <a href="${RESUME_URL}" class="link">View resume</a><br>` +
-    `Calendly: <a href="${CALENDLY_URL}" class="link">Book time</a>`
+    `Resume: <a href="${RESUME_URL}" target="_blank" rel="noreferrer" class="link">PujaSridhar_Resume.pdf</a><br>` +
+    `Calendly: <a href="${CALENDLY_URL}" target="_blank" rel="noreferrer" class="link">Book time with me</a>`
   );
 }
 
