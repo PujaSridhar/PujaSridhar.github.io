@@ -10,6 +10,13 @@ import { getBootEntry, buildManPageHtml, buildThemeAppliedHtml, buildThemeListHt
 import { makeCommandEntry, makeOutputEntry, parseMarkdown } from './utils/terminalHelpers.js';
 import { applyTheme, getSavedTheme } from './utils/themeUtils.js';
 
+const IDLE_TERMINAL_LINES = [
+  '[cogsworth] running scheduled diagnostics...',
+  '[cron] 0 * * * * → puja-heartbeat.sh ✓',
+  '[sys] memory: 42% | uptime: 847h 23m',
+  '[log] no anomalies detected. all systems nominal.',
+];
+
 function getSharedPrefix(matches) {
   return matches.reduce((prefix, command) => {
     let nextPrefix = prefix;
@@ -46,6 +53,10 @@ export default function App() {
   const canvasRef = useRef(null);
   const conversationHistoryRef = useRef([]);
   const activeRequestRef = useRef(null);
+  const idleTimerRef = useRef(null);
+  const idleLineTimeoutsRef = useRef([]);
+  const idleSequenceRunningRef = useRef(false);
+  const terminalModeRef = useRef(terminalMode);
   const currentYear = new Date().getFullYear();
   const weatherText = useIpWeather();
   const { initAudio, playSound, playTypingSound } = useAudio();
@@ -63,6 +74,10 @@ export default function App() {
   useEffect(() => {
     applyTheme(currentTheme, darkMode);
   }, [currentTheme, darkMode]);
+
+  useEffect(() => {
+    terminalModeRef.current = terminalMode;
+  }, [terminalMode]);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -83,6 +98,72 @@ export default function App() {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
   }, [terminalHistory, terminalMode]);
+
+  function stopIdleSequence() {
+    if (idleTimerRef.current) {
+      window.clearTimeout(idleTimerRef.current);
+      idleTimerRef.current = null;
+    }
+
+    idleLineTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
+    idleLineTimeoutsRef.current = [];
+    idleSequenceRunningRef.current = false;
+  }
+
+  function startIdleSequence() {
+    if (!terminalModeRef.current || activeRequestRef.current || idleSequenceRunningRef.current) {
+      return;
+    }
+
+    idleSequenceRunningRef.current = true;
+    idleLineTimeoutsRef.current = IDLE_TERMINAL_LINES.map((line, index) =>
+      window.setTimeout(() => {
+        if (!terminalModeRef.current || activeRequestRef.current || !idleSequenceRunningRef.current) {
+          return;
+        }
+
+        setTerminalHistory((previous) => [...previous, makeOutputEntry(line)]);
+
+        if (index === IDLE_TERMINAL_LINES.length - 1) {
+          idleSequenceRunningRef.current = false;
+          idleLineTimeoutsRef.current = [];
+        }
+      }, index * 1500)
+    );
+  }
+
+  function resetIdleTimer() {
+    stopIdleSequence();
+
+    if (!terminalModeRef.current || activeRequestRef.current) {
+      return;
+    }
+
+    idleTimerRef.current = window.setTimeout(() => {
+      startIdleSequence();
+    }, 30000);
+  }
+
+  useEffect(() => {
+    if (!terminalMode) {
+      stopIdleSequence();
+      return undefined;
+    }
+
+    const handleUserActivity = () => {
+      resetIdleTimer();
+    };
+
+    window.addEventListener('keydown', handleUserActivity);
+    window.addEventListener('mousemove', handleUserActivity);
+    resetIdleTimer();
+
+    return () => {
+      window.removeEventListener('keydown', handleUserActivity);
+      window.removeEventListener('mousemove', handleUserActivity);
+      stopIdleSequence();
+    };
+  }, [terminalMode]);
 
   useEffect(() => {
     const handleWindowKeyDown = (event) => {
@@ -112,6 +193,7 @@ export default function App() {
     const apiBaseUrl = isDevelopment ? '' : 'https://puja-sridhar-github-io.vercel.app';
 
     activeRequestRef.current = { id: requestId, controller: abortController };
+    stopIdleSequence();
 
     setTerminalHistory((previous) => [...previous, { id: requestId, type: 'output', html: 'Cogsworth is thinking...' }]);
 
@@ -183,6 +265,8 @@ export default function App() {
       if (activeRequestRef.current?.id === requestId) {
         activeRequestRef.current = null;
       }
+
+      resetIdleTimer();
     }
   }
 
@@ -255,7 +339,8 @@ export default function App() {
     }
 
     if (normalizedInput === 'man') {
-      const subject = args[0]?.toLowerCase();
+      const joinedSubject = args.join(' ').trim().toLowerCase();
+      const subject = joinedSubject || args[0]?.toLowerCase();
       commandEntries = [makeOutputEntry(buildManPageHtml(subject || 'man'))];
     } else {
       commandEntries = getCommandEntries(normalizedInput);
