@@ -1,5 +1,5 @@
 EMCC ?= emcc
-CFLAGS := -O2 -s WASM=1
+CFLAGS := -O2 -s WASM=1 -s STANDALONE_WASM=1 --no-entry
 EXPORTED_FUNCTIONS := '["_init_shell","_process_command","_get_input_buf","_get_output_buf","_get_output_buf_size"]'
 OUTPUT_DIR := ../../public/wasm
 
