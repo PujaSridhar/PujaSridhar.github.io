@@ -85,6 +85,21 @@ export function buildThemeAppliedHtml(themeKey) {
   );
 }
 
+function buildSysHelpHtml(unknownSubcommand = '') {
+  const unknownNotice = unknownSubcommand
+    ? `<span class="error">Unknown sys subcommand:</span> <span class="command">${unknownSubcommand}</span><br><br>`
+    : '';
+
+  return (
+    `<div class="skills-category-title">sys namespace</div>` +
+    `${unknownNotice}` +
+    `<span class="command">sys --alloc</span> - allocator benchmark preview<br>` +
+    `<span class="command">sys --threads</span> - threading and concurrency preview<br>` +
+    `<span class="command">sys --shell</span> - mini shell demo preview<br><br>` +
+    `Use <span class="command">man sys --alloc</span>, <span class="command">man sys --threads</span>, or <span class="command">man sys --shell</span> for details.`
+  );
+}
+
 function buildLogHtml() {
   return (
     `<div class="skills-category-title">[SYSTEM LOG] Puja Sridhar - Career &amp; Life Events</div>` +
@@ -431,6 +446,8 @@ function buildSudoHireHtml() {
   return (
     `<div class="skills-category-title">sudo hire</div>` +
     `<i>not the loudest in the room. just the one who already shipped it.</i><br><br>` +
+    `Strong foundation in systems (low-level C on mmap, WASM compilation, thread scheduling, deadlock visualization — see <span class="command">sys --alloc</span>, <span class="command">sys --shell</span>, <span class="command">sys --threads</span>).<br>` +
+    `Heavy ML/AI background with production experience at Pennant. Semantic search, vector DBs, agentic systems, RPA.<br><br>` +
     `Resume: <a href="${RESUME_URL}" target="_blank" rel="noreferrer" class="link">PujaSridhar_Resume.pdf</a><br>` +
     `Calendly: <a href="${CALENDLY_URL}" target="_blank" rel="noreferrer" class="link">Book time with me</a>`
   );
@@ -462,6 +479,8 @@ export function getCommandEntries(command) {
       return [makeOutputEntry(buildVersionHtml())];
     case 'availability':
       return [makeOutputEntry(buildAvailabilityHtml())];
+    case 'sys --help':
+      return [makeOutputEntry(buildSysHelpHtml())];
     case 'diff':
       return [makeOutputEntry(buildDiffHtml())];
     case 'patch notes':
@@ -501,6 +520,9 @@ export function getCommandEntries(command) {
     case 'clear':
       return [getBootEntry()];
     default:
+      if (command.startsWith('sys')) {
+        return [makeOutputEntry(buildSysHelpHtml(command.slice(4).trim() || 'sys'))];
+      }
       return null;
   }
 }

@@ -1,6 +1,9 @@
 import { PROMPT_TEXT } from '../constants/terminal.js';
+import { AllocDemo } from './AllocDemo.jsx';
+import { ShellDemo } from './ShellDemo.jsx';
+import { ThreadDemo } from './ThreadDemo.jsx';
 
-export function TerminalEntry({ entry }) {
+export function TerminalEntry({ entry, onShellExit }) {
   if (entry.type === 'command') {
     return (
       <div className="output-entry">
@@ -12,6 +15,34 @@ export function TerminalEntry({ entry }) {
         </div>
       </div>
     );
+  }
+
+  if (entry.type === 'component') {
+    if (entry.componentName === 'alloc') {
+      return (
+        <div className="output-entry">
+          <AllocDemo />
+        </div>
+      );
+    }
+
+    if (entry.componentName === 'shell') {
+      return (
+        <div className="output-entry">
+          <ShellDemo onExit={onShellExit} {...entry.props} />
+        </div>
+      );
+    }
+
+    if (entry.componentName === 'threads') {
+      return (
+        <div className="output-entry">
+          <ThreadDemo onExit={onShellExit} {...entry.props} />
+        </div>
+      );
+    }
+
+    return null;
   }
 
   return <div className="output-entry" dangerouslySetInnerHTML={{ __html: entry.html }} />;

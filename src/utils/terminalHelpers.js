@@ -16,3 +16,7 @@ export function makeOutputEntry(html) {
 export function makeCommandEntry(text) {
   return { id: crypto.randomUUID(), type: 'command', text };
 }
+
+export function makeComponentEntry(componentName, props = {}) {
+  return { id: crypto.randomUUID(), type: 'component', componentName, props };
+}

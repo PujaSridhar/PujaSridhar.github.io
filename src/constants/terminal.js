@@ -163,6 +163,10 @@ export const COMMAND_NAMES = [
   'cogsworth --version',
   'availability',
   'download resume',
+  'sys --alloc',
+  'sys --threads',
+  'sys --shell',
+  'sys --help',
   'theme --list',
   'help',
   'man',
@@ -202,10 +206,25 @@ export const COMMAND_MANUALS = {
     usage: 'download resume',
     description: 'Triggers a browser download for the latest resume and prints the direct file link.',
   },
-  theme: {
-    summary: 'List or apply a terminal color theme.',
-    usage: 'theme --list | theme [name]',
-    description: 'Shows the available themes or applies one instantly. The selected theme is saved for the next visit.',
+  'sys --alloc': {
+    summary: 'Preview allocator benchmark work.',
+    usage: 'sys --alloc',
+    description: 'Reserved sys namespace entry for the custom allocator benchmark view.',
+  },
+  'sys --threads': {
+    summary: 'Preview threading and concurrency work.',
+    usage: 'sys --threads',
+    description: 'Reserved sys namespace entry for the threads and synchronization demo view.',
+  },
+  'sys --shell': {
+    summary: 'Preview the shell demo workspace.',
+    usage: 'sys --shell',
+    description: 'Reserved sys namespace entry for the mini shell demo linked against the allocator project.',
+  },
+  'sys --help': {
+    summary: 'List available sys namespace commands.',
+    usage: 'sys --help',
+    description: 'Shows the supported systems-portfolio subcommands and what each one demonstrates.',
   },
   'theme --list': {
     summary: 'Show all available colour themes.',

@@ -7,7 +7,7 @@ import { useAnimatedNetwork } from './hooks/useAnimatedNetwork.js';
 import { useAudio } from './hooks/useAudio.js';
 import { useIpWeather } from './hooks/useIpWeather.js';
 import { getBootEntry, buildManPageHtml, buildThemeAppliedHtml, buildThemeListHtml, getCommandEntries } from './utils/terminalContent.js';
-import { makeCommandEntry, makeOutputEntry, parseMarkdown } from './utils/terminalHelpers.js';
+import { makeCommandEntry, makeComponentEntry, makeOutputEntry, parseMarkdown } from './utils/terminalHelpers.js';
 import { applyTheme, getSavedTheme } from './utils/themeUtils.js';
 
 const IDLE_TERMINAL_LINES = [
@@ -179,6 +179,11 @@ export default function App() {
         return;
       }
 
+      // Don't steal focus if user is typing in a nested demo
+      if (document.activeElement?.closest('.shell-demo, .thread-demo, .alloc-demo')) {
+        return;
+      }
+
       inputRef.current?.focus();
     };
 
@@ -270,6 +275,28 @@ export default function App() {
     }
   }
 
+  function handleSysCommand(subcommand) {
+    const normalizedSubcommand = subcommand.trim().toLowerCase();
+
+    if (normalizedSubcommand === '--alloc') {
+      return [makeComponentEntry('alloc')];
+    }
+
+    if (normalizedSubcommand === '--threads') {
+      return [makeComponentEntry('threads')];
+    }
+
+    if (normalizedSubcommand === '--shell') {
+      return [makeComponentEntry('shell')];
+    }
+
+    if (!normalizedSubcommand || normalizedSubcommand === '--help') {
+      return getCommandEntries('sys --help');
+    }
+
+    return getCommandEntries(`sys ${normalizedSubcommand}`);
+  }
+
   function handleSubmit(rawInput = inputValue) {
     const userInput = rawInput.trim();
     if (!userInput) {
@@ -338,7 +365,9 @@ export default function App() {
       return;
     }
 
-    if (normalizedInput === 'man') {
+    if (/^sys(?:\s|$)/.test(normalizedFullInput)) {
+      commandEntries = handleSysCommand(normalizedFullInput.slice(3).trim());
+    } else if (normalizedInput === 'man') {
       const joinedSubject = args.join(' ').trim().toLowerCase();
       const subject = joinedSubject || args[0]?.toLowerCase();
       commandEntries = [makeOutputEntry(buildManPageHtml(subject || 'man'))];
@@ -535,7 +564,15 @@ export default function App() {
           >
             <div id="output" className="flex-grow">
               {terminalHistory.map((entry) => (
-                <TerminalEntry key={entry.id} entry={entry} />
+                <TerminalEntry
+                  key={entry.id}
+                  entry={entry}
+                  onShellExit={() => {
+                    window.setTimeout(() => {
+                      inputRef.current?.focus();
+                    }, 0);
+                  }}
+                />
               ))}
             </div>
 
