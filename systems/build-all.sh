@@ -9,13 +9,13 @@ mkdir -p "$REPO_ROOT/public/wasm"
 
 echo "Building allocator..."
 cd "$REPO_ROOT/systems/allocator"
-make clean OUTPUT_DIR="$REPO_ROOT/public/wasm"
-make OUTPUT_DIR="$REPO_ROOT/public/wasm"
+make clean
+make
 
 echo "Building shell..."
 cd "$REPO_ROOT/systems/shell"
-make clean OUTPUT_DIR="$REPO_ROOT/public/wasm"
-make OUTPUT_DIR="$REPO_ROOT/public/wasm"
+make clean
+make
 
 echo "WASM build complete."
 echo "  - $REPO_ROOT/public/wasm/alloc.wasm"

@@ -1,7 +1,7 @@
 EMCC ?= emcc
 CFLAGS := -O2 -s WASM=1
 EXPORTED_FUNCTIONS := '["_my_malloc","_my_free","_run_benchmark","_set_js_baseline"]'
-OUTPUT_DIR ?= ../../public/wasm
+OUTPUT_DIR := ../../public/wasm
 
 all: $(OUTPUT_DIR)/alloc.wasm
 
@@ -12,6 +12,5 @@ $(OUTPUT_DIR)/alloc.wasm: alloc.c
 
 clean:
 	rm -f $(OUTPUT_DIR)/alloc.wasm
-
 
 

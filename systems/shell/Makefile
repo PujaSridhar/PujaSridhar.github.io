@@ -1,7 +1,7 @@
 EMCC ?= emcc
 CFLAGS := -O2 -s WASM=1
 EXPORTED_FUNCTIONS := '["_init_shell","_process_command","_get_input_buf","_get_output_buf","_get_output_buf_size"]'
-OUTPUT_DIR ?= ../../public/wasm
+OUTPUT_DIR := ../../public/wasm
 
 all: $(OUTPUT_DIR)/shell.wasm
 
@@ -12,6 +12,5 @@ $(OUTPUT_DIR)/shell.wasm: shell.c
 
 clean:
 	rm -f $(OUTPUT_DIR)/shell.wasm
-
 
 
