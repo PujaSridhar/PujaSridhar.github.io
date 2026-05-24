@@ -1,25 +1,22 @@
 #!/bin/bash
 set -e
 
+# Always resolve paths relative to the repo root, not the calling directory
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
 echo "Building WASM modules..."
+mkdir -p "$REPO_ROOT/public/wasm"
 
-# Create output directory
-mkdir -p public/wasm
-
-# Build allocator
 echo "Building allocator..."
-cd systems/allocator
+cd "$REPO_ROOT/systems/allocator"
 make clean
 make
-cd ../..
 
-# Build shell
 echo "Building shell..."
-cd systems/shell
+cd "$REPO_ROOT/systems/shell"
 make clean
 make
-cd ../..
 
-echo "WASM build complete. Files available at:"
-echo "  - public/wasm/alloc.wasm"
-echo "  - public/wasm/shell.wasm"
+echo "WASM build complete."
+echo "  - $REPO_ROOT/public/wasm/alloc.wasm"
+echo "  - $REPO_ROOT/public/wasm/shell.wasm"
