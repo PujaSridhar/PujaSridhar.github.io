@@ -26,7 +26,10 @@ jobs:
         with:
           node-version: 20
 
-      - uses: emscripten-core/emsdk@v3.1.56
+      - name: Set up Emscripten
+        uses: emscripten-core/emsdk@v4
+        with:
+          version: 3.1.56
 
       - name: Install dependencies
         run: npm install
