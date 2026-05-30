@@ -6,16 +6,16 @@ import { TerminalEntry } from './components/TerminalEntry.jsx';
 import { useAnimatedNetwork } from './hooks/useAnimatedNetwork.js';
 import { useAudio } from './hooks/useAudio.js';
 import { useIpWeather } from './hooks/useIpWeather.js';
-import { getBootEntry, buildManPageHtml, buildThemeAppliedHtml, buildThemeListHtml, getCommandEntries } from './utils/terminalContent.js';
+import {
+  getBootEntry,
+  buildDiagnosticsHtml,
+  buildManPageHtml,
+  buildThemeAppliedHtml,
+  buildThemeListHtml,
+  getCommandEntries,
+} from './utils/terminalContent.js';
 import { makeCommandEntry, makeComponentEntry, makeOutputEntry, parseMarkdown } from './utils/terminalHelpers.js';
 import { applyTheme, getSavedTheme } from './utils/themeUtils.js';
-
-const IDLE_TERMINAL_LINES = [
-  '[cogsworth] running scheduled diagnostics...',
-  '[cron] 0 * * * * → puja-heartbeat.sh ✓',
-  '[sys] memory: 42% | uptime: 847h 23m',
-  '[log] no anomalies detected. all systems nominal.',
-];
 
 function getSharedPrefix(matches) {
   return matches.reduce((prefix, command) => {
@@ -53,10 +53,7 @@ export default function App() {
   const canvasRef = useRef(null);
   const conversationHistoryRef = useRef([]);
   const activeRequestRef = useRef(null);
-  const idleTimerRef = useRef(null);
-  const idleLineTimeoutsRef = useRef([]);
-  const idleSequenceRunningRef = useRef(false);
-  const terminalModeRef = useRef(terminalMode);
+  const sessionStartedAtRef = useRef(Date.now());
   const currentYear = new Date().getFullYear();
   const weatherText = useIpWeather();
   const { initAudio, playSound, playTypingSound } = useAudio();
@@ -74,10 +71,6 @@ export default function App() {
   useEffect(() => {
     applyTheme(currentTheme, darkMode);
   }, [currentTheme, darkMode]);
-
-  useEffect(() => {
-    terminalModeRef.current = terminalMode;
-  }, [terminalMode]);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -98,72 +91,6 @@ export default function App() {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
   }, [terminalHistory, terminalMode]);
-
-  function stopIdleSequence() {
-    if (idleTimerRef.current) {
-      window.clearTimeout(idleTimerRef.current);
-      idleTimerRef.current = null;
-    }
-
-    idleLineTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
-    idleLineTimeoutsRef.current = [];
-    idleSequenceRunningRef.current = false;
-  }
-
-  function startIdleSequence() {
-    if (!terminalModeRef.current || activeRequestRef.current || idleSequenceRunningRef.current) {
-      return;
-    }
-
-    idleSequenceRunningRef.current = true;
-    idleLineTimeoutsRef.current = IDLE_TERMINAL_LINES.map((line, index) =>
-      window.setTimeout(() => {
-        if (!terminalModeRef.current || activeRequestRef.current || !idleSequenceRunningRef.current) {
-          return;
-        }
-
-        setTerminalHistory((previous) => [...previous, makeOutputEntry(line)]);
-
-        if (index === IDLE_TERMINAL_LINES.length - 1) {
-          idleSequenceRunningRef.current = false;
-          idleLineTimeoutsRef.current = [];
-        }
-      }, index * 1500)
-    );
-  }
-
-  function resetIdleTimer() {
-    stopIdleSequence();
-
-    if (!terminalModeRef.current || activeRequestRef.current) {
-      return;
-    }
-
-    idleTimerRef.current = window.setTimeout(() => {
-      startIdleSequence();
-    }, 30000);
-  }
-
-  useEffect(() => {
-    if (!terminalMode) {
-      stopIdleSequence();
-      return undefined;
-    }
-
-    const handleUserActivity = () => {
-      resetIdleTimer();
-    };
-
-    window.addEventListener('keydown', handleUserActivity);
-    window.addEventListener('mousemove', handleUserActivity);
-    resetIdleTimer();
-
-    return () => {
-      window.removeEventListener('keydown', handleUserActivity);
-      window.removeEventListener('mousemove', handleUserActivity);
-      stopIdleSequence();
-    };
-  }, [terminalMode]);
 
   useEffect(() => {
     const handleWindowKeyDown = (event) => {
@@ -198,7 +125,6 @@ export default function App() {
     const apiBaseUrl = isDevelopment ? '' : 'https://puja-sridhar-github-io.vercel.app';
 
     activeRequestRef.current = { id: requestId, controller: abortController };
-    stopIdleSequence();
 
     setTerminalHistory((previous) => [...previous, { id: requestId, type: 'output', html: 'Cogsworth is thinking...' }]);
 
@@ -270,13 +196,64 @@ export default function App() {
       if (activeRequestRef.current?.id === requestId) {
         activeRequestRef.current = null;
       }
-
-      resetIdleTimer();
     }
+  }
+
+  function getRuntimeDiagnostics() {
+    const memory = performance.memory;
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const uptimeSeconds = Math.round((Date.now() - sessionStartedAtRef.current) / 1000);
+
+    return {
+      timestamp: new Date(),
+      uptimeSeconds,
+      memory: memory
+        ? {
+            usedJSHeapSize: memory.usedJSHeapSize,
+            totalJSHeapSize: memory.totalJSHeapSize,
+            jsHeapSizeLimit: memory.jsHeapSizeLimit,
+          }
+        : null,
+      connection: connection
+        ? {
+            effectiveType: connection.effectiveType,
+            downlink: connection.downlink,
+            rtt: connection.rtt,
+            saveData: connection.saveData,
+          }
+        : null,
+      viewport: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        devicePixelRatio: window.devicePixelRatio,
+      },
+      screen: {
+        width: window.screen.width,
+        height: window.screen.height,
+      },
+      location: {
+        host: window.location.host || 'local file',
+        protocol: window.location.protocol,
+      },
+      mode: terminalMode ? 'terminal' : 'gui',
+      theme: THEMES[currentTheme]?.name || currentTheme,
+      colorScheme: darkMode ? 'dark' : 'light',
+      historyEntries: terminalHistory.length,
+      commandHistoryEntries: commandHistory.length,
+      activeRequest: Boolean(activeRequestRef.current),
+    };
+  }
+
+  function getDiagnosticsEntry() {
+    return makeOutputEntry(buildDiagnosticsHtml(getRuntimeDiagnostics()));
   }
 
   function handleSysCommand(subcommand) {
     const normalizedSubcommand = subcommand.trim().toLowerCase();
+
+    if (normalizedSubcommand === '--status') {
+      return [getDiagnosticsEntry()];
+    }
 
     if (normalizedSubcommand === '--alloc') {
       return [makeComponentEntry('alloc')];
@@ -310,6 +287,14 @@ export default function App() {
     const [commandToken, ...args] = userInput.split(/\s+/);
     const normalizedInput = COMMAND_NAMES.includes(normalizedFullInput) ? normalizedFullInput : commandToken.toLowerCase();
     let commandEntries;
+
+    if (normalizedFullInput === 'diagnostics') {
+      setCommandHistory((previous) => [userInput, ...previous]);
+      setHistoryIndex(-1);
+      setInputValue('');
+      setTerminalHistory((previous) => [...previous, makeCommandEntry(userInput), getDiagnosticsEntry()]);
+      return;
+    }
 
     if (normalizedFullInput === 'download resume') {
       triggerResumeDownload(RESUME_URL);

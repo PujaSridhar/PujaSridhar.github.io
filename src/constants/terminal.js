@@ -166,7 +166,9 @@ export const COMMAND_NAMES = [
   'sys --alloc',
   'sys --threads',
   'sys --shell',
+  'sys --status',
   'sys --help',
+  'diagnostics',
   'theme --list',
   'help',
   'man',
@@ -221,10 +223,20 @@ export const COMMAND_MANUALS = {
     usage: 'sys --shell',
     description: 'Reserved sys namespace entry for the mini shell demo linked against the allocator project.',
   },
+  'sys --status': {
+    summary: 'Print live terminal diagnostics.',
+    usage: 'sys --status',
+    description: 'Prints the same one-shot diagnostics block as diagnostics, using live browser and session stats.',
+  },
   'sys --help': {
     summary: 'List available sys namespace commands.',
     usage: 'sys --help',
     description: 'Shows the supported systems-portfolio subcommands and what each one demonstrates.',
+  },
+  diagnostics: {
+    summary: 'Print live terminal diagnostics.',
+    usage: 'diagnostics',
+    description: 'Prints a one-shot health block with actual runtime stats from the current browser session.',
   },
   'theme --list': {
     summary: 'Show all available colour themes.',

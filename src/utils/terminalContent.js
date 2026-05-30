@@ -95,8 +95,109 @@ function buildSysHelpHtml(unknownSubcommand = '') {
     `${unknownNotice}` +
     `<span class="command">sys --alloc</span> - allocator benchmark preview<br>` +
     `<span class="command">sys --threads</span> - threading and concurrency preview<br>` +
-    `<span class="command">sys --shell</span> - mini shell demo preview<br><br>` +
-    `Use <span class="command">man sys --alloc</span>, <span class="command">man sys --threads</span>, or <span class="command">man sys --shell</span> for details.`
+    `<span class="command">sys --shell</span> - mini shell demo preview<br>` +
+    `<span class="command">sys --status</span> - live terminal diagnostics<br><br>` +
+    `Use <span class="command">man sys --alloc</span>, <span class="command">man sys --threads</span>, <span class="command">man sys --shell</span>, or <span class="command">man sys --status</span> for details.`
+  );
+}
+
+function formatBytes(value) {
+  if (!Number.isFinite(value)) {
+    return 'unavailable';
+  }
+
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let size = value;
+  let unitIndex = 0;
+
+  while (size >= 1024 && unitIndex < units.length - 1) {
+    size /= 1024;
+    unitIndex += 1;
+  }
+
+  const precision = unitIndex === 0 ? 0 : 1;
+  return `${size.toFixed(precision)} ${units[unitIndex]}`;
+}
+
+function formatUptime(totalSeconds) {
+  if (!Number.isFinite(totalSeconds)) {
+    return 'unavailable';
+  }
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  if (hours > 0) {
+    return `${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  if (minutes > 0) {
+    return `${minutes}m ${seconds}s`;
+  }
+
+  return `${seconds}s`;
+}
+
+function formatConnection(connection) {
+  if (!connection) {
+    return 'unavailable';
+  }
+
+  const parts = [];
+
+  if (connection.effectiveType) {
+    parts.push(connection.effectiveType);
+  }
+
+  if (Number.isFinite(connection.downlink)) {
+    parts.push(`${connection.downlink} Mbps`);
+  }
+
+  if (Number.isFinite(connection.rtt)) {
+    parts.push(`${connection.rtt} ms RTT`);
+  }
+
+  if (connection.saveData) {
+    parts.push('save-data');
+  }
+
+  return parts.length ? parts.join(' | ') : 'available, no metrics exposed';
+}
+
+export function buildDiagnosticsHtml(stats) {
+  const memory = stats.memory;
+  const heapLine = memory
+    ? `${formatBytes(memory.usedJSHeapSize)} used / ${formatBytes(memory.totalJSHeapSize)} allocated / ${formatBytes(memory.jsHeapSizeLimit)} limit`
+    : 'unavailable in this browser';
+  const viewport = stats.viewport
+    ? `${stats.viewport.width}x${stats.viewport.height} @ ${stats.viewport.devicePixelRatio}x`
+    : 'unavailable';
+  const screen = stats.screen ? `${stats.screen.width}x${stats.screen.height}` : 'unavailable';
+  const timestamp = stats.timestamp instanceof Date ? stats.timestamp.toLocaleString() : 'unavailable';
+
+  return (
+    `<div class="skills-category-title">[DIAGNOSTICS]</div>` +
+    `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[cogsworth] status check requested
+[sys] generated:        ${timestamp}
+[sys] session uptime:   ${formatUptime(stats.uptimeSeconds)}
+[sys] mode:             ${stats.mode}
+[sys] theme:            ${stats.theme} (${stats.colorScheme})
+[sys] active request:   ${stats.activeRequest ? 'yes' : 'no'}
+
+[env] host:             ${stats.location?.host || 'unavailable'}
+[env] protocol:         ${stats.location?.protocol || 'unavailable'}
+[env] viewport:         ${viewport}
+[env] screen:           ${screen}
+[env] network:          ${formatConnection(stats.connection)}
+
+[runtime] js heap:      ${heapLine}
+[runtime] output rows:  ${stats.historyEntries}
+[runtime] commands:     ${stats.commandHistoryEntries}
+
+[log] no background diagnostics loop is running.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
   );
 }
 
@@ -446,7 +547,7 @@ function buildSudoHireHtml() {
   return (
     `<div class="skills-category-title">sudo hire</div>` +
     `<i>not the loudest in the room. just the one who already shipped it.</i><br><br>` +
-    `Strong foundation in systems (low-level C on mmap, WASM compilation, thread scheduling, deadlock visualization — see <span class="command">sys --alloc</span>, <span class="command">sys --shell</span>, <span class="command">sys --threads</span>).<br>` +
+    `Strong foundation in systems (free-list allocator in C compiled to WASM, thread scheduler, shell interpreter — see <span class="command">sys --alloc</span>, <span class="command">sys --shell</span>, <span class="command">sys --threads</span>).<br>` +
     `Heavy ML/AI background with production experience at Pennant. Semantic search, vector DBs, agentic systems, RPA.<br><br>` +
     `Resume: <a href="${RESUME_URL}" target="_blank" rel="noreferrer" class="link">PujaSridhar_Resume.pdf</a><br>` +
     `Calendly: <a href="${CALENDLY_URL}" target="_blank" rel="noreferrer" class="link">Book time with me</a>`
@@ -481,6 +582,13 @@ export function getCommandEntries(command) {
       return [makeOutputEntry(buildAvailabilityHtml())];
     case 'sys --help':
       return [makeOutputEntry(buildSysHelpHtml())];
+    case 'diagnostics':
+      return [
+        makeOutputEntry(
+          `<div class="skills-category-title">[DIAGNOSTICS]</div>` +
+            `Run <span class="command">diagnostics</span> or <span class="command">sys --status</span> in the terminal for live runtime stats.`
+        ),
+      ];
     case 'diff':
       return [makeOutputEntry(buildDiffHtml())];
     case 'patch notes':
