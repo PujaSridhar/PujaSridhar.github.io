@@ -18,18 +18,15 @@ export function getBootEntry() {
         `<span style="color:var(--color-accent);">◉ Deprecated: imposter_syndrome.exe... REMOVED.</span><br>` +
         `<span style="color:var(--color-accent);">◉ Initializing san_jose.env... ACTIVE.</span><br><br>` +
         `Protocol established. Welcome to v25.<br><br>` +
-        `I am Cogsworth. Type <span class="command">'patch notes'</span> to see what changed,` +
-        ` or <span class="command">'help'</span> for all commands.`
+        `I am Cogsworth. Type <span class="command">'help'</span> for all commands.`
     );
   }
 
   return makeOutputEntry(
-    `Initializing Cogsworth v1.0...<br>` +
-      `Channeling legacy of Babbage, Lovelace, Turing... OK.<br>` +
-      `Parsing lineage of data... OK.<br>` +
-      `Protocol established. Welcome.<br><br>` +
-      `I am Cogsworth, an AI built to present the work of Puja Sridhar.<br>` +
-      `Type <span class="command">'help'</span> for a list of commands, or ask me a question in plain English.`
+    `Initializing Cogsworth v25.0.0...<br>` +
+      `System check: OK.<br><br>` +
+      `I am Cogsworth, the AI assistant for Puja Sridhar's portfolio.<br>` +
+      `Type <span class='command'>'help'</span> for commands, or ask me anything about her work.`
   );
 }
 
@@ -206,63 +203,34 @@ function buildLogHtml() {
     `<div class="skills-category-title">[SYSTEM LOG] Puja Sridhar - Career &amp; Life Events</div>` +
     `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-<span class="command">[2001-06-28]</span> BOOT        Initialized. Location: Pondicherry, India.
-                         Tiny city. Big personality from day one.
-
-<span class="command">[2003]</span>       MIGRATED    Bangalore. Age 2. Didn't choose it.
-                         Grew up on gojju avalaki, pineapple gojju,
-                         mudde saru, and the kind of Bangalore sweet
-                         sambar that ruins all other sambar forever.
-
 <span class="command">[2019-09-01]</span> ENROLLED    B.E. in Computer Science. Bangalore.
-                         First line of code. First all-nighter.
-                         First "why does this work, I changed nothing."
 
 <span class="command">[2023-02-01]</span> DEPLOYED    AI Co-pilot Developer @ HumanFractal.ai, Resolute
 
 <span class="command">[2023-05-31]</span> SUCCESS     Built AI co-pilot systems that actually worked.
-                         Shipped to production. Then shipped myself out.
+                         Shipped to production.
 
 <span class="command">[2024-01-01]</span> MIGRATED    New Brunswick, NJ, USA. Masters in CS @ Rutgers.
-                         Left behind the weather I liked.
-                         Brought the work ethic.
 
 <span class="command">[2024-09-01]</span> TEACHING    Graduate Teaching Assistant @ Rutgers
                          OOP — 60 students
                          Data Management &amp; Curation — 30 students
                          Intro to AI — 60 students
-                         150 people. Real questions. No script.
-                         Turns out I actually like explaining things.
 
 <span class="command">[2025-01-15]</span> MILESTONE   MS in Computer Science. Conferred. Done.
-                         First in my family to do a master's abroad.
-                         Didn't make a big deal of it. Making it now.
 
 <span class="command">[2025-07-01]</span> DEPLOYED    AI Engineering Intern @ Pennant Education
 
-<span class="command">[2025-09-30]</span> COMPLETE    Built things. Broke things. Fixed them better.
-                         Shipped AI features that went into real hands.
+<span class="command">[2025-09-30]</span> COMPLETE    Shipped AI features that went into real hands.
 
 <span class="command">[2025-12-01]</span> CLOSED      TA role complete. 150 students, done.
 
 <span class="command">[2026-06-01]</span> MIGRATED    San Jose, CA. Already here.
-                         New city. First full-time role loading.
-                         Gardening plans: in progress.
 
-<span class="command">[2026-06-28]</span> UPGRADING   v25.0.0 live today.
-                         System status: ready.
+<span class="command">[2026-06-28]</span> UPGRADING   v25.0.0 live.
+                         Status: actively seeking first full-time role.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>` +
-    `<div class="skills-category-title">[ACTIVE PROCESSES]</div>` +
-    `<pre class="log-entry">◉ Biking           — wind in hair, zero traffic excuses
-◉ Chess            — I will out-think you and be nice about it
-◉ Baking           — the only pipeline I tune by smell
-◉ Cooking          — Karnataka base. pineapple gojju on a Tuesday. no rules.
-◉ Ultimate Frisbee — I take it seriously. you've been warned.
-◉ Basketball       — chaos on the court, structured off it
-◉ Painting         — the original no-code project
-◉ Embroidery       — precision work. patience loaded.
-◉ Gardening        — I grow things. plants and codebases.</pre>`
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
   );
 }
 
@@ -293,131 +261,11 @@ function buildVersionHtml() {
     <span style="color:var(--color-accent);">◉ Pushups                [NEW. non-negotiable.]</span>
     <span style="color:var(--color-accent);">◉ Caffeine independence  [somehow achieved]</span>
 
-  Stats:
-    Cities lived in:         4
-    Students taught:         150
-    Coffees today:           0  ← permanent
-    Browser tabs open:       too many to count
-    Projects said no to:     almost none (see known bugs)
-
   Uptime:         ${uptime}
-  Crashes:        several. recovered every time.
-  Current mood:   building.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Type <span style="color:var(--color-accent);">'run interview'</span> to hear it from me directly.
+  Type <span style="color:var(--color-accent);">'decisions'</span> to see the engineering tradeoffs behind the work.
   Type <span style="color:var(--color-accent);">'sudo hire'</span> if you've already decided.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
-  );
-}
-
-function buildDiffHtml() {
-  return (
-    `<div class="skills-category-title">$ diff puja_v24.log puja_v25.log</div>` +
-    `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-COMMIT: v25.0.0 — June 28, 2026
-AUTHOR: Puja Sridhar &lt;pujasridhar28@gmail.com&gt;
-MESSAGE: it's been a year. here's what actually changed.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-<span style="color:var(--color-error);">- shrinking in rooms where I should have been loud</span>
-<span style="color:var(--color-accent);">+ still figuring out the volume. showing up anyway.</span>
-
-<span style="color:var(--color-error);">- measuring my worth by my job title (or lack of one)</span>
-<span style="color:var(--color-accent);">+ the work is real whether or not the title exists yet</span>
-
-<span style="color:var(--color-error);">- letting disrespect slide because confrontation is awkward</span>
-<span style="color:var(--color-accent);">+ awkward conversation &gt; silent resentment. every time.</span>
-
-<span style="color:var(--color-error);">- comparing my chapter 3 to everyone else's chapter 20</span>
-<span style="color:var(--color-accent);">+ deleted the comparison. focused on the draft.</span>
-
-<span style="color:var(--color-error);">- coffee. all of it. every day.</span>
-<span style="color:var(--color-accent);">+ quit. functioning. baffled by this myself.</span>
-
-<span style="color:var(--color-accent);">+ graduated with MS in CS at 24</span>
-  first in my family to do a master's abroad
-  didn't celebrate enough at the time. noting it here.
-
-<span style="color:var(--color-accent);">+ moved three cities across two countries</span>
-  Pondicherry → Bangalore → New Brunswick, NJ → San Jose
-  each one taught me something the last one couldn't
-
-<span style="color:var(--color-accent);">+ got stronger. physically. pushups are real now.</span>
-  started from zero. didn't expect to care this much.
-  turns out the body keeping score goes both ways.
-
-<span style="color:var(--color-accent);">+ built v25 of this portfolio. you're in it right now.</span>
-  type 'run interview' if you want to hear the rest.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-net change: quieter ego, louder output.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
-  );
-}
-
-function buildPatchNotesHtml() {
-  return (
-    `<div class="skills-category-title">RELEASE NOTES - Puja Sridhar v25.0.0</div>` +
-    `<pre class="log-entry">Released: June 28, 2026
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-DEPRECATED:
-  <span style="color:var(--color-error);">✕ imposter_syndrome.exe</span>
-    Ran silently in the background for years.
-    Resource hog. Produced nothing useful.
-    Uninstalled. Not missed.
-
-  <span style="color:var(--color-error);">✕ compare_timelines.js</span>
-    Kept crashing whenever I opened LinkedIn.
-    Incompatible with actual progress.
-    Removed.
-
-  <span style="color:var(--color-error);">✕ absorb_disrespect_quietly.config</span>
-    Was set as default for too long.
-    Hard reset applied.
-    New default: say something or walk away.
-
-  <span style="color:var(--color-error);">✕ coffee (all of it)</span>
-    Deprecated cold turkey, January 2026.
-    No withdrawal patch. Just vibes.
-    Still not sure how I did it.
-
-ADDED:
-  <span style="color:var(--color-accent);">✓ pushups_and_planks.daily</span>
-    Didn't think I could. Now I do.
-    Loads every morning before anything else.
-    Side effects: annoyingly good mood.
-
-  <span style="color:var(--color-accent);">✓ me_time.scheduler</span>
-    Previously always overridden by everyone else.
-    Now blocked out and non-negotiable.
-    Boundary enforcement: active.
-
-  <span style="color:var(--color-accent);">✓ self_respect.threshold = non-zero</span>
-    Finally shipping with a minimum requirement.
-    Applies to work, friendships, everything.
-
-  <span style="color:var(--color-accent);">✓ san_jose.env</span>
-    New city. Already here.
-    Warmer. Calmer. Good light for the plants.
-
-KNOWN BUGS:
-  <span style="color:var(--color-prompt);">⚠ says_yes_before_checking_capacity.loop</span>
-    Ongoing. Probably permanent.
-    I keep shipping features before the sprint ends.
-
-  <span style="color:var(--color-prompt);">⚠ browser_tabs &gt; available_memory</span>
-    Reproducible 100% of the time.
-    No fix in scope.
-
-  <span style="color:var(--color-prompt);">⚠ confidence.fluctuates_under_load</span>
-    Known issue. Being patched in real time.
-    ETA: unknown. Progress: real.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-v25 is not the version that has everything figured out.
-it's the version that stopped pretending to.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
   );
 }
@@ -454,18 +302,132 @@ function buildExperienceHtml() {
   return `<div class="skills-category-title">Experience</div>${items}`;
 }
 
-function buildProjectsHtml() {
-  const items = portfolioData.projects
-    .map(
-      (project) =>
-        `<span class="command">${project.name}</span><br>` +
-        `Tech: ${project.tech}<br>` +
-        project.desc.map((point) => `- ${point}`).join('<br>') +
-        `<br><a href="${project.url}" target="_blank" rel="noreferrer" class="link">View on GitHub -></a>`
-    )
-    .join('<br><br>');
+const FEATURED_PROJECTS = {
+  posthog: {
+    name: 'PostHog Engineering Impact Dashboard',
+    tagline: 'Production data pipeline: GitHub API → Airflow → dbt → FastAPI → Redis → React',
+    tech: 'Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel',
+    github: 'https://github.com/PujaSridhar/posthog-impact-dashboard',
+    live: 'https://posthog-impact-dashboard-pujasridhar2001.vercel.app/',
+    pipeline: [
+      'Airflow DAG extracts commits, PRs, reviews, issues from GitHub REST API daily at 2am UTC',
+      'Raw data lands in PostgreSQL bronze layer (raw schema)',
+      'dbt runs 6 models: 4 staging views (silver) + 2 mart tables (gold) — fct_engineer_impact and fct_engineer_weekly_trends',
+      'FastAPI serves /api/leaderboard, /api/trends/:login, /api/team-summary, /api/pipeline-status',
+      'Redis caches all endpoints with 5-min TTL, X-Cache HIT/MISS headers on every response',
+      'React dashboard with recharts — leaderboard, trend charts, DNA score bars, badge logic',
+    ],
+    highlight: 'Impact score formula: PRs×8 + Changes Requested×4 + Reviews×3 + Issues×2 + Commits×1 + Approvals×1',
+  },
+  locallens: {
+    name: 'LocalLens',
+    tagline: 'Vibe-first city discovery — find places by atmosphere, not category',
+    tech: 'FastAPI · React · Groq · Google Places API · Foursquare · WalkScore',
+    github: 'https://github.com/PujaSridhar/LocalLens',
+    live: 'https://local-lens-six.vercel.app/',
+    pipeline: [
+      'User submits a natural language query: "cozy indie cafe to work from near Alfama in Lisbon"',
+      'Stage 1 — Groq LLM parses intent: extracts location, vibe keywords, venue category',
+      'Stage 2 — Google Places API fetches real, live businesses at the parsed coordinates',
+      'Stage 3 — Foursquare adds category depth; WalkScore adds walkability context',
+      'Stage 4 — Groq agent scores each venue against the vibe, ranks them, generates a neighborhood snapshot',
+      'React frontend renders curated shortlist + synthesized area summary',
+    ],
+    highlight: '4-stage agentic pipeline — no static data, all live API calls, real vibe matching',
+  },
+  lexai: {
+    name: 'LexAI',
+    tagline: 'Automated contract intelligence — 5-agent pipeline, 15–25 second full analysis',
+    tech: 'Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js',
+    github: 'https://github.com/PujaSridhar/Lexai',
+    live: 'https://lexai-gem.vercel.app/',
+    pipeline: [
+      'User uploads a PDF contract or pastes plain text',
+      'Agent 1 (Triage) — classifies contract type: NDA, SaaS, Employment, etc.',
+      'Agent 2 (Summary) — distills core obligations, parties, deadlines',
+      'Agents 3 & 4 run in parallel — Clause Analyzer grades Fairness/Clarity/Completeness/Enforceability; Red Flag Detector hunts predatory terms',
+      'Agent 5 (Negotiation) — generates counter-proposals and specific wording to use',
+      'Report Engine compiles all agent outputs into a dashboard + downloadable HTML report',
+    ],
+    highlight:
+      'Parallel agent execution (stages 3+4) cuts analysis time — full pipeline in 15–25s. Secure API key proxy via Vercel serverless.',
+  },
+  'neighborhood-watch': {
+    name: 'AI Neighborhood Watch',
+    tagline: 'Community safety platform with AI categorization and a two-voice podcast briefing',
+    tech: 'Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub',
+    github: 'https://github.com/PujaSridhar/ai-neighborhood-watch',
+    live: 'https://ai-neighborhood-watch.vercel.app/',
+    pipeline: [
+      'Neighbor submits an incident report via the Leaflet map interface',
+      'Flask backend sends the text to Gemini, which auto-assigns a structured safety category',
+      'Report stored in PostgreSQL with coordinates, timestamp, and AI-generated category tag',
+      'Map renders color-coded markers by category for all users in real time',
+      'Daily briefing endpoint: Gemini generates a two-character dialogue script (Ava + Mateo)',
+      'ElevenLabs synthesizes separate voice segments; pydub stitches them into a broadcast-ready MP3',
+    ],
+    highlight:
+      'Custom audio stitching pipeline with automatic single-voice fallback if a voice profile fails. X-Podcast-Hosts header drives avatar display on the frontend.',
+  },
+  'smart-doc-finder': {
+    name: 'Smart Doc Finder',
+    tagline: 'AI-powered semantic document search — find files by meaning, not keywords',
+    tech: 'Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker',
+    github: 'https://github.com/krshsl/smart-doc-finder',
+    live: null,
+    pipeline: [
+      'Redis Streams monitors a document directory and catches new uploads the moment they arrive',
+      'Python backend chunks files >4MB into contextual blocks to avoid API payload limits',
+      'Each chunk is embedded via an AI model and stored in Redis Cloud Vector Search',
+      'Document metadata (filename, timestamp, permissions) stored in MongoDB',
+      'User types a natural language query in the React frontend',
+      'Semantic cache checked first — if similar prompt was recent, returns instantly without recomputing',
+      'Otherwise: query embedded → vector similarity match in Redis → results merged with MongoDB metadata → ranked list returned',
+    ],
+    highlight: 'Redis doing 3 jobs simultaneously: event streaming, vector database, and semantic cache — all in one service.',
+  },
+};
 
-  return `<div class="skills-category-title">Projects</div>${items}`;
+function buildProjectsHtml() {
+  const entries = Object.entries(FEATURED_PROJECTS)
+    .map(([key, project]) => `<span class="command">projects ${key}</span> — ${project.tagline}`)
+    .join('<br>');
+
+  return (
+    `<div class="skills-category-title">Featured Projects</div>` +
+    `${entries}<br><br>` +
+    `Type <span class="command">projects [name]</span> for the full breakdown, stack, and live demo link.`
+  );
+}
+
+function buildProjectDetailHtml(name) {
+  const project = FEATURED_PROJECTS[name];
+  if (!project) {
+    const available = Object.keys(FEATURED_PROJECTS).join(', ');
+    return (
+      `<span class="error">Project not found:</span> <span class="command">${name}</span><br>` +
+      `Available: ${available}<br>` +
+      `Type <span class="command">projects</span> for the full list.`
+    );
+  }
+
+  const pipelineSteps = project.pipeline
+    .map((step, index) => `  <span class="command">[${index + 1}]</span> ${step}`)
+    .join('<br>');
+
+  const demoLine = project.live
+    ? `Demo:   <a href="${project.live}" target="_blank" rel="noreferrer" class="link">${project.live}</a>`
+    : 'Demo:   coming soon';
+
+  return (
+    `<div class="skills-category-title">${project.name}</div>` +
+    `<i>${project.tagline}</i><br><br>` +
+    `<span class="command">Stack</span><br>${project.tech}<br><br>` +
+    `<span class="command">Pipeline</span><br>${pipelineSteps}<br><br>` +
+    `<span class="command">★</span> ${project.highlight}<br><br>` +
+    `GitHub: <a href="${project.github}" target="_blank" rel="noreferrer" class="link">${project.github}</a><br>` +
+    `${demoLine}`
+  );
 }
 
 function buildSkillsHtml() {
@@ -546,9 +508,10 @@ function buildContactHtml() {
 function buildSudoHireHtml() {
   return (
     `<div class="skills-category-title">sudo hire</div>` +
-    `<i>not the loudest in the room. just the one who already shipped it.</i><br><br>` +
-    `Strong foundation in systems (free-list allocator in C compiled to WASM, thread scheduler, shell interpreter — see <span class="command">sys --alloc</span>, <span class="command">sys --shell</span>, <span class="command">sys --threads</span>).<br>` +
-    `Heavy ML/AI background with production experience at Pennant. Semantic search, vector DBs, agentic systems, RPA.<br><br>` +
+    `MS in Computer Science, Rutgers (Jan 2026). Background in AI/ML engineering with production experience across data pipelines, agentic systems, and systems programming.<br><br>` +
+    `Built: free-list allocator in C → WASM (Emscripten, STANDALONE_WASM, static heap, ~10ns/op). Production Airflow + dbt + FastAPI data pipeline. 4-stage agentic venue discovery system. 5-agent parallel contract analysis pipeline.<br><br>` +
+    `Open to: SWE · AI Engineering · Data Engineering · ML Engineering<br>` +
+    `Location: San Jose, CA — open to remote<br><br>` +
     `Resume: <a href="${RESUME_URL}" target="_blank" rel="noreferrer" class="link">PujaSridhar_Resume.pdf</a><br>` +
     `Calendly: <a href="${CALENDLY_URL}" target="_blank" rel="noreferrer" class="link">Book time with me</a>`
   );
@@ -558,8 +521,6 @@ function buildAllHtml() {
   return [
     buildAboutHtml(),
     buildLogHtml(),
-    buildDiffHtml(),
-    buildPatchNotesHtml(),
     buildVersionHtml(),
     buildEducationHtml(),
     buildExperienceHtml(),
@@ -575,6 +536,10 @@ function buildAllHtml() {
 }
 
 export function getCommandEntries(command) {
+  if (command.startsWith('projects ')) {
+    return [makeOutputEntry(buildProjectDetailHtml(command.slice('projects '.length).trim()))];
+  }
+
   switch (command) {
     case 'cogsworth --version':
       return [makeOutputEntry(buildVersionHtml())];
@@ -589,10 +554,6 @@ export function getCommandEntries(command) {
             `Run <span class="command">diagnostics</span> or <span class="command">sys --status</span> in the terminal for live runtime stats.`
         ),
       ];
-    case 'diff':
-      return [makeOutputEntry(buildDiffHtml())];
-    case 'patch notes':
-      return [makeOutputEntry(buildPatchNotesHtml())];
     case 'help':
       return [makeOutputEntry(buildHelpHtml())];
     case 'about':
@@ -605,6 +566,16 @@ export function getCommandEntries(command) {
       return [makeOutputEntry(buildExperienceHtml())];
     case 'projects':
       return [makeOutputEntry(buildProjectsHtml())];
+    case 'projects posthog':
+      return [makeOutputEntry(buildProjectDetailHtml('posthog'))];
+    case 'projects locallens':
+      return [makeOutputEntry(buildProjectDetailHtml('locallens'))];
+    case 'projects lexai':
+      return [makeOutputEntry(buildProjectDetailHtml('lexai'))];
+    case 'projects neighborhood-watch':
+      return [makeOutputEntry(buildProjectDetailHtml('neighborhood-watch'))];
+    case 'projects smart-doc-finder':
+      return [makeOutputEntry(buildProjectDetailHtml('smart-doc-finder'))];
     case 'skills':
       return [makeOutputEntry(buildSkillsHtml())];
     case 'languages':

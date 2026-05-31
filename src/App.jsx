@@ -352,6 +352,8 @@ export default function App() {
 
     if (/^sys(?:\s|$)/.test(normalizedFullInput)) {
       commandEntries = handleSysCommand(normalizedFullInput.slice(3).trim());
+    } else if (/^projects(?:\s|$)/.test(normalizedFullInput)) {
+      commandEntries = getCommandEntries(normalizedFullInput);
     } else if (normalizedInput === 'man') {
       const joinedSubject = args.join(' ').trim().toLowerCase();
       const subject = joinedSubject || args[0]?.toLowerCase();
@@ -451,6 +453,31 @@ export default function App() {
           setTerminalHistory((previous) => [
             ...previous,
             makeOutputEntry(subjectMatches.map((option) => `<span class="command">${option}</span>`).join('&nbsp;&nbsp;')),
+          ]);
+        }
+        return;
+      }
+
+      if (commandToken === 'projects') {
+        const projectNames = ['posthog', 'locallens', 'lexai', 'neighborhood-watch', 'smart-doc-finder'];
+        const subjectInput = args.join(' ').trim().toLowerCase();
+
+        if (!subjectInput) {
+          setInputValue('projects ');
+          return;
+        }
+
+        const subjectMatches = projectNames.filter((name) => name.startsWith(subjectInput));
+
+        if (subjectMatches.length === 1) {
+          setInputValue(`projects ${subjectMatches[0]}`);
+        } else if (subjectMatches.length > 1) {
+          setInputValue(`projects ${getSharedPrefix(subjectMatches)}`);
+          setTerminalHistory((previous) => [
+            ...previous,
+            makeOutputEntry(
+              subjectMatches.map((name) => `<span class="command">projects ${name}</span>`).join('&nbsp;&nbsp;')
+            ),
           ]);
         }
         return;

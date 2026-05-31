@@ -174,11 +174,14 @@ export const COMMAND_NAMES = [
   'man',
   'about',
   'log',
-  'diff',
-  'patch notes',
   'education',
   'experience',
   'projects',
+  'projects posthog',
+  'projects locallens',
+  'projects lexai',
+  'projects neighborhood-watch',
+  'projects smart-doc-finder',
   'skills',
   'languages',
   'certifications',
@@ -276,9 +279,12 @@ export const COMMAND_MANUALS = {
     description: 'Lists internships, teaching roles, and day-to-day impact across positions.',
   },
   projects: {
-    summary: 'Show featured projects.',
-    usage: 'projects',
-    description: 'Prints selected projects, tech stacks, and links to source material.',
+    summary: 'List all featured projects with live demos.',
+    usage: 'projects [name]',
+    description:
+      'Without an argument, shows all five projects with one-line descriptions and links. ' +
+      'With a name, shows the full deep-dive: stack, pipeline, GitHub, and live demo. ' +
+      'Names: posthog, locallens, lexai, neighborhood-watch, smart-doc-finder',
   },
   skills: {
     summary: 'Show technical skill categories.',
