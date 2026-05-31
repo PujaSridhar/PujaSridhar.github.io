@@ -23,10 +23,12 @@ export function getBootEntry() {
   }
 
   return makeOutputEntry(
-    `Initializing Cogsworth v25.0.0...<br>` +
-      `System check: OK.<br><br>` +
-      `I am Cogsworth, the AI assistant for Puja Sridhar's portfolio.<br>` +
-      `Type <span class='command'>'help'</span> for commands, or ask me anything about her work.`
+    `Initializing Cogsworth v1.0...<br>` +
+    `Channeling legacy of Babbage, Lovelace, Turing... OK.<br>` +
+    `Parsing lineage of data... OK.<br>` +
+    `Protocol established. Welcome.<br><br>` +
+    `I am Cogsworth, an AI built to present the work of Puja Sridhar.<br>` +
+    `Type <span class="command">'help'</span> for a list of commands, or ask me a question in plain English.`
   );
 }
 
@@ -200,8 +202,14 @@ export function buildDiagnosticsHtml(stats) {
 
 function buildLogHtml() {
   return (
-    `<div class="skills-category-title">[SYSTEM LOG] Puja Sridhar - Career &amp; Life Events</div>` +
-    `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    `<div class="skills-category-title">[SYSTEM LOG] Puja Sridhar - Career &amp; Life Events</div><pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<span class="command">[2001-06-28]</span> BOOT        Initialized. Location: Pondicherry, India.
+
+<span class="command">[2003]</span>       MIGRATED    Bangalore. Age 2. Didn't choose it.
+                         Grew up on gojju avalaki, pineapple gojju,
+                         mudde saru, and the kind of Bangalore sweet
+                         sambar that ruins all other sambar forever.    
 
 <span class="command">[2019-09-01]</span> ENROLLED    B.E. in Computer Science. Bangalore.
 
@@ -229,6 +237,17 @@ function buildLogHtml() {
 
 <span class="command">[2026-06-28]</span> UPGRADING   v25.0.0 live.
                          Status: actively seeking first full-time role.
+
+<span class="command">[ACTIVE PROCESSES]</span>
+◉ Biking           — wind in hair, zero traffic excuses
+◉ Chess            — I will out-think you and be nice about it
+◉ Baking           — the only pipeline I tune by smell
+◉ Cooking          — Karnataka base. pineapple gojju on a Tuesday. no rules.
+◉ Ultimate Frisbee — I take it seriously. you've been warned.
+◉ Basketball       — chaos on the court, structured off it
+◉ Painting         — the original no-code project
+◉ Embroidery       — precision work. patience loaded.
+◉ Gardening        — I grow things. plants and codebases.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
   );
