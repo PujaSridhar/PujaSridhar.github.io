@@ -1,5 +1,5 @@
 export const portfolioData = {
-    about: `I’ve always been fascinated by puzzles, and to me, intelligence itself is the most interesting puzzle of all. That curiosity led me to pursue a Bachelor’s degree in Artificial Intelligence and Machine Learning in India, and later a Master’s in Computer Science at Rutgers University, where I deepened my foundation in AI systems, adaptive learning, and large-scale problem solving.\n\nSince then, I’ve focused on building practical systems that are useful in the real world, from AI product features and semantic search tools to teaching, mentoring, and translating complex ideas into something people can actually use. Now based in San Jose, I’m looking for roles where I can keep building at the intersection of AI, software engineering, and data. I’m a builder at heart, energized by hard problems, collaborative teams, and the chance to ship work that matters.`,
+    about: `MS in Computer Science from Rutgers (Jan 2026), undergraduate in AI/ML Engineering. I build end-to-end systems across the full stack — from free-list allocators in C compiled to WebAssembly, to production data pipelines with Airflow and dbt, to multi-agent AI applications.\n\nMy work tends to sit at the intersection of AI and infrastructure: making intelligent systems that actually run reliably in production, not just in notebooks. I care about the decisions underneath the code — why a static heap instead of mmap, why parallel agents instead of sequential, why Redis does three jobs instead of one.\n\nBased in San Jose, CA. Open to SWE, AI Engineering, Data Engineering, and ML Engineering roles.`,
     education: [
         { school: "Rutgers University, The State University of New Jersey", degree: "Masters of Science in Computer Science", details: "Graduated Jan 2026 | GPA: 3.8/4.0" },
         { school: "BMS Institute of Technology and Management, India", degree: "Bachelor of Engineering in Artificial Intelligence and Machine Learning", details: "Graduated May 2023 | GPA: 8.64/10.0" }
@@ -177,11 +177,13 @@ export const portfolioData = {
     ],
     contact: { email: "pujasridhar28@gmail.com", linkedin: "https://www.linkedin.com/in/pujasridhar/", github: "https://github.com/pujasridhar" },
     skills: {
-        "Languages": ["Python", "MATLAB", "SQL"],
-        "AI & Machine Learning": ["Deep Learning", "NLP", "Computer Vision", "Data Science", "Business Intelligence", "Robotics Process Automation"],
-        "Data & Cloud": ["AWS (Lambda, EC2, S3, DynamoDB)", "Digital Ocean", "Data Lakes", "Lakehouse", "Data Warehouse"],
-        "Tools & Frameworks": ["TensorFlow", "Keras", "Flask", "Pygame", "Tableau", "UiPath", "Moodle", "SPSS", "Android Studio", "Mujoco Sim", "Git"],
-        "Soft Skills": ["Leadership", "Communication", "Project Management", "Financial Planning", "Mentorship", "Problem-Solving"]
+        "Languages": ["Python", "C", "SQL", "JavaScript", "Bash"],
+        "AI & ML": ["LLMs", "Agentic Pipelines", "NLP", "Computer Vision", "Deep Learning", "Transformers", "RAG", "Vector Search", "Prompt Engineering"],
+        "Data Engineering": ["Apache Airflow", "dbt", "PostgreSQL", "Redis", "MongoDB", "Pinecone", "ETL/ELT", "Data Modeling", "Medallion Architecture"],
+        "Systems": ["WebAssembly", "Emscripten", "Memory Allocators", "C Systems Programming", "WASM ABI"],
+        "Web & API": ["FastAPI", "Flask", "React", "Vite", "Vercel Serverless", "REST APIs"],
+        "Cloud & Infra": ["AWS (Lambda, EC2, S3, DynamoDB)", "Docker", "GitHub Actions", "CI/CD"],
+        "Tools": ["Git", "UiPath", "Tableau", "TensorFlow", "Keras", "Scikit-learn"]
     },
     languages: [
         { lang: "English", proficiency: "Native / Bilingual" },

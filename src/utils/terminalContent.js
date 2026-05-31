@@ -517,11 +517,92 @@ function buildSudoHireHtml() {
   );
 }
 
+function buildDecisionsHtml() {
+  return (
+    `<div class="skills-category-title">Engineering Decisions</div>` +
+    `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+These are real tradeoffs made during implementation.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<span class="command">[1] WASM allocator: static heap instead of mmap</span>
+
+    WASM has no virtual memory. mmap doesn't exist in a
+    STANDALONE_WASM build without POSIX emulation.
+    Options: use Emscripten's full JS glue (adds ~100KB, requires
+    a loader), or back the free-list with a static char array.
+    Chose static array — same free-list semantics, zero runtime
+    dependencies, loads directly with WebAssembly.instantiateStreaming.
+    Tradeoff: fixed 1MB ceiling. Acceptable for a demo allocator;
+    a production allocator would need a growth strategy.
+
+<span class="command">[2] WASM build: STANDALONE_WASM + --no-entry vs default Emscripten</span>
+
+    Default Emscripten output is a .wasm + .js glue pair.
+    The JS glue handles memory setup, imports, and exports but
+    adds a loading dependency that breaks on GitHub Pages without
+    extra Vite config. STANDALONE_WASM=1 + --no-entry produces a
+    single .wasm file with no JS glue. The JS side handles
+    WebAssembly.instantiateStreaming directly, with a fallback to
+    ArrayBuffer instantiation for browsers that block streaming.
+    Tradeoff: manual memory pointer arithmetic in JS, but full
+    control and zero extra files in the build.
+
+<span class="command">[3] WASM timing: performance.now() on JS side, not clock_gettime in C</span>
+
+    clock_gettime is a POSIX syscall. In STANDALONE_WASM it's
+    either unavailable or requires a WASI import that adds
+    complexity. performance.now() in the browser has sub-ms
+    resolution and is available without any WASM imports.
+    The benchmark function returns op count, not elapsed time —
+    JS divides elapsed ms by ops to get ns/op. This is actually
+    more accurate than in-WASM timing because it measures the
+    full round-trip including JS→WASM call overhead.
+
+<span class="command">[4] Airflow DAG: trigger_rule="all_done" on log task</span>
+
+    Default Airflow trigger rule is "all_success" — if any
+    upstream task fails, downstream tasks are skipped. For the
+    pipeline_run logging task, skipping on failure is the worst
+    outcome: you lose the failure record entirely. trigger_rule=
+    "all_done" fires regardless of upstream state, so every run
+    (success or partial failure) gets logged with accurate status
+    and error details. The log task itself reads XCom counts and
+    task states to determine final status.
+
+<span class="command">[5] PostHog API: SQL in FastAPI vs reading from dbt mart tables</span>
+
+    Two options: run ad-hoc SQL in FastAPI endpoints (flexible,
+    no dbt dependency at query time), or read from pre-computed
+    mart tables (fast reads, complexity in dbt layer).
+    Used both deliberately. /api/leaderboard reads from raw schema
+    with its own CTEs because it needs time-window filtering
+    (?days=) that dbt's static tables don't support. The dbt mart
+    tables (fct_engineer_impact) exist for the base case and as
+    the source of truth for the impact formula. Redis caches both
+    paths with SHA-256 keyed cache entries so the time-window
+    params are part of the cache key.
+
+<span class="command">[6] LexAI: parallel agent execution for stages 3+4</span>
+
+    Sequential 5-agent pipeline would serialize all API calls.
+    Clause analysis and red flag detection are independent —
+    neither needs the other's output. Running them in parallel
+    against Gemini cuts wall-clock time by roughly the duration
+    of one of those calls. The Negotiation agent (stage 5) needs
+    both outputs, so it waits on the parallel pair. This is a
+    fork-join pattern: fan out where dependencies allow, rejoin
+    before the next dependent stage.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
+  );
+}
+
 function buildAllHtml() {
   return [
     buildAboutHtml(),
     buildLogHtml(),
     buildVersionHtml(),
+    buildDecisionsHtml(),
     buildEducationHtml(),
     buildExperienceHtml(),
     buildProjectsHtml(),
@@ -594,6 +675,8 @@ export function getCommandEntries(command) {
       return [makeOutputEntry(`<div class="ascii-art">${portfolioData.creatorArt}</div>`)];
     case 'sudo hire':
       return [makeOutputEntry(buildSudoHireHtml())];
+    case 'decisions':
+      return [makeOutputEntry(buildDecisionsHtml())];
     case 'all':
       return [makeOutputEntry(buildAllHtml())];
     case 'clear':

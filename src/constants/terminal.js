@@ -191,6 +191,7 @@ export const COMMAND_NAMES = [
   'contact',
   'creator',
   'sudo hire',
+  'decisions',
   'all',
   'clear',
 ];
@@ -330,6 +331,12 @@ export const COMMAND_MANUALS = {
     summary: 'Print the strongest quick case for hiring Puja.',
     usage: 'sudo hire',
     description: 'Outputs a concise hiring pitch with resume and scheduling links.',
+  },
+  decisions: {
+    summary: 'Show real engineering tradeoffs behind the work.',
+    usage: 'decisions',
+    description:
+      'Six concrete implementation decisions with alternatives considered and tradeoffs made — WASM constraints, Airflow task design, parallel agent execution, caching strategy.',
   },
   all: {
     summary: 'Print all portfolio sections in sequence.',

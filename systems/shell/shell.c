@@ -244,7 +244,7 @@ void init_shell(void) {
   snprintf(cwd, sizeof(cwd), "/");
 
   set_file("README.md", "Puja's systems sandbox\n- sys --alloc\n- sys --shell\n- sys --threads");
-  set_file("allocator.txt", "Allocator notes\n* mmap-backed blocks\n* split and coalesce");
+  set_file("allocator.txt", "Allocator notes\n* static heap backing (1MB)\n* split and coalesce\n* 8-byte alignment\n* ~10ns/op in WASM");
   set_file("projects.txt", "Projects\n1. Cogsworth\n2. Smart Document Finder\n3. Pennant AI features");
 }
 
