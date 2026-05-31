@@ -212,26 +212,32 @@ function buildLogHtml() {
                          sambar that ruins all other sambar forever.    
 
 <span class="command">[2019-09-01]</span> ENROLLED    B.E. in Computer Science. Bangalore.
+                         First line of code. First all-nighter.
+                         First "why does this work, I changed nothing."
 
 <span class="command">[2023-02-01]</span> DEPLOYED    AI Co-pilot Developer @ HumanFractal.ai, Resolute
-
-<span class="command">[2023-05-31]</span> SUCCESS     Built AI co-pilot systems that actually worked.
                          Shipped to production.
 
+<span class="command">[2023-05-31]</span> SUCCESS     Built AI co-pilot systems that actually worked.
+                         Shipped to production. Then shipped myself out.
+
 <span class="command">[2024-01-01]</span> MIGRATED    New Brunswick, NJ, USA. Masters in CS @ Rutgers.
+                         Left behind the weather I liked.
+                         Brought the work ethic.
 
 <span class="command">[2024-09-01]</span> TEACHING    Graduate Teaching Assistant @ Rutgers
                          OOP — 60 students
                          Data Management &amp; Curation — 30 students
                          Intro to AI — 60 students
 
-<span class="command">[2025-01-15]</span> MILESTONE   MS in Computer Science. Conferred. Done.
-
+                         
 <span class="command">[2025-07-01]</span> DEPLOYED    AI Engineering Intern @ Pennant Education
-
+                         
 <span class="command">[2025-09-30]</span> COMPLETE    Shipped AI features that went into real hands.
-
+                         
 <span class="command">[2025-12-01]</span> CLOSED      TA role complete. 150 students, done.
+
+<span class="command">[2026-01-06]</span> MILESTONE   MS in Computer Science. Conferred. Done.
 
 <span class="command">[2026-06-01]</span> MIGRATED    San Jose, CA. Already here.
 
@@ -243,7 +249,7 @@ function buildLogHtml() {
 ◉ Chess            — I will out-think you and be nice about it
 ◉ Baking           — the only pipeline I tune by smell
 ◉ Cooking          — Karnataka base. pineapple gojju on a Tuesday. no rules.
-◉ Ultimate Frisbee — I take it seriously. you've been warned.
+◉ Ultimate Frisbee — surprisingly aggressive for my height
 ◉ Basketball       — chaos on the court, structured off it
 ◉ Painting         — the original no-code project
 ◉ Embroidery       — precision work. patience loaded.
