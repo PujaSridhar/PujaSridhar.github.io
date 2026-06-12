@@ -31,17 +31,6 @@ export function ThreadDemo({ onExit }) {
   const [tickCount, setTickCount] = useState(0);
   const tickIntervalRef = useRef(null);
 
-  function handleIntroduceDeadlock() {
-    setIsRunning(false);
-    setThreads((prev) =>
-      prev.map((t) => {
-        if (t.id === 'A') return { ...t, blockedBy: 'B', state: 'BLOCKED' };
-        if (t.id === 'B') return { ...t, blockedBy: 'A', state: 'BLOCKED' };
-        return t;
-      })
-    );
-  }
-
   function handleKeyDown(event) {
     if (event.key === 'Escape') {
       event.preventDefault();

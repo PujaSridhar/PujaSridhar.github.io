@@ -163,6 +163,8 @@ export const COMMAND_NAMES = [
   'cogsworth --version',
   'availability',
   'download resume',
+  'diff',
+  'patch notes',
   'sys --alloc',
   'sys --threads',
   'sys --shell',
@@ -189,6 +191,7 @@ export const COMMAND_NAMES = [
   'leadership',
   'resume',
   'contact',
+  'contact --schedule',
   'creator',
   'sudo hire',
   'decisions',
@@ -211,6 +214,16 @@ export const COMMAND_MANUALS = {
     summary: 'Download the resume PDF without leaving the terminal.',
     usage: 'download resume',
     description: 'Triggers a browser download for the latest resume and prints the direct file link.',
+  },
+  diff: {
+    summary: 'Show what changed between the last two release markers.',
+    usage: 'diff',
+    description: 'Summarizes the visible changes between v24 and v25 in plain English.',
+  },
+  'patch notes': {
+    summary: 'Show the v25 release notes.',
+    usage: 'patch notes',
+    description: 'Lists the v25.0.0 release notes, including the main upgrades and the known footguns.',
   },
   'sys --alloc': {
     summary: 'Preview allocator benchmark work.',
@@ -321,6 +334,11 @@ export const COMMAND_MANUALS = {
     summary: 'Show contact links.',
     usage: 'contact',
     description: 'Prints email, LinkedIn, and GitHub contact paths.',
+  },
+  'contact --schedule': {
+    summary: 'Open the scheduling link directly.',
+    usage: 'contact --schedule',
+    description: 'Shows the Calendly link so recruiters can book time without hunting for it.',
   },
   creator: {
     summary: 'Show the signature ASCII creator card.',

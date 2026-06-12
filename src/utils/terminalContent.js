@@ -3,25 +3,6 @@ import { CALENDLY_URL, COMMAND_MANUALS, COMMAND_NAMES, EMAIL_HREF, RESUME_URL, T
 import { formatBreaks, makeOutputEntry } from './terminalHelpers.js';
 
 export function getBootEntry() {
-  const today = new Date();
-  const isBirthday = today.getFullYear() === 2026 && today.getMonth() === 5 && today.getDate() === 28;
-
-  if (isBirthday) {
-    return makeOutputEntry(
-      `<span style="color:var(--color-accent);">Initializing Cogsworth v25.0.0...</span><br>` +
-        `<span style="color:var(--color-accent);">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span><br>` +
-        `DEPLOYMENT SUCCESSFUL.<br>` +
-        `Version 25.0.0 is now live.<br>` +
-        `Operator uptime: 25 years. Systems nominal.<br><br>` +
-        `<span style="color:var(--color-accent);">◉ Channeling legacy of Babbage, Lovelace, Turing... OK.</span><br>` +
-        `<span style="color:var(--color-accent);">◉ Loading Quarter Century Deploy... OK.</span><br>` +
-        `<span style="color:var(--color-accent);">◉ Deprecated: imposter_syndrome.exe... REMOVED.</span><br>` +
-        `<span style="color:var(--color-accent);">◉ Initializing san_jose.env... ACTIVE.</span><br><br>` +
-        `Protocol established. Welcome to v25.<br><br>` +
-        `I am Cogsworth. Type <span class="command">'help'</span> for all commands.`
-    );
-  }
-
   return makeOutputEntry(
     `Initializing Cogsworth v1.0...<br>` +
     `Channeling legacy of Babbage, Lovelace, Turing... OK.<br>` +
@@ -260,18 +241,11 @@ function buildLogHtml() {
 }
 
 function buildVersionHtml() {
-  const launch = new Date('2026-06-28');
-  const now = new Date();
-  const days = Math.max(0, Math.floor((now - launch) / (1000 * 60 * 60 * 24)));
-  const uptime = days === 0 ? '25 years, 0 days' : `25 years, ${days} days`;
-
   return (
     `<div class="skills-category-title">COGSWORTH PROTOCOL - System Version</div>` +
     `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   Version:        25.0.0
-  Release date:   June 28, 2026
-  Codename:       Quarter Century Deploy
   Status:         stable. took a minute. worth it.
 
   Operator:       Puja Sridhar
@@ -286,11 +260,10 @@ function buildVersionHtml() {
     <span style="color:var(--color-accent);">◉ Pushups                [NEW. non-negotiable.]</span>
     <span style="color:var(--color-accent);">◉ Caffeine independence  [somehow achieved]</span>
 
-  Uptime:         ${uptime}
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Type <span style="color:var(--color-accent);">'decisions'</span> to see the engineering tradeoffs behind the work.
-  Type <span style="color:var(--color-accent);">'sudo hire'</span> if you've already decided.
+  Type <span style="color:var(--color-accent);">'diff'</span> to compare v24 and v25.
+  Type <span style="color:var(--color-accent);">'patch notes'</span> for the release notes.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
   );
 }
@@ -526,7 +499,8 @@ function buildContactHtml() {
     `<div class="skills-category-title">Contact</div>` +
     `Email: <a href="${EMAIL_HREF}" class="link">${portfolioData.contact.email}</a><br>` +
     `LinkedIn: <a href="${portfolioData.contact.linkedin}" class="link">${portfolioData.contact.linkedin}</a><br>` +
-    `GitHub: <a href="${portfolioData.contact.github}" class="link">${portfolioData.contact.github}</a>`
+    `GitHub: <a href="${portfolioData.contact.github}" class="link">${portfolioData.contact.github}</a><br>` +
+    `Schedule: <a href="${CALENDLY_URL}" target="_blank" rel="noreferrer" class="link">${CALENDLY_URL}</a>`
   );
 }
 
@@ -534,11 +508,34 @@ function buildSudoHireHtml() {
   return (
     `<div class="skills-category-title">sudo hire</div>` +
     `MS in Computer Science, Rutgers (Jan 2026). Background in AI/ML engineering with production experience across data pipelines, agentic systems, and systems programming.<br><br>` +
-    `Built: free-list allocator in C → WASM (Emscripten, STANDALONE_WASM, static heap, ~10ns/op). Production Airflow + dbt + FastAPI data pipeline. 4-stage agentic venue discovery system. 5-agent parallel contract analysis pipeline.<br><br>` +
+    `Built: free-list allocator in C → WASM (Emscripten, STANDALONE_WASM, static heap). Production Airflow + dbt + FastAPI data pipeline. 4-stage agentic venue discovery system. 5-agent parallel contract analysis pipeline.<br><br>` +
     `Open to: SWE · AI Engineering · Data Engineering · ML Engineering<br>` +
     `Location: San Jose, CA — open to remote<br><br>` +
     `Resume: <a href="${RESUME_URL}" target="_blank" rel="noreferrer" class="link">PujaSridhar_Resume.pdf</a><br>` +
     `Calendly: <a href="${CALENDLY_URL}" target="_blank" rel="noreferrer" class="link">Book time with me</a>`
+  );
+}
+
+function buildDiffHtml() {
+  return (
+    `<div class="skills-category-title">Diff</div>` +
+    `At 24, I was optimizing for proof. At 25, I’m optimizing for clarity. The work is still ambitious, but now I care more about what a stranger can trust in the first thirty seconds than what sounds impressive on a slide. That change made the portfolio feel quieter, more honest, and a lot more like me.`
+  );
+}
+
+function buildPatchNotesHtml() {
+  return (
+    `<div class="skills-category-title">v25.0.0 Patch Notes</div>` +
+    `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+v25.0.0 — Quarter Century Deploy (June 28, 2026)
+  ADDED:   san_jose.env — relocated cross-country
+  ADDED:   WASM systems demos — proof of low-level work
+  ADDED:   RAG pipeline on Cogsworth — grounded AI, not hallucination
+  REMOVED: imposter_syndrome.exe — deprecated after 25 years of evidence
+  KNOWN BUGS: still makes chai too strong
+              occasionally over-engineers the solution
+              cannot stop adding features to this portfolio
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
   );
 }
 
@@ -651,6 +648,10 @@ export function getCommandEntries(command) {
       return [makeOutputEntry(buildVersionHtml())];
     case 'availability':
       return [makeOutputEntry(buildAvailabilityHtml())];
+    case 'diff':
+      return [makeOutputEntry(buildDiffHtml())];
+    case 'patch notes':
+      return [makeOutputEntry(buildPatchNotesHtml())];
     case 'sys --help':
       return [makeOutputEntry(buildSysHelpHtml())];
     case 'diagnostics':
@@ -696,6 +697,13 @@ export function getCommandEntries(command) {
       return [makeOutputEntry(buildResumeHtml())];
     case 'contact':
       return [makeOutputEntry(buildContactHtml())];
+    case 'contact --schedule':
+      return [
+        makeOutputEntry(
+          `<div class="skills-category-title">Schedule</div>` +
+            `Book time here: <a href="${CALENDLY_URL}" target="_blank" rel="noreferrer" class="link">${CALENDLY_URL}</a>`
+        ),
+      ];
     case 'creator':
       return [makeOutputEntry(`<div class="ascii-art">${portfolioData.creatorArt}</div>`)];
     case 'sudo hire':

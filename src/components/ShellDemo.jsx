@@ -4,7 +4,7 @@ const PROMPT = 'puja@portfolio:~$';
 
 const SEEDED_FILES = {
   'README.md': `Puja's systems sandbox
-- sys --alloc: free-list allocator on mmap
+- sys --alloc: free-list allocator on a static heap
 - sys --shell: virtual shell inside the portfolio
 - sys --threads: concurrency demo loading next`,
   'allocator.txt': `Allocator notes

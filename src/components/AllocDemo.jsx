@@ -139,22 +139,22 @@ export function AllocDemo() {
     );
   }
 
-function runAllocatorBenchmark(iterations) {
-  const wasmExports = wasmExportsRef.current;
-  const wasmRunner = wasmExports?.run_benchmark || wasmExports?._run_benchmark;
+  function runAllocatorBenchmark(iterations) {
+    const wasmExports = wasmExportsRef.current;
+    const wasmRunner = wasmExports?.run_benchmark || wasmExports?._run_benchmark;
 
-  if (typeof wasmRunner !== 'function') return null;
+    if (typeof wasmRunner !== 'function') return null;
 
-  const jsBaseline = measureJsBaseline(iterations);
-  const start = performance.now();
-  const opsCompleted = wasmRunner(iterations);
-  const elapsedMs = performance.now() - start;
+    const jsBaseline = measureJsBaseline(iterations);
+    const start = performance.now();
+    const opsCompleted = wasmRunner(iterations);
+    const elapsedMs = performance.now() - start;
 
-  if (!opsCompleted || opsCompleted <= 0) return { allocatorNs: null, jsBaselineNs: jsBaseline };
+    if (!opsCompleted || opsCompleted <= 0) return { allocatorNs: null, jsBaselineNs: jsBaseline };
 
-  const nsPerOp = Math.round((elapsedMs * 1_000_000) / opsCompleted);
-  return { allocatorNs: nsPerOp, jsBaselineNs: jsBaseline };
-}
+    const nsPerOp = Math.round((elapsedMs * 1_000_000) / opsCompleted);
+    return { allocatorNs: nsPerOp, jsBaselineNs: jsBaseline };
+  }
 
   function handleRunBenchmark() {
     if (isRunning) {
@@ -189,7 +189,7 @@ function runAllocatorBenchmark(iterations) {
     <div className="alloc-demo">
       <div className="skills-category-title">sys --alloc</div>
       <p className="alloc-demo-copy">
-        Built a free-list allocator in C: block splitting, coalescing, 8-byte alignment, backed by a static heap. Compiled to WASM with Emscripten. Runs at ~10ns/op across 1M allocations ~25x faster than a JS Uint8Array baseline.
+        Built a free-list allocator in C: block splitting, coalescing, 8-byte alignment, backed by a static heap. Compiled to WASM with Emscripten. Run the benchmark to measure current timings against a JS Uint8Array baseline.
       </p>
       <div className="alloc-demo-status">{status}</div>
 

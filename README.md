@@ -12,7 +12,7 @@
 
 This is my personal portfolio — built as a fully interactive terminal with an AI assistant named **Cogsworth**. Instead of a static page with a PDF link, you get a shell-like experience where you can run commands, ask questions in plain English, switch colour themes, and read my career history formatted as a deployment log.
 
-Type `help` to see what's available. Type `sudo hire` if you've already seen enough.
+Type `help` to see what's available. Type `diff` or `patch notes` if you want the release story first.
 
 ---
 
