@@ -125,7 +125,6 @@ void* my_realloc(void* ptr, size_t size) {
   if (replacement == NULL) return NULL;
   memcpy(replacement, ptr, block->size);
   my_free(ptr);
-  alloc_counter += 1UL;
   return replacement;
 }
 
@@ -137,6 +136,10 @@ void* my_realloc(void* ptr, size_t size) {
 EMSCRIPTEN_KEEPALIVE
 double run_benchmark(int iterations) {
   if (iterations <= 0) return 0.0;
+
+  /* Start each run from a clean heap so repeated runs don't drift. */
+  heap_used = 0;
+  free_list_head = NULL;
 
   const size_t sizes[]    = { 8U, 256U, 4096U };
   const size_t size_count = 3U;
@@ -161,10 +164,4 @@ unsigned long get_alloc_counter(void) {
 EMSCRIPTEN_KEEPALIVE
 void reset_alloc_counter(void) {
   alloc_counter = 0UL;
-}
-
-/* kept for ABI compatibility — no-op in this build */
-EMSCRIPTEN_KEEPALIVE
-void set_js_baseline(double ns) {
-  (void)ns;
 }
