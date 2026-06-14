@@ -130,7 +130,7 @@ export const THEMES = {
       '--network-rgb': '255, 208, 96',
     },
   },
-  default: {
+  sepia: {
     name: 'Classic Sepia',
     light: {
       '--color-bg': '#F5EFE0',
@@ -184,6 +184,13 @@ export const COMMAND_NAMES = [
   'projects lexai',
   'projects neighborhood-watch',
   'projects smart-doc-finder',
+  'projects systems-sandbox',
+  'projects ai-rescue-bot',
+  'projects algo-transform',
+  'projects health-misinfo',
+  'projects emotion-detection',
+  'projects sentiment-analysis',
+  'projects fraud-detection',
   'skills',
   'languages',
   'certifications',
@@ -197,6 +204,29 @@ export const COMMAND_NAMES = [
   'decisions',
   'all',
   'clear',
+];
+
+export const COMMAND_GROUPS = [
+  {
+    title: 'About this site',
+    commands: ['cogsworth --version', 'diff', 'patch notes', 'decisions', 'diagnostics', 'theme --list', 'creator'],
+  },
+  {
+    title: 'Portfolio',
+    commands: ['about', 'experience', 'education', 'projects', 'skills', 'languages', 'certifications', 'talks', 'leadership'],
+  },
+  {
+    title: 'Systems demos',
+    commands: ['sys --alloc', 'sys --threads', 'sys --shell', 'sys --status'],
+  },
+  {
+    title: 'Contact & hiring',
+    commands: ['contact', 'contact --schedule', 'availability', 'resume', 'download resume', 'sudo hire'],
+  },
+  {
+    title: 'Terminal',
+    commands: ['help', 'man', 'log', 'all', 'clear'],
+  },
 ];
 
 export const COMMAND_MANUALS = {
@@ -224,6 +254,11 @@ export const COMMAND_MANUALS = {
     summary: 'Show the v25 release notes.',
     usage: 'patch notes',
     description: 'Lists the v25.0.0 release notes, including the main upgrades and the known footguns.',
+  },
+  sys: {
+    summary: 'List available sys namespace commands.',
+    usage: 'sys --help',
+    description: 'Shows the supported systems-portfolio subcommands and what each one demonstrates. Equivalent to sys --help.',
   },
   'sys --alloc': {
     summary: 'Preview allocator benchmark work.',

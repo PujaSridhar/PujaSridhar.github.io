@@ -108,6 +108,14 @@ npm run dev
 
 Vite proxies `/api/*` requests to the deployed Vercel backend during local development so you don't need to run `vercel dev` separately.
 
+Prebuilt `.wasm` binaries for the systems demos (`sys --alloc`, `sys --shell`) are committed under `public/wasm/`, so they work out of the box. If you change the C sources under `systems/`, rebuild them with:
+
+```bash
+npm run build:wasm
+```
+
+This requires Emscripten (`emcc`) to be installed and on your `PATH`.
+
 ### Build and preview
 
 ```bash

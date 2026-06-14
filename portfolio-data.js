@@ -1,5 +1,5 @@
 export const portfolioData = {
-    about: `MS in Computer Science from Rutgers (Jan 2026), undergraduate in AI/ML Engineering. I build end-to-end systems across the full stack — from free-list allocators in C compiled to WebAssembly, to production data pipelines with Airflow and dbt, to multi-agent AI applications.\n\nMy work tends to sit at the intersection of AI and infrastructure: making intelligent systems that actually run reliably in production, not just in notebooks. I care about the decisions underneath the code — why a static heap instead of mmap, why parallel agents instead of sequential, why Redis does three jobs instead of one.\n\nBased in San Jose, CA. Open to SWE, AI Engineering, Data Engineering, and ML Engineering roles.`,
+    about: `MS in Computer Science from Rutgers (Jan 2026), B.E. in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management, India. I build end-to-end systems across the full stack — from free-list allocators in C compiled to WebAssembly, to production data pipelines with Airflow and dbt, to multi-agent AI applications.\n\nFeatured projects: PostHog Engineering Impact Dashboard (Airflow + dbt + FastAPI + Redis production pipeline), LocalLens (4-stage agentic vibe-first city discovery), LexAI (5-agent parallel contract analysis in 15–25s), AI Neighborhood Watch (community safety map with AI-generated two-voice podcast briefings), and Smart Doc Finder (Redis doing event streaming, vector search, and semantic cache simultaneously).\n\nMy work tends to sit at the intersection of AI and infrastructure: making intelligent systems that actually run reliably in production, not just in notebooks. I care about the decisions underneath the code — why a static heap instead of mmap, why parallel agents instead of sequential, why Redis does three jobs instead of one.\n\nBased in San Jose, CA. Open to SWE, AI Engineering, Data Engineering, and ML Engineering roles.`,
     education: [
         { school: "Rutgers University, The State University of New Jersey", degree: "Masters of Science in Computer Science", details: "Graduated Jan 2026 | GPA: 3.8/4.0" },
         { school: "BMS Institute of Technology and Management, India", degree: "Bachelor of Engineering in Artificial Intelligence and Machine Learning", details: "Graduated May 2023 | GPA: 8.64/10.0" }
@@ -10,10 +10,10 @@ export const portfolioData = {
             company: "Pennant Education",
             period: "July 2025 - September 2025",
             desc: [
-                "Developing and modularizing agentic RPA solutions using UiPath to create scalable tools for enterprise use.",
-                "Contributing to an AI-powered assessment platform featuring adaptive testing and dynamic learning recommendations.",
-                "Exploring the integration of AI and RPA to automate internal business workflows using platforms like Bitrix24 and Keap.",
-                "Leveraging IBM AI toolkits, including Watson, to build and enhance intelligent systems."
+                "Developed and modularized agentic RPA solutions using UiPath to create scalable tools for enterprise use.",
+                "Contributed to an AI-powered assessment platform featuring adaptive testing and dynamic learning recommendations.",
+                "Explored the integration of AI and RPA to automate internal business workflows using platforms like Bitrix24 and Keap.",
+                "Leveraged IBM AI toolkits, including Watson, to build and enhance intelligent systems."
             ]
         },
         {
@@ -69,7 +69,73 @@ export const portfolioData = {
     ],
     projects: [
         {
+            name: "PostHog Engineering Impact Dashboard",
+            slug: "posthog",
+            tech: "Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel",
+            date: "March 2026",
+            featured: true,
+            desc: [
+                "<strong>Problem:</strong> No unified view of engineering output across commits, PRs, reviews, and issues — no way to compare contributors or spot bottlenecks over time.",
+                "<strong>Action:</strong> Built a full production data pipeline: Airflow DAG extracts daily data from the GitHub REST API into PostgreSQL (bronze layer), dbt runs 6 models (4 staging views + 2 gold mart tables — fct_engineer_impact and fct_engineer_weekly_trends), FastAPI serves 4 endpoints, Redis caches all responses with 5-min TTL and X-Cache HIT/MISS headers, React dashboard renders leaderboard, trend charts, DNA score bars, and badge logic.",
+                "<strong>Result:</strong> End-to-end pipeline with custom impact score formula (PRs×8 + Changes Requested×4 + Reviews×3 + Issues×2 + Commits×1 + Approvals×1). Live at posthog-impact-dashboard-pujasridhar2001.vercel.app."
+            ],
+            url: "https://github.com/PujaSridhar/posthog-impact-dashboard"
+        },
+        {
+            name: "LocalLens",
+            slug: "locallens",
+            tech: "FastAPI · React · Groq · Google Places API · Foursquare · WalkScore",
+            date: "February 2026",
+            featured: true,
+            desc: [
+                "<strong>Problem:</strong> Map apps return category-based results — searching for 'cafe' gives you every coffee shop, not the cozy indie one with good wifi and no noise.",
+                "<strong>Action:</strong> Built a 4-stage agentic pipeline: Groq LLM parses natural language queries into structured intent (location, vibe, category) → Google Places API fetches live businesses → Foursquare + WalkScore add depth → Groq agent scores each venue against the vibe and generates a neighborhood snapshot. All live API calls, no static data.",
+                "<strong>Result:</strong> Vibe-first discovery app that returns ranked, curated shortlists with synthesized area summaries. Live at local-lens-six.vercel.app."
+            ],
+            url: "https://github.com/PujaSridhar/LocalLens"
+        },
+        {
+            name: "LexAI",
+            slug: "lexai",
+            tech: "Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js",
+            date: "January 2026",
+            featured: true,
+            desc: [
+                "<strong>Problem:</strong> Contract review requires a lawyer or hours of careful reading — most people sign without understanding what they're agreeing to.",
+                "<strong>Action:</strong> Built a 5-agent pipeline: Agent 1 classifies contract type → Agent 2 summarizes obligations → Agents 3 and 4 run in parallel (Clause Analyzer grades Fairness/Clarity/Completeness/Enforceability; Red Flag Detector hunts predatory terms) → Agent 5 generates counter-proposals with specific wording. API key proxied securely via Vercel serverless.",
+                "<strong>Result:</strong> Full contract analysis in 15–25 seconds. Parallel execution (stages 3+4) cuts wall-clock time by one full agent call. Live at lexai-gem.vercel.app."
+            ],
+            url: "https://github.com/PujaSridhar/Lexai"
+        },
+        {
+            name: "AI Neighborhood Watch",
+            slug: "neighborhood-watch",
+            tech: "Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub",
+            date: "December 2025",
+            featured: true,
+            desc: [
+                "<strong>Problem:</strong> Neighborhood safety reporting is fragmented — no shared map, no categorization, no way to get a quick audio briefing on what's happening nearby.",
+                "<strong>Action:</strong> Built a community platform where residents submit incident reports via a Leaflet map → Gemini auto-assigns structured safety categories → reports stored in PostgreSQL and rendered as color-coded map markers. Daily briefing pipeline: Gemini generates a two-character dialogue script (Ava + Mateo) → ElevenLabs synthesizes separate voice segments → pydub stitches them into a broadcast-ready MP3 with automatic single-voice fallback.",
+                "<strong>Result:</strong> Real-time community safety map with AI-generated daily audio briefings. Custom audio stitching pipeline with X-Podcast-Hosts header driving avatar display on the frontend. Live at ai-neighborhood-watch.vercel.app."
+            ],
+            url: "https://github.com/PujaSridhar/ai-neighborhood-watch"
+        },
+        {
+            name: "Smart Doc Finder",
+            slug: "smart-doc-finder",
+            tech: "Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker",
+            date: "August 2025",
+            featured: true,
+            desc: [
+                "<strong>Problem:</strong> Keyword search fails on large document sets — you need to remember exact phrasing, not just meaning.",
+                "<strong>Action:</strong> Built a semantic search system: Redis Streams monitors a document directory and catches uploads in real time → files >4MB are chunked into contextual blocks → each chunk embedded and stored in Redis Cloud Vector Search → MongoDB stores metadata → semantic cache checked first on each query (if similar prompt was recent, returns instantly) → otherwise queries are embedded, vector-matched in Redis, merged with MongoDB metadata, and returned as a ranked list.",
+                "<strong>Result:</strong> Redis doing 3 jobs simultaneously — event streaming, vector database, and semantic cache — all in one service. Natural language queries return semantically relevant results without keyword matching."
+            ],
+            url: "https://github.com/krshsl/smart-doc-finder"
+        },
+        {
             name: "Systems Sandbox (sys namespace)",
+            slug: "systems-sandbox",
             tech: "C, WebAssembly, Emscripten, React",
             date: "May 2026",
             desc: [
@@ -80,29 +146,8 @@ export const portfolioData = {
             url: "https://github.com/PujaSridhar/PujaSridhar.github.io"
         },
         {
-            name: "Smart Document Finder",
-            tech: "Python, Vector Databases, LLMs",
-            date: "August 2025",
-            desc: [
-                "<strong>Problem:</strong> Standard keyword search is often inefficient for finding specific information within large document sets.",
-                "<strong>Action:</strong> Developed an intelligent system using vector databases and LLMs to understand natural language queries and retrieve the most relevant document sections.",
-                "<strong>Result:</strong> Significantly improved search accuracy and user efficiency, allowing for contextual and semantic-based information retrieval rather than just keyword matching."
-            ],
-            url: "https://github.com/PujaSridhar/smart-doc-finder"
-        },
-        {
-            name: "Multilingual Health Misinformation Detection",
-            tech: "Python, NLP, Transformers",
-            date: "April 2025",
-            desc: [
-                "<strong>Problem:</strong> The rapid spread of health misinformation online poses a significant public health risk, especially across different languages and cultures.",
-                "<strong>Action:</strong> Built and trained a Transformer-based NLP model to identify and flag health-related misinformation with high accuracy across multiple languages.",
-                "<strong>Result:</strong> Created a robust system capable of addressing nuanced and culturally specific misinformation, contributing to a safer online information ecosystem."
-            ],
-            url: "https://github.com/PujaSridhar/Multilingual-Health-Misinformation-Detection"
-        },
-        {
             name: "AI Bot Rescue Mission",
+            slug: "ai-rescue-bot",
             tech: "Python, A-Star Algorithm, Heuristics",
             date: "March 2024",
             desc: [
@@ -114,6 +159,7 @@ export const portfolioData = {
         },
         {
             name: "Algorithmic Transformation (Independent Set to Clique)",
+            slug: "algo-transform",
             tech: "Python, NetworkX, Pandas, 3D Force Graph",
             date: "May 2024",
             desc: [
@@ -124,7 +170,20 @@ export const portfolioData = {
             url: "https://github.com/PujaSridhar/Algorithmic-Transformation"
         },
         {
+            name: "Multilingual Health Misinformation Detection",
+            slug: "health-misinfo",
+            tech: "Python, NLP, Transformers",
+            date: "April 2025",
+            desc: [
+                "<strong>Problem:</strong> The rapid spread of health misinformation online poses a significant public health risk, especially across different languages and cultures.",
+                "<strong>Action:</strong> Built and trained a Transformer-based NLP model to identify and flag health-related misinformation with high accuracy across multiple languages.",
+                "<strong>Result:</strong> Created a robust system capable of addressing nuanced and culturally specific misinformation, contributing to a safer online information ecosystem."
+            ],
+            url: "https://github.com/PujaSridhar/Multilingual-Health-Misinformation-Detection"
+        },
+        {
             name: "Emotion Detection from Facial Expressions",
+            slug: "emotion-detection",
             tech: "Python, TensorFlow, Keras, OpenCV",
             date: "March 2023",
             desc: [
@@ -136,6 +195,7 @@ export const portfolioData = {
         },
         {
             name: "Sentiment Analysis of Movie Reviews",
+            slug: "sentiment-analysis",
             tech: "Python, NLP, Scikit-learn, Naive Bayes",
             date: "December 2022",
             desc: [
@@ -147,6 +207,7 @@ export const portfolioData = {
         },
         {
             name: "Credit Card Fraud Detection",
+            slug: "fraud-detection",
             tech: "Python, Scikit-learn, Isolation Forest",
             date: "October 2022",
             desc: [
