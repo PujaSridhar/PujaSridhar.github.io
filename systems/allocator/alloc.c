@@ -165,3 +165,27 @@ EMSCRIPTEN_KEEPALIVE
 void reset_alloc_counter(void) {
   alloc_counter = 0UL;
 }
+
+/* ── Heap introspection ──────────────────────────────────────── */
+#define MAX_HEAP_BLOCKS 64
+static uint32_t heap_block_info[MAX_HEAP_BLOCKS * 2];
+
+EMSCRIPTEN_KEEPALIVE
+uint32_t* get_heap_block_info(void) {
+  return heap_block_info;
+}
+
+/* Walks the live free list, filling heap_block_info with (size, free)
+ * pairs for each block, and returns how many blocks were written. */
+EMSCRIPTEN_KEEPALIVE
+int get_heap_block_count(void) {
+  int count = 0;
+  block_t* current = free_list_head;
+  while (current != NULL && count < MAX_HEAP_BLOCKS) {
+    heap_block_info[count * 2]     = (uint32_t)current->size;
+    heap_block_info[count * 2 + 1] = (uint32_t)current->free;
+    current = current->next;
+    count += 1;
+  }
+  return count;
+}

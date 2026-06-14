@@ -1,48 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-const DEFAULT_HEAP_BLOCKS = [
-  { id: 'boot-1', size: 12, state: 'free' },
-  { id: 'boot-2', size: 8, state: 'free' },
-  { id: 'boot-3', size: 10, state: 'free' },
-  { id: 'boot-4', size: 6, state: 'free' },
-  { id: 'boot-5', size: 14, state: 'free' },
-  { id: 'boot-6', size: 10, state: 'free' },
-];
-
-const HEAP_FRAMES = [
-  [
-    { id: 'frame-1a', size: 10, state: 'allocated' },
-    { id: 'frame-1b', size: 6, state: 'allocated' },
-    { id: 'frame-1c', size: 8, state: 'free' },
-    { id: 'frame-1d', size: 12, state: 'allocated' },
-    { id: 'frame-1e', size: 10, state: 'free' },
-    { id: 'frame-1f', size: 14, state: 'allocated' },
-  ],
-  [
-    { id: 'frame-2a', size: 10, state: 'allocated' },
-    { id: 'frame-2b', size: 6, state: 'free' },
-    { id: 'frame-2c', size: 8, state: 'free' },
-    { id: 'frame-2d', size: 8, state: 'allocated' },
-    { id: 'frame-2e', size: 4, state: 'allocated' },
-    { id: 'frame-2f', size: 10, state: 'free' },
-    { id: 'frame-2g', size: 14, state: 'allocated' },
-  ],
-  [
-    { id: 'frame-3a', size: 16, state: 'free' },
-    { id: 'frame-3b', size: 8, state: 'allocated' },
-    { id: 'frame-3c', size: 12, state: 'allocated' },
-    { id: 'frame-3d', size: 10, state: 'free' },
-    { id: 'frame-3e', size: 14, state: 'allocated' },
-  ],
-  [
-    { id: 'frame-4a', size: 20, state: 'free' },
-    { id: 'frame-4b', size: 12, state: 'allocated' },
-    { id: 'frame-4c', size: 18, state: 'free' },
-    { id: 'frame-4d', size: 10, state: 'allocated' },
-  ],
-];
-
 function measureJsBaseline(iterations) {
   const started = performance.now();
 
@@ -72,12 +30,11 @@ export function AllocDemo() {
     { label: 'myalloc', ns: 1 },
     { label: 'js baseline', ns: 1 },
   ]);
-  const [heapBlocks, setHeapBlocks] = useState(DEFAULT_HEAP_BLOCKS);
+  const [heapBlocks, setHeapBlocks] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
   const [palette, setPalette] = useState(() => getChartPalette());
   const [allocOps, setAllocOps] = useState(null);
   const wasmExportsRef = useRef(null);
-  const heapFrameTimeoutsRef = useRef([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -128,18 +85,24 @@ export function AllocDemo() {
     return () => {
       cancelled = true;
       observer.disconnect();
-      heapFrameTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
-      heapFrameTimeoutsRef.current = [];
     };
   }, []);
 
-  function queueHeapFrames() {
-    heapFrameTimeoutsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
-    heapFrameTimeoutsRef.current = HEAP_FRAMES.map((frame, index) =>
-      window.setTimeout(() => {
-        setHeapBlocks(frame);
-      }, index * 350)
-    );
+  function readHeapBlocks() {
+    const wasmExports = wasmExportsRef.current;
+    if (!wasmExports?.get_heap_block_count || !wasmExports?.get_heap_block_info || !wasmExports?.memory) {
+      return [];
+    }
+
+    const count = wasmExports.get_heap_block_count();
+    const infoPtr = wasmExports.get_heap_block_info();
+    const info = new Uint32Array(wasmExports.memory.buffer, infoPtr, count * 2);
+
+    return Array.from({ length: count }, (_, index) => ({
+      id: `block-${index}`,
+      size: info[index * 2],
+      state: info[index * 2 + 1] ? 'free' : 'allocated',
+    }));
   }
 
   function runAllocatorBenchmark(iterations) {
@@ -171,7 +134,6 @@ export function AllocDemo() {
 
     setIsRunning(true);
     setAllocOps(null);
-    queueHeapFrames();
 
     window.setTimeout(() => {
       const iterations = 1000000;
@@ -187,6 +149,8 @@ export function AllocDemo() {
       if (benchmarkResult?.totalOps !== null && benchmarkResult?.totalOps !== undefined) {
         setAllocOps(benchmarkResult.totalOps);
       }
+
+      setHeapBlocks(readHeapBlocks());
 
       setStatus(
         benchmarkResult?.allocatorNs
@@ -256,22 +220,30 @@ export function AllocDemo() {
 
         <section className="alloc-demo-panel">
           <div className="alloc-demo-panel-title">Heap View</div>
-          <div className="alloc-demo-heap">
-            {heapBlocks.map((block) => (
-              <div
-                key={block.id}
-                className={`alloc-demo-block alloc-demo-block-${block.state}`}
-                style={{ flexGrow: block.size }}
-                title={`${block.state} · ${block.size} units`}
-              >
-                <span>{block.state === 'allocated' ? 'used' : 'free'}</span>
+          {heapBlocks.length > 0 ? (
+            <>
+              <div className="alloc-demo-heap">
+                {heapBlocks.map((block) => (
+                  <div
+                    key={block.id}
+                    className={`alloc-demo-block alloc-demo-block-${block.state}`}
+                    style={{ flexGrow: block.size }}
+                    title={`${block.state} · ${block.size} bytes`}
+                  >
+                    <span>{block.state === 'allocated' ? 'used' : 'free'}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="alloc-demo-legend">
-            <span><i className="alloc-demo-swatch alloc-demo-swatch-allocated" />allocated</span>
-            <span><i className="alloc-demo-swatch alloc-demo-swatch-free" />free</span>
-          </div>
+              <div className="alloc-demo-legend">
+                <span><i className="alloc-demo-swatch alloc-demo-swatch-allocated" />allocated</span>
+                <span><i className="alloc-demo-swatch alloc-demo-swatch-free" />free</span>
+              </div>
+            </>
+          ) : (
+            <p className="alloc-demo-caption">
+              Run the benchmark to inspect the live free-list state from alloc.wasm.
+            </p>
+          )}
         </section>
       </div>
     </div>
