@@ -128,10 +128,12 @@ function createShellRuntime() {
     }
 
     if (trimmed.includes('|')) {
-      const [left, right] = trimmed.split('|');
-      const leftOutput = runSingle(left);
-      const piped = runSingle(right, leftOutput);
-      return { output: piped, shouldExit: state.closed };
+      const stages = trimmed.split('|');
+      let pipedOutput = '';
+      for (let index = 0; index < stages.length; index += 1) {
+        pipedOutput = runSingle(stages[index], index === 0 ? '' : pipedOutput);
+      }
+      return { output: pipedOutput, shouldExit: state.closed };
     }
 
     return { output: runSingle(trimmed), shouldExit: state.closed };

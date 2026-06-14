@@ -1,6 +1,6 @@
 EMCC ?= emcc
 CFLAGS := -O2 -s WASM=1 -s STANDALONE_WASM=1 --no-entry
-EXPORTED_FUNCTIONS := '["_my_malloc","_my_free","_my_realloc","_run_benchmark","_get_alloc_counter","_reset_alloc_counter","_set_js_baseline"]'
+EXPORTED_FUNCTIONS := '["_my_malloc","_my_free","_my_realloc","_run_benchmark","_get_alloc_counter","_reset_alloc_counter"]'
 OUTPUT_DIR := ../../public/wasm
 
 all: $(OUTPUT_DIR)/alloc.wasm

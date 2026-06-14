@@ -1,3 +1,5 @@
+import { portfolioData } from '../../portfolio-data.js';
+
 export const PROMPT_TEXT = 'Cogsworth@linux ~ % ';
 export const RESUME_URL = 'https://drive.google.com/file/d/1XrZ5vb9nad2WnyswQOYPBe3D7speSn6T/view?usp=sharing';
 export const CALENDLY_URL = 'https://calendly.com/pujasridhar';
@@ -179,18 +181,7 @@ export const COMMAND_NAMES = [
   'education',
   'experience',
   'projects',
-  'projects posthog',
-  'projects locallens',
-  'projects lexai',
-  'projects neighborhood-watch',
-  'projects smart-doc-finder',
-  'projects systems-sandbox',
-  'projects ai-rescue-bot',
-  'projects algo-transform',
-  'projects health-misinfo',
-  'projects emotion-detection',
-  'projects sentiment-analysis',
-  'projects fraud-detection',
+  ...portfolioData.projects.map((project) => `projects ${project.slug}`),
   'skills',
   'languages',
   'certifications',
@@ -328,12 +319,12 @@ export const COMMAND_MANUALS = {
     description: 'Lists internships, teaching roles, and day-to-day impact across positions.',
   },
   projects: {
-    summary: 'List all featured projects with live demos.',
+    summary: 'List all projects with descriptions and links.',
     usage: 'projects [name]',
     description:
-      'Without an argument, shows all five projects with one-line descriptions and links. ' +
-      'With a name, shows the full deep-dive: stack, pipeline, GitHub, and live demo. ' +
-      'Names: posthog, locallens, lexai, neighborhood-watch, smart-doc-finder',
+      'Without an argument, shows Featured Projects and Other Work with one-line descriptions and links. ' +
+      'With a name, shows the full deep-dive: stack, pipeline, GitHub, and live demo where available. ' +
+      `Names: ${portfolioData.projects.map((project) => project.slug).join(', ')}`,
   },
   skills: {
     summary: 'Show technical skill categories.',

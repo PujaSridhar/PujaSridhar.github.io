@@ -425,7 +425,8 @@ body.dark #moon-icon {
 
 .alloc-demo-heap {
     display: flex;
-    min-height: 108px;
+    min-height: 72px;
+    max-height: 80px;
     gap: 0.35rem;
     align-items: stretch;
 }
@@ -709,7 +710,6 @@ body.dark #moon-icon {
 .thread-demo-slider span { min-width: 1.5rem; color: var(--color-text); }
 
 /* ── Alloc Demo tweaks ───────────────────────── */
-.alloc-demo-heap { min-height: 72px; max-height: 80px; }
 .alloc-demo-copy { font-size: 0.9rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; }
 
 @media (max-width: 768px) {

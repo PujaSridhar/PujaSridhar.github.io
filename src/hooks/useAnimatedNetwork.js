@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export function useAnimatedNetwork(canvasRef, darkMode) {
+export function useAnimatedNetwork(canvasRef) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
@@ -92,5 +92,5 @@ export function useAnimatedNetwork(canvasRef, darkMode) {
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [canvasRef, darkMode]);
+  }, [canvasRef]);
 }

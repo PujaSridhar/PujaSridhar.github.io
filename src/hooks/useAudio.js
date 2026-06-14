@@ -36,21 +36,7 @@ export function useAudio() {
   }
 
   function playTypingSound() {
-    if (!audioRef.current.ready || !audioRef.current.context) {
-      return;
-    }
-
-    const oscillator = audioRef.current.context.createOscillator();
-    const gainNode = audioRef.current.context.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioRef.current.context.destination);
-    oscillator.type = 'triangle';
-    oscillator.frequency.setValueAtTime(1900, audioRef.current.context.currentTime);
-    gainNode.gain.setValueAtTime(0.3, audioRef.current.context.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioRef.current.context.currentTime + 0.05);
-    oscillator.start(audioRef.current.context.currentTime);
-    oscillator.stop(audioRef.current.context.currentTime + 0.05);
+    playSound(1900, 'triangle', 0.05, 0.3);
   }
 
   return { initAudio, playSound, playTypingSound };
