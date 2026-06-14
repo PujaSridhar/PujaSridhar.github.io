@@ -62,7 +62,7 @@ export default function App() {
   const footerHtml = `&copy; ${currentYear} Puja Sridhar. All rights reserved. | <a href="${RESUME_URL}" class="link">View Resume</a>`;
   const guiFooterHtml = `&copy; ${currentYear} Puja Sridhar. All rights reserved. | <a href="${RESUME_URL}" class="link">View Full Resume</a>`;
 
-  useAnimatedNetwork(canvasRef, darkMode);
+  useAnimatedNetwork(canvasRef);
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
@@ -210,6 +210,7 @@ export default function App() {
   }
 
   function getRuntimeDiagnostics() {
+    // performance.memory is a non-standard, Chrome-only API; undefined elsewhere.
     const memory = performance.memory;
     const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     const uptimeSeconds = Math.round((Date.now() - sessionStartedAtRef.current) / 1000);
@@ -284,6 +285,12 @@ export default function App() {
     return getCommandEntries(`sys ${normalizedSubcommand}`);
   }
 
+  function recordCommand(userInput) {
+    setCommandHistory((previous) => [userInput, ...previous]);
+    setHistoryIndex(-1);
+    setInputValue('');
+  }
+
   function handleSubmit(rawInput = inputValue) {
     const userInput = rawInput.trim();
     if (!userInput) {
@@ -299,18 +306,14 @@ export default function App() {
     let commandEntries;
 
     if (normalizedFullInput === 'diagnostics') {
-      setCommandHistory((previous) => [userInput, ...previous]);
-      setHistoryIndex(-1);
-      setInputValue('');
+      recordCommand(userInput);
       setTerminalHistory((previous) => [...previous, makeCommandEntry(userInput), getDiagnosticsEntry()]);
       return;
     }
 
     if (normalizedFullInput === 'download resume') {
       triggerResumeDownload(RESUME_URL);
-      setCommandHistory((previous) => [userInput, ...previous]);
-      setHistoryIndex(-1);
-      setInputValue('');
+      recordCommand(userInput);
       setTerminalHistory((previous) => [
         ...previous,
         makeCommandEntry(userInput),
@@ -322,9 +325,7 @@ export default function App() {
     }
 
     if (normalizedFullInput === 'theme --list') {
-      setCommandHistory((previous) => [userInput, ...previous]);
-      setHistoryIndex(-1);
-      setInputValue('');
+      recordCommand(userInput);
       setTerminalHistory((previous) => [
         ...previous,
         makeCommandEntry(userInput),
@@ -336,9 +337,7 @@ export default function App() {
     const themeMatch = normalizedFullInput.match(/^theme\s+(\S+)$/);
     if (themeMatch) {
       const themeKey = themeMatch[1];
-      setCommandHistory((previous) => [userInput, ...previous]);
-      setHistoryIndex(-1);
-      setInputValue('');
+      recordCommand(userInput);
 
       if (THEMES[themeKey]) {
         setCurrentTheme(themeKey);
@@ -372,9 +371,7 @@ export default function App() {
       commandEntries = getCommandEntries(normalizedInput);
     }
 
-    setCommandHistory((previous) => [userInput, ...previous]);
-    setHistoryIndex(-1);
-    setInputValue('');
+    recordCommand(userInput);
 
     if (normalizedInput === 'clear') {
       conversationHistoryRef.current = [];
