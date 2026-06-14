@@ -147,8 +147,6 @@ async function main() {
 				config: { taskType: "RETRIEVAL_DOCUMENT", outputDimensionality: 768 }
 			});
 
-			console.log("Fetch success: ", result.embeddings[0])
-
 			allVectors.push({
 				id: `doc-${i}`,
 				values: result.embeddings[0].values,
@@ -156,10 +154,10 @@ async function main() {
 			});
 
 		} catch (err) {
-			console.error(`\n❌❌❌ FATAL ERROR on Chunk #${i} ❌❌❌`);
-			console.error(`🅢 Source: ${chunk.source}\n`);
-			console.error(`🅟 Problematic Text, Len: ${chunk.text.length} Text: ${chunk.text}\n`);
-			console.error("🅞 Original Error:", err);
+			console.error(`Fatal error on chunk #${i}`);
+			console.error(`Source: ${chunk.source}`);
+			console.error(`Problematic text (len ${chunk.text.length}): ${chunk.text}`);
+			console.error("Original error:", err);
 			throw new Error("Indexing failed on the chunk logged above.");
 		}
 	}

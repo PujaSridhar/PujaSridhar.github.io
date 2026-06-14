@@ -18,7 +18,12 @@ export default async function handler(req, res) {
     ];
 
     const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
+    if (origin && !allowedOrigins.includes(origin)) {
+        res.status(403).json({ error: 'Origin not allowed' });
+        return;
+    }
+
+    if (origin) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
 
@@ -107,7 +112,11 @@ export default async function handler(req, res) {
 
         } catch (error) {
             console.error('Error in RAG pipeline:', error);
-            res.status(500).json({ error: 'An internal server error occurred.' });
+            if (res.headersSent) {
+                res.end();
+            } else {
+                res.status(500).json({ error: 'An internal server error occurred.' });
+            }
         }
     } else {
         // ❌ If the method is not POST, send a 405 error

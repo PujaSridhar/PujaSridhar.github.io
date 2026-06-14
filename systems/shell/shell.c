@@ -152,12 +152,50 @@ static void run_simple_command(const char* input, const char* stdin_text, char* 
   }
 
   if (strcmp(name, "cd") == 0) {
-    if (args == NULL || strcmp(args, "~") == 0 || strcmp(args, "/") == 0) {
+    if (args == NULL || *args == '\0' || strcmp(args, "~") == 0) {
       snprintf(cwd, sizeof(cwd), "/");
       return;
     }
 
-    append_line(output, buf_size, "cd: directory not found");
+    char target[256];
+    if (args[0] == '/') {
+      snprintf(target, sizeof(target), "%s", args);
+    } else {
+      snprintf(target, sizeof(target), "%s/%s", cwd, args);
+    }
+
+    char* parts[16];
+    size_t part_count = 0U;
+
+    char* segment = strtok(target, "/");
+    while (segment != NULL) {
+      if (strcmp(segment, ".") == 0) {
+        /* stay in place */
+      } else if (strcmp(segment, "..") == 0) {
+        if (part_count > 0U) {
+          part_count -= 1U;
+        }
+      } else if (part_count < (sizeof(parts) / sizeof(parts[0]))) {
+        parts[part_count] = segment;
+        part_count += 1U;
+      }
+      segment = strtok(NULL, "/");
+    }
+
+    char resolved[64] = "";
+    for (size_t index = 0U; index < part_count; index += 1U) {
+      size_t used = strlen(resolved);
+      size_t seg_len = strlen(parts[index]);
+      if (used + 1U + seg_len + 1U > sizeof(resolved)) {
+        append_line(output, buf_size, "cd: path too long");
+        return;
+      }
+      resolved[used] = '/';
+      memcpy(resolved + used + 1U, parts[index], seg_len);
+      resolved[used + 1U + seg_len] = '\0';
+    }
+
+    snprintf(cwd, sizeof(cwd), "%s", resolved[0] == '\0' ? "/" : resolved);
     return;
   }
 
@@ -178,19 +216,23 @@ static void run_simple_command(const char* input, const char* stdin_text, char* 
   }
 
   if (strcmp(name, "cat") == 0) {
-    const char* target = args != NULL ? args : stdin_text;
-    if (target == NULL || *target == '\0') {
-      append_line(output, buf_size, "cat: missing file operand");
+    if (args != NULL && *args != '\0') {
+      file_entry_t* entry = get_file(args);
+      if (entry == NULL) {
+        append_line(output, buf_size, "cat: file not found");
+        return;
+      }
+
+      append_line(output, buf_size, entry->content);
       return;
     }
 
-    file_entry_t* entry = get_file(target);
-    if (entry == NULL) {
-      append_line(output, buf_size, "cat: file not found");
+    if (stdin_text != NULL && *stdin_text != '\0') {
+      append_line(output, buf_size, stdin_text);
       return;
     }
 
-    append_line(output, buf_size, entry->content);
+    append_line(output, buf_size, "cat: missing file operand");
     return;
   }
 
@@ -270,8 +312,10 @@ void process_command(char* input, char* output_buf, size_t buf_size) {
   remember_history(command);
 
   if (strchr(command, '>') != NULL) {
-    snprintf(left, sizeof(left), "%s", strtok(command, ">"));
-    snprintf(file_target, sizeof(file_target), "%s", strtok(NULL, ""));
+    char* left_token = strtok(command, ">");
+    char* rest_token = strtok(NULL, "");
+    snprintf(left, sizeof(left), "%s", left_token != NULL ? left_token : "");
+    snprintf(file_target, sizeof(file_target), "%s", rest_token != NULL ? rest_token : "");
     trim(left);
     trim(file_target);
     intermediate[0] = '\0';
@@ -281,8 +325,10 @@ void process_command(char* input, char* output_buf, size_t buf_size) {
   }
 
   if (strchr(command, '<') != NULL) {
-    snprintf(left, sizeof(left), "%s", strtok(command, "<"));
-    snprintf(file_target, sizeof(file_target), "%s", strtok(NULL, ""));
+    char* left_token = strtok(command, "<");
+    char* rest_token = strtok(NULL, "");
+    snprintf(left, sizeof(left), "%s", left_token != NULL ? left_token : "");
+    snprintf(file_target, sizeof(file_target), "%s", rest_token != NULL ? rest_token : "");
     trim(left);
     trim(file_target);
     file_entry_t* source = get_file(file_target);
@@ -295,8 +341,10 @@ void process_command(char* input, char* output_buf, size_t buf_size) {
   }
 
   if (strchr(command, '|') != NULL) {
-    snprintf(left, sizeof(left), "%s", strtok(command, "|"));
-    snprintf(right, sizeof(right), "%s", strtok(NULL, ""));
+    char* left_token = strtok(command, "|");
+    char* rest_token = strtok(NULL, "");
+    snprintf(left, sizeof(left), "%s", left_token != NULL ? left_token : "");
+    snprintf(right, sizeof(right), "%s", rest_token != NULL ? rest_token : "");
     trim(left);
     trim(right);
     intermediate[0] = '\0';
