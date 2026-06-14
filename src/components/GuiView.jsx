@@ -1,8 +1,9 @@
 import { portfolioData } from '../../portfolio-data.js';
+import { CALENDLY_URL, EMAIL_HREF } from '../constants/terminal.js';
 import { formatBreaks } from '../utils/terminalHelpers.js';
 
 export function GuiView({ activeTab, onTabChange, footerHtml }) {
-  const tabs = ['About', 'Experience', 'Projects', 'Skills', 'Education', 'Leadership', 'Certifications', 'Talks'];
+  const tabs = ['About', 'Experience', 'Projects', 'Skills', 'Education', 'Languages', 'Leadership', 'Certifications', 'Talks', 'Contact'];
 
   return (
     <div id="gui-mode" className="w-full rounded-lg shadow-2xl shadow-stone-500/20 p-8 overflow-y-auto">
@@ -109,6 +110,17 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
           </div>
         )}
 
+        {activeTab === 'Languages' && (
+          <div className="tab-content active">
+            {portfolioData.languages.map((language) => (
+              <div key={language.lang} className="gui-item">
+                <div className="gui-item-title">{language.lang}</div>
+                <div>{language.proficiency}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {activeTab === 'Leadership' && (
           <div className="tab-content active">
             {portfolioData.leadership.map((role) => (
@@ -152,6 +164,27 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
                 <span> - {certification.issuer}</span>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === 'Contact' && (
+          <div className="tab-content active">
+            <div className="gui-item">
+              <div className="gui-item-title">Email</div>
+              <a href={EMAIL_HREF} className="link">{portfolioData.contact.email}</a>
+            </div>
+            <div className="gui-item">
+              <div className="gui-item-title">LinkedIn</div>
+              <a href={portfolioData.contact.linkedin} target="_blank" rel="noreferrer" className="link">{portfolioData.contact.linkedin}</a>
+            </div>
+            <div className="gui-item">
+              <div className="gui-item-title">GitHub</div>
+              <a href={portfolioData.contact.github} target="_blank" rel="noreferrer" className="link">{portfolioData.contact.github}</a>
+            </div>
+            <div className="gui-item">
+              <div className="gui-item-title">Schedule a call</div>
+              <a href={CALENDLY_URL} target="_blank" rel="noreferrer" className="link">{CALENDLY_URL}</a>
+            </div>
           </div>
         )}
       </div>
