@@ -67,11 +67,13 @@ function createShellRuntime() {
       case 'ls':
         return listFiles().join('\n');
       case 'cat': {
-        const target = argumentString || pipedInput.trim();
-        if (!target) {
-          return 'cat: missing file operand';
+        if (argumentString) {
+          return state.files[argumentString] ?? `cat: ${argumentString}: No such file`;
         }
-        return state.files[target] ?? `cat: ${target}: No such file`;
+        if (pipedInput) {
+          return pipedInput;
+        }
+        return 'cat: missing file operand';
       }
       case 'history':
         return state.history.map((entry, index) => `${index + 1}  ${entry}`).join('\n');
