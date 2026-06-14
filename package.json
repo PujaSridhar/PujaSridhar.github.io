@@ -24,6 +24,7 @@
   "dependencies": {
     "@google/genai": "^1.19.0",
     "@pinecone-database/pinecone": "^6.1.2",
+    "@vercel/analytics": "^2.0.1",
     "dotenv": "^17.4.2",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",

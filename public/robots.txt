@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pujasridhar.github.io/sitemap.xml
