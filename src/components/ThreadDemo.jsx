@@ -11,13 +11,13 @@ function initializeThreads() {
 function getStateColor(state) {
   switch (state) {
     case 'READY':
-      return 'hsl(120, 40%, 60%)'; // green tint
+      return 'hsl(120, 40%, 60%)';
     case 'RUNNING':
-      return 'hsl(60, 100%, 50%)'; // yellow/bright accent
+      return 'hsl(60, 100%, 50%)';
     case 'BLOCKED':
-      return 'hsl(0, 70%, 60%)'; // red/rust (error color family)
+      return 'hsl(0, 70%, 60%)';
     case 'DONE':
-      return 'hsl(0, 0%, 75%)'; // gray
+      return 'hsl(0, 0%, 75%)';
     default:
       return 'hsl(0, 0%, 50%)';
   }
@@ -30,18 +30,21 @@ export function ThreadDemo({ onExit }) {
   const [quantumMs, setQuantumMs] = useState(5);
   const [tickCount, setTickCount] = useState(0);
   const tickIntervalRef = useRef(null);
+  // Tracks the index of the last thread that was scheduled so the next
+  // pick always starts from the following position — true round-robin.
+  const lastScheduledIndexRef = useRef(-1);
 
   function handleKeyDown(event) {
     if (event.key === 'Escape') {
       event.preventDefault();
       onExit?.();
-      return;
     }
   }
 
   const executeTick = useCallback(() => {
     setThreads((prevThreads) => {
-      const updated = prevThreads.map((thread) => {
+      // Step 1 — unblock any thread whose blocker is now DONE
+      const unblocked = prevThreads.map((thread) => {
         if (thread.state === 'BLOCKED' && thread.blockedBy) {
           const blocker = prevThreads.find((t) => t.id === thread.blockedBy);
           if (blocker && blocker.state === 'DONE') {
@@ -51,34 +54,46 @@ export function ThreadDemo({ onExit }) {
         return thread;
       });
 
-      const runningThread = updated.find((t) => t.state === 'RUNNING');
+      const runningIndex = unblocked.findIndex((t) => t.state === 'RUNNING');
 
-      if (runningThread) {
+      if (runningIndex !== -1) {
+        // Step 2a — decrement the running thread and yield it.
+        // Record its index so the next pick starts after it.
+        const runningThread = unblocked[runningIndex];
         const decremented = runningThread.remainingTime - 1;
-        const newState = decremented <= 0 ? 'DONE' : 'RUNNING';
+        const newState = decremented <= 0 ? 'DONE' : 'READY';
 
-        const result = updated.map((t) =>
-          t.id === runningThread.id
-            ? { ...t, remainingTime: decremented, state: newState }
-            : { ...t, state: t.state === 'RUNNING' ? 'READY' : t.state }
-        );
+        lastScheduledIndexRef.current = runningIndex;
 
         setTimeline((prev) => {
-          const newEntry = `${runningThread.name}(${decremented > 0 ? decremented : '✓'})`;
-          return [...prev.slice(-19), newEntry];
+          const label = `${runningThread.name}(${decremented > 0 ? decremented : '✓'})`;
+          return [...prev.slice(-19), label];
         });
 
-        return result;
-      }
-
-      const nextThread = updated.find((t) => t.state === 'READY');
-      if (nextThread) {
-        return updated.map((t) =>
-          t.id === nextThread.id ? { ...t, state: 'RUNNING' } : t
+        return unblocked.map((t) =>
+          t.id === runningThread.id
+            ? { ...t, remainingTime: Math.max(0, decremented), state: newState }
+            : t
         );
       }
 
-      return updated;
+      // Step 2b — no thread is running: pick the next READY thread
+      // starting from the position AFTER the last scheduled one.
+      const count = unblocked.length;
+      const start = lastScheduledIndexRef.current;
+
+      for (let offset = 1; offset <= count; offset += 1) {
+        const idx = (start + offset) % count;
+        if (unblocked[idx].state === 'READY') {
+          lastScheduledIndexRef.current = idx;
+          return unblocked.map((t, i) =>
+            i === idx ? { ...t, state: 'RUNNING' } : t
+          );
+        }
+      }
+
+      // All threads are DONE or BLOCKED
+      return unblocked;
     });
 
     setTickCount((prev) => prev + 1);
@@ -117,6 +132,7 @@ export function ThreadDemo({ onExit }) {
     setThreads(initializeThreads());
     setTimeline([]);
     setTickCount(0);
+    lastScheduledIndexRef.current = -1;
   }
 
   function handleIntroduceDeadlock() {
@@ -169,14 +185,14 @@ export function ThreadDemo({ onExit }) {
                 background: 'var(--color-border)',
                 borderRadius: '2px',
                 marginTop: '0.4rem',
-                overflow: 'hidden'
+                overflow: 'hidden',
               }}>
                 <div style={{
                   height: '100%',
                   width: `${(thread.remainingTime / thread.burstTime) * 100}%`,
                   background: getStateColor(thread.state),
                   borderRadius: '2px',
-                  transition: 'width 0.15s ease, background-color 0.3s ease'
+                  transition: 'width 0.15s ease, background-color 0.3s ease',
                 }} />
               </div>
               {thread.blockedBy && (
@@ -207,11 +223,7 @@ export function ThreadDemo({ onExit }) {
 
       <div className="thread-demo-toolbar">
         <div className="thread-demo-controls">
-          <button
-            className="thread-demo-button"
-            onClick={handlePlayPause}
-            disabled={allDone}
-          >
+          <button className="thread-demo-button" onClick={handlePlayPause} disabled={allDone}>
             {isRunning ? 'Pause' : 'Play'}
           </button>
           <button className="thread-demo-button" onClick={handleStep} disabled={isRunning || allDone}>

@@ -21,6 +21,7 @@ typedef struct block {
 } block_t;
 
 static block_t* free_list_head = NULL;
+static unsigned long alloc_counter = 0UL;
 
 /* ── Internal helpers ────────────────────────────────────────── */
 static size_t align8(size_t size) {
@@ -99,6 +100,7 @@ void* my_malloc(size_t size) {
   }
   split_block(block, aligned_size);
   block->free = 0;
+  alloc_counter += 1UL;
   return (char*)block + sizeof(block_t);
 }
 
@@ -107,6 +109,7 @@ void my_free(void* ptr) {
   if (ptr == NULL) return;
   block_t* block = (block_t*)((char*)ptr - sizeof(block_t));
   block->free = 1;
+  alloc_counter += 1UL;
   coalesce_free_blocks();
 }
 
@@ -122,6 +125,7 @@ void* my_realloc(void* ptr, size_t size) {
   if (replacement == NULL) return NULL;
   memcpy(replacement, ptr, block->size);
   my_free(ptr);
+  alloc_counter += 1UL;
   return replacement;
 }
 
@@ -147,6 +151,16 @@ double run_benchmark(int iterations) {
     ops++;
   }
   return (double)ops;
+}
+
+EMSCRIPTEN_KEEPALIVE
+unsigned long get_alloc_counter(void) {
+  return alloc_counter;
+}
+
+EMSCRIPTEN_KEEPALIVE
+void reset_alloc_counter(void) {
+  alloc_counter = 0UL;
 }
 
 /* kept for ABI compatibility — no-op in this build */

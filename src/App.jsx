@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { COMMAND_NAMES, PROMPT_TEXT, RESUME_URL, THEMES } from './constants/terminal.js';
+import { portfolioData } from '../portfolio-data.js';
 import { GuiView } from './components/GuiView.jsx';
 import { SocialIcons } from './components/SocialIcons.jsx';
 import { TerminalEntry } from './components/TerminalEntry.jsx';
@@ -126,7 +127,16 @@ export default function App() {
 
     activeRequestRef.current = { id: requestId, controller: abortController };
 
-    setTerminalHistory((previous) => [...previous, { id: requestId, type: 'output', html: 'Cogsworth is thinking...' }]);
+    setTerminalHistory((previous) => [
+      ...previous,
+      {
+        id: requestId,
+        type: 'output',
+        html:
+          `<span class="command">[COMPUTING EMBEDDINGS...]</span><br>` +
+          `Loading context from Pinecone and the chat history...`,
+      },
+    ]);
 
     const nextConversationHistory = [...conversationHistoryRef.current, { role: 'user', text: userInput }];
     conversationHistoryRef.current = nextConversationHistory;
@@ -188,7 +198,7 @@ export default function App() {
       setTerminalHistory((previous) =>
         previous.map((entry) =>
           entry.id === requestId
-            ? { ...entry, html: "<span class='error'>Error: Could not connect to the AI assistant.</span>" }
+            ? { ...entry, html: "<span class='error'>Error: the assistant timed out or could not connect.</span>" }
             : entry
         )
       );
@@ -377,6 +387,7 @@ export default function App() {
     if (!commandEntries) {
       void requestAssistant(userInput);
     }
+
   }
 
   function handleKeyDown(event) {
@@ -458,8 +469,31 @@ export default function App() {
         return;
       }
 
+      if (commandToken === 'contact') {
+        const subjectInput = args.join(' ').trim().toLowerCase();
+        const contactOptions = ['--schedule'];
+
+        if (!subjectInput) {
+          setInputValue('contact ');
+          return;
+        }
+
+        const subjectMatches = contactOptions.filter((option) => option.startsWith(subjectInput));
+
+        if (subjectMatches.length === 1) {
+          setInputValue(`contact ${subjectMatches[0]}`);
+        } else if (subjectMatches.length > 1) {
+          setInputValue(`contact ${getSharedPrefix(subjectMatches)}`);
+          setTerminalHistory((previous) => [
+            ...previous,
+            makeOutputEntry(subjectMatches.map((option) => `<span class="command">contact ${option}</span>`).join('&nbsp;&nbsp;')),
+          ]);
+        }
+        return;
+      }
+
       if (commandToken === 'projects') {
-        const projectNames = ['posthog', 'locallens', 'lexai', 'neighborhood-watch', 'smart-doc-finder'];
+        const projectNames = portfolioData.projects.map((project) => project.slug);
         const subjectInput = args.join(' ').trim().toLowerCase();
 
         if (!subjectInput) {
@@ -543,15 +577,15 @@ export default function App() {
       <div className="terminal-container w-full max-w-4xl mx-auto">
         <div id="contact-icons-wrapper">
           <div id="contact-icons-container">
-            <div id="status-bar" className="flex items-center gap-4 ml-4">
-              <div id="clock">{clock}</div>
-              <div id="weather-display" className="flex items-center gap-2" title="Your Local Weather">
+              <div id="status-bar" className="flex items-center gap-4 ml-4">
+                <div id="clock">{clock}</div>
+                <div id="weather-display" className="flex items-center gap-2" title="Your Local Weather">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M7 17a4 4 0 1 1 0-8 5 5 0 0 1 10 0 4 4 0 1 1 0 8H7z" />
                 </svg>
-                <span id="weather-text">{weatherText}</span>
+                  <span id="weather-text">{weatherText}</span>
+                </div>
               </div>
-            </div>
 
             <SocialIcons
               darkMode={darkMode}

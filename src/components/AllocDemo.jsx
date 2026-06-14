@@ -75,6 +75,7 @@ export function AllocDemo() {
   const [heapBlocks, setHeapBlocks] = useState(DEFAULT_HEAP_BLOCKS);
   const [isRunning, setIsRunning] = useState(false);
   const [palette, setPalette] = useState(() => getChartPalette());
+  const [allocOps, setAllocOps] = useState(null);
   const wasmExportsRef = useRef(null);
   const heapFrameTimeoutsRef = useRef([]);
 
@@ -101,9 +102,11 @@ export function AllocDemo() {
 
         if (!cancelled) {
           wasmExportsRef.current = instance.exports;
+          // Reset the counter on load so it only reflects this session's benchmark
+          wasmExportsRef.current.reset_alloc_counter?.();
           setStatus('alloc.wasm loaded. Benchmark ready.');
         }
-      } catch (error) {
+      } catch {
         if (!cancelled) {
           wasmExportsRef.current = null;
           setStatus('alloc.wasm is not built locally yet. Using a simulated preview until the Emscripten build runs.');
@@ -153,7 +156,12 @@ export function AllocDemo() {
     if (!opsCompleted || opsCompleted <= 0) return { allocatorNs: null, jsBaselineNs: jsBaseline };
 
     const nsPerOp = Math.round((elapsedMs * 1_000_000) / opsCompleted);
-    return { allocatorNs: nsPerOp, jsBaselineNs: jsBaseline };
+
+    // Read the counter from the same WASM instance that just ran the benchmark
+    const rawCounter = wasmExports.get_alloc_counter?.();
+    const totalOps = rawCounter !== undefined ? Number(rawCounter) : null;
+
+    return { allocatorNs: nsPerOp, jsBaselineNs: jsBaseline, totalOps };
   }
 
   function handleRunBenchmark() {
@@ -162,6 +170,7 @@ export function AllocDemo() {
     }
 
     setIsRunning(true);
+    setAllocOps(null);
     queueHeapFrames();
 
     window.setTimeout(() => {
@@ -169,13 +178,16 @@ export function AllocDemo() {
       const benchmarkResult = runAllocatorBenchmark(iterations);
       const jsBaseline = benchmarkResult?.jsBaselineNs ?? measureJsBaseline(iterations);
       const allocatorTime = benchmarkResult?.allocatorNs ?? Math.max(1, Math.round(jsBaseline * 0.76));
-      // console.log('js baseline:', benchmarkResult?.jsBaselineNs);
-      // console.log('alloc time:', benchmarkResult?.allocatorNs);
 
       setBenchmarkData([
         { label: 'myalloc', ns: allocatorTime },
         { label: 'js baseline', ns: jsBaseline },
       ]);
+
+      if (benchmarkResult?.totalOps !== null && benchmarkResult?.totalOps !== undefined) {
+        setAllocOps(benchmarkResult.totalOps);
+      }
+
       setStatus(
         benchmarkResult?.allocatorNs
           ? `Benchmark complete. alloc.wasm responded with ${allocatorTime}ns/op.`
@@ -189,9 +201,15 @@ export function AllocDemo() {
     <div className="alloc-demo">
       <div className="skills-category-title">sys --alloc</div>
       <p className="alloc-demo-copy">
-        Built a free-list allocator in C: block splitting, coalescing, 8-byte alignment, backed by a static heap. Compiled to WASM with Emscripten. Run the benchmark to measure current timings against a JS Uint8Array baseline.
+        Built a free-list allocator in C: block splitting, coalescing, 8-byte alignment, backed by a static heap.
+        Compiled to WASM with Emscripten. Run the benchmark to measure current timings against a JS Uint8Array baseline.
       </p>
       <div className="alloc-demo-status">{status}</div>
+      {allocOps !== null && (
+        <div className="alloc-demo-status">
+          <span className="command">{allocOps.toLocaleString()}</span> malloc/free ops tracked in WASM linear memory this session.
+        </div>
+      )}
 
       <div className="alloc-demo-toolbar">
         <button className="alloc-demo-button" type="button" onClick={handleRunBenchmark} disabled={isRunning}>

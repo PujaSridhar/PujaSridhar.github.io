@@ -2,7 +2,7 @@ import { portfolioData } from '../../portfolio-data.js';
 import { formatBreaks } from '../utils/terminalHelpers.js';
 
 export function GuiView({ activeTab, onTabChange, footerHtml }) {
-  const tabs = ['About', 'Experience', 'Projects', 'Skills', 'Education', 'Leadership', 'Certifications'];
+  const tabs = ['About', 'Experience', 'Projects', 'Skills', 'Education', 'Leadership', 'Certifications', 'Talks'];
 
   return (
     <div id="gui-mode" className="w-full rounded-lg shadow-2xl shadow-stone-500/20 p-8 overflow-y-auto">
@@ -40,21 +40,43 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
 
         {activeTab === 'Projects' && (
           <div className="tab-content active">
-            {portfolioData.projects.map((project) => (
-              <div key={project.name} className="gui-item">
-                <div className="gui-item-title">
-                  {project.name} <span className="text-sm">({project.tech})</span>
+            <div className="skills-category-title">Featured</div>
+            {portfolioData.projects
+              .filter((project) => project.featured)
+              .map((project) => (
+                <div key={project.name} className="gui-item">
+                  <div className="gui-item-title">
+                    {project.name} <span className="text-sm">({project.tech})</span>
+                  </div>
+                  <ul>
+                    {project.desc.map((point, index) => (
+                      <li key={`${project.name}-${index}`} dangerouslySetInnerHTML={{ __html: point }} />
+                    ))}
+                  </ul>
+                  <a href={project.url} target="_blank" rel="noreferrer" className="link">
+                    View on GitHub -&gt;
+                  </a>
                 </div>
-                <ul>
-                  {project.desc.map((point, index) => (
-                    <li key={`${project.name}-${index}`} dangerouslySetInnerHTML={{ __html: point }} />
-                  ))}
-                </ul>
-                <a href={project.url} target="_blank" rel="noreferrer" className="link">
-                  View on GitHub -&gt;
-                </a>
-              </div>
-            ))}
+              ))}
+
+            <div className="skills-category-title">Other Work</div>
+            {portfolioData.projects
+              .filter((project) => !project.featured)
+              .map((project) => (
+                <div key={project.name} className="gui-item">
+                  <div className="gui-item-title">
+                    {project.name} <span className="text-sm">({project.tech})</span>
+                  </div>
+                  <ul>
+                    {project.desc.map((point, index) => (
+                      <li key={`${project.name}-${index}`} dangerouslySetInnerHTML={{ __html: point }} />
+                    ))}
+                  </ul>
+                  <a href={project.url} target="_blank" rel="noreferrer" className="link">
+                    View on GitHub -&gt;
+                  </a>
+                </div>
+              ))}
           </div>
         )}
 
@@ -99,6 +121,18 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
                     <li key={point}>{point}</li>
                   ))}
                 </ul>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'Talks' && (
+          <div className="tab-content active">
+            {portfolioData.talks.map((talk) => (
+              <div key={`${talk.title}-${talk.venue}`} className="gui-item">
+                <div className="gui-item-title">{talk.title}</div>
+                <div>{talk.venue}</div>
+                <i>{talk.date}</i>
               </div>
             ))}
           </div>

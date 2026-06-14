@@ -1,10 +1,10 @@
 import { portfolioData } from '../../portfolio-data.js';
-import { CALENDLY_URL, COMMAND_MANUALS, COMMAND_NAMES, EMAIL_HREF, RESUME_URL, THEMES } from '../constants/terminal.js';
+import { CALENDLY_URL, COMMAND_GROUPS, COMMAND_MANUALS, COMMAND_NAMES, EMAIL_HREF, RESUME_URL, THEMES } from '../constants/terminal.js';
 import { formatBreaks, makeOutputEntry } from './terminalHelpers.js';
 
 export function getBootEntry() {
   return makeOutputEntry(
-    `Initializing Cogsworth v1.0...<br>` +
+    `Initializing Cogsworth v25.0.0...<br>` +
     `Channeling legacy of Babbage, Lovelace, Turing... OK.<br>` +
     `Parsing lineage of data... OK.<br>` +
     `Protocol established. Welcome.<br><br>` +
@@ -14,8 +14,15 @@ export function getBootEntry() {
 }
 
 export function buildHelpHtml() {
+  const groups = COMMAND_GROUPS.map(
+    ({ title, commands }) =>
+      `<div class="skills-category-title">${title}</div>` +
+      `${commands.map((command) => `<span class="command">${command}</span>`).join(', ')}`
+  ).join('<br><br>');
+
   return (
-    `Available commands:<br>${COMMAND_NAMES.map((command) => `<span class="command">${command}</span>`).join(', ')}` +
+    `${groups}` +
+    `<br><br>Type <span class="command">man [command]</span> for details on any command, or <span class="command">all</span> to dump everything at once.` +
     `<br><br>You can also ask me a question, like: <i>"What are Puja's most recent projects?"</i>`
   );
 }
@@ -222,7 +229,7 @@ function buildLogHtml() {
 
 <span class="command">[2026-06-01]</span> MIGRATED    San Jose, CA. Already here.
 
-<span class="command">[2026-06-28]</span> UPGRADING   v25.0.0 live.
+<span class="command">[2026-06-13]</span> RELEASED    v25.0.0 live.
                          Status: actively seeking first full-time role.
 
 <span class="command">[ACTIVE PROCESSES]</span>
@@ -386,45 +393,89 @@ const FEATURED_PROJECTS = {
   },
 };
 
+const OTHER_PROJECTS = {
+  'systems-sandbox': {
+    name: 'Systems Sandbox (sys namespace)',
+    tagline: 'Low-level systems demos compiled to WASM and embedded live in the terminal',
+    tech: 'C, WebAssembly, Emscripten, React',
+    github: 'https://github.com/PujaSridhar/PujaSridhar.github.io',
+    live: null,
+    pipeline: [
+      'Free-list malloc/free implementation backed by a static heap, with coalescing on free',
+      'Mini shell supporting pipes, redirection, and a virtual filesystem',
+      'Round-robin thread scheduler with deadlock visualization',
+      'Each demo compiled with Emscripten (STANDALONE_WASM) and runs in-browser with a JS fallback',
+    ],
+    highlight: 'Type sys --alloc, sys --shell, or sys --threads to run these demos directly.',
+  },
+};
+
+const ALL_PROJECTS = { ...FEATURED_PROJECTS, ...OTHER_PROJECTS };
+
 function buildProjectsHtml() {
-  const entries = Object.entries(FEATURED_PROJECTS)
-    .map(([key, project]) => `<span class="command">projects ${key}</span> — ${project.tagline}`)
-    .join('<br>');
+  const featured = Object.entries(FEATURED_PROJECTS)
+    .map(([key, project]) => `<span class="command">projects ${key}</span><br>${project.tagline}`)
+    .join('<br><br>');
+
+  const other = portfolioData.projects
+    .filter((project) => !project.featured)
+    .map((project) => {
+      const resultLine = project.desc.find((line) => line.startsWith('<strong>Result:</strong>')) || project.desc[0];
+      const tagline = resultLine.replace(/<[^>]*>/g, '').trim();
+      return `<span class="command">projects ${project.slug}</span><br>${tagline}`;
+    })
+    .join('<br><br>');
 
   return (
     `<div class="skills-category-title">Featured Projects</div>` +
-    `${entries}<br><br>` +
+    `${featured}<br><br>` +
+    `<div class="skills-category-title">Other Work</div>` +
+    `${other}<br><br>` +
     `Type <span class="command">projects [name]</span> for the full breakdown, stack, and live demo link.`
   );
 }
 
 function buildProjectDetailHtml(name) {
-  const project = FEATURED_PROJECTS[name];
-  if (!project) {
-    const available = Object.keys(FEATURED_PROJECTS).join(', ');
+  const project = ALL_PROJECTS[name];
+  if (project) {
+    const pipelineSteps = project.pipeline
+      .map((step, index) => `  <span class="command">[${index + 1}]</span> ${step}`)
+      .join('<br>');
+
+    const demoLine = project.live
+      ? `Demo:   <a href="${project.live}" target="_blank" rel="noreferrer" class="link">${project.live}</a>`
+      : 'Demo:   coming soon';
+
     return (
-      `<span class="error">Project not found:</span> <span class="command">${name}</span><br>` +
-      `Available: ${available}<br>` +
-      `Type <span class="command">projects</span> for the full list.`
+      `<div class="skills-category-title">${project.name}</div>` +
+      `<i>${project.tagline}</i><br><br>` +
+      `<span class="command">Stack</span><br>${project.tech}<br><br>` +
+      `<span class="command">Pipeline</span><br>${pipelineSteps}<br><br>` +
+      `<span class="command">★</span> ${project.highlight}<br><br>` +
+      `GitHub: <a href="${project.github}" target="_blank" rel="noreferrer" class="link">${project.github}</a><br>` +
+      `${demoLine}`
     );
   }
 
-  const pipelineSteps = project.pipeline
-    .map((step, index) => `  <span class="command">[${index + 1}]</span> ${step}`)
-    .join('<br>');
+  const archived = portfolioData.projects.find((entry) => entry.slug === name && !entry.featured);
+  if (archived) {
+    return (
+      `<div class="skills-category-title">${archived.name}</div>` +
+      `<i>${archived.date}</i><br><br>` +
+      `<span class="command">Stack</span><br>${archived.tech}<br><br>` +
+      `${archived.desc.join('<br>')}<br><br>` +
+      `GitHub: <a href="${archived.url}" target="_blank" rel="noreferrer" class="link">${archived.url}</a>`
+    );
+  }
 
-  const demoLine = project.live
-    ? `Demo:   <a href="${project.live}" target="_blank" rel="noreferrer" class="link">${project.live}</a>`
-    : 'Demo:   coming soon';
-
+  const available = [
+    ...Object.keys(FEATURED_PROJECTS),
+    ...portfolioData.projects.filter((entry) => !entry.featured).map((entry) => entry.slug),
+  ].join(', ');
   return (
-    `<div class="skills-category-title">${project.name}</div>` +
-    `<i>${project.tagline}</i><br><br>` +
-    `<span class="command">Stack</span><br>${project.tech}<br><br>` +
-    `<span class="command">Pipeline</span><br>${pipelineSteps}<br><br>` +
-    `<span class="command">★</span> ${project.highlight}<br><br>` +
-    `GitHub: <a href="${project.github}" target="_blank" rel="noreferrer" class="link">${project.github}</a><br>` +
-    `${demoLine}`
+    `<span class="error">Project not found:</span> <span class="command">${name}</span><br>` +
+    `Available: ${available}<br>` +
+    `Type <span class="command">projects</span> for the full list.`
   );
 }
 
@@ -518,7 +569,18 @@ function buildSudoHireHtml() {
 
 function buildDiffHtml() {
   return (
-    `<div class="skills-category-title">Diff</div>` +
+    `<div class="skills-category-title">Diff: v24 → v25</div>` +
+    `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Academic A* / NLP coursework projects from 2022-2024
++ Production systems: PostHog dashboard, LocalLens, LexAI,
+  AI Neighborhood Watch, Smart Doc Finder
++ Live WASM systems demos (allocator, shell, thread scheduler)
+  compiled from C, embedded directly in the terminal
++ Migrated to React 19 + Vite, rebuilt the terminal UI from scratch
++ Added Cogsworth, a RAG-grounded assistant that answers questions
+  about this portfolio instead of just rendering static text
++ Relocated from the East Coast to San Jose, CA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>` +
     `At 24, I was optimizing for proof. At 25, I’m optimizing for clarity. The work is still ambitious, but now I care more about what a stranger can trust in the first thirty seconds than what sounds impressive on a slide. That change made the portfolio feel quieter, more honest, and a lot more like me.`
   );
 }
@@ -527,7 +589,7 @@ function buildPatchNotesHtml() {
   return (
     `<div class="skills-category-title">v25.0.0 Patch Notes</div>` +
     `<pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-v25.0.0 — Quarter Century Deploy (June 28, 2026)
+v25.0.0 — Quarter Century Deploy (June 2026)
   ADDED:   san_jose.env — relocated cross-country
   ADDED:   WASM systems demos — proof of low-level work
   ADDED:   RAG pipeline on Cogsworth — grounded AI, not hallucination
@@ -673,16 +735,6 @@ export function getCommandEntries(command) {
       return [makeOutputEntry(buildExperienceHtml())];
     case 'projects':
       return [makeOutputEntry(buildProjectsHtml())];
-    case 'projects posthog':
-      return [makeOutputEntry(buildProjectDetailHtml('posthog'))];
-    case 'projects locallens':
-      return [makeOutputEntry(buildProjectDetailHtml('locallens'))];
-    case 'projects lexai':
-      return [makeOutputEntry(buildProjectDetailHtml('lexai'))];
-    case 'projects neighborhood-watch':
-      return [makeOutputEntry(buildProjectDetailHtml('neighborhood-watch'))];
-    case 'projects smart-doc-finder':
-      return [makeOutputEntry(buildProjectDetailHtml('smart-doc-finder'))];
     case 'skills':
       return [makeOutputEntry(buildSkillsHtml())];
     case 'languages':
@@ -717,6 +769,9 @@ export function getCommandEntries(command) {
     default:
       if (command.startsWith('sys')) {
         return [makeOutputEntry(buildSysHelpHtml(command.slice(4).trim() || 'sys'))];
+      }
+      if (command.startsWith('projects ')) {
+        return [makeOutputEntry(buildProjectDetailHtml(command.slice(9).trim()))];
       }
       return null;
   }
