@@ -377,7 +377,7 @@ const FEATURED_PROJECTS = {
     ],
     highlight:
       'Custom audio stitching pipeline with automatic single-voice fallback if a voice profile fails. X-Podcast-Hosts header drives avatar display on the frontend.',
-    screenshots: [],
+    screenshots: ['/projects/neighborhood-watch/aineighborhood.png'],
   },
   'smart-doc-finder': {
     name: 'Smart Doc Finder',

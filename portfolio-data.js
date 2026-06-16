@@ -122,7 +122,7 @@ export const portfolioData = {
                 "<strong>Result:</strong> Real-time community safety map with AI-generated daily audio briefings. Custom audio stitching pipeline with X-Podcast-Hosts header driving avatar display on the frontend. Live at ai-neighborhood-watch.vercel.app."
             ],
             url: "https://github.com/PujaSridhar/ai-neighborhood-watch",
-            screenshots: []
+            screenshots: ['/projects/neighborhood-watch/aineighborhood.png']
         },
         {
             name: "Smart Doc Finder",
