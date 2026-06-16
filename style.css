@@ -361,6 +361,12 @@ body.dark #moon-icon {
     }
 }
 
+.gui-project-links {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 0.25rem;
+}
+
 #gui-mode .gui-item {
     margin-bottom: 1.5rem;
 }

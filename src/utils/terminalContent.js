@@ -395,7 +395,7 @@ const FEATURED_PROJECTS = {
       'Otherwise: query embedded → vector similarity match in Redis → results merged with MongoDB metadata → ranked list returned',
     ],
     highlight: 'Redis doing 3 jobs simultaneously: event streaming, vector database, and semantic cache — all in one service.',
-    screenshots: ['/projects/smart-doc-finder/smartdoc.png', '/projects/smart-doc-finder/smartdoc1.png', '/projects/smart-doc-finder/smartdoc2.png', '/projects/smart-doc-finder/smatdoc3.png'],
+    screenshots: ['/projects/smart-doc-finder/smartdoc.png', '/projects/smart-doc-finder/smartdoc1.png', '/projects/smart-doc-finder/smartdoc2.png', '/projects/smart-doc-finder/smartdoc3.png'],
   },
 };
 
