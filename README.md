@@ -10,7 +10,9 @@
 
 ## What is this?
 
-This is my personal portfolio — built as a fully interactive terminal with an AI assistant named **Cogsworth**. Instead of a static page with a PDF link, you get a shell-like experience where you can run commands, ask questions in plain English, switch colour themes, and read my career history formatted as a deployment log.
+This is my personal portfolio — built as a fully interactive terminal with an AI assistant named **Cogsworth**. Instead of a static page with a PDF link, you get a shell-like experience where you can run commands, explore projects with live screenshots, ask questions in plain English, switch colour themes, and read my career history formatted as a deployment log.
+
+Not a terminal person? Hit the screen icon in the top-right corner to switch to Standard View — a tab-based layout with the same content.
 
 Type `help` to see what's available. Type `diff` or `patch notes` if you want the release story first.
 
@@ -21,24 +23,44 @@ Type `help` to see what's available. Type `diff` or `patch notes` if you want th
 | Command | What it does |
 |---|---|
 | `log` | My career as a system log — from Pondicherry to San Jose |
+| `projects <slug>` | Deep-dive on a project: pipeline, stack, highlights, screenshots |
 | `diff` | What changed between v24 and v25 of me |
 | `patch notes` | v25.0.0 release notes — deprecations, additions, known bugs |
 | `cogsworth --version` | Current system profile |
 | `availability` | Role types, location, start date |
-| `download resume` | Downloads my resume without leaving the terminal |
 | `sudo hire` | The short case for hiring me |
+| `creator` | The person behind the terminal |
+| `sys --alloc` | Live free-list allocator demo — compiled from C to WASM |
+| `sys --shell` | Embedded mini shell with pipes and redirection |
+| `sys --threads` | Round-robin thread scheduler with deadlock visualisation |
 | `theme --list` | Switch between built-in colour themes |
 | `man [command]` | Unix-style manual page for any command |
 
 ---
 
+## Featured projects
+
+| Project | Stack | Live |
+|---|---|---|
+| PostHog Engineering Impact Dashboard | Airflow · dbt · PostgreSQL · FastAPI · Redis · React | [↗](https://posthog-impact-dashboard-pujasridhar2001.vercel.app/) |
+| LocalLens | FastAPI · React · Groq · Google Places API · Foursquare | [↗](https://local-lens-six.vercel.app/) |
+| LexAI | Gemini 2.5 Flash · Vercel Serverless · Node.js | [↗](https://lexai-gem.vercel.app/) |
+| AI Neighborhood Watch | Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js | [↗](https://ai-neighborhood-watch.vercel.app/) |
+| Smart Doc Finder | Python · Redis · MongoDB · React · Docker | — |
+
+Run `projects <slug>` in the terminal (e.g. `projects locallens`) to see the full pipeline, stack details, and screenshots.
+
+---
+
 ## Tech stack
 
-- **Frontend** — React 19 + Vite
-- **Styling** — CSS custom properties + Tailwind utility classes
+- **Frontend** — React 19 + Vite 8 + Tailwind CSS v4
+- **Styling** — CSS custom properties + Tailwind utility classes (build-time, no CDN)
 - **Backend** — Vercel Serverless Functions
 - **AI** — Google Gemini with a RAG pipeline
 - **Vector DB** — Pinecone
+- **Systems demos** — C compiled to WASM via Emscripten (free-list allocator, mini shell, thread scheduler)
+- **Analytics** — Vercel Web Analytics
 
 ---
 
@@ -65,6 +87,7 @@ The terminal is designed to feel like a real shell, not a novelty widget:
 - `↑` / `↓` navigates command history
 - `man [command]` opens a formatted manual page
 - `theme [name]` switches the colour theme instantly and persists across visits
+- Screen reader support via `aria-live` on the output region
 
 ---
 
@@ -75,14 +98,20 @@ The terminal is designed to feel like a real shell, not a novelty widget:
 ├── api/chat.js                  # Vercel serverless chat endpoint (RAG pipeline)
 ├── src/App.jsx                  # Main app — terminal state, input handling, routing
 ├── src/main.jsx                 # React + Vite entry point
-├── src/components/              # TerminalEntry, GuiView, SocialIcons
+├── src/components/              # TerminalEntry, GuiView, SocialIcons, AllocDemo, ShellDemo, ThreadDemo
 ├── src/constants/terminal.js    # Command registry, manuals, theme definitions
 ├── src/hooks/                   # useIpWeather, useAudio, useAnimatedNetwork
 ├── src/utils/                   # terminalContent, terminalHelpers, themeUtils
+│   ├── terminalHelpers.test.js  # Unit tests (Vitest)
+│   └── terminalContent.test.js
 ├── portfolio-data.js            # Portfolio content (used by UI and Pinecone indexer)
 ├── index-data.mjs               # One-time Pinecone indexing script
+├── public/
+│   ├── wasm/                    # Prebuilt WASM binaries (alloc.wasm, shell.wasm)
+│   └── projects/                # Project screenshots served as static assets
+├── systems/                     # C source for WASM demos + Emscripten Makefiles
 ├── style.css                    # Global styles with CSS custom property theming
-└── vite.config.js               # Vite config with local /api proxy
+└── vite.config.js               # Vite config with Tailwind plugin + local /api proxy
 ```
 
 ---
@@ -108,7 +137,7 @@ npm run dev
 
 Vite proxies `/api/*` requests to the deployed Vercel backend during local development so you don't need to run `vercel dev` separately.
 
-Prebuilt `.wasm` binaries for the systems demos (`sys --alloc`, `sys --shell`) are committed under `public/wasm/`, so they work out of the box. If you change the C sources under `systems/`, rebuild them with:
+Prebuilt `.wasm` binaries for the systems demos are committed under `public/wasm/` and work out of the box. If you modify the C sources under `systems/`, rebuild with:
 
 ```bash
 npm run build:wasm
@@ -116,11 +145,12 @@ npm run build:wasm
 
 This requires Emscripten (`emcc`) to be installed and on your `PATH`.
 
-### Build and preview
+### Build, test, and preview
 
 ```bash
-npm run build
-npm run preview
+npm run build      # production build
+npm test           # run Vitest unit tests
+npm run preview    # local preview of the production build
 ```
 
 ---
