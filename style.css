@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
     --color-bg: #F6F4F0;
     --color-bg-secondary: #EDEAE4;
@@ -171,6 +173,29 @@ body {
     opacity: 0.6;
 }
 
+.github-contribution-graph {
+    width: 100%;
+    max-width: 720px;
+    height: auto;
+    border-radius: 6px;
+}
+
+#contact-icons .icon-button-hint {
+    animation: gui-toggle-pulse 1.5s ease-in-out infinite;
+    border-radius: 6px;
+}
+
+@keyframes gui-toggle-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 var(--color-accent);
+        opacity: 1;
+    }
+    50% {
+        box-shadow: 0 0 0 6px transparent;
+        opacity: 0.6;
+    }
+}
+
 #contact-icons svg {
     width: 24px;
     height: 24px;
@@ -262,6 +287,78 @@ body.dark #moon-icon {
 
 #gui-mode {
     background-color: var(--color-bg);
+}
+
+/* ── Creator portrait ────────────────────────────────────────── */
+.creator-portrait-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.creator-portrait {
+    width: 280px;
+    height: auto;
+    border-radius: 4px;
+    -webkit-mask-image: repeating-linear-gradient(
+        to bottom,
+        black 0px, black 3px,
+        transparent 3px, transparent 4px
+    );
+    mask-image: repeating-linear-gradient(
+        to bottom,
+        black 0px, black 3px,
+        transparent 3px, transparent 4px
+    );
+}
+
+.creator-caption {
+    font-size: 0.85em;
+    color: var(--color-text-secondary);
+    font-style: italic;
+}
+
+/* ── Project screenshots ──────────────────────────────────────── */
+.project-screenshots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.project-screenshot {
+    max-width: 100%;
+    width: calc(50% - 0.375rem);
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    object-fit: cover;
+}
+
+.project-screenshots-gui {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0.75rem 0;
+}
+
+.project-screenshot-gui {
+    width: calc(50% - 0.375rem);
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    object-fit: cover;
+    cursor: zoom-in;
+    transition: opacity 0.2s;
+}
+
+.project-screenshot-gui:hover {
+    opacity: 0.85;
+}
+
+@media (max-width: 600px) {
+    .project-screenshot,
+    .project-screenshot-gui {
+        width: 100%;
+    }
 }
 
 #gui-mode .gui-item {

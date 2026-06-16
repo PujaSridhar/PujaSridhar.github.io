@@ -79,7 +79,8 @@ export const portfolioData = {
                 "<strong>Action:</strong> Built a full production data pipeline: Airflow DAG extracts daily data from the GitHub REST API into PostgreSQL (bronze layer), dbt runs 6 models (4 staging views + 2 gold mart tables — fct_engineer_impact and fct_engineer_weekly_trends), FastAPI serves 4 endpoints, Redis caches all responses with 5-min TTL and X-Cache HIT/MISS headers, React dashboard renders leaderboard, trend charts, DNA score bars, and badge logic.",
                 "<strong>Result:</strong> End-to-end pipeline with custom impact score formula (PRs×8 + Changes Requested×4 + Reviews×3 + Issues×2 + Commits×1 + Approvals×1). Live at posthog-impact-dashboard-pujasridhar2001.vercel.app."
             ],
-            url: "https://github.com/PujaSridhar/posthog-impact-dashboard"
+            url: "https://github.com/PujaSridhar/posthog-impact-dashboard",
+            screenshots: ['/projects/posthog/posthog.png', '/projects/posthog/posthog1.png', '/projects/posthog/posthog2.png']
         },
         {
             name: "LocalLens",
@@ -92,7 +93,8 @@ export const portfolioData = {
                 "<strong>Action:</strong> Built a 4-stage agentic pipeline: Groq LLM parses natural language queries into structured intent (location, vibe, category) → Google Places API fetches live businesses → Foursquare + WalkScore add depth → Groq agent scores each venue against the vibe and generates a neighborhood snapshot. All live API calls, no static data.",
                 "<strong>Result:</strong> Vibe-first discovery app that returns ranked, curated shortlists with synthesized area summaries. Live at local-lens-six.vercel.app."
             ],
-            url: "https://github.com/PujaSridhar/LocalLens"
+            url: "https://github.com/PujaSridhar/LocalLens",
+            screenshots: ['/projects/locallens/localLens.png', '/projects/locallens/localLens1.png']
         },
         {
             name: "LexAI",
@@ -105,7 +107,8 @@ export const portfolioData = {
                 "<strong>Action:</strong> Built a 5-agent pipeline: Agent 1 classifies contract type → Agent 2 summarizes obligations → Agents 3 and 4 run in parallel (Clause Analyzer grades Fairness/Clarity/Completeness/Enforceability; Red Flag Detector hunts predatory terms) → Agent 5 generates counter-proposals with specific wording. API key proxied securely via Vercel serverless.",
                 "<strong>Result:</strong> Full contract analysis in 15–25 seconds. Parallel execution (stages 3+4) cuts wall-clock time by one full agent call. Live at lexai-gem.vercel.app."
             ],
-            url: "https://github.com/PujaSridhar/Lexai"
+            url: "https://github.com/PujaSridhar/Lexai",
+            screenshots: ['/projects/lexai/lexai.png', '/projects/lexai/lexai1.png']
         },
         {
             name: "AI Neighborhood Watch",
@@ -118,7 +121,8 @@ export const portfolioData = {
                 "<strong>Action:</strong> Built a community platform where residents submit incident reports via a Leaflet map → Gemini auto-assigns structured safety categories → reports stored in PostgreSQL and rendered as color-coded map markers. Daily briefing pipeline: Gemini generates a two-character dialogue script (Ava + Mateo) → ElevenLabs synthesizes separate voice segments → pydub stitches them into a broadcast-ready MP3 with automatic single-voice fallback.",
                 "<strong>Result:</strong> Real-time community safety map with AI-generated daily audio briefings. Custom audio stitching pipeline with X-Podcast-Hosts header driving avatar display on the frontend. Live at ai-neighborhood-watch.vercel.app."
             ],
-            url: "https://github.com/PujaSridhar/ai-neighborhood-watch"
+            url: "https://github.com/PujaSridhar/ai-neighborhood-watch",
+            screenshots: []
         },
         {
             name: "Smart Doc Finder",
@@ -131,7 +135,8 @@ export const portfolioData = {
                 "<strong>Action:</strong> Built a semantic search system: Redis Streams monitors a document directory and catches uploads in real time → files >4MB are chunked into contextual blocks → each chunk embedded and stored in Redis Cloud Vector Search → MongoDB stores metadata → semantic cache checked first on each query (if similar prompt was recent, returns instantly) → otherwise queries are embedded, vector-matched in Redis, merged with MongoDB metadata, and returned as a ranked list.",
                 "<strong>Result:</strong> Redis doing 3 jobs simultaneously — event streaming, vector database, and semantic cache — all in one service. Natural language queries return semantically relevant results without keyword matching."
             ],
-            url: "https://github.com/krshsl/smart-doc-finder"
+            url: "https://github.com/krshsl/smart-doc-finder",
+            screenshots: ['/projects/smart-doc-finder/smartdoc.png', '/projects/smart-doc-finder/smartdoc1.png', '/projects/smart-doc-finder/smartdoc2.png', '/projects/smart-doc-finder/smatdoc3.png']
         },
         {
             name: "Systems Sandbox (sys namespace)",

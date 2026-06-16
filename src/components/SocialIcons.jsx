@@ -1,6 +1,6 @@
 import { EMAIL_HREF, RESUME_URL } from '../constants/terminal.js';
 
-export function SocialIcons({ darkMode, onToggleTheme, onToggleView, terminalMode }) {
+export function SocialIcons({ darkMode, onToggleTheme, onToggleView, terminalMode, highlightToggle }) {
   return (
     <div id="contact-icons">
       <button type="button" id="theme-toggle-button" className="icon-button" title="Toggle Theme" onClick={onToggleTheme}>
@@ -71,7 +71,7 @@ export function SocialIcons({ darkMode, onToggleTheme, onToggleView, terminalMod
       <button
         type="button"
         id="gui-toggle-button"
-        className="icon-button"
+        className={`icon-button ${highlightToggle ? 'icon-button-hint' : ''}`}
         title={terminalMode ? 'Switch to Standard View' : 'Switch to Terminal View'}
         onClick={onToggleView}
       >

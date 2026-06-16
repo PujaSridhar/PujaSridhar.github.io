@@ -54,6 +54,13 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
                       <li key={`${project.name}-${index}`} dangerouslySetInnerHTML={{ __html: point }} />
                     ))}
                   </ul>
+                  {project.screenshots?.length > 0 && (
+                    <div className="project-screenshots-gui">
+                      {project.screenshots.map((src, index) => (
+                        <img key={index} src={src} alt={`${project.name} screenshot`} className="project-screenshot-gui" loading="lazy" />
+                      ))}
+                    </div>
+                  )}
                   <a href={project.url} target="_blank" rel="noreferrer" className="link">
                     View on GitHub -&gt;
                   </a>
@@ -184,6 +191,16 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
             <div className="gui-item">
               <div className="gui-item-title">Schedule a call</div>
               <a href={CALENDLY_URL} target="_blank" rel="noreferrer" className="link">{CALENDLY_URL}</a>
+            </div>
+            <div className="gui-item">
+              <div className="gui-item-title">GitHub Activity</div>
+              <a href={portfolioData.contact.github} target="_blank" rel="noreferrer">
+                <img
+                  src="https://ghchart.rshah.org/5A6050/pujasridhar"
+                  alt="Puja Sridhar's GitHub contribution graph"
+                  className="github-contribution-graph"
+                />
+              </a>
             </div>
           </div>
         )}
