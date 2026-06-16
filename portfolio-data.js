@@ -10,10 +10,9 @@ export const portfolioData = {
             company: "Pennant Education",
             period: "July 2025 - September 2025",
             desc: [
-                "Developed and modularized agentic RPA solutions using UiPath to create scalable tools for enterprise use.",
-                "Contributed to an AI-powered assessment platform featuring adaptive testing and dynamic learning recommendations.",
-                "Explored the integration of AI and RPA to automate internal business workflows using platforms like Bitrix24 and Keap.",
-                "Leveraged IBM AI toolkits, including Watson, to build and enhance intelligent systems."
+                "My first real taste of building AI that has to work inside someone else's constraints, not a clean dataset, not a controlled environment, but actual educational workflows with actual stakes.",
+                "I built agentic RPA solutions in UiPath to automate grading and internal workflows, work that held up well enough to be shaped into a submission for a UAE government-backed startup hackathon, where shortlisted projects got fully funded to build out their vision. I also contributed to an adaptive assessment platform that adjusted to how students were actually learning, and explored how IBM Watson fit into the broader picture.",
+                "The thing I kept learning: automation is only as smart as the decisions you make about what to automate, and who it's actually for."
             ]
         },
         {
@@ -21,9 +20,7 @@ export const portfolioData = {
             company: "Rutgers University - School of Communication and Information",
             period: "September 2024 - December 2025",
             desc: [
-                "Assist in teaching key Object-Oriented Programming (OOP) concepts in Python, including classes, inheritance, polymorphism, and encapsulation.",
-                "Grade weekly assignments, ensuring timely and constructive feedback to enhance student learning.",
-                "Address student queries via email, providing clarification on course materials and resolving doubts."
+                "Helped students get their footing in object-oriented programming: classes, inheritance, polymorphism, and fielded a lot of questions that turned out to be about deeper confusion than the assignment itself revealed."
             ]
         },
         {
@@ -31,9 +28,8 @@ export const portfolioData = {
             company: "Rutgers University",
             period: "September 2024 - December 2025",
             desc: [
-                "Assess assignments covering key AI topics such as graph-based search algorithms (DFS, BFS, A*), probabilistic inference, constraint satisfaction, machine learning, and deep learning.",
-                "Provide detailed feedback to enhance student understanding and performance in AI concepts.",
-                "Collaborate with course instructor to ensure consistent grading standards and maintain academic integrity."
+                "Graded assignments covering graph search, probabilistic inference, constraint satisfaction, and deep learning, which meant I had to understand every concept well enough to spot where someone's thinking went wrong, not just whether their output was right.",
+                "That's a different kind of understanding than passing a course."
             ]
         },
         {
@@ -41,9 +37,9 @@ export const portfolioData = {
             company: "HumanFractal.ai (Resolute)",
             period: "February 2023 - May 2023",
             desc: [
-                "Worked on building the Resolute co-pilot, Filomena.",
-                "Explored OpenAI models and AWS products, enhancing user interaction by Writing prompts for Filomena using the principles of prompt engineering.",
-                "Explored various OpenAI models, LLMs and few AWS products, enhancing AI capabilities and enhancing user interaction by 40%."
+                "Filomena was built for people navigating their medications, treatment processes, and health questions, the kind of questions people usually wait hours to get answered by a human.",
+                "My job was to make her trustworthy. That meant sitting down with a nutritionist and nurses to understand what a good answer actually looks like before writing a single prompt. From those conversations I designed the response logic myself, including the boundary: where Filomena stops answering and routes to a medical professional instead. Getting that line right wasn't a technical problem. It was a judgment call, and it had to be the right one.",
+                "That's the part of AI development most people skip. We didn't."
             ]
         },
         {
@@ -51,9 +47,7 @@ export const portfolioData = {
             company: "Exposys Data Labs",
             period: "September 2022 - October 2022",
             desc: [
-                "I was given a project where I had to predict the profit of 50 startups using various regression model and evaluate the best regression model.",
-                "The four different models built were Linear regression, SVR, Decision Tree regressor and Random forest regressor.",
-                "Achieved 96.04% accuracy with Random Forest, providing insights to optimize financial and investment strategies for the company."
+                "Built and compared four regression models to predict startup profitability. Random Forest won at 96% accuracy. Good reminder that the model selection process matters as much as the model itself."
             ]
         },
         {
@@ -61,9 +55,7 @@ export const portfolioData = {
             company: "Vaave",
             period: "November 2020 - December 2021",
             desc: [
-                "Coordinated outreach efforts with over 200 alumni to foster connections between alumni and current students.",
-                "Organized virtual events and networking opportunities to facilitate mentorship and career guidance.",
-                "Increased student engagement by 30% through targeted alumni interaction and outreach programs."
+                "Coordinated alumni outreach across 200+ contacts, organized virtual networking events, and helped build the connective tissue between people who'd already graduated and students figuring out what came next."
             ]
         }
     ],
@@ -160,9 +152,7 @@ export const portfolioData = {
             tech: "Python, A-Star Algorithm, Heuristics",
             date: "March 2024",
             desc: [
-                "<strong>Problem:</strong> A captain is trapped in a randomly generated ship layout with moving aliens, requiring an intelligent bot to navigate obstacles and rescue them.",
-                "<strong>Action:</strong> Developed and compared four distinct bot algorithms using the A-Star algorithm with different heuristics—from simple pathfinding to complex alien avoidance and threat penalization.",
-                "<strong>Result:</strong> Successfully simulated and evaluated each bot's performance, creating visualizations to compare success rates and demonstrate advanced pathfinding strategies in dynamic environments."
+                "Four bots, one trapped captain, a ship full of moving aliens. The fun wasn't building the pathfinder: it was watching how quickly a \"smart\" bot falls apart the moment the aliens start moving, and designing the next one to handle it."
             ],
             url: "https://github.com/PujaSridhar/AI-Project1"
         },
@@ -172,9 +162,7 @@ export const portfolioData = {
             tech: "Python, NetworkX, Pandas, 3D Force Graph",
             date: "May 2024",
             desc: [
-                "<strong>Problem:</strong> Transforming an Independent Set problem into a Clique problem is a fundamental concept in computational theory, requiring efficient graph manipulation and visualization.",
-                "<strong>Action:</strong> Wrote a Python script to find independent sets of a given size 'k' in a graph and then transform the graph's complement to find the corresponding clique sets.",
-                "<strong>Result:</strong> The script successfully identifies and displays the sets and generates a JSON file for a 3D force graph visualization, clearly distinguishing the resulting cliques with color-coding."
+                "One of those problems that sounds abstract until you're staring at a graph and realizing the complement is doing all the work. Built the reduction in Python, then made it visible: because math you can see is math you actually understand."
             ],
             url: "https://github.com/PujaSridhar/Algorithmic-Transformation"
         },
@@ -184,9 +172,7 @@ export const portfolioData = {
             tech: "Python, NLP, Transformers",
             date: "April 2025",
             desc: [
-                "<strong>Problem:</strong> The rapid spread of health misinformation online poses a significant public health risk, especially across different languages and cultures.",
-                "<strong>Action:</strong> Built and trained a Transformer-based NLP model to identify and flag health-related misinformation with high accuracy across multiple languages.",
-                "<strong>Result:</strong> Created a robust system capable of addressing nuanced and culturally specific misinformation, contributing to a safer online information ecosystem."
+                "Health misinformation doesn't stay in one language, and neither should the tools that catch it. Trained a Transformer model to flag false claims across multiple languages, including culturally specific ones that monolingual models quietly miss."
             ],
             url: "https://github.com/PujaSridhar/Multilingual-Health-Misinformation-Detection"
         },
@@ -196,9 +182,7 @@ export const portfolioData = {
             tech: "Python, TensorFlow, Keras, OpenCV",
             date: "March 2023",
             desc: [
-                "<strong>Problem:</strong> Understanding human emotion is a key challenge in human-computer interaction.",
-                "<strong>Action:</strong> Trained a Convolutional Neural Network (CNN) on the FER-2013 dataset and integrated it with OpenCV for real-time video processing.",
-                "<strong>Result:</strong> Achieved 96% accuracy in classifying facial expressions into emotions like happiness, sadness, and anger, creating a practical tool for affective computing applications."
+                "Wanted to know how well a CNN could read a face in real time. Trained on FER-2013, wired it into OpenCV, and got to 96% accuracy, and a new appreciation for how much information lives in a half-second expression."
             ],
             url: "https://github.com/PujaSridhar/Emotion-Recognition-using-Facial-Expressions"
         },
@@ -208,9 +192,7 @@ export const portfolioData = {
             tech: "Python, NLP, Scikit-learn, Naive Bayes",
             date: "December 2022",
             desc: [
-                "<strong>Problem:</strong> Manually analyzing thousands of movie reviews to gauge audience sentiment is inefficient and doesn't scale.",
-                "<strong>Action:</strong> Developed a predictive model using Naive Bayes' Theorem and natural language processing to classify over 1,000 movie reviews as positive or negative.",
-                "<strong>Result:</strong> Achieved a 95% accuracy rate in predicting viewer sentiment and improved overall review classification accuracy by 25%, providing a highly effective tool for data-driven analysis."
+                "My first real look at how probabilistic models handle language. Naive Bayes on 1,000+ reviews, 95% accuracy, and a reminder that simple models, done well, are still worth understanding before you reach for something heavier."
             ],
             url: "https://github.com/PujaSridhar/Sentiment-analysis-of-movie-reviews"
         },
@@ -220,9 +202,7 @@ export const portfolioData = {
             tech: "Python, Scikit-learn, Isolation Forest",
             date: "October 2022",
             desc: [
-                "<strong>Problem:</strong> Financial institutions require fast and accurate methods to detect fraudulent credit card transactions among millions of legitimate ones.",
-                "<strong>Action:</strong> Implemented and compared multiple anomaly detection algorithms, including Isolation Forest, Local Outlier Factor, and SVMs.",
-                "<strong>Result:</strong> The Isolation Forest model proved most effective, successfully identifying 95% of fraudulent transactions in the dataset and improving detection speed by 25% over other models."
+                "Built this on my own because the problem genuinely interested me: how do you find the needle when the haystack has millions of legitimate transactions? Compared Isolation Forest, LOF, and SVM. Isolation Forest won, and the gap between them taught me more about anomaly detection than I expected going in."
             ],
             url: "https://github.com/PujaSridhar/Credit_Card_Fraud_Detection"
         }
@@ -235,6 +215,29 @@ export const portfolioData = {
         { name: "AI for Everyone", issuer: "DeepLearning.AI", url: "https://coursera.org/share/7c044a28fe65edc8d23c984ab3c51a50" },
         { name: "Programming for Everybody", issuer: "University of Michigan", url: "https://coursera.org/share/eb846c2ec1f83b2472db7c5efe0ce4da" },
         { name: "Python Data Structures", issuer: "University of Michigan", url: "https://coursera.org/share/c5f8756b5e841c310c431b27d2057b20" }
+    ],
+    hackathons: [
+        {
+            name: "RWJ Health Hackathon",
+            date: "October 2025",
+            team: "Team of 10 (4 medical students, 6 engineers)",
+            url: "https://github.com/krshsl/coatXcode",
+            desc: "Built a cross-platform AI chat app for medical teams: real-time streaming responses across five LLMs (ChatGPT, Claude, Gemini, Cohere, Mistral), image generation, and AWS Cognito auth. I owned the backend with one other engineer, AWS Glue and a stack of AWS tools handling data and the server proxy layer that kept API keys out of the client."
+        },
+        {
+            name: "HackRU",
+            date: "September 2025",
+            team: "Solo",
+            url: "https://github.com/PujaSridhar/ai-neighborhood-watch",
+            desc: "Built AI Neighborhood Watch solo in a single hackathon sprint: real-time incident reporting with Gemini-powered audio summaries, a live Leaflet map, and ElevenLabs voice output. The solo constraint meant every architectural decision was mine to own."
+        },
+        {
+            name: "Redis Hackathon (Dev.to)",
+            date: "Summer 2025",
+            team: "Team of 2",
+            url: "https://github.com/PujaSridhar/smart-doc-finder",
+            desc: "Built Smart Doc Finder with one other person: a document search system that uses Redis as more than a cache, vector search, semantic ranking, and a React frontend on top. The whole point was to see how far Redis could stretch beyond its obvious job."
+        }
     ],
     talks: [
         { title: "How to Prepare for an AI Developer role through Campus Placements", venue: "BMS Institute of Technology and Management", date: "Summer 2023" },

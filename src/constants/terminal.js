@@ -185,6 +185,7 @@ export const COMMAND_NAMES = [
   'skills',
   'languages',
   'certifications',
+  'hackathons',
   'talks',
   'leadership',
   'resume',
@@ -204,7 +205,7 @@ export const COMMAND_GROUPS = [
   },
   {
     title: 'Portfolio',
-    commands: ['about', 'experience', 'education', 'projects', 'skills', 'languages', 'certifications', 'talks', 'leadership'],
+    commands: ['about', 'experience', 'education', 'projects', 'hackathons', 'skills', 'languages', 'certifications', 'talks', 'leadership'],
   },
   {
     title: 'Systems demos',
@@ -340,6 +341,11 @@ export const COMMAND_MANUALS = {
     summary: 'Show certifications and credentials.',
     usage: 'certifications',
     description: 'Lists certifications with issuers and links where available.',
+  },
+  hackathons: {
+    summary: 'Show hackathon projects.',
+    usage: 'hackathons',
+    description: 'Lists hackathons participated in, what was built, team size, and links.',
   },
   talks: {
     summary: 'Show talks and presentations.',

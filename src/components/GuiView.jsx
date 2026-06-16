@@ -3,7 +3,7 @@ import { CALENDLY_URL, EMAIL_HREF } from '../constants/terminal.js';
 import { formatBreaks } from '../utils/terminalHelpers.js';
 
 export function GuiView({ activeTab, onTabChange, footerHtml }) {
-  const tabs = ['About', 'Experience', 'Projects', 'Skills', 'Education', 'Languages', 'Leadership', 'Certifications', 'Talks', 'Contact'];
+  const tabs = ['About', 'Experience', 'Projects', 'Hackathons', 'Skills', 'Education', 'Languages', 'Leadership', 'Certifications', 'Talks', 'Contact'];
 
   return (
     <div id="gui-mode" className="w-full rounded-lg shadow-2xl shadow-stone-500/20 p-8 overflow-y-auto">
@@ -88,6 +88,19 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
                   </a>
                 </div>
               ))}
+          </div>
+        )}
+
+        {activeTab === 'Hackathons' && (
+          <div className="tab-content active">
+            {portfolioData.hackathons.map((h) => (
+              <div key={h.name} className="gui-item">
+                <div className="gui-item-title">{h.name} <span className="text-sm">({h.date})</span></div>
+                <div className="text-sm" style={{ opacity: 0.7, marginBottom: '0.4rem' }}>{h.team}</div>
+                <p>{h.desc}</p>
+                <a href={h.url} target="_blank" rel="noreferrer" className="link">GitHub →</a>
+              </div>
+            ))}
           </div>
         )}
 
