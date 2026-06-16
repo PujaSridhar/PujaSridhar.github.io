@@ -1,6 +1,6 @@
 # Cogsworth Protocol — Puja Sridhar's Portfolio
 
-> A terminal-style AI portfolio that actually talks back.
+> Type a command. Ask a question. My portfolio responds.
 
 [![Live](https://img.shields.io/badge/live-pujasridhar.github.io-5A6050?style=flat-square)](https://pujasridhar.github.io)
 
