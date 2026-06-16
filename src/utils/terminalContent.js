@@ -530,6 +530,17 @@ function buildCertificationsHtml() {
   return `<div class="skills-category-title">Certifications</div>${items}`;
 }
 
+function buildHackathonsHtml() {
+  const items = portfolioData.hackathons
+    .map(
+      (h) =>
+        `<span class="command">${h.name}</span> <span class="dim">${h.date} · ${h.team}</span><br>${h.desc}<br><a href="${h.url}" class="link" target="_blank" rel="noreferrer">GitHub →</a>`
+    )
+    .join('<br><br>');
+
+  return `<div class="skills-category-title">Hackathons</div>${items}`;
+}
+
 function buildTalksHtml() {
   const items = portfolioData.talks
     .map((talk) => `<span class="command">"${talk.title}"</span><br><i>Presented at ${talk.venue}, ${talk.date}</i>`)
@@ -753,6 +764,8 @@ export function getCommandEntries(command) {
       return [makeOutputEntry(buildLanguagesHtml())];
     case 'certifications':
       return [makeOutputEntry(buildCertificationsHtml())];
+    case 'hackathons':
+      return [makeOutputEntry(buildHackathonsHtml())];
     case 'talks':
       return [makeOutputEntry(buildTalksHtml())];
     case 'leadership':
