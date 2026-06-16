@@ -148,9 +148,9 @@ export const portfolioData = {
             tech: "C, WebAssembly, Emscripten, React",
             date: "May 2026",
             desc: [
-                "<strong>Problem:</strong> Portfolio lacked proof of low-level systems knowledge beyond ML/AI projects.",
-                "<strong>Action:</strong> Built three systems demos compiled to WASM and embedded live in the terminal: a free-list malloc/free backed by a static heap with coalescing, a mini shell with pipes/redirection/virtual filesystem, and a round-robin thread scheduler with deadlock visualization.",
-                "<strong>Result:</strong> Each demo runs in-browser with a JS fallback. Type sys --alloc, sys --shell, or sys --threads to run them."
+                "The question I kept getting, implicitly, in every ML and AI role, was: do you actually understand what's happening underneath?",
+                "So I answered it directly. Three systems demos, written in C, compiled to WebAssembly, running live in your browser right now. A free-list memory allocator with coalescing. A mini shell with pipes, redirection, and a virtual filesystem. A round-robin thread scheduler that shows you deadlocks as they happen.",
+                "Not simulated. Not faked. Type sys --alloc, sys --shell, or sys --threads and run them yourself."
             ],
             url: "https://github.com/PujaSridhar/PujaSridhar.github.io"
         },
