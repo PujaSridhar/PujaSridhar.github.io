@@ -75,8 +75,8 @@ export const portfolioData = {
             date: "March 2026",
             featured: true,
             desc: [
-                "Engineering teams generate a lot of data and almost no insight. Commits, PRs, reviews, issues — all happening, none of it connected. I wanted to know: what does a fair, comparable measure of engineering output actually look like?",
-                "So I built the whole pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it — leaderboards, trend charts, a custom impact score I designed myself (because the formula matters as much as the infrastructure).",
+                "Engineering teams generate a lot of data and almost no insight. Commits, PRs, reviews, issues: all happening, none of it connected. I wanted to know: what does a fair, comparable measure of engineering output actually look like?",
+                "So I built the whole pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it: leaderboards, trend charts, a custom impact score I designed myself (because the formula matters as much as the infrastructure).",
                 "The interesting part wasn't the stack. It was deciding what to measure and why."
             ],
             url: "https://github.com/PujaSridhar/posthog-impact-dashboard",
@@ -91,7 +91,7 @@ export const portfolioData = {
             featured: true,
             desc: [
                 "\"Cafe\" returns every coffee shop within two miles. That's not what you asked. You asked for the cozy one with good wifi that isn't too loud on a Tuesday afternoon.",
-                "LocalLens is what happens when you stop treating search as keyword matching and start treating it as intent. A Groq agent parses what you actually mean, live APIs pull real venues, and a second agent scores each one against your vibe — not just your category — before writing you a neighborhood snapshot.",
+                "LocalLens is what happens when you stop treating search as keyword matching and start treating it as intent. A Groq agent parses what you actually mean, live APIs pull real venues, and a second agent scores each one against your vibe (not just your category) before writing you a neighborhood snapshot.",
                 "No static data. No pre-curated lists. Just a pipeline that understands the difference between coffee shop and that kind of coffee shop."
             ],
             url: "https://github.com/PujaSridhar/LocalLens",
@@ -105,9 +105,9 @@ export const portfolioData = {
             date: "January 2026",
             featured: true,
             desc: [
-                "Most people sign contracts they don't fully understand. Not because they're careless — because contract review is genuinely hard, slow, and expensive if you want it done right.",
-                "LexAI runs five agents on your contract. One figures out what kind of document it is. One summarizes your obligations. Two run in parallel — one grading every clause on fairness and clarity, one hunting for predatory terms. The fifth writes you counter-proposals with actual suggested wording.",
-                "Full analysis in 15–25 seconds. The parallelism isn't a flex — it's what makes the wait time feel respectful of your time."
+                "Most people sign contracts they don't fully understand. Not because they're careless. Because contract review is genuinely hard, slow, and expensive if you want it done right.",
+                "LexAI runs five agents on your contract. One figures out what kind of document it is. One summarizes your obligations. Two run in parallel: one grading every clause on fairness and clarity, one hunting for predatory terms. The fifth writes you counter-proposals with actual suggested wording.",
+                "Full analysis in 15–25 seconds. The parallelism isn't a flex: it's what makes the wait time feel respectful of your time."
             ],
             url: "https://github.com/PujaSridhar/Lexai",
             liveUrl: "https://lexai-gem.vercel.app/",
@@ -121,7 +121,7 @@ export const portfolioData = {
             featured: true,
             desc: [
                 "Safety information in most neighborhoods lives in three different Facebook groups, a NextDoor thread, and someone's memory. There's no map. No categories. No way to just know what's been happening nearby.",
-                "I built the map — residents drop incidents on a Leaflet layer, Gemini auto-categorizes them, and everything renders as color-coded markers in real time. But the part I'm most proud of is the daily briefing: two AI voices, Ava and Mateo, get a script generated each morning, ElevenLabs synthesizes them separately, and pydub stitches them into a broadcast-ready MP3.",
+                "I built the map. Residents drop incidents on a Leaflet layer, Gemini auto-categorizes them, and everything renders as color-coded markers in real time. But the part I'm most proud of is the daily briefing: two AI voices, Ava and Mateo, get a script generated each morning, ElevenLabs synthesizes them separately, and pydub stitches them into a broadcast-ready MP3.",
                 "A neighborhood safety podcast, generated overnight, every night, automatically."
             ],
             url: "https://github.com/PujaSridhar/ai-neighborhood-watch",
@@ -136,7 +136,7 @@ export const portfolioData = {
             featured: true,
             desc: [
                 "Keyword search has one fatal flaw: you have to remember exactly how something was worded to find it. That's not how memory works, and it's not how understanding works either.",
-                "Smart Doc Finder watches your document directory in real time via Redis Streams, chunks anything large into contextual blocks, embeds every chunk into Redis Vector Search, and checks a semantic cache before it even runs a query — so if someone asked something similar recently, it returns instantly.",
+                "Smart Doc Finder watches your document directory in real time via Redis Streams, chunks anything large into contextual blocks, embeds every chunk into Redis Vector Search, and checks a semantic cache before it even runs a query, so if someone asked something similar recently, it returns instantly.",
                 "One Redis instance. Three jobs: event streaming, vector database, semantic cache. The architecture was the puzzle. Natural language search that actually works was the point."
             ],
             url: "https://github.com/krshsl/smart-doc-finder",
