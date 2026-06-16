@@ -75,9 +75,9 @@ export const portfolioData = {
             date: "March 2026",
             featured: true,
             desc: [
-                "<strong>Problem:</strong> No unified view of engineering output across commits, PRs, reviews, and issues — no way to compare contributors or spot bottlenecks over time.",
-                "<strong>Action:</strong> Built a full production data pipeline: Airflow DAG extracts daily data from the GitHub REST API into PostgreSQL (bronze layer), dbt runs 6 models (4 staging views + 2 gold mart tables — fct_engineer_impact and fct_engineer_weekly_trends), FastAPI serves 4 endpoints, Redis caches all responses with 5-min TTL and X-Cache HIT/MISS headers, React dashboard renders leaderboard, trend charts, DNA score bars, and badge logic.",
-                "<strong>Result:</strong> End-to-end pipeline with custom impact score formula (PRs×8 + Changes Requested×4 + Reviews×3 + Issues×2 + Commits×1 + Approvals×1). Live in production."
+                "Engineering teams generate a lot of data and almost no insight. Commits, PRs, reviews, issues — all happening, none of it connected. I wanted to know: what does a fair, comparable measure of engineering output actually look like?",
+                "So I built the whole pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it — leaderboards, trend charts, a custom impact score I designed myself (because the formula matters as much as the infrastructure).",
+                "The interesting part wasn't the stack. It was deciding what to measure and why."
             ],
             url: "https://github.com/PujaSridhar/posthog-impact-dashboard",
             liveUrl: "https://posthog-impact-dashboard-pujasridhar2001.vercel.app/",
@@ -90,9 +90,9 @@ export const portfolioData = {
             date: "February 2026",
             featured: true,
             desc: [
-                "<strong>Problem:</strong> Map apps return category-based results — searching for 'cafe' gives you every coffee shop, not the cozy indie one with good wifi and no noise.",
-                "<strong>Action:</strong> Built a 4-stage agentic pipeline: Groq LLM parses natural language queries into structured intent (location, vibe, category) → Google Places API fetches live businesses → Foursquare + WalkScore add depth → Groq agent scores each venue against the vibe and generates a neighborhood snapshot. All live API calls, no static data.",
-                "<strong>Result:</strong> Vibe-first discovery app that returns ranked, curated shortlists with synthesized area summaries. Live in production."
+                "\"Cafe\" returns every coffee shop within two miles. That's not what you asked. You asked for the cozy one with good wifi that isn't too loud on a Tuesday afternoon.",
+                "LocalLens is what happens when you stop treating search as keyword matching and start treating it as intent. A Groq agent parses what you actually mean, live APIs pull real venues, and a second agent scores each one against your vibe — not just your category — before writing you a neighborhood snapshot.",
+                "No static data. No pre-curated lists. Just a pipeline that understands the difference between coffee shop and that kind of coffee shop."
             ],
             url: "https://github.com/PujaSridhar/LocalLens",
             liveUrl: "https://local-lens-six.vercel.app/",
@@ -105,9 +105,9 @@ export const portfolioData = {
             date: "January 2026",
             featured: true,
             desc: [
-                "<strong>Problem:</strong> Contract review requires a lawyer or hours of careful reading — most people sign without understanding what they're agreeing to.",
-                "<strong>Action:</strong> Built a 5-agent pipeline: Agent 1 classifies contract type → Agent 2 summarizes obligations → Agents 3 and 4 run in parallel (Clause Analyzer grades Fairness/Clarity/Completeness/Enforceability; Red Flag Detector hunts predatory terms) → Agent 5 generates counter-proposals with specific wording. API key proxied securely via Vercel serverless.",
-                "<strong>Result:</strong> Full contract analysis in 15–25 seconds. Parallel execution (stages 3+4) cuts wall-clock time by one full agent call. Live in production."
+                "Most people sign contracts they don't fully understand. Not because they're careless — because contract review is genuinely hard, slow, and expensive if you want it done right.",
+                "LexAI runs five agents on your contract. One figures out what kind of document it is. One summarizes your obligations. Two run in parallel — one grading every clause on fairness and clarity, one hunting for predatory terms. The fifth writes you counter-proposals with actual suggested wording.",
+                "Full analysis in 15–25 seconds. The parallelism isn't a flex — it's what makes the wait time feel respectful of your time."
             ],
             url: "https://github.com/PujaSridhar/Lexai",
             liveUrl: "https://lexai-gem.vercel.app/",
@@ -120,9 +120,9 @@ export const portfolioData = {
             date: "December 2025",
             featured: true,
             desc: [
-                "<strong>Problem:</strong> Neighborhood safety reporting is fragmented — no shared map, no categorization, no way to get a quick audio briefing on what's happening nearby.",
-                "<strong>Action:</strong> Built a community platform where residents submit incident reports via a Leaflet map → Gemini auto-assigns structured safety categories → reports stored in PostgreSQL and rendered as color-coded map markers. Daily briefing pipeline: Gemini generates a two-character dialogue script (Ava + Mateo) → ElevenLabs synthesizes separate voice segments → pydub stitches them into a broadcast-ready MP3 with automatic single-voice fallback.",
-                "<strong>Result:</strong> Real-time community safety map with AI-generated daily audio briefings. Custom audio stitching pipeline with X-Podcast-Hosts header driving avatar display on the frontend. Live in production."
+                "Safety information in most neighborhoods lives in three different Facebook groups, a NextDoor thread, and someone's memory. There's no map. No categories. No way to just know what's been happening nearby.",
+                "I built the map — residents drop incidents on a Leaflet layer, Gemini auto-categorizes them, and everything renders as color-coded markers in real time. But the part I'm most proud of is the daily briefing: two AI voices, Ava and Mateo, get a script generated each morning, ElevenLabs synthesizes them separately, and pydub stitches them into a broadcast-ready MP3.",
+                "A neighborhood safety podcast, generated overnight, every night, automatically."
             ],
             url: "https://github.com/PujaSridhar/ai-neighborhood-watch",
             liveUrl: "https://ai-neighborhood-watch.vercel.app/",
@@ -135,9 +135,9 @@ export const portfolioData = {
             date: "August 2025",
             featured: true,
             desc: [
-                "<strong>Problem:</strong> Keyword search fails on large document sets — you need to remember exact phrasing, not just meaning.",
-                "<strong>Action:</strong> Built a semantic search system: Redis Streams monitors a document directory and catches uploads in real time → files >4MB are chunked into contextual blocks → each chunk embedded and stored in Redis Cloud Vector Search → MongoDB stores metadata → semantic cache checked first on each query (if similar prompt was recent, returns instantly) → otherwise queries are embedded, vector-matched in Redis, merged with MongoDB metadata, and returned as a ranked list.",
-                "<strong>Result:</strong> Redis doing 3 jobs simultaneously — event streaming, vector database, and semantic cache — all in one service. Natural language queries return semantically relevant results without keyword matching. Deployed with Docker."
+                "Keyword search has one fatal flaw: you have to remember exactly how something was worded to find it. That's not how memory works, and it's not how understanding works either.",
+                "Smart Doc Finder watches your document directory in real time via Redis Streams, chunks anything large into contextual blocks, embeds every chunk into Redis Vector Search, and checks a semantic cache before it even runs a query — so if someone asked something similar recently, it returns instantly.",
+                "One Redis instance. Three jobs: event streaming, vector database, semantic cache. The architecture was the puzzle. Natural language search that actually works was the point."
             ],
             url: "https://github.com/krshsl/smart-doc-finder",
             screenshots: ['/projects/smart-doc-finder/smartdoc.png', '/projects/smart-doc-finder/smartdoc1.png', '/projects/smart-doc-finder/smartdoc2.png', '/projects/smart-doc-finder/smartdoc3.png']
