@@ -620,7 +620,7 @@ export default function App() {
               }
             }}
           >
-            <div id="output" className="flex-grow">
+            <div id="output" className="flex-grow" aria-live="polite" aria-atomic="false" aria-label="Terminal output">
               {terminalHistory.map((entry) => (
                 <TerminalEntry
                   key={entry.id}

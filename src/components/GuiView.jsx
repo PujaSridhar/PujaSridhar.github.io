@@ -61,9 +61,12 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
                       ))}
                     </div>
                   )}
-                  <a href={project.url} target="_blank" rel="noreferrer" className="link">
-                    View on GitHub -&gt;
-                  </a>
+                  <div className="gui-project-links">
+                    <a href={project.url} target="_blank" rel="noreferrer" className="link">GitHub</a>
+                    {project.liveUrl && (
+                      <a href={project.liveUrl} target="_blank" rel="noreferrer" className="link">Live Demo →</a>
+                    )}
+                  </div>
                 </div>
               ))}
 
