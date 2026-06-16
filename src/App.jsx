@@ -49,6 +49,7 @@ export default function App() {
   const [currentTheme, setCurrentTheme] = useState(() => getSavedTheme());
   const [terminalMode, setTerminalMode] = useState(true);
   const [activeTab, setActiveTab] = useState('About');
+  const [showGuiHint, setShowGuiHint] = useState(() => localStorage.getItem('guiHintSeen') !== 'true');
   const terminalRef = useRef(null);
   const inputRef = useRef(null);
   const canvasRef = useRef(null);
@@ -86,6 +87,15 @@ export default function App() {
       inputRef.current?.focus();
     }
   }, [terminalMode]);
+
+  useEffect(() => {
+    if (!showGuiHint) return undefined;
+    const timeout = setTimeout(() => {
+      setShowGuiHint(false);
+      localStorage.setItem('guiHintSeen', 'true');
+    }, 10000);
+    return () => clearTimeout(timeout);
+  }, [showGuiHint]);
 
   useEffect(() => {
     if (terminalMode && terminalRef.current) {
@@ -587,8 +597,13 @@ export default function App() {
             <SocialIcons
               darkMode={darkMode}
               onToggleTheme={() => setDarkMode((current) => !current)}
-              onToggleView={() => setTerminalMode((current) => !current)}
+              onToggleView={() => {
+                setTerminalMode((current) => !current);
+                setShowGuiHint(false);
+                localStorage.setItem('guiHintSeen', 'true');
+              }}
               terminalMode={terminalMode}
+              highlightToggle={showGuiHint}
             />
           </div>
         </div>

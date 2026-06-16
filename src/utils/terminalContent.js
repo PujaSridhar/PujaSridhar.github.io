@@ -9,7 +9,8 @@ export function getBootEntry() {
     `Parsing lineage of data... OK.<br>` +
     `Protocol established. Welcome.<br><br>` +
     `I am Cogsworth, an AI built to present the work of Puja Sridhar.<br>` +
-    `Type <span class="command">'help'</span> for a list of commands, or ask me a question in plain English.`
+    `Type <span class="command">'help'</span> for a list of commands, or ask me a question in plain English.<br>` +
+    `Prefer a standard layout? Click the screen icon in the top-right corner to switch to Standard View.`
   );
 }
 
@@ -323,6 +324,7 @@ const FEATURED_PROJECTS = {
       'React dashboard with recharts — leaderboard, trend charts, DNA score bars, badge logic',
     ],
     highlight: 'Impact score formula: PRs×8 + Changes Requested×4 + Reviews×3 + Issues×2 + Commits×1 + Approvals×1',
+    screenshots: ['/projects/posthog/posthog.png', '/projects/posthog/posthog1.png', '/projects/posthog/posthog2.png'],
   },
   locallens: {
     name: 'LocalLens',
@@ -339,6 +341,7 @@ const FEATURED_PROJECTS = {
       'React frontend renders curated shortlist + synthesized area summary',
     ],
     highlight: '4-stage agentic pipeline — no static data, all live API calls, real vibe matching',
+    screenshots: ['/projects/locallens/localLens.png', '/projects/locallens/localLens1.png'],
   },
   lexai: {
     name: 'LexAI',
@@ -356,6 +359,7 @@ const FEATURED_PROJECTS = {
     ],
     highlight:
       'Parallel agent execution (stages 3+4) cuts analysis time — full pipeline in 15–25s. Secure API key proxy via Vercel serverless.',
+    screenshots: ['/projects/lexai/lexai.png', '/projects/lexai/lexai1.png'],
   },
   'neighborhood-watch': {
     name: 'AI Neighborhood Watch',
@@ -373,6 +377,7 @@ const FEATURED_PROJECTS = {
     ],
     highlight:
       'Custom audio stitching pipeline with automatic single-voice fallback if a voice profile fails. X-Podcast-Hosts header drives avatar display on the frontend.',
+    screenshots: ['/projects/neighborhood-watch/aineighborhood.png'],
   },
   'smart-doc-finder': {
     name: 'Smart Doc Finder',
@@ -390,6 +395,7 @@ const FEATURED_PROJECTS = {
       'Otherwise: query embedded → vector similarity match in Redis → results merged with MongoDB metadata → ranked list returned',
     ],
     highlight: 'Redis doing 3 jobs simultaneously: event streaming, vector database, and semantic cache — all in one service.',
+    screenshots: ['/projects/smart-doc-finder/smartdoc.png', '/projects/smart-doc-finder/smartdoc1.png', '/projects/smart-doc-finder/smartdoc2.png', '/projects/smart-doc-finder/smatdoc3.png'],
   },
 };
 
@@ -446,6 +452,11 @@ function buildProjectDetailHtml(name) {
       ? `Demo:   <a href="${project.live}" target="_blank" rel="noreferrer" class="link">${project.live}</a>`
       : 'Demo:   coming soon';
 
+    const screenshotsHtml = project.screenshots?.length
+      ? `<br><br><span class="command">Screenshots</span><br>` +
+        `<div class="project-screenshots">${project.screenshots.map((src) => `<img src="${src}" alt="" class="project-screenshot" loading="lazy">`).join('')}</div>`
+      : '';
+
     return (
       `<div class="skills-category-title">${project.name}</div>` +
       `<i>${project.tagline}</i><br><br>` +
@@ -453,7 +464,8 @@ function buildProjectDetailHtml(name) {
       `<span class="command">Pipeline</span><br>${pipelineSteps}<br><br>` +
       `<span class="command">★</span> ${project.highlight}<br><br>` +
       `GitHub: <a href="${project.github}" target="_blank" rel="noreferrer" class="link">${project.github}</a><br>` +
-      `${demoLine}`
+      `${demoLine}` +
+      screenshotsHtml
     );
   }
 
@@ -757,7 +769,12 @@ export function getCommandEntries(command) {
         ),
       ];
     case 'creator':
-      return [makeOutputEntry(`<div class="ascii-art">${portfolioData.creatorArt}</div>`)];
+      return [makeOutputEntry(
+        `<div class="creator-portrait-wrapper">` +
+          `<img src="/headshot.png" alt="Puja Sridhar" class="creator-portrait">` +
+          `<div class="creator-caption">Puja Sridhar — Software &amp; AI Engineer</div>` +
+        `</div>`
+      )];
     case 'sudo hire':
       return [makeOutputEntry(buildSudoHireHtml())];
     case 'decisions':

@@ -1,7 +1,9 @@
+import { lazy, Suspense } from 'react';
 import { PROMPT_TEXT } from '../constants/terminal.js';
-import { AllocDemo } from './AllocDemo.jsx';
 import { ShellDemo } from './ShellDemo.jsx';
 import { ThreadDemo } from './ThreadDemo.jsx';
+
+const AllocDemo = lazy(() => import('./AllocDemo.jsx').then((module) => ({ default: module.AllocDemo })));
 
 export function TerminalEntry({ entry, onShellExit }) {
   if (entry.type === 'command') {
@@ -21,7 +23,9 @@ export function TerminalEntry({ entry, onShellExit }) {
     if (entry.componentName === 'alloc') {
       return (
         <div className="output-entry">
-          <AllocDemo />
+          <Suspense fallback={<div className="alloc-demo-caption">Loading allocator demo...</div>}>
+            <AllocDemo />
+          </Suspense>
         </div>
       );
     }
