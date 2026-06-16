@@ -149,6 +149,7 @@ export const portfolioData = {
         {
             name: "AI Bot Rescue Mission",
             slug: "ai-rescue-bot",
+            tagline: "Four bots, one captain, a ship full of moving aliens — a study in how quickly pathfinders break",
             tech: "Python, A-Star Algorithm, Heuristics",
             date: "March 2024",
             desc: [
@@ -159,6 +160,7 @@ export const portfolioData = {
         {
             name: "Algorithmic Transformation (Independent Set to Clique)",
             slug: "algo-transform",
+            tagline: "NP reduction made visible — complement graphs, cliques, and 3D force graph output",
             tech: "Python, NetworkX, Pandas, 3D Force Graph",
             date: "May 2024",
             desc: [
@@ -169,6 +171,7 @@ export const portfolioData = {
         {
             name: "Multilingual Health Misinformation Detection",
             slug: "health-misinfo",
+            tagline: "Transformer model that flags false health claims across languages, including ones monolingual models quietly miss",
             tech: "Python, NLP, Transformers",
             date: "April 2025",
             desc: [
@@ -179,6 +182,7 @@ export const portfolioData = {
         {
             name: "Emotion Detection from Facial Expressions",
             slug: "emotion-detection",
+            tagline: "CNN trained on FER-2013, wired into OpenCV for real-time video — 96% accuracy",
             tech: "Python, TensorFlow, Keras, OpenCV",
             date: "March 2023",
             desc: [
@@ -189,6 +193,7 @@ export const portfolioData = {
         {
             name: "Sentiment Analysis of Movie Reviews",
             slug: "sentiment-analysis",
+            tagline: "Naive Bayes on 1,000+ reviews, 95% accuracy — simple models, done well",
             tech: "Python, NLP, Scikit-learn, Naive Bayes",
             date: "December 2022",
             desc: [
@@ -199,6 +204,7 @@ export const portfolioData = {
         {
             name: "Credit Card Fraud Detection",
             slug: "fraud-detection",
+            tagline: "Isolation Forest beats LOF and SVM on anomaly detection — the gap between them was the education",
             tech: "Python, Scikit-learn, Isolation Forest",
             date: "October 2022",
             desc: [
@@ -222,21 +228,21 @@ export const portfolioData = {
             date: "October 2025",
             team: "Team of 10 (4 medical students, 6 engineers)",
             url: "https://github.com/krshsl/coatXcode",
-            desc: "Built a cross-platform AI chat app for medical teams: real-time streaming responses across five LLMs (ChatGPT, Claude, Gemini, Cohere, Mistral), image generation, and AWS Cognito auth. I owned the backend with one other engineer, AWS Glue and a stack of AWS tools handling data and the server proxy layer that kept API keys out of the client."
+            desc: "Ten people in a room, four medical students, six engineers, with one question: can we make care coordination faster without making it worse?\n\nI owned the backend with one other engineer. We built a cross-platform AI chat app that streamed responses across five LLMs simultaneously, ChatGPT, Claude, Gemini, Cohere, Mistral, with image generation and AWS Cognito auth on top. The medical students kept asking for things that sounded simple and turned out not to be. That tension between \"just add a feature\" and \"this is going into a clinical context\" was the most useful thing I learned that weekend."
         },
         {
             name: "HackRU",
             date: "September 2025",
             team: "Solo",
             url: "https://github.com/PujaSridhar/ai-neighborhood-watch",
-            desc: "Built AI Neighborhood Watch solo in a single hackathon sprint: real-time incident reporting with Gemini-powered audio summaries, a live Leaflet map, and ElevenLabs voice output. The solo constraint meant every architectural decision was mine to own."
+            desc: "Solo. One sprint. No teammates to blame if it broke.\n\nI built AI Neighborhood Watch from scratch, real-time incident reporting, Gemini-powered categorization, a live Leaflet map, and an ElevenLabs audio briefing pipeline, in a single hackathon. Every architectural decision was mine to own, which meant every wrong one was mine to fix at 2am. It shipped. It worked. It's still live."
         },
         {
             name: "Redis Hackathon (Dev.to)",
             date: "Summer 2025",
             team: "Team of 2",
             url: "https://github.com/PujaSridhar/smart-doc-finder",
-            desc: "Built Smart Doc Finder with one other person: a document search system that uses Redis as more than a cache, vector search, semantic ranking, and a React frontend on top. The whole point was to see how far Redis could stretch beyond its obvious job."
+            desc: "The constraint was Redis. The question was: how far can you push it past the obvious use case?\n\nTwo of us built Smart Doc Finder, a document search system where Redis does event streaming via Streams, vector similarity search via Redis Cloud, and semantic caching all at once. One service, three jobs, zero excuses for keyword-only search. We built it because the architecture was interesting, not because it was easy."
         }
     ],
     talks: [
