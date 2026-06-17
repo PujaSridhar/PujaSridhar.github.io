@@ -149,7 +149,7 @@ export const portfolioData = {
         {
             name: "AI Bot Rescue Mission",
             slug: "ai-rescue-bot",
-            tagline: "Four bots, one captain, a ship full of moving aliens — a study in how quickly pathfinders break",
+            tagline: "Four bots, one captain, a ship full of moving aliens: a study in how quickly pathfinders break",
             tech: "Python, A-Star Algorithm, Heuristics",
             date: "March 2024",
             desc: [
@@ -160,7 +160,7 @@ export const portfolioData = {
         {
             name: "Algorithmic Transformation (Independent Set to Clique)",
             slug: "algo-transform",
-            tagline: "NP reduction made visible — complement graphs, cliques, and 3D force graph output",
+            tagline: "NP reduction made visible: complement graphs, cliques, and 3D force graph output",
             tech: "Python, NetworkX, Pandas, 3D Force Graph",
             date: "May 2024",
             desc: [
@@ -182,7 +182,7 @@ export const portfolioData = {
         {
             name: "Emotion Detection from Facial Expressions",
             slug: "emotion-detection",
-            tagline: "CNN trained on FER-2013, wired into OpenCV for real-time video — 96% accuracy",
+            tagline: "CNN trained on FER-2013, wired into OpenCV for real-time video. 96% accuracy",
             tech: "Python, TensorFlow, Keras, OpenCV",
             date: "March 2023",
             desc: [
@@ -193,7 +193,7 @@ export const portfolioData = {
         {
             name: "Sentiment Analysis of Movie Reviews",
             slug: "sentiment-analysis",
-            tagline: "Naive Bayes on 1,000+ reviews, 95% accuracy — simple models, done well",
+            tagline: "Naive Bayes on 1,000+ reviews, 95% accuracy. Simple models, done well",
             tech: "Python, NLP, Scikit-learn, Naive Bayes",
             date: "December 2022",
             desc: [
@@ -204,7 +204,7 @@ export const portfolioData = {
         {
             name: "Credit Card Fraud Detection",
             slug: "fraud-detection",
-            tagline: "Isolation Forest beats LOF and SVM on anomaly detection — the gap between them was the education",
+            tagline: "Isolation Forest beats LOF and SVM on anomaly detection. The gap between them was the education",
             tech: "Python, Scikit-learn, Isolation Forest",
             date: "October 2022",
             desc: [

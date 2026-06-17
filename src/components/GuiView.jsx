@@ -27,8 +27,9 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
             {portfolioData.experience.map((experience) => (
               <div key={`${experience.role}-${experience.company}`} className="gui-item">
                 <div className="gui-item-title">
-                  {experience.role} @ {experience.company} ({experience.period})
+                  <span style={{ color: 'var(--color-accent)' }}>{experience.role}</span> @ {experience.company}
                 </div>
+                <div style={{ opacity: 0.65, fontSize: '0.85em', marginBottom: '0.5rem' }}>{experience.period}</div>
                 {experience.desc.map((point, index) => (
                   <p key={index} style={{ marginBottom: '0.5rem' }}>{point}</p>
                 ))}

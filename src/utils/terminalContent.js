@@ -585,11 +585,11 @@ function buildSudoHireHtml() {
     `I build them because something was bothering me.<br><br>` +
     `Why are five agents running sequentially when they could finish in parallel and be done in 15 seconds? Why is Redis sitting there doing one job when it can clearly handle three? Why does "cafe" return every coffee shop in a two-mile radius when you asked for something specific?<br><br>` +
     `These questions turned into LexAI, Smart Doc Finder, LocalLens.<br>` +
-    `The questions before those turned into a production data pipeline at PostHog and a medical AI co-pilot I designed the safety boundaries for — after sitting down with nurses and a nutritionist to understand what "good" actually meant.<br><br>` +
+    `The questions before those turned into a production data pipeline at PostHog and a medical AI co-pilot I designed the safety boundaries for, after sitting down with nurses and a nutritionist to understand what "good" actually meant.<br><br>` +
     `I also compiled a memory allocator to WebAssembly at 2am once.<br>` +
     `Not for a job. Just to know I could.<br>` +
     `(Type <span class="command">sys --alloc</span> if you want to run it.)<br><br>` +
-    `MS Computer Science, Rutgers — January 2026.<br>` +
+    `MS Computer Science, Rutgers. January 2026.<br>` +
     `San Jose, CA. Available immediately.<br>` +
     `Looking for roles where intelligence and infrastructure actually have to talk to each other.<br><br>` +
     `Resume: <a href="${RESUME_URL}" target="_blank" rel="noreferrer" class="link">PujaSridhar_Resume.pdf</a><br>` +
