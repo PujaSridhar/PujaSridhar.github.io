@@ -4,13 +4,14 @@ import { formatBreaks, makeOutputEntry } from './terminalHelpers.js';
 
 export function getBootEntry() {
   return makeOutputEntry(
-    `Initializing Cogsworth v25.0.0...<br>` +
-    `Channeling legacy of Babbage, Lovelace, Turing... OK.<br>` +
-    `Parsing lineage of data... OK.<br>` +
-    `Protocol established. Welcome.<br><br>` +
-    `I am Cogsworth, an AI built to present the work of Puja Sridhar.<br>` +
-    `Type <span class="command">'help'</span> for a list of commands, or ask me a question in plain English.<br>` +
-    `Prefer a standard layout? Click the screen icon in the top-right corner to switch to Standard View.`
+    `Booting Cogsworth v25.0.0...<br><br>` +
+    `Babbage imagined the machine.<br>` +
+    `Lovelace saw what it could become.<br>` +
+    `Turing asked if it could think.<br><br>` +
+    `I'm still working on the answer.<br>` +
+    `So far: production pipelines, parallel agents, and one memory allocator compiled to WebAssembly at 2am.<br><br>` +
+    `Type <span class="command">'help'</span> to see what's here, or ask Cogsworth anything —<br>` +
+    `it answers from my actual portfolio, not from thin air.`
   );
 }
 
@@ -264,12 +265,12 @@ function buildVersionHtml() {
     <span style="color:var(--color-accent);">◉ AI/ML Engineering      [ACTIVE]</span>
     <span style="color:var(--color-accent);">◉ Data Engineering       [LEARNING + SHIPPING]</span>
     <span style="color:var(--color-accent);">◉ Teaching &amp; Mentoring   [150 students. all survived.]</span>
-    <span style="color:var(--color-accent);">◉ Distributed Systems    [IN PROGRESS - ask me in 6 months]</span>
+    <span style="color:var(--color-accent);">◉ Distributed Systems    [ACTIVE - Airflow pipelines, WASM thread scheduler, parallel agents]</span>
     <span style="color:var(--color-accent);">◉ Pushups                [NEW. non-negotiable.]</span>
     <span style="color:var(--color-accent);">◉ Caffeine independence  [somehow achieved]</span>
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Type <span style="color:var(--color-accent);">'decisions'</span> to see the engineering tradeoffs behind the work.
+  Type <span style="color:var(--color-accent);">'decisions'</span> — 6 real engineering tradeoffs with alternatives considered. Worth reading.
   Type <span style="color:var(--color-accent);">'diff'</span> to compare v24 and v25.
   Type <span style="color:var(--color-accent);">'patch notes'</span> for the release notes.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</pre>`
@@ -301,7 +302,7 @@ function buildExperienceHtml() {
     .map(
       (experience) =>
         `<span class="command">${experience.role}</span> @ ${experience.company} (${experience.period})<br>` +
-        experience.desc.map((point) => `- ${point}`).join('<br>')
+        experience.desc.join('<br><br>')
     )
     .join('<br><br>');
 
@@ -426,8 +427,7 @@ function buildProjectsHtml() {
   const other = portfolioData.projects
     .filter((project) => !project.featured)
     .map((project) => {
-      const resultLine = project.desc.find((line) => line.startsWith('<strong>Result:</strong>')) || project.desc[0];
-      const tagline = resultLine.replace(/<[^>]*>/g, '').trim();
+      const tagline = project.tagline || project.desc[0].replace(/<[^>]*>/g, '').trim();
       return `<span class="command">projects ${project.slug}</span><br>${tagline}`;
     })
     .join('<br><br>');
@@ -580,13 +580,23 @@ function buildContactHtml() {
 
 function buildSudoHireHtml() {
   return (
-    `<div class="skills-category-title">sudo hire</div>` +
-    `MS in Computer Science, Rutgers (Jan 2026). Background in AI/ML engineering with production experience across data pipelines, agentic systems, and systems programming.<br><br>` +
-    `Built: free-list allocator in C → WASM (Emscripten, STANDALONE_WASM, static heap). Production Airflow + dbt + FastAPI data pipeline. 4-stage agentic venue discovery system. 5-agent parallel contract analysis pipeline.<br><br>` +
-    `Open to: SWE · AI Engineering · Data Engineering · ML Engineering<br>` +
-    `Location: San Jose, CA — open to remote<br><br>` +
+    `[sudo] password for hiring_manager: ••••••••<br><br>` +
+    `I don't build things to have them on a resume.<br>` +
+    `I build them because something was bothering me.<br><br>` +
+    `Why are five agents running sequentially when they could finish in parallel and be done in 15 seconds? Why is Redis sitting there doing one job when it can clearly handle three? Why does "cafe" return every coffee shop in a two-mile radius when you asked for something specific?<br><br>` +
+    `These questions turned into LexAI, Smart Doc Finder, LocalLens.<br>` +
+    `The questions before those turned into a production data pipeline at PostHog and a medical AI co-pilot I designed the safety boundaries for, after sitting down with nurses and a nutritionist to understand what "good" actually meant.<br><br>` +
+    `I also compiled a memory allocator to WebAssembly at 2am once.<br>` +
+    `Not for a job. Just to know I could.<br>` +
+    `(Type <span class="command">sys --alloc</span> if you want to run it.)<br><br>` +
+    `MS Computer Science, Rutgers. January 2026.<br>` +
+    `San Jose, CA. Available immediately.<br>` +
+    `Looking for roles where intelligence and infrastructure actually have to talk to each other.<br><br>` +
     `Resume: <a href="${RESUME_URL}" target="_blank" rel="noreferrer" class="link">PujaSridhar_Resume.pdf</a><br>` +
-    `Calendly: <a href="${CALENDLY_URL}" target="_blank" rel="noreferrer" class="link">Book time with me</a>`
+    `Schedule: <a href="${CALENDLY_URL}" target="_blank" rel="noreferrer" class="link">Book time with me</a><br><br>` +
+    `The terminal you're reading this in?<br>` +
+    `I built that too.<br><br>` +
+    `(Type <span class="command">decisions</span> if you want to see how I actually think through a tradeoff.)`
   );
 }
 

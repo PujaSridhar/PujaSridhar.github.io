@@ -52,6 +52,16 @@ Run `projects <slug>` in the terminal (e.g. `projects locallens`) to see the ful
 
 ---
 
+## Hackathons
+
+| Hackathon | Date | Built | Team |
+|---|---|---|---|
+| RWJ Health Hackathon | Oct 2025 | Cross-platform AI chat app — 5 LLMs, streaming, AWS Cognito auth | 10 (4 med students, 6 engineers) |
+| HackRU | Sept 2025 | AI Neighborhood Watch — real-time incident map + ElevenLabs audio briefings | Solo |
+| Redis Hackathon (Dev.to) | Summer 2025 | Smart Doc Finder — Redis Streams + vector search + semantic caching | 2 |
+
+---
+
 ## Tech stack
 
 - **Frontend** — React 19 + Vite 8 + Tailwind CSS v4
