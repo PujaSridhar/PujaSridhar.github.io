@@ -724,6 +724,7 @@ function buildAllHtml() {
     buildEducationHtml(),
     buildExperienceHtml(),
     buildProjectsHtml(),
+    buildHackathonsHtml(),
     buildSkillsHtml(),
     buildLanguagesHtml(),
     buildCertificationsHtml(),

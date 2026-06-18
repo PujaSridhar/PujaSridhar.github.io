@@ -26,7 +26,7 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
         {activeTab === 'About' && (
           <div className="tab-content active">
             <div className="gui-identity">
-              <div className="gui-identity-name">Puja Sridhar</div>
+              <h1 className="gui-identity-name">Puja Sridhar</h1>
               <div className="gui-identity-title">Software & AI Engineer</div>
             </div>
             <p dangerouslySetInnerHTML={{ __html: formatBreaks(portfolioData.about) }} />
@@ -51,7 +51,7 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
 
         {activeTab === 'Projects' && (
           <div className="tab-content active">
-            <div className="skills-category-title">Featured</div>
+            <h2 className="skills-category-title">Featured</h2>
             {portfolioData.projects
               .filter((project) => project.featured)
               .map((project) => (
@@ -78,7 +78,7 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
                 </div>
               ))}
 
-            <div className="skills-category-title">Other Work</div>
+            <h2 className="skills-category-title">Other Work</h2>
             {portfolioData.projects
               .filter((project) => !project.featured)
               .map((project) => (

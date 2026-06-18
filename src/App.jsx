@@ -392,7 +392,16 @@ export default function App() {
     setTerminalHistory((previous) => [...previous, makeCommandEntry(userInput), ...(commandEntries ?? [])]);
 
     if (!commandEntries) {
-      void requestAssistant(userInput);
+      // Don't bill API quota on obvious non-questions: HTML tags, single chars, pure symbols
+      const looksLikeQuestion = userInput.trim().length > 3 && !/^<[^>]+>/.test(userInput) && /[a-zA-Z]/.test(userInput);
+      if (looksLikeQuestion) {
+        void requestAssistant(userInput);
+      } else {
+        setTerminalHistory((prev) => [
+          ...prev,
+          makeOutputEntry(`<span style="color:var(--color-error)">command not found: ${userInput.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span> — type <span class="command">help</span> to see available commands.`),
+        ]);
+      }
     }
 
   }
