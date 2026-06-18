@@ -126,7 +126,11 @@ export function AllocDemo({ onExit }) {
 
     if (blocksAfter.length > blocksBefore.length) {
       const remainder = blocksAfter.find((b) => b.free);
-      addLog(`malloc(${size}B) → Block ${label} allocated. Free block was oversized — split: ${size}B used, ${remainder?.size ?? '?'}B returned to free list.`);
+      if (remainder) {
+        addLog(`malloc(${size}B) → Block ${label} allocated. Free block was oversized — split: ${size}B used, ${remainder.size}B returned to free list.`);
+      } else {
+        addLog(`malloc(${size}B) → Block ${label} allocated from heap.`);
+      }
     } else if (blocksBefore.length === 0) {
       addLog(`malloc(${size}B) → Block ${label} allocated from fresh heap.`);
     } else {
