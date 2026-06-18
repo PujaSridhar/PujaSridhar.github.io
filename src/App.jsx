@@ -392,7 +392,16 @@ export default function App() {
     setTerminalHistory((previous) => [...previous, makeCommandEntry(userInput), ...(commandEntries ?? [])]);
 
     if (!commandEntries) {
-      void requestAssistant(userInput);
+      // Don't bill API quota on obvious non-questions: HTML tags, single chars, pure symbols
+      const looksLikeQuestion = userInput.trim().length > 3 && !/^<[^>]+>/.test(userInput) && /[a-zA-Z]/.test(userInput);
+      if (looksLikeQuestion) {
+        void requestAssistant(userInput);
+      } else {
+        setTerminalHistory((prev) => [
+          ...prev,
+          makeOutputEntry(`<span style="color:var(--color-error)">command not found: ${userInput.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span> — type <span class="command">help</span> to see available commands.`),
+        ]);
+      }
     }
 
   }
@@ -585,6 +594,7 @@ export default function App() {
         <div id="contact-icons-wrapper">
           <div id="contact-icons-container">
               <div id="status-bar" className="flex items-center gap-4 ml-4">
+                <span id="site-name">Puja Sridhar</span>
                 <div id="clock">{clock}</div>
                 <div id="weather-display" className="flex items-center gap-2" title="Your Local Weather">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">

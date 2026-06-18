@@ -23,9 +23,10 @@ export function buildHelpHtml() {
   ).join('<br><br>');
 
   return (
+    `You can ask me anything — <i>"What has Puja built with AI?"</i> or <i>"Is she available to hire?"</i><br><br>` +
+    `Or use a command:<br><br>` +
     `${groups}` +
-    `<br><br>Type <span class="command">man [command]</span> for details on any command, or <span class="command">all</span> to dump everything at once.` +
-    `<br><br>You can also ask me a question, like: <i>"What are Puja's most recent projects?"</i>`
+    `<br><br>Type <span class="command">man [command]</span> for details · <span class="command">clear</span> to reset · <span class="command">all</span> to dump everything`
   );
 }
 
@@ -723,6 +724,7 @@ function buildAllHtml() {
     buildEducationHtml(),
     buildExperienceHtml(),
     buildProjectsHtml(),
+    buildHackathonsHtml(),
     buildSkillsHtml(),
     buildLanguagesHtml(),
     buildCertificationsHtml(),
