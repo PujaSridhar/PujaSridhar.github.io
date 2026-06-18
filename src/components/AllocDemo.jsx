@@ -1,250 +1,248 @@
 import { useEffect, useRef, useState } from 'react';
-import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-function measureJsBaseline(iterations) {
-  const started = performance.now();
+const ALLOC_SIZES = { Small: 64, Medium: 128, Large: 256 };
+const BLOCK_LABELS = 'ABCDEFGHIJKLMNOP'.split('');
 
-  for (let index = 0; index < iterations; index += 1) {
-    const buffer = new Uint8Array(256);
-    buffer[0] = index & 255;
-  }
-
-  const elapsedMs = performance.now() - started;
-  return Math.max(1, Math.round((elapsedMs * 1_000_000) / iterations));
-}
-
-function getChartPalette() {
-  const styles = getComputedStyle(document.documentElement);
-  return {
-    accent: styles.getPropertyValue('--color-accent').trim() || '#5A6050',
-    free: styles.getPropertyValue('--color-bg-secondary').trim() || '#EDEAE4',
-    border: styles.getPropertyValue('--color-border').trim() || '#D0CEC8',
-    text: styles.getPropertyValue('--color-text').trim() || '#2A2820',
-    muted: styles.getPropertyValue('--color-text-secondary').trim() || '#6A6860',
-  };
-}
+let cachedWasm = null;
+let cachedStatus = 'Loading alloc.wasm...';
 
 export function AllocDemo() {
-  const [status, setStatus] = useState('Loading alloc.wasm...');
-  const [benchmarkData, setBenchmarkData] = useState([
-    { label: 'myalloc', ns: 1 },
-    { label: 'js baseline', ns: 1 },
-  ]);
+  const [status, setStatus] = useState(cachedStatus);
   const [heapBlocks, setHeapBlocks] = useState([]);
-  const [isRunning, setIsRunning] = useState(false);
-  const [palette, setPalette] = useState(() => getChartPalette());
-  const [allocOps, setAllocOps] = useState(null);
-  const wasmExportsRef = useRef(null);
+  const [liveAllocs, setLiveAllocs] = useState([]);
+  const [logLines, setLogLines] = useState(['Heap ready. Allocate some blocks to see what happens.']);
+  const [wasmReady, setWasmReady] = useState(!!cachedWasm);
+  const wasmRef = useRef(cachedWasm);
+  const labelCounterRef = useRef(0);
+  const logEndRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
 
-    async function loadAllocatorModule() {
+    async function load() {
+      if (cachedWasm) {
+        wasmRef.current = cachedWasm;
+        return;
+      }
+
       try {
         const response = await fetch('/wasm/alloc.wasm');
-        if (!response.ok) {
-          throw new Error(`Missing alloc.wasm (${response.status})`);
-        }
+        if (!response.ok) throw new Error(`${response.status}`);
 
         const importObject = { env: {} };
-
         let instance;
         try {
           ({ instance } = await WebAssembly.instantiateStreaming(response, importObject));
         } catch {
-          const responseForBytes = await fetch('/wasm/alloc.wasm');
-          const bytes = await responseForBytes.arrayBuffer();
+          const bytes = await (await fetch('/wasm/alloc.wasm')).arrayBuffer();
           ({ instance } = await WebAssembly.instantiate(bytes, importObject));
         }
 
         if (!cancelled) {
-          wasmExportsRef.current = instance.exports;
-          // Reset the counter on load so it only reflects this session's benchmark
-          wasmExportsRef.current.reset_alloc_counter?.();
-          setStatus('alloc.wasm loaded. Benchmark ready.');
+          wasmRef.current = instance.exports;
+          cachedWasm = instance.exports;
+          const msg = 'alloc.wasm loaded — running live in your browser.';
+          cachedStatus = msg;
+          setStatus(msg);
+          setWasmReady(true);
         }
       } catch {
         if (!cancelled) {
-          wasmExportsRef.current = null;
-          setStatus('alloc.wasm is not built locally yet. Using a simulated preview until the Emscripten build runs.');
+          const msg = 'alloc.wasm unavailable — build with npm run build:wasm.';
+          cachedStatus = msg;
+          setStatus(msg);
         }
       }
     }
 
-    loadAllocatorModule();
-
-    const observer = new MutationObserver(() => {
-      setPalette(getChartPalette());
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['style'],
-    });
-
-    return () => {
-      cancelled = true;
-      observer.disconnect();
-    };
+    load();
+    return () => { cancelled = true; };
   }, []);
 
+  useEffect(() => {
+    logEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [logLines]);
+
   function readHeapBlocks() {
-    const wasmExports = wasmExportsRef.current;
-    if (!wasmExports?.get_heap_block_count || !wasmExports?.get_heap_block_info || !wasmExports?.memory) {
-      return [];
-    }
-
-    const count = wasmExports.get_heap_block_count();
-    const infoPtr = wasmExports.get_heap_block_info();
-    const info = new Uint32Array(wasmExports.memory.buffer, infoPtr, count * 2);
-
-    return Array.from({ length: count }, (_, index) => ({
-      id: `block-${index}`,
-      size: info[index * 2],
-      state: info[index * 2 + 1] ? 'free' : 'allocated',
+    const wasm = wasmRef.current;
+    if (!wasm?.get_heap_block_count || !wasm?.get_heap_block_info || !wasm?.memory) return [];
+    const count = wasm.get_heap_block_count();
+    if (count === 0) return [];
+    const infoPtr = wasm.get_heap_block_info();
+    const info = new Uint32Array(wasm.memory.buffer, infoPtr, count * 2);
+    return Array.from({ length: count }, (_, i) => ({
+      id: `block-${i}`,
+      size: info[i * 2],
+      free: !!info[i * 2 + 1],
     }));
   }
 
-  function runAllocatorBenchmark(iterations) {
-    const wasmExports = wasmExportsRef.current;
-    const wasmRunner = wasmExports?.run_benchmark || wasmExports?._run_benchmark;
-
-    if (typeof wasmRunner !== 'function') return null;
-
-    const jsBaseline = measureJsBaseline(iterations);
-    const start = performance.now();
-    const opsCompleted = wasmRunner(iterations);
-    const elapsedMs = performance.now() - start;
-
-    if (!opsCompleted || opsCompleted <= 0) return { allocatorNs: null, jsBaselineNs: jsBaseline };
-
-    const nsPerOp = Math.round((elapsedMs * 1_000_000) / opsCompleted);
-
-    // Read the counter from the same WASM instance that just ran the benchmark
-    const rawCounter = wasmExports.get_alloc_counter?.();
-    const totalOps = rawCounter !== undefined ? Number(rawCounter) : null;
-
-    return { allocatorNs: nsPerOp, jsBaselineNs: jsBaseline, totalOps };
+  function addLog(msg) {
+    setLogLines((prev) => [...prev, msg]);
   }
 
-  function handleRunBenchmark() {
-    if (isRunning) {
+  function handleAllocate(sizeName) {
+    const wasm = wasmRef.current;
+    if (!wasm?.my_malloc) return;
+
+    const size = ALLOC_SIZES[sizeName];
+    const blocksBefore = readHeapBlocks();
+    const ptr = wasm.my_malloc(size);
+    const blocksAfter = readHeapBlocks();
+
+    if (ptr === 0) {
+      const totalFree = blocksBefore.filter((b) => b.free).reduce((sum, b) => sum + b.size, 0);
+      const freeBlockCount = blocksBefore.filter((b) => b.free).length;
+      if (totalFree >= size && freeBlockCount > 1) {
+        addLog(`✗  malloc(${size}B) failed — fragmentation. ${totalFree}B free total but split across ${freeBlockCount} blocks. Free adjacent blocks to coalesce.`);
+      } else {
+        addLog(`✗  malloc(${size}B) failed — heap exhausted. Reset to start fresh.`);
+      }
       return;
     }
 
-    setIsRunning(true);
-    setAllocOps(null);
+    const label = BLOCK_LABELS[labelCounterRef.current % BLOCK_LABELS.length];
+    labelCounterRef.current += 1;
 
-    window.setTimeout(() => {
-      const iterations = 1000000;
-      const benchmarkResult = runAllocatorBenchmark(iterations);
-      const jsBaseline = benchmarkResult?.jsBaselineNs ?? measureJsBaseline(iterations);
-      const allocatorTime = benchmarkResult?.allocatorNs ?? Math.max(1, Math.round(jsBaseline * 0.76));
+    const countBefore = blocksBefore.length;
+    const countAfter = blocksAfter.length;
 
-      setBenchmarkData([
-        { label: 'myalloc', ns: allocatorTime },
-        { label: 'js baseline', ns: jsBaseline },
-      ]);
+    if (countAfter > countBefore) {
+      const remainder = blocksAfter.find((b) => b.free);
+      addLog(`malloc(${size}B) → Block ${label} allocated. Oversized free block split — ${size}B used, ${remainder?.size ?? '?'}B remainder back in free list.`);
+    } else if (blocksBefore.length === 0) {
+      addLog(`malloc(${size}B) → Block ${label} allocated from fresh heap.`);
+    } else {
+      addLog(`malloc(${size}B) → Block ${label} allocated. Reused a free block of exact fit.`);
+    }
 
-      if (benchmarkResult?.totalOps !== null && benchmarkResult?.totalOps !== undefined) {
-        setAllocOps(benchmarkResult.totalOps);
-      }
-
-      setHeapBlocks(readHeapBlocks());
-
-      setStatus(
-        benchmarkResult?.allocatorNs
-          ? `Benchmark complete. alloc.wasm responded with ${allocatorTime}ns/op.`
-          : 'Benchmark complete. Showing simulated allocator timings until alloc.wasm is built.'
-      );
-      setIsRunning(false);
-    }, 1400);
+    setLiveAllocs((prev) => [...prev, { id: crypto.randomUUID(), label, ptr, size, sizeName }]);
+    setHeapBlocks(blocksAfter);
   }
+
+  function handleFree(alloc) {
+    const wasm = wasmRef.current;
+    if (!wasm?.my_free) return;
+
+    const blocksBefore = readHeapBlocks();
+    wasm.my_free(alloc.ptr);
+    const blocksAfter = readHeapBlocks();
+
+    const countBefore = blocksBefore.length;
+    const countAfter = blocksAfter.length;
+
+    if (countAfter < countBefore) {
+      const merged = countBefore - countAfter + 1;
+      addLog(`free(Block ${alloc.label}) → Freed. Coalesced with ${merged - 1} adjacent free block${merged - 1 !== 1 ? 's' : ''} → merged into one larger free region.`);
+    } else {
+      addLog(`free(Block ${alloc.label}) → Marked free. No adjacent free blocks to coalesce yet.`);
+    }
+
+    setLiveAllocs((prev) => prev.filter((a) => a.id !== alloc.id));
+    setHeapBlocks(blocksAfter);
+  }
+
+  function handleReset() {
+    const wasm = wasmRef.current;
+    if (!wasm?.reset_heap) return;
+    wasm.reset_heap();
+    setLiveAllocs([]);
+    setHeapBlocks([]);
+    labelCounterRef.current = 0;
+    setLogLines(['Heap reset. All blocks cleared. Start fresh.']);
+  }
+
+  const totalHeapSize = heapBlocks.reduce((sum, b) => sum + b.size, 0) || 1;
 
   return (
     <div className="alloc-demo">
       <div className="skills-category-title">sys --alloc</div>
       <p className="alloc-demo-copy">
-        Built a free-list allocator in C: block splitting, coalescing, 8-byte alignment, backed by a static heap.
-        Compiled to WASM with Emscripten. Run the benchmark to measure current timings against a JS Uint8Array baseline.
+        A free-list memory allocator written in C, compiled to WebAssembly. Allocate and free blocks below — watch the heap change, see blocks split when oversized, and see adjacent free blocks coalesce back together.
       </p>
       <div className="alloc-demo-status">{status}</div>
-      {allocOps !== null && (
-        <div className="alloc-demo-status">
-          <span className="command">{allocOps.toLocaleString()}</span> malloc/free ops tracked in WASM linear memory this session.
+
+      {/* Heap visualisation */}
+      <div className="alloc-demo-section-title">Heap</div>
+      {heapBlocks.length > 0 ? (
+        <>
+          <div className="alloc-demo-heap">
+            {heapBlocks.map((block) => (
+              <div
+                key={block.id}
+                className={`alloc-demo-block alloc-demo-block-${block.free ? 'free' : 'allocated'}`}
+                style={{ flexGrow: block.size }}
+                title={`${block.free ? 'free' : 'allocated'} · ${block.size} bytes`}
+              >
+                <span>{block.free ? 'free' : 'used'}</span>
+              </div>
+            ))}
+          </div>
+          <div className="alloc-demo-legend">
+            <span><i className="alloc-demo-swatch alloc-demo-swatch-allocated" />allocated</span>
+            <span><i className="alloc-demo-swatch alloc-demo-swatch-free" />free</span>
+            <span className="alloc-demo-heap-stats">
+              {heapBlocks.filter((b) => !b.free).length} allocated · {heapBlocks.filter((b) => b.free).length} free · {heapBlocks.reduce((s, b) => s + b.size, 0)}B tracked
+            </span>
+          </div>
+        </>
+      ) : (
+        <div className="alloc-demo-heap alloc-demo-heap-empty">
+          <span className="alloc-demo-caption">heap is empty — allocate a block to start</span>
         </div>
       )}
 
+      {/* Controls */}
+      <div className="alloc-demo-section-title">Allocate</div>
       <div className="alloc-demo-toolbar">
-        <button className="alloc-demo-button" type="button" onClick={handleRunBenchmark} disabled={isRunning}>
-          {isRunning ? 'Benchmarking...' : 'Run Benchmark'}
+        {Object.entries(ALLOC_SIZES).map(([name, size]) => (
+          <button
+            key={name}
+            className="alloc-demo-button"
+            type="button"
+            disabled={!wasmReady}
+            onClick={() => handleAllocate(name)}
+          >
+            + {name} ({size}B)
+          </button>
+        ))}
+        <button
+          className="alloc-demo-button alloc-demo-button-reset"
+          type="button"
+          disabled={!wasmReady || (liveAllocs.length === 0 && heapBlocks.length === 0)}
+          onClick={handleReset}
+        >
+          Reset heap
         </button>
-        <span className="alloc-demo-caption">1M-ish tiny allocations, normalized to ns/op.</span>
       </div>
 
-      <div className="alloc-demo-grid">
-        <section className="alloc-demo-panel">
-          <div className="alloc-demo-panel-title">Benchmark</div>
-          <div className="alloc-demo-chart" style={{ width: '100%', height: 240 }}>
-            <ResponsiveContainer width="100%" height={240}>
-              <BarChart data={benchmarkData} margin={{ top: 8, right: 8, left: 0, bottom: 8 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={palette.border} vertical={false} />
-                <XAxis dataKey="label" tick={{ fill: palette.text, fontSize: 12 }} axisLine={false} tickLine={false} />
-                <YAxis
-                  domain={[0, 'auto']}
-                  tick={{ fill: palette.muted, fontSize: 12 }}
-                  axisLine={false}
-                  tickLine={false}
-                  width={56}
-                  tickFormatter={(value) => `${value}ns`}
-                />
-                <Tooltip
-                  cursor={{ fill: 'color-mix(in srgb, var(--color-accent) 10%, transparent)' }}
-                  contentStyle={{
-                    backgroundColor: 'var(--color-bg)',
-                    border: '1px solid var(--color-border)',
-                    color: 'var(--color-text)',
-                    borderRadius: '6px',
-                  }}
-                  formatter={(value) => [`${value}ns/op`, 'time']}
-                />
-                <Bar dataKey="ns" radius={[6, 6, 0, 0]}>
-                  {benchmarkData.map((entry) => (
-                    <Cell key={entry.label} fill={entry.label === 'myalloc' ? palette.accent : palette.free} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+      {/* Live allocations */}
+      {liveAllocs.length > 0 && (
+        <>
+          <div className="alloc-demo-section-title">Live blocks — click to free</div>
+          <div className="alloc-demo-live-allocs">
+            {liveAllocs.map((alloc) => (
+              <button
+                key={alloc.id}
+                className="alloc-demo-alloc-chip"
+                type="button"
+                onClick={() => handleFree(alloc)}
+                title={`free(Block ${alloc.label})`}
+              >
+                Block {alloc.label} · {alloc.size}B · free →
+              </button>
+            ))}
           </div>
-        </section>
+        </>
+      )}
 
-        <section className="alloc-demo-panel">
-          <div className="alloc-demo-panel-title">Heap View</div>
-          {heapBlocks.length > 0 ? (
-            <>
-              <div className="alloc-demo-heap">
-                {heapBlocks.map((block) => (
-                  <div
-                    key={block.id}
-                    className={`alloc-demo-block alloc-demo-block-${block.state}`}
-                    style={{ flexGrow: block.size }}
-                    title={`${block.state} · ${block.size} bytes`}
-                  >
-                    <span>{block.state === 'allocated' ? 'used' : 'free'}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="alloc-demo-legend">
-                <span><i className="alloc-demo-swatch alloc-demo-swatch-allocated" />allocated</span>
-                <span><i className="alloc-demo-swatch alloc-demo-swatch-free" />free</span>
-              </div>
-            </>
-          ) : (
-            <p className="alloc-demo-caption">
-              Run the benchmark to inspect the live free-list state from alloc.wasm.
-            </p>
-          )}
-        </section>
+      {/* Action log */}
+      <div className="alloc-demo-section-title">What just happened</div>
+      <div className="alloc-demo-log">
+        {logLines.map((line, i) => (
+          <div key={i} className="alloc-demo-log-line">{line}</div>
+        ))}
+        <div ref={logEndRef} />
       </div>
     </div>
   );

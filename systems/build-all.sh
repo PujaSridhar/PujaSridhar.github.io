@@ -17,6 +17,12 @@ cd "$REPO_ROOT/systems/shell"
 make clean
 make
 
+echo "Building scheduler..."
+cd "$REPO_ROOT/systems/scheduler"
+make clean
+make
+
 echo "WASM build complete."
 echo "  - $REPO_ROOT/public/wasm/alloc.wasm"
 echo "  - $REPO_ROOT/public/wasm/shell.wasm"
+echo "  - $REPO_ROOT/public/wasm/scheduler.wasm"

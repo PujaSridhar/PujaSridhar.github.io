@@ -132,6 +132,7 @@ export const portfolioData = {
                 "One Redis instance. Three jobs: event streaming, vector database, semantic cache. The architecture was the puzzle. Natural language search that actually works was the point."
             ],
             url: "https://github.com/krshsl/smart-doc-finder",
+            liveUrl: "https://smart-doc-finder.vercel.app/login",
             screenshots: ['/projects/smart-doc-finder/smartdoc.png', '/projects/smart-doc-finder/smartdoc1.png', '/projects/smart-doc-finder/smartdoc2.png', '/projects/smart-doc-finder/smartdoc3.png']
         },
         {
