@@ -4,9 +4,9 @@ const PCB_FIELDS = 6;
 const QUANTUM_MS = 5;
 
 const STATE_NAMES = ['READY', 'RUNNING', 'BLOCKED', 'DONE'];
-const THREAD_NAMES = ['Writer', 'Reader', 'Counter', 'Indexer', 'Logger'];
+const THREAD_NAMES = ['Process A', 'Process B', 'Process C', 'Process D', 'Process E'];
 
-const BURST_TIMES = [25, 20, 15, 30, 10]; // burst_ms per thread
+const BURST_TIMES = [30, 20, 15, 25, 10]; // burst_ms per thread
 
 function getStateColor(state) {
   switch (state) {
@@ -183,7 +183,7 @@ export function ThreadDemo({ onExit }) {
   function timelineLabel(val) {
     if (val === -2) return '💀';
     if (val === -1) return '--';
-    return THREAD_NAMES[val]?.[0] ?? `T${val}`;
+    return String.fromCharCode(65 + val) ?? `T${val}`;
   }
 
   return (
