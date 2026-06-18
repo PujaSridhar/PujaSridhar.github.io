@@ -183,6 +183,9 @@ export function ThreadDemo({ onExit }) {
   return (
     <div className="thread-demo" onKeyDown={handleKeyDown}>
       <div className="skills-category-title">sys --threads</div>
+      <p className="alloc-demo-copy">
+        A round-robin thread scheduler written in C, compiled to WebAssembly. This is what your OS does thousands of times per second — slice CPU time across processes so everything appears to run at once. Each process gets a fixed quantum, then yields. Introduce a deadlock to see what happens when two processes each hold a resource the other needs and neither can proceed.
+      </p>
       <div className="alloc-demo-status">{status}</div>
 
       {pcbs.length > 0 && (
@@ -288,6 +291,7 @@ export function ThreadDemo({ onExit }) {
               Tip: press Play to run, or Step to advance one time slice at a time. Try Introduce Deadlock before running to see two processes block each other permanently.
             </p>
           )}
+          <div className="shell-demo-hint" style={{ marginTop: '0.75rem' }}>Esc to exit</div>
         </>
       )}
 

@@ -2,19 +2,22 @@ import { useEffect, useRef, useState } from 'react';
 
 const ALLOC_SIZES = { Small: 64, Medium: 128, Large: 256 };
 const BLOCK_LABELS = 'ABCDEFGHIJKLMNOP'.split('');
+const HEAP_TOTAL = 1024 * 1024; // 1MB backing heap
 
 let cachedWasm = null;
 let cachedStatus = 'Loading alloc.wasm...';
 
-export function AllocDemo() {
+export function AllocDemo({ onExit }) {
   const [status, setStatus] = useState(cachedStatus);
   const [heapBlocks, setHeapBlocks] = useState([]);
   const [liveAllocs, setLiveAllocs] = useState([]);
-  const [logLines, setLogLines] = useState(['Heap ready. Allocate some blocks to see what happens.']);
+  const [logLines, setLogLines] = useState([
+    'Heap ready. Allocate blocks below — watch them split, free them and see adjacent ones coalesce.',
+  ]);
   const [wasmReady, setWasmReady] = useState(!!cachedWasm);
   const wasmRef = useRef(cachedWasm);
   const labelCounterRef = useRef(0);
-  const logEndRef = useRef(null);
+  const logRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -24,11 +27,9 @@ export function AllocDemo() {
         wasmRef.current = cachedWasm;
         return;
       }
-
       try {
         const response = await fetch('/wasm/alloc.wasm');
         if (!response.ok) throw new Error(`${response.status}`);
-
         const importObject = { env: {} };
         let instance;
         try {
@@ -37,7 +38,6 @@ export function AllocDemo() {
           const bytes = await (await fetch('/wasm/alloc.wasm')).arrayBuffer();
           ({ instance } = await WebAssembly.instantiate(bytes, importObject));
         }
-
         if (!cancelled) {
           wasmRef.current = instance.exports;
           cachedWasm = instance.exports;
@@ -59,9 +59,15 @@ export function AllocDemo() {
     return () => { cancelled = true; };
   }, []);
 
+  /* Scroll log to bottom on new entries */
   useEffect(() => {
-    logEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
   }, [logLines]);
+
+  /* Esc to exit */
+  function handleKeyDown(e) {
+    if (e.key === 'Escape') { e.preventDefault(); onExit?.(); }
+  }
 
   function readHeapBlocks() {
     const wasm = wasmRef.current;
@@ -94,7 +100,7 @@ export function AllocDemo() {
       const totalFree = blocksBefore.filter((b) => b.free).reduce((sum, b) => sum + b.size, 0);
       const freeBlockCount = blocksBefore.filter((b) => b.free).length;
       if (totalFree >= size && freeBlockCount > 1) {
-        addLog(`✗  malloc(${size}B) failed — fragmentation. ${totalFree}B free total but split across ${freeBlockCount} blocks. Free adjacent blocks to coalesce.`);
+        addLog(`✗  malloc(${size}B) failed — fragmentation. ${totalFree}B free total but split across ${freeBlockCount} non-adjacent blocks. Free adjacent blocks to coalesce.`);
       } else {
         addLog(`✗  malloc(${size}B) failed — heap exhausted. Reset to start fresh.`);
       }
@@ -109,11 +115,11 @@ export function AllocDemo() {
 
     if (countAfter > countBefore) {
       const remainder = blocksAfter.find((b) => b.free);
-      addLog(`malloc(${size}B) → Block ${label} allocated. Oversized free block split — ${size}B used, ${remainder?.size ?? '?'}B remainder back in free list.`);
+      addLog(`malloc(${size}B) → Block ${label} allocated. Free block was oversized — split: ${size}B used, ${remainder?.size ?? '?'}B returned to free list.`);
     } else if (blocksBefore.length === 0) {
       addLog(`malloc(${size}B) → Block ${label} allocated from fresh heap.`);
     } else {
-      addLog(`malloc(${size}B) → Block ${label} allocated. Reused a free block of exact fit.`);
+      addLog(`malloc(${size}B) → Block ${label} allocated. Exact fit reused from free list.`);
     }
 
     setLiveAllocs((prev) => [...prev, { id: crypto.randomUUID(), label, ptr, size, sizeName }]);
@@ -133,9 +139,9 @@ export function AllocDemo() {
 
     if (countAfter < countBefore) {
       const merged = countBefore - countAfter + 1;
-      addLog(`free(Block ${alloc.label}) → Freed. Coalesced with ${merged - 1} adjacent free block${merged - 1 !== 1 ? 's' : ''} → merged into one larger free region.`);
+      addLog(`free(Block ${alloc.label}) → Freed and coalesced with ${merged - 1} adjacent free block${merged - 1 !== 1 ? 's' : ''} — merged into one larger region.`);
     } else {
-      addLog(`free(Block ${alloc.label}) → Marked free. No adjacent free blocks to coalesce yet.`);
+      addLog(`free(Block ${alloc.label}) → Marked free. No adjacent free blocks to merge yet.`);
     }
 
     setLiveAllocs((prev) => prev.filter((a) => a.id !== alloc.id));
@@ -149,21 +155,39 @@ export function AllocDemo() {
     setLiveAllocs([]);
     setHeapBlocks([]);
     labelCounterRef.current = 0;
-    setLogLines(['Heap reset. All blocks cleared. Start fresh.']);
+    setLogLines(['Heap reset. Try: allocate A, B, C — free B — then allocate a Large to see fragmentation.']);
   }
 
-  const totalHeapSize = heapBlocks.reduce((sum, b) => sum + b.size, 0) || 1;
+  const allocatedBytes = heapBlocks.filter((b) => !b.free).reduce((s, b) => s + b.size, 0);
+  const trackedBytes = heapBlocks.reduce((s, b) => s + b.size, 0);
+  const pctUsed = trackedBytes > 0 ? Math.round((allocatedBytes / HEAP_TOTAL) * 100) : 0;
 
   return (
-    <div className="alloc-demo">
+    <div className="alloc-demo" onKeyDown={handleKeyDown} tabIndex={-1}>
       <div className="skills-category-title">sys --alloc</div>
       <p className="alloc-demo-copy">
-        A free-list memory allocator written in C, compiled to WebAssembly. Allocate and free blocks below — watch the heap change, see blocks split when oversized, and see adjacent free blocks coalesce back together.
+        A free-list memory allocator written in C, compiled to WebAssembly. This is how <code>malloc</code> and <code>free</code> work under the hood — the same mechanism behind every C program, every game engine, every OS kernel.
+        Allocate blocks and free them to see the heap split and coalesce in real time.
       </p>
       <div className="alloc-demo-status">{status}</div>
 
+      {/* Action log — shown first so users see what's happening before interacting */}
+      <div className="alloc-demo-section-title">What just happened</div>
+      <div className="alloc-demo-log" ref={logRef}>
+        {logLines.map((line, i) => (
+          <div key={i} className="alloc-demo-log-line">{line}</div>
+        ))}
+      </div>
+
       {/* Heap visualisation */}
-      <div className="alloc-demo-section-title">Heap</div>
+      <div className="alloc-demo-section-title" style={{ marginTop: '1rem' }}>
+        Heap
+        {trackedBytes > 0 && (
+          <span style={{ fontWeight: 400, marginLeft: '0.5rem', opacity: 0.6 }}>
+            — {allocatedBytes}B allocated · {trackedBytes - allocatedBytes}B free · {pctUsed}% of 1MB used
+          </span>
+        )}
+      </div>
       {heapBlocks.length > 0 ? (
         <>
           <div className="alloc-demo-heap">
@@ -172,7 +196,7 @@ export function AllocDemo() {
                 key={block.id}
                 className={`alloc-demo-block alloc-demo-block-${block.free ? 'free' : 'allocated'}`}
                 style={{ flexGrow: block.size }}
-                title={`${block.free ? 'free' : 'allocated'} · ${block.size} bytes`}
+                title={`${block.free ? 'free' : 'allocated'} · ${block.size}B`}
               >
                 <span>{block.free ? 'free' : 'used'}</span>
               </div>
@@ -181,9 +205,6 @@ export function AllocDemo() {
           <div className="alloc-demo-legend">
             <span><i className="alloc-demo-swatch alloc-demo-swatch-allocated" />allocated</span>
             <span><i className="alloc-demo-swatch alloc-demo-swatch-free" />free</span>
-            <span className="alloc-demo-heap-stats">
-              {heapBlocks.filter((b) => !b.free).length} allocated · {heapBlocks.filter((b) => b.free).length} free · {heapBlocks.reduce((s, b) => s + b.size, 0)}B tracked
-            </span>
           </div>
         </>
       ) : (
@@ -193,7 +214,7 @@ export function AllocDemo() {
       )}
 
       {/* Controls */}
-      <div className="alloc-demo-section-title">Allocate</div>
+      <div className="alloc-demo-section-title" style={{ marginTop: '1rem' }}>Allocate</div>
       <div className="alloc-demo-toolbar">
         {Object.entries(ALLOC_SIZES).map(([name, size]) => (
           <button
@@ -219,7 +240,9 @@ export function AllocDemo() {
       {/* Live allocations */}
       {liveAllocs.length > 0 && (
         <>
-          <div className="alloc-demo-section-title">Live blocks — click to free</div>
+          <div className="alloc-demo-section-title" style={{ marginTop: '1rem' }}>
+            Live blocks — click a block to free it
+          </div>
           <div className="alloc-demo-live-allocs">
             {liveAllocs.map((alloc) => (
               <button
@@ -227,23 +250,23 @@ export function AllocDemo() {
                 className="alloc-demo-alloc-chip"
                 type="button"
                 onClick={() => handleFree(alloc)}
-                title={`free(Block ${alloc.label})`}
+                title={`Call free() on Block ${alloc.label}`}
               >
-                Block {alloc.label} · {alloc.size}B · free →
+                Block {alloc.label} · {alloc.size}B · click to free
               </button>
             ))}
           </div>
         </>
       )}
 
-      {/* Action log */}
-      <div className="alloc-demo-section-title">What just happened</div>
-      <div className="alloc-demo-log">
-        {logLines.map((line, i) => (
-          <div key={i} className="alloc-demo-log-line">{line}</div>
-        ))}
-        <div ref={logEndRef} />
-      </div>
+      {/* Guided tip */}
+      {liveAllocs.length >= 3 && (
+        <p style={{ fontSize: '0.78rem', opacity: 0.55, marginTop: '0.75rem' }}>
+          Tip: free a middle block, then try allocating a Large. If the freed gap is too small, malloc fails — that's fragmentation.
+        </p>
+      )}
+
+      <div className="shell-demo-hint" style={{ marginTop: '0.75rem' }}>Esc to exit</div>
     </div>
   );
 }
