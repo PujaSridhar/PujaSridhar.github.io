@@ -166,6 +166,13 @@ void reset_alloc_counter(void) {
   alloc_counter = 0UL;
 }
 
+EMSCRIPTEN_KEEPALIVE
+void reset_heap(void) {
+  heap_used = 0;
+  free_list_head = NULL;
+  alloc_counter = 0UL;
+}
+
 /* ── Heap introspection ──────────────────────────────────────── */
 #define MAX_HEAP_BLOCKS 64
 static uint32_t heap_block_info[MAX_HEAP_BLOCKS * 2];

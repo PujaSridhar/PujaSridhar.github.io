@@ -145,24 +145,42 @@ function createShellRuntime() {
   };
 }
 
+// Persisted across mounts so re-typing sys --shell resumes the same session
+let persistedEntries = null;
+let persistedHistory = [];
+let persistedRuntime = null;
+let persistedWasm = null;
+let persistedStatus = 'Loading shell.wasm...';
+
 export function ShellDemo({ onExit }) {
-  const [entries, setEntries] = useState(() => [
-    { id: crypto.randomUUID(), type: 'output', text: 'Nested shell ready. Type help to explore the virtual filesystem.' },
-  ]);
+  const [entries, setEntries] = useState(() => {
+    if (persistedEntries) return persistedEntries;
+    return [];
+  });
   const [inputValue, setInputValue] = useState('');
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState(persistedHistory);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [status, setStatus] = useState('Loading shell.wasm...');
+  const [status, setStatus] = useState(persistedStatus);
   const inputRef = useRef(null);
   const outputRef = useRef(null);
-  const wasmRef = useRef(null);
-  const runtimeRef = useRef(null);
+  const wasmRef = useRef(persistedWasm);
+  const runtimeRef = useRef(persistedRuntime);
 
   const closeMessage = useMemo(() => '[outer terminal] control restored.', []);
 
   useEffect(() => {
     inputRef.current?.focus();
-    runtimeRef.current = createShellRuntime();
+    if (!runtimeRef.current) {
+      runtimeRef.current = createShellRuntime();
+      persistedRuntime = runtimeRef.current;
+      // Auto-run ls so the user immediately sees what's in the filesystem
+      const { output } = runtimeRef.current.execute('ls');
+      if (output) {
+        const lsEntry = { id: crypto.randomUUID(), type: 'output', text: output };
+        setEntries([lsEntry]);
+        persistedEntries = [lsEntry];
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -175,6 +193,11 @@ export function ShellDemo({ onExit }) {
     let cancelled = false;
 
     async function loadShellModule() {
+      if (persistedWasm !== null) {
+        wasmRef.current = persistedWasm;
+        return;
+      }
+
       try {
         const response = await fetch('/wasm/shell.wasm');
         if (!response.ok) {
@@ -195,12 +218,18 @@ export function ShellDemo({ onExit }) {
         if (!cancelled) {
           wasmRef.current = instance.exports;
           wasmRef.current.init_shell?.();
-          setStatus('shell.wasm loaded. Inner terminal is using the systems demo runtime.');
+          persistedWasm = wasmRef.current;
+          const newStatus = 'shell.wasm loaded — C runtime active.';
+          persistedStatus = newStatus;
+          setStatus(newStatus);
         }
       } catch {
         if (!cancelled) {
           wasmRef.current = null;
-          setStatus('shell.wasm is not built locally yet. Using the JavaScript mirror so the demo stays interactive.');
+          persistedWasm = null;
+          const newStatus = 'shell.wasm is not built locally yet. Using the JavaScript mirror so the demo stays interactive.';
+          persistedStatus = newStatus;
+          setStatus(newStatus);
         }
       }
     }
@@ -217,11 +246,19 @@ export function ShellDemo({ onExit }) {
       return;
     }
 
-    setEntries((previous) => [...previous, { id: crypto.randomUUID(), type: 'output', text }]);
+    setEntries((previous) => {
+      const next = [...previous, { id: crypto.randomUUID(), type: 'output', text }];
+      persistedEntries = next;
+      return next;
+    });
   }
 
   function appendCommand(text) {
-    setEntries((previous) => [...previous, { id: crypto.randomUUID(), type: 'command', text }]);
+    setEntries((previous) => {
+      const next = [...previous, { id: crypto.randomUUID(), type: 'command', text }];
+      persistedEntries = next;
+      return next;
+    });
   }
 
   function exitShell() {
@@ -279,7 +316,11 @@ export function ShellDemo({ onExit }) {
     }
 
     appendCommand(command);
-    setHistory((previous) => [command, ...previous]);
+    setHistory((previous) => {
+      const next = [command, ...previous];
+      persistedHistory = next;
+      return next;
+    });
     setHistoryIndex(-1);
     setInputValue('');
 
@@ -298,7 +339,7 @@ export function ShellDemo({ onExit }) {
   }
 
   function handleKeyDown(event) {
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' || event.key === 'Tab') {
       event.preventDefault();
       exitShell();
       return;
@@ -370,6 +411,7 @@ export function ShellDemo({ onExit }) {
           onKeyDown={handleKeyDown}
         />
       </div>
+      <div className="shell-demo-hint">Tab or Esc to exit · Arrow keys for history</div>
     </div>
   );
 }

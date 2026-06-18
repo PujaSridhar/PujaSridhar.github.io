@@ -24,7 +24,7 @@ export function TerminalEntry({ entry, onShellExit }) {
       return (
         <div className="output-entry">
           <Suspense fallback={<div className="alloc-demo-caption">Loading allocator demo...</div>}>
-            <AllocDemo />
+            <AllocDemo onExit={onShellExit} />
           </Suspense>
         </div>
       );

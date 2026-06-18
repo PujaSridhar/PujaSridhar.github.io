@@ -21,7 +21,7 @@ export const THEMES = {
       '--network-rgb': '90, 96, 80',
     },
     dark: {
-      '--color-bg': '#3A3C35',
+      '--color-bg': '#1E2019',
       '--color-bg-secondary': '#2E3028',
       '--color-text': '#E8E4DC',
       '--color-text-secondary': '#A0A090',
@@ -46,8 +46,8 @@ export const THEMES = {
       '--network-rgb': '25, 72, 95',
     },
     dark: {
-      '--color-bg': '#0D2030',
-      '--color-bg-secondary': '#19485F',
+      '--color-bg': '#060F18',
+      '--color-bg-secondary': '#0D2030',
       '--color-text': '#D9E0A4',
       '--color-text-secondary': '#7A9880',
       '--color-accent': '#A8C840',
@@ -71,8 +71,8 @@ export const THEMES = {
       '--network-rgb': '106, 74, 58',
     },
     dark: {
-      '--color-bg': '#2A1E1C',
-      '--color-bg-secondary': '#3A2820',
+      '--color-bg': '#160E0C',
+      '--color-bg-secondary': '#2A1E1C',
       '--color-text': '#F0E8DC',
       '--color-text-secondary': '#9A8878',
       '--color-accent': '#D4B898',
@@ -96,8 +96,8 @@ export const THEMES = {
       '--network-rgb': '139, 112, 0',
     },
     dark: {
-      '--color-bg': '#1A1A00',
-      '--color-bg-secondary': '#2A2A00',
+      '--color-bg': '#0C0C00',
+      '--color-bg-secondary': '#1A1A00',
       '--color-text': '#F5F0A0',
       '--color-text-secondary': '#909040',
       '--color-accent': '#D4B800',
@@ -121,8 +121,8 @@ export const THEMES = {
       '--network-rgb': '96, 76, 57',
     },
     dark: {
-      '--color-bg': '#1E0A28',
-      '--color-bg-secondary': '#2E1A38',
+      '--color-bg': '#100518',
+      '--color-bg-secondary': '#1E0A28',
       '--color-text': '#F0D8C0',
       '--color-text-secondary': '#907080',
       '--color-accent': '#FFD060',
@@ -146,8 +146,8 @@ export const THEMES = {
       '--network-rgb': '74, 63, 54',
     },
     dark: {
-      '--color-bg': '#1C1917',
-      '--color-bg-secondary': '#2A2420',
+      '--color-bg': '#0E0C0A',
+      '--color-bg-secondary': '#1C1917',
       '--color-text': '#EDE0CC',
       '--color-text-secondary': '#9A8878',
       '--color-accent': '#C17B2A',

@@ -300,16 +300,6 @@ body.dark #moon-icon {
     width: 280px;
     height: auto;
     border-radius: 4px;
-    -webkit-mask-image: repeating-linear-gradient(
-        to bottom,
-        black 0px, black 3px,
-        transparent 3px, transparent 4px
-    );
-    mask-image: repeating-linear-gradient(
-        to bottom,
-        black 0px, black 3px,
-        transparent 3px, transparent 4px
-    );
 }
 
 .creator-caption {
@@ -593,6 +583,89 @@ body.dark #moon-icon {
     background: var(--color-bg-secondary);
 }
 
+.alloc-demo-section-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    margin: 1rem 0 0.5rem;
+}
+
+.alloc-demo-heap-empty {
+    border: 1px dashed var(--color-border);
+    border-radius: 8px;
+    background: transparent;
+    justify-content: center;
+    align-items: center;
+    min-height: 72px;
+}
+
+.alloc-demo-heap-stats {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    opacity: 0.75;
+}
+
+.alloc-demo-button-reset {
+    background: transparent;
+    color: var(--color-text-secondary);
+    border-color: var(--color-border);
+    margin-left: auto;
+}
+
+.alloc-demo-button-reset:hover:not(:disabled) {
+    color: var(--color-error);
+    border-color: var(--color-error);
+}
+
+.alloc-demo-live-allocs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.alloc-demo-alloc-chip {
+    background: color-mix(in srgb, var(--color-accent) 15%, var(--color-bg));
+    border: 1px solid var(--color-accent);
+    color: var(--color-text);
+    border-radius: 6px;
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.85rem;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.alloc-demo-alloc-chip:hover {
+    background: color-mix(in srgb, var(--color-error) 20%, var(--color-bg));
+    border-color: var(--color-error);
+    transform: translateY(-1px);
+}
+
+.alloc-demo-log {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-bg);
+    padding: 0.75rem;
+    max-height: 160px;
+    overflow-y: auto;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+.alloc-demo-log-line {
+    padding: 0.15rem 0;
+    line-height: 1.5;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
+}
+
+.alloc-demo-log-line:last-child {
+    border-bottom: none;
+    color: var(--color-text);
+}
+
 .shell-demo {
     border: 1px solid var(--color-border);
     background: color-mix(in srgb, var(--color-bg-secondary) 55%, var(--color-bg));
@@ -634,6 +707,15 @@ body.dark #moon-icon {
     font: inherit;
     flex: 1;
     min-width: 0;
+    caret-color: var(--color-accent);
+}
+
+.shell-demo-hint {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+    margin-top: 0.5rem;
+    text-align: right;
 }
 
 .shell-demo-pre {

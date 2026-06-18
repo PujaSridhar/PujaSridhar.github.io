@@ -79,6 +79,14 @@ async function main() {
 		});
 	});
 
+	// 'Hackathons' section
+	portfolioData.hackathons.forEach(h => {
+		chunks.push({
+			text: `Puja participated in the ${h.name} (${h.date}), ${h.team}. What was built: ${h.desc}`,
+			source: `Hackathon: ${h.name}`
+		});
+	});
+
 	// 'Leadership' section
 	portfolioData.leadership.forEach(lead => {
 		const points = lead.points.join(' ');
