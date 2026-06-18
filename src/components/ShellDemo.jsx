@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-const PROMPT = 'puja@portfolio:~$';
+const SHELL_COMMANDS = ['cat', 'cd', 'echo', 'exit', 'help', 'history', 'ls', 'pwd', 'rm', 'touch'];
 
 const SEEDED_FILES = {
   'README.md': `Puja's systems sandbox
@@ -18,17 +18,14 @@ const SEEDED_FILES = {
 };
 
 function cloneSeededFiles() {
-  return Object.entries(SEEDED_FILES).reduce((filesystem, [name, content]) => {
-    filesystem[name] = content;
-    return filesystem;
+  return Object.entries(SEEDED_FILES).reduce((fs, [name, content]) => {
+    fs[name] = content;
+    return fs;
   }, {});
 }
 
 function normalizeOutput(text) {
-  if (!text) {
-    return '';
-  }
-
+  if (!text) return '';
   return text.replace(/\0/g, '').trimEnd();
 }
 
@@ -40,52 +37,60 @@ function createShellRuntime() {
     closed: false,
   };
 
-  function listFiles() {
-    return Object.keys(state.files).sort();
+  function resolveCd(arg) {
+    if (!arg || arg === '~') return '/';
+    if (arg === '/') return '/';
+    if (arg === '..') {
+      const parts = state.cwd.split('/').filter(Boolean);
+      parts.pop();
+      return parts.length ? '/' + parts.join('/') : '/';
+    }
+    if (arg.startsWith('/')) return arg.replace(/\/+$/, '') || '/';
+    const base = state.cwd === '/' ? '' : state.cwd;
+    return `${base}/${arg}`;
   }
 
   function runSingle(command, pipedInput = '') {
     const trimmed = command.trim();
-    if (!trimmed) {
-      return '';
-    }
+    if (!trimmed) return '';
 
     const [name, ...rest] = trimmed.split(/\s+/);
-    const argumentString = rest.join(' ');
+    const argStr = rest.join(' ');
 
     switch (name) {
       case 'echo':
-        return argumentString || pipedInput;
+        return argStr || pipedInput;
       case 'pwd':
         return state.cwd;
       case 'cd':
-        if (!argumentString || argumentString === '~' || argumentString === '/') {
-          state.cwd = '/';
-          return '';
-        }
-        return `cd: ${argumentString}: No such directory`;
+        state.cwd = resolveCd(argStr || null);
+        return '';
       case 'ls':
-        return listFiles().join('\n');
+        return Object.keys(state.files).sort().join('\n');
       case 'cat': {
-        if (argumentString) {
-          return state.files[argumentString] ?? `cat: ${argumentString}: No such file`;
-        }
-        if (pipedInput) {
-          return pipedInput;
-        }
-        return 'cat: missing file operand';
+        if (argStr) return state.files[argStr] ?? `cat: ${argStr}: No such file`;
+        if (pipedInput) return pipedInput;
+        return 'cat: no input (try: cat README.md or echo hi | cat)';
       }
+      case 'touch':
+        if (!argStr) return 'touch: missing file operand';
+        if (!(argStr in state.files)) state.files[argStr] = '';
+        return `created ${argStr}`;
+      case 'rm':
+        if (!argStr) return 'rm: missing operand';
+        if (!(argStr in state.files)) return `rm: cannot remove '${argStr}': No such file`;
+        delete state.files[argStr];
+        return `removed ${argStr}`;
       case 'history':
-        return state.history.map((entry, index) => `${index + 1}  ${entry}`).join('\n');
+        return state.history.map((e, i) => `${i + 1}  ${e}`).join('\n');
       case 'help':
         return [
-          'Built-ins:',
-          'echo, pwd, cd, ls, cat, history, help, exit',
+          'Built-ins: cat, cd, echo, exit, help, history, ls, pwd, rm, touch',
           '',
-          'Supports:',
-          'cmd1 | cmd2',
-          'cmd > file',
-          'cmd < file',
+          'Operators:',
+          '  cmd1 | cmd2    pipe output',
+          '  cmd > file     redirect output to file',
+          '  cmd < file     read input from file',
         ].join('\n');
       case 'exit':
         state.closed = true;
@@ -97,41 +102,33 @@ function createShellRuntime() {
 
   function execute(command) {
     const trimmed = command.trim();
-    if (!trimmed) {
-      return { output: '', shouldExit: false };
-    }
+    if (!trimmed) return { output: '', shouldExit: false };
 
     state.history.push(trimmed);
 
     if (trimmed.includes('>')) {
       const [left, right] = trimmed.split('>');
       const target = right.trim();
-      if (!target) {
-        return { output: 'redirection: missing target file', shouldExit: false };
-      }
-      const output = runSingle(left);
-      state.files[target] = output;
-      return { output: '', shouldExit: state.closed };
+      if (!target) return { output: 'redirection: missing target file', shouldExit: false };
+      const content = runSingle(left);
+      state.files[target] = content;
+      const bytes = new TextEncoder().encode(content).length;
+      return { output: `wrote ${bytes} byte${bytes !== 1 ? 's' : ''} to ${target}`, shouldExit: state.closed };
     }
 
     if (trimmed.includes('<')) {
       const [left, right] = trimmed.split('<');
       const source = right.trim();
-      if (!source) {
-        return { output: 'redirection: missing source file', shouldExit: false };
-      }
-      if (!state.files[source]) {
-        return { output: `${source}: No such file`, shouldExit: false };
-      }
-      const commandWithInput = `${left.trim()} ${source}`.trim();
-      return { output: runSingle(commandWithInput, state.files[source]), shouldExit: state.closed };
+      if (!source) return { output: 'redirection: missing source file', shouldExit: false };
+      if (!(source in state.files)) return { output: `${source}: No such file`, shouldExit: false };
+      return { output: runSingle(left.trim(), state.files[source]), shouldExit: state.closed };
     }
 
     if (trimmed.includes('|')) {
       const stages = trimmed.split('|');
       let pipedOutput = '';
-      for (let index = 0; index < stages.length; index += 1) {
-        pipedOutput = runSingle(stages[index], index === 0 ? '' : pipedOutput);
+      for (let i = 0; i < stages.length; i++) {
+        pipedOutput = runSingle(stages[i], i === 0 ? '' : pipedOutput);
       }
       return { output: pipedOutput, shouldExit: state.closed };
     }
@@ -142,25 +139,25 @@ function createShellRuntime() {
   return {
     execute,
     getClosed: () => state.closed,
+    getCwd: () => state.cwd,
+    getFiles: () => Object.keys(state.files).sort(),
   };
 }
 
-// Persisted across mounts so re-typing sys --shell resumes the same session
 let persistedEntries = null;
 let persistedHistory = [];
 let persistedRuntime = null;
 let persistedWasm = null;
 let persistedStatus = 'Loading shell.wasm...';
+let persistedCwd = '/';
 
 export function ShellDemo({ onExit }) {
-  const [entries, setEntries] = useState(() => {
-    if (persistedEntries) return persistedEntries;
-    return [];
-  });
+  const [entries, setEntries] = useState(() => persistedEntries ?? []);
   const [inputValue, setInputValue] = useState('');
   const [history, setHistory] = useState(persistedHistory);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [status, setStatus] = useState(persistedStatus);
+  const [cwd, setCwd] = useState(persistedCwd);
   const inputRef = useRef(null);
   const outputRef = useRef(null);
   const wasmRef = useRef(persistedWasm);
@@ -173,7 +170,6 @@ export function ShellDemo({ onExit }) {
     if (!runtimeRef.current) {
       runtimeRef.current = createShellRuntime();
       persistedRuntime = runtimeRef.current;
-      // Auto-run ls so the user immediately sees what's in the filesystem
       const { output } = runtimeRef.current.execute('ls');
       if (output) {
         const lsEntry = { id: crypto.randomUUID(), type: 'output', text: output };
@@ -181,12 +177,13 @@ export function ShellDemo({ onExit }) {
         persistedEntries = [lsEntry];
       }
     }
+    const currentCwd = runtimeRef.current?.getCwd?.() ?? '/';
+    setCwd(currentCwd);
+    persistedCwd = currentCwd;
   }, []);
 
   useEffect(() => {
-    if (outputRef.current) {
-      outputRef.current.scrollTop = outputRef.current.scrollHeight;
-    }
+    if (outputRef.current) outputRef.current.scrollTop = outputRef.current.scrollHeight;
   }, [entries]);
 
   useEffect(() => {
@@ -197,24 +194,17 @@ export function ShellDemo({ onExit }) {
         wasmRef.current = persistedWasm;
         return;
       }
-
       try {
         const response = await fetch('/wasm/shell.wasm');
-        if (!response.ok) {
-          throw new Error(`Missing shell.wasm (${response.status})`);
-        }
-
+        if (!response.ok) throw new Error(`Missing shell.wasm (${response.status})`);
         const importObject = { env: {} };
-
         let instance;
         try {
           ({ instance } = await WebAssembly.instantiateStreaming(response, importObject));
         } catch {
-          const responseForBytes = await fetch('/wasm/shell.wasm');
-          const bytes = await responseForBytes.arrayBuffer();
+          const bytes = await (await fetch('/wasm/shell.wasm')).arrayBuffer();
           ({ instance } = await WebAssembly.instantiate(bytes, importObject));
         }
-
         if (!cancelled) {
           wasmRef.current = instance.exports;
           wasmRef.current.init_shell?.();
@@ -227,7 +217,7 @@ export function ShellDemo({ onExit }) {
         if (!cancelled) {
           wasmRef.current = null;
           persistedWasm = null;
-          const newStatus = 'shell.wasm is not built locally yet. Using the JavaScript mirror so the demo stays interactive.';
+          const newStatus = 'shell.wasm not built locally — using JS mirror. Demo stays fully interactive.';
           persistedStatus = newStatus;
           setStatus(newStatus);
         }
@@ -235,27 +225,21 @@ export function ShellDemo({ onExit }) {
     }
 
     loadShellModule();
-
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
   function appendOutput(text) {
-    if (!text) {
-      return;
-    }
-
-    setEntries((previous) => {
-      const next = [...previous, { id: crypto.randomUUID(), type: 'output', text }];
+    if (!text) return;
+    setEntries((prev) => {
+      const next = [...prev, { id: crypto.randomUUID(), type: 'output', text }];
       persistedEntries = next;
       return next;
     });
   }
 
   function appendCommand(text) {
-    setEntries((previous) => {
-      const next = [...previous, { id: crypto.randomUUID(), type: 'command', text }];
+    setEntries((prev) => {
+      const next = [...prev, { id: crypto.randomUUID(), type: 'command', text }];
       persistedEntries = next;
       return next;
     });
@@ -267,57 +251,38 @@ export function ShellDemo({ onExit }) {
   }
 
   function executeViaWasm(command) {
-    const exportsObject = wasmRef.current;
-    if (!exportsObject || typeof exportsObject.process_command !== 'function' || !exportsObject.memory) {
-      return null;
-    }
+    const exp = wasmRef.current;
+    if (!exp || typeof exp.process_command !== 'function' || !exp.memory) return null;
+    if (!exp.get_input_buf || !exp.get_output_buf || !exp.get_output_buf_size) return null;
 
-    if (typeof exportsObject.get_input_buf !== 'function' ||
-        typeof exportsObject.get_output_buf !== 'function' ||
-        typeof exportsObject.get_output_buf_size !== 'function') {
-      return null;
-    }
+    const inputPtr = exp.get_input_buf();
+    const outputPtr = exp.get_output_buf();
+    const outputSize = exp.get_output_buf_size();
+    if (!inputPtr || !outputPtr || !outputSize) return null;
 
-    const inputPtr = exportsObject.get_input_buf();
-    const outputPtr = exportsObject.get_output_buf();
-    const outputSize = exportsObject.get_output_buf_size();
-
-    if (inputPtr === 0 || outputPtr === 0 || outputSize === 0) {
-      return null;
-    }
-
-    const encoder = new TextEncoder();
-    const memory = new Uint8Array(exportsObject.memory.buffer);
-    const inputBytes = encoder.encode(`${command}\0`);
-
-    if (inputPtr + inputBytes.length >= exportsObject.memory.buffer.byteLength ||
-        outputPtr + outputSize >= exportsObject.memory.buffer.byteLength) {
-      return null;
-    }
+    const memory = new Uint8Array(exp.memory.buffer);
+    const inputBytes = new TextEncoder().encode(`${command}\0`);
+    if (inputPtr + inputBytes.length >= exp.memory.buffer.byteLength) return null;
+    if (outputPtr + outputSize >= exp.memory.buffer.byteLength) return null;
 
     memory.set(inputBytes, inputPtr);
     memory.fill(0, outputPtr, outputPtr + outputSize);
-    exportsObject.process_command(inputPtr, outputPtr, outputSize);
+    exp.process_command(inputPtr, outputPtr, outputSize);
 
     let end = outputPtr;
-    while (end < outputPtr + outputSize && memory[end] !== 0) {
-      end += 1;
-    }
+    while (end < outputPtr + outputSize && memory[end] !== 0) end++;
 
-    const decoder = new TextDecoder();
-    const output = decoder.decode(memory.slice(outputPtr, end));
+    const output = new TextDecoder().decode(memory.slice(outputPtr, end));
     return { output, shouldExit: output.includes('__EXIT__') };
   }
 
   function handleSubmit() {
     const command = inputValue.trim();
-    if (!command) {
-      return;
-    }
+    if (!command) return;
 
     appendCommand(command);
-    setHistory((previous) => {
-      const next = [command, ...previous];
+    setHistory((prev) => {
+      const next = [command, ...prev];
       persistedHistory = next;
       return next;
     });
@@ -328,20 +293,37 @@ export function ShellDemo({ onExit }) {
     const result = wasmResult ?? runtimeRef.current.execute(command);
     const cleanedOutput = result.output.replace('__EXIT__', '');
     const output = normalizeOutput(cleanedOutput);
+    if (output) appendOutput(output);
 
-    if (output) {
-      appendOutput(output);
-    }
+    const newCwd = runtimeRef.current?.getCwd?.() ?? '/';
+    setCwd(newCwd);
+    persistedCwd = newCwd;
 
-    if (result.shouldExit || runtimeRef.current.getClosed()) {
-      exitShell();
-    }
+    if (result.shouldExit || runtimeRef.current.getClosed()) exitShell();
   }
 
   function handleKeyDown(event) {
-    if (event.key === 'Escape' || event.key === 'Tab') {
+    if (event.key === 'Escape') {
       event.preventDefault();
       exitShell();
+      return;
+    }
+
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      const parts = inputValue.split(' ');
+      const isCmd = parts.length === 1;
+      const partial = parts[parts.length - 1];
+      const candidates = isCmd
+        ? SHELL_COMMANDS.filter((c) => partial.length > 0 && c.startsWith(partial))
+        : (runtimeRef.current?.getFiles?.() ?? []).filter((f) => f.startsWith(partial));
+
+      if (candidates.length === 1) {
+        const prefix = isCmd ? '' : parts.slice(0, -1).join(' ') + ' ';
+        setInputValue(prefix + candidates[0] + (isCmd ? ' ' : ''));
+      } else if (candidates.length > 1) {
+        appendOutput(candidates.join('  '));
+      }
       return;
     }
 
@@ -353,24 +335,24 @@ export function ShellDemo({ onExit }) {
 
     if (event.key === 'ArrowUp') {
       event.preventDefault();
-      setHistoryIndex((currentIndex) => {
-        if (currentIndex < history.length - 1) {
-          const nextIndex = currentIndex + 1;
-          setInputValue(history[nextIndex]);
-          return nextIndex;
+      setHistoryIndex((idx) => {
+        if (idx < history.length - 1) {
+          const next = idx + 1;
+          setInputValue(history[next]);
+          return next;
         }
-        return currentIndex;
+        return idx;
       });
       return;
     }
 
     if (event.key === 'ArrowDown') {
       event.preventDefault();
-      setHistoryIndex((currentIndex) => {
-        if (currentIndex > 0) {
-          const nextIndex = currentIndex - 1;
-          setInputValue(history[nextIndex]);
-          return nextIndex;
+      setHistoryIndex((idx) => {
+        if (idx > 0) {
+          const next = idx - 1;
+          setInputValue(history[next]);
+          return next;
         }
         setInputValue('');
         return -1;
@@ -378,28 +360,32 @@ export function ShellDemo({ onExit }) {
     }
   }
 
+  const cwdDisplay = cwd === '/' ? '~' : cwd;
+  const prompt = `puja@portfolio:${cwdDisplay}$`;
+
   return (
     <div className="shell-demo" onClick={() => inputRef.current?.focus()}>
       <div className="skills-category-title">sys --shell</div>
+      <p className="alloc-demo-copy">
+        A virtual shell backed by a C runtime compiled to WebAssembly. Commands route through the WASM parser for pipes, redirection, and history. Try <code>ls</code>, <code>cat README.md</code>, <code>echo hi | cat</code>, <code>echo text &gt; notes.txt</code>, or <code>Tab</code> to complete.
+      </p>
       <div className="shell-demo-status">{status}</div>
 
       <div className="shell-demo-output" ref={outputRef}>
         {entries.map((entry) =>
           entry.type === 'command' ? (
             <div key={entry.id} className="shell-demo-line">
-              <span className="shell-demo-prompt">{PROMPT}</span>
+              <span className="shell-demo-prompt">{prompt}</span>
               <span className="command">{entry.text}</span>
             </div>
           ) : (
-            <pre key={entry.id} className="shell-demo-pre">
-              {entry.text}
-            </pre>
+            <pre key={entry.id} className="shell-demo-pre">{entry.text}</pre>
           )
         )}
       </div>
 
       <div className="shell-demo-line">
-        <span className="shell-demo-prompt">{PROMPT}</span>
+        <span className="shell-demo-prompt">{prompt}</span>
         <input
           ref={inputRef}
           className="shell-demo-input"
@@ -407,11 +393,11 @@ export function ShellDemo({ onExit }) {
           spellCheck="false"
           autoComplete="off"
           value={inputValue}
-          onChange={(event) => setInputValue(event.target.value)}
+          onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
         />
       </div>
-      <div className="shell-demo-hint">Tab or Esc to exit · Arrow keys for history</div>
+      <div className="shell-demo-hint">Esc to exit · Tab to complete · Arrow keys for history</div>
     </div>
   );
 }

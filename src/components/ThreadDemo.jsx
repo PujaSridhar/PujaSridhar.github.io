@@ -1,12 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const PCB_FIELDS = 6;
-const QUANTUM_MS = 5;
+const DEFAULT_QUANTUM = 5;
+const MAX_PROCESSES = 5;
 
 const STATE_NAMES = ['READY', 'RUNNING', 'BLOCKED', 'DONE'];
 const THREAD_NAMES = ['Process A', 'Process B', 'Process C', 'Process D', 'Process E'];
-
 const BURST_TIMES = [30, 20, 15, 25, 10];
+
+const PROCESS_COLORS = [
+  'hsl(120, 40%, 55%)',
+  'hsl(200, 60%, 55%)',
+  'hsl(280, 50%, 60%)',
+  'hsl(35, 70%, 55%)',
+  'hsl(340, 60%, 58%)',
+];
 
 function getStateColor(state) {
   switch (state) {
@@ -18,7 +26,6 @@ function getStateColor(state) {
   }
 }
 
-/* Module-level WASM cache so the scheduler persists across re-mounts */
 let cachedWasm = null;
 let cachedStatus = 'Loading scheduler.wasm...';
 
@@ -31,11 +38,13 @@ export function ThreadDemo({ onExit }) {
   const [isRunning, setIsRunning] = useState(false);
   const [deadlocked, setDeadlocked] = useState(false);
   const [allDone, setAllDone] = useState(false);
+  const [quantum, setQuantum] = useState(DEFAULT_QUANTUM);
+  const [processCount, setProcessCount] = useState(3);
   const wasmRef = useRef(cachedWasm);
   const intervalRef = useRef(null);
   const initializedRef = useRef(false);
 
-  /* ── Load WASM + auto-init ──────────────────────────────────── */
+  /* ── Load WASM + auto-init ──────────────────────────────────────── */
   useEffect(() => {
     let cancelled = false;
 
@@ -43,7 +52,7 @@ export function ThreadDemo({ onExit }) {
       if (cachedWasm) {
         wasmRef.current = cachedWasm;
         setWasmReady(true);
-        if (!initializedRef.current) initScheduler(cachedWasm);
+        if (!initializedRef.current) initScheduler(cachedWasm, DEFAULT_QUANTUM, 3);
         return;
       }
       try {
@@ -64,7 +73,7 @@ export function ThreadDemo({ onExit }) {
           cachedStatus = msg;
           setStatus(msg);
           setWasmReady(true);
-          initScheduler(instance.exports);
+          initScheduler(instance.exports, DEFAULT_QUANTUM, 3);
         }
       } catch {
         if (!cancelled) {
@@ -79,15 +88,15 @@ export function ThreadDemo({ onExit }) {
     return () => { cancelled = true; };
   }, []);
 
-  /* ── Init scheduler ─────────────────────────────────────────── */
-  function initScheduler(wasm) {
-    wasm.init_scheduler(QUANTUM_MS);
-    for (let i = 0; i < 3; i++) wasm.create_thread(BURST_TIMES[i]);
+  /* ── Init scheduler ─────────────────────────────────────────────── */
+  function initScheduler(wasm, q, count) {
+    wasm.init_scheduler(q);
+    for (let i = 0; i < count; i++) wasm.create_thread(BURST_TIMES[i] ?? 20);
     initializedRef.current = true;
     syncStateFrom(wasm);
   }
 
-  /* ── Read PCB snapshot from WASM memory ─────────────────────── */
+  /* ── Read PCB snapshot ──────────────────────────────────────────── */
   function readPCBs(wasm) {
     const count = wasm.get_thread_count();
     if (count === 0) return [];
@@ -123,7 +132,7 @@ export function ThreadDemo({ onExit }) {
     if (wasmRef.current) syncStateFrom(wasmRef.current);
   }
 
-  /* ── Step ───────────────────────────────────────────────────── */
+  /* ── Step ───────────────────────────────────────────────────────── */
   const executeTick = useCallback(() => {
     const wasm = wasmRef.current;
     if (!wasm) return;
@@ -131,7 +140,7 @@ export function ThreadDemo({ onExit }) {
     syncState();
   }, []);
 
-  /* ── Play/Pause interval ────────────────────────────────────── */
+  /* ── Play/Pause interval ────────────────────────────────────────── */
   useEffect(() => {
     if (!isRunning) {
       clearInterval(intervalRef.current);
@@ -142,12 +151,11 @@ export function ThreadDemo({ onExit }) {
     return () => clearInterval(intervalRef.current);
   }, [isRunning, executeTick]);
 
-  /* Auto-stop when finished */
   useEffect(() => {
     if ((allDone || deadlocked) && isRunning) setIsRunning(false);
   }, [allDone, deadlocked, isRunning]);
 
-  /* ── Keyboard ───────────────────────────────────────────────── */
+  /* ── Keyboard ───────────────────────────────────────────────────── */
   function handleKeyDown(e) {
     if (e.key === 'Escape') { e.preventDefault(); onExit?.(); }
   }
@@ -156,8 +164,7 @@ export function ThreadDemo({ onExit }) {
     const wasm = wasmRef.current;
     if (!wasm) return;
     setIsRunning(false);
-    const ok = wasm.introduce_deadlock();
-    if (ok) syncState();
+    if (wasm.introduce_deadlock()) syncState();
   }
 
   function handleReset() {
@@ -168,14 +175,44 @@ export function ThreadDemo({ onExit }) {
     setTimeline([]);
     setTicks(0);
     const wasm = wasmRef.current;
-    if (wasm) initScheduler(wasm);
+    if (wasm) initScheduler(wasm, quantum, processCount);
   }
 
-  /* ── Timeline label ─────────────────────────────────────────── */
+  function handleAddProcess() {
+    const wasm = wasmRef.current;
+    if (!wasm) return;
+    wasm.create_thread(BURST_TIMES[processCount] ?? 20);
+    setProcessCount((c) => c + 1);
+    syncState();
+  }
+
+  function handleQuantumChange(e) {
+    const newQ = Number(e.target.value);
+    setQuantum(newQ);
+    setIsRunning(false);
+    setDeadlocked(false);
+    setAllDone(false);
+    setPcbs([]);
+    setTimeline([]);
+    setTicks(0);
+    const wasm = wasmRef.current;
+    if (wasm) initScheduler(wasm, newQ, processCount);
+  }
+
+  /* ── Timeline helpers ───────────────────────────────────────────── */
   function timelineLabel(val) {
     if (val === -2) return '💀';
     if (val === -1) return '--';
     return String.fromCharCode(65 + val);
+  }
+
+  function timelineEntryStyle(val) {
+    if (val >= 0) {
+      const color = PROCESS_COLORS[val % PROCESS_COLORS.length];
+      return { background: color, borderColor: color, color: '#111' };
+    }
+    if (val === -2) return { background: 'hsl(0,70%,35%)', borderColor: 'hsl(0,70%,35%)', color: '#fff' };
+    return {};
   }
 
   const readyCount = pcbs.filter(p => p.state === 'READY').length;
@@ -191,7 +228,7 @@ export function ThreadDemo({ onExit }) {
       {pcbs.length > 0 && (
         <>
           <div className="thread-demo-status" style={{ marginTop: '0.5rem' }}>
-            Round-robin · Quantum: {QUANTUM_MS}ms · Ticks: {ticks}
+            Round-robin · Quantum: {quantum}ms · Ticks: {ticks}
             {deadlocked && <span className="thread-demo-warning"> → Deadlock — both processes are waiting on each other forever</span>}
             {!deadlocked && allDone && <span className="thread-demo-success"> → All done in {ticks} ticks. Try Reset → Introduce Deadlock to see what goes wrong.</span>}
           </div>
@@ -201,15 +238,14 @@ export function ThreadDemo({ onExit }) {
               const progress = pcb.burstTotal > 0
                 ? ((pcb.burstTotal - Math.max(0, pcb.remaining)) / pcb.burstTotal) * 100
                 : 100;
+              const processColor = PROCESS_COLORS[pcb.id % PROCESS_COLORS.length];
               return (
-                <div
-                  key={pcb.id}
-                  className="thread-demo-card"
-                  style={{ borderColor: getStateColor(pcb.state) }}
-                >
+                <div key={pcb.id} className="thread-demo-card" style={{ borderColor: getStateColor(pcb.state) }}>
                   <div className="thread-demo-card-header">
                     <div className="thread-demo-state-indicator" style={{ backgroundColor: getStateColor(pcb.state) }} />
-                    <span className="thread-demo-card-name">{THREAD_NAMES[pcb.id] ?? `T${pcb.id}`}</span>
+                    <span className="thread-demo-card-name" style={{ color: processColor }}>
+                      {THREAD_NAMES[pcb.id] ?? `Process ${pcb.id}`}
+                    </span>
                     <span className="thread-demo-card-id">[T{pcb.id}]</span>
                   </div>
                   <div className="thread-demo-card-body">
@@ -225,7 +261,7 @@ export function ThreadDemo({ onExit }) {
                       <div style={{
                         height: '100%',
                         width: `${progress}%`,
-                        background: getStateColor(pcb.state),
+                        background: processColor,
                         borderRadius: '2px',
                         transition: 'width 0.15s ease',
                       }} />
@@ -248,7 +284,7 @@ export function ThreadDemo({ onExit }) {
                 <span className="thread-demo-timeline-empty">Press Play to start...</span>
               ) : (
                 timeline.map((entry, idx) => (
-                  <span key={idx} className="thread-demo-timeline-entry">
+                  <span key={idx} className="thread-demo-timeline-entry" style={timelineEntryStyle(entry)}>
                     {timelineLabel(entry)}
                   </span>
                 ))
@@ -283,6 +319,26 @@ export function ThreadDemo({ onExit }) {
               >
                 Introduce Deadlock
               </button>
+              <button
+                className="thread-demo-button"
+                onClick={handleAddProcess}
+                disabled={isRunning || allDone || deadlocked || processCount >= MAX_PROCESSES}
+                title="Add another process to the ready queue"
+              >
+                + Add Process
+              </button>
+            </div>
+            <div className="thread-demo-slider">
+              <span>Quantum:</span>
+              <input
+                type="range"
+                min="1"
+                max="20"
+                value={quantum}
+                onChange={handleQuantumChange}
+                disabled={isRunning}
+              />
+              <span>{quantum}ms</span>
             </div>
           </div>
 
