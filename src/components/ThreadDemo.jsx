@@ -314,7 +314,7 @@ export function ThreadDemo({ onExit }) {
               <button
                 className="thread-demo-button thread-demo-button-danger"
                 onClick={handleIntroduceDeadlock}
-                disabled={isRunning || deadlocked || allDone || readyCount < 2}
+                disabled={deadlocked || allDone || readyCount < 2}
                 title="Two processes will each hold a resource the other needs. Neither can proceed — they wait forever."
               >
                 Introduce Deadlock
