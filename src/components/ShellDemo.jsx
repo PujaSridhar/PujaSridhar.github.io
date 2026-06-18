@@ -155,7 +155,7 @@ let persistedStatus = 'Loading shell.wasm...';
 export function ShellDemo({ onExit }) {
   const [entries, setEntries] = useState(() => {
     if (persistedEntries) return persistedEntries;
-    return [{ id: crypto.randomUUID(), type: 'output', text: 'Nested shell ready. Type help to explore the virtual filesystem.' }];
+    return [];
   });
   const [inputValue, setInputValue] = useState('');
   const [history, setHistory] = useState(persistedHistory);
@@ -173,6 +173,13 @@ export function ShellDemo({ onExit }) {
     if (!runtimeRef.current) {
       runtimeRef.current = createShellRuntime();
       persistedRuntime = runtimeRef.current;
+      // Auto-run ls so the user immediately sees what's in the filesystem
+      const { output } = runtimeRef.current.execute('ls');
+      if (output) {
+        const lsEntry = { id: crypto.randomUUID(), type: 'output', text: output };
+        setEntries([lsEntry]);
+        persistedEntries = [lsEntry];
+      }
     }
   }, []);
 
@@ -212,7 +219,7 @@ export function ShellDemo({ onExit }) {
           wasmRef.current = instance.exports;
           wasmRef.current.init_shell?.();
           persistedWasm = wasmRef.current;
-          const newStatus = 'shell.wasm loaded. Inner terminal is using the systems demo runtime.';
+          const newStatus = 'shell.wasm loaded — C runtime active.';
           persistedStatus = newStatus;
           setStatus(newStatus);
         }
@@ -404,6 +411,7 @@ export function ShellDemo({ onExit }) {
           onKeyDown={handleKeyDown}
         />
       </div>
+      <div className="shell-demo-hint">Tab or Esc to exit · Arrow keys for history</div>
     </div>
   );
 }

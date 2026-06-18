@@ -707,6 +707,15 @@ body.dark #moon-icon {
     font: inherit;
     flex: 1;
     min-width: 0;
+    caret-color: var(--color-accent);
+}
+
+.shell-demo-hint {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+    margin-top: 0.5rem;
+    text-align: right;
 }
 
 .shell-demo-pre {
