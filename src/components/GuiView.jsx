@@ -2,14 +2,21 @@ import { portfolioData } from '../../portfolio-data.js';
 import { CALENDLY_URL, EMAIL_HREF } from '../constants/terminal.js';
 import { formatBreaks } from '../utils/terminalHelpers.js';
 
-export function GuiView({ activeTab, onTabChange, footerHtml }) {
-  const tabs = ['About', 'Experience', 'Projects', 'Hackathons', 'Skills', 'Education', 'Languages', 'Leadership', 'Certifications', 'Talks', 'Contact'];
+const PRIMARY_TABS = ['About', 'Experience', 'Projects', 'Hackathons', 'Skills', 'Contact'];
+const SECONDARY_TABS = ['Education', 'Languages', 'Leadership', 'Certifications', 'Talks'];
 
+export function GuiView({ activeTab, onTabChange, footerHtml }) {
   return (
     <div id="gui-mode" className="w-full rounded-lg shadow-2xl shadow-stone-500/20 p-8 overflow-y-auto">
       <div className="gui-tabs-nav">
-        {tabs.map((tab) => (
+        {PRIMARY_TABS.map((tab) => (
           <button key={tab} type="button" className={`tab-button ${activeTab === tab ? 'active' : ''}`} onClick={() => onTabChange(tab)}>
+            {tab}
+          </button>
+        ))}
+        <div className="gui-tabs-divider" />
+        {SECONDARY_TABS.map((tab) => (
+          <button key={tab} type="button" className={`tab-button tab-button-secondary ${activeTab === tab ? 'active' : ''}`} onClick={() => onTabChange(tab)}>
             {tab}
           </button>
         ))}
@@ -18,20 +25,24 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
       <div className="gui-tabs-content">
         {activeTab === 'About' && (
           <div className="tab-content active">
+            <div className="gui-identity">
+              <div className="gui-identity-name">Puja Sridhar</div>
+              <div className="gui-identity-title">Software & AI Engineer</div>
+            </div>
             <p dangerouslySetInnerHTML={{ __html: formatBreaks(portfolioData.about) }} />
           </div>
         )}
 
         {activeTab === 'Experience' && (
           <div className="tab-content active">
-            {portfolioData.experience.map((experience) => (
-              <div key={`${experience.role}-${experience.company}`} className="gui-item">
+            {portfolioData.experience.map((experience, i) => (
+              <div key={`${experience.role}-${experience.company}`} className={`gui-item gui-item-ruled ${i === 0 ? 'gui-item-first' : ''}`}>
                 <div className="gui-item-title">
                   <span style={{ color: 'var(--color-accent)' }}>{experience.role}</span> @ {experience.company}
                 </div>
-                <div style={{ opacity: 0.65, fontSize: '0.85em', marginBottom: '0.5rem' }}>{experience.period}</div>
+                <div style={{ opacity: 0.65, fontSize: '0.85em', marginBottom: '0.75rem' }}>{experience.period}</div>
                 {experience.desc.map((point, index) => (
-                  <p key={index} style={{ marginBottom: '0.5rem' }}>{point}</p>
+                  <p key={index} style={{ marginBottom: '0.6rem' }}>{point}</p>
                 ))}
               </div>
             ))}
@@ -48,11 +59,9 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
                   <div className="gui-item-title">
                     {project.name} <span className="text-sm">({project.tech})</span>
                   </div>
-                  <ul>
-                    {project.desc.map((point, index) => (
-                      <li key={`${project.name}-${index}`} dangerouslySetInnerHTML={{ __html: point }} />
-                    ))}
-                  </ul>
+                  {project.desc.map((point, index) => (
+                    <p key={`${project.name}-${index}`} style={{ marginBottom: '0.5rem' }} dangerouslySetInnerHTML={{ __html: point }} />
+                  ))}
                   {project.screenshots?.length > 0 && (
                     <div className="project-screenshots-gui">
                       {project.screenshots.map((src, index) => (
@@ -77,13 +86,11 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
                   <div className="gui-item-title">
                     {project.name} <span className="text-sm">({project.tech})</span>
                   </div>
-                  <ul>
-                    {project.desc.map((point, index) => (
-                      <li key={`${project.name}-${index}`} dangerouslySetInnerHTML={{ __html: point }} />
-                    ))}
-                  </ul>
+                  {project.desc.map((point, index) => (
+                    <p key={`${project.name}-${index}`} style={{ marginBottom: '0.5rem' }} dangerouslySetInnerHTML={{ __html: point }} />
+                  ))}
                   <a href={project.url} target="_blank" rel="noreferrer" className="link">
-                    View on GitHub -&gt;
+                    View on GitHub →
                   </a>
                 </div>
               ))}
@@ -110,9 +117,7 @@ export function GuiView({ activeTab, onTabChange, footerHtml }) {
                 <div className="skills-subcategory-title">{category}</div>
                 <div className="skills-grid">
                   {skills.map((skill) => (
-                    <div key={skill} className="skill-box">
-                      {skill}
-                    </div>
+                    <div key={skill} className="skill-box">{skill}</div>
                   ))}
                 </div>
               </div>

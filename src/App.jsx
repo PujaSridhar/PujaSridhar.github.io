@@ -585,6 +585,7 @@ export default function App() {
         <div id="contact-icons-wrapper">
           <div id="contact-icons-container">
               <div id="status-bar" className="flex items-center gap-4 ml-4">
+                <span id="site-name">Puja Sridhar</span>
                 <div id="clock">{clock}</div>
                 <div id="weather-display" className="flex items-center gap-2" title="Your Local Weather">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
