@@ -4,7 +4,7 @@
 
 [![Live](https://img.shields.io/badge/live-pujasridhar.github.io-5A6050?style=flat-square)](https://pujasridhar.github.io)
 
-![Portfolio Screenshot](Terminal.png)
+![Portfolio Screenshot](public/og-image.png)
 
 ---
 
@@ -117,7 +117,7 @@ The terminal is designed to feel like a real shell, not a novelty widget:
 ├── portfolio-data.js            # Portfolio content (used by UI and Pinecone indexer)
 ├── index-data.mjs               # One-time Pinecone indexing script
 ├── public/
-│   ├── wasm/                    # Prebuilt WASM binaries (alloc.wasm, shell.wasm)
+│   ├── wasm/                    # Prebuilt WASM binaries (alloc, shell, scheduler)
 │   └── projects/                # Project screenshots served as static assets
 ├── systems/                     # C source for WASM demos + Emscripten Makefiles
 ├── style.css                    # Global styles with CSS custom property theming
