@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:local": "vite --mode cogsworth",
+    "cogsworth": "node cogsworth/cli.js",
+    "cogsworth:eval": "node cogsworth/eval/run-eval.js",
     "build:wasm": "bash systems/build-all.sh",
     "build": "vite build",
     "preview": "vite preview",
