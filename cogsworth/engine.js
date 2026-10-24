@@ -10,7 +10,7 @@ import defaultCache from './answers.json' with { type: 'json' };
 import defaultEmbeddings from './embeddings.json' with { type: 'json' };
 import { BM25Index } from './bm25.js';
 import { buildChunks, buildEntities } from './chunks.js';
-import { cosineSimilarity } from './embeddings.js';
+import { cosineSimilarity } from './similarity.js';
 import { expandQuery, splitSentences, tokenize } from './text.js';
 
 // Hybrid retrieval tuning. RRF_K is the standard Reciprocal Rank Fusion constant. The two

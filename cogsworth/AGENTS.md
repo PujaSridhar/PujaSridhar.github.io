@@ -8,6 +8,10 @@ machine: no API keys, no network, no external services.
 
 - Do **not** edit `api/chat.js`, `index-data.mjs`, or `.github/workflows/`. Those are production.
   The local engine only replaces production once its eval score matches Gemini's.
+- `fallback.js` is the one piece production uses: `api/chat.js` serves it when Gemini fails. It only
+  returns intents built directly from `portfolio-data.js` (a correct answer or none), so don't widen
+  `EXACT_INTENTS` without the owner's approval, and keep `engine.js` free of imports that pull in the
+  embedding/LLM runtime (use `similarity.js`, not `embeddings.js`), or the Vercel bundle exceeds 250 MB.
 - Keep it dependency-free (plain Node.js ESM). No paid APIs or hosted model calls.
 - Answers must only contain text that exists in `portfolio-data.js`. Never invent facts.
 - Don't guess pronouns for Puja in generated answer text; use "Puja" / "Puja's".

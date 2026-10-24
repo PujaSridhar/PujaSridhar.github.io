@@ -17,21 +17,8 @@ export function cleanTextForEmbedding(text) {
     .trim();
 }
 
-export function cosineSimilarity(vecA, vecB) {
-  if (!vecA || !vecB || vecA.length === 0 || vecA.length !== vecB.length) return 0;
-  let dot = 0;
-  let normA = 0;
-  let normB = 0;
-  for (let i = 0; i < vecA.length; i++) {
-    const a = vecA[i];
-    const b = vecB[i];
-    dot += a * b;
-    normA += a * a;
-    normB += b * b;
-  }
-  const denom = Math.sqrt(normA) * Math.sqrt(normB);
-  return denom > 0 ? dot / denom : 0;
-}
+// Re-exported so callers that already import it from here keep working.
+export { cosineSimilarity } from './similarity.js';
 
 export async function createEmbedder({
   modelId = DEFAULT_EMBED_MODEL_ID,
