@@ -14,7 +14,7 @@ yours yourself yourselves puja sridhar puja's cogsworth tell know show give plea
 // Light suffix stripper. Not Porter, but close enough for a small corpus,
 // and it treats "projects"/"project" and "built"/"building" consistently.
 const IRREGULAR = {
-  built: 'build', made: 'make', ran: 'run', led: 'lead', wrote: 'write', taught: 'teach',
+  built: 'build', made: 'make', ran: 'run', led: 'lead', wrote: 'write',
   did: 'do', done: 'do', won: 'win', spoke: 'speak', studied: 'study', went: 'go',
 };
 

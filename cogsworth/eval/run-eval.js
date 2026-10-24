@@ -11,6 +11,7 @@
 //   node cogsworth/eval/run-eval.js --verbose       # print every answer
 
 import { readFileSync } from 'node:fs';
+import { createEmbedder } from '../embeddings.js';
 import { createEngine } from '../engine.js';
 import { createRewriter } from '../neural.js';
 import { portfolioData } from '../../portfolio-data.js';
@@ -21,9 +22,16 @@ const REFUSAL = /don't have|do not have|no information|not (mentioned|available|
 
 export function grade(testCase, text) {
   if (testCase.outOfScope) return REFUSAL.test(text) ? null : 'answered an out-of-scope question';
-  const missing = testCase.contains.filter(fact => !text.toLowerCase().includes(fact.toLowerCase()));
+  const missing = (testCase.contains || []).filter(fact => !text.toLowerCase().includes(fact.toLowerCase()));
   if (REFUSAL.test(text) && missing.length) return 'refused an answerable question';
-  return missing.length ? `missing: ${missing.join(', ')}` : null;
+  if (missing.length) return `missing: ${missing.join(', ')}`;
+  if (testCase.forbids) {
+    const forbidden = testCase.forbids.filter(fact =>
+      new RegExp(`\\b${fact.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(text)
+    );
+    if (forbidden.length) return `contained forbidden: ${forbidden.join(', ')}`;
+  }
+  return null;
 }
 
 async function askProd(testCase, index) {
@@ -112,23 +120,33 @@ async function main() {
   const heldOutCases = JSON.parse(readFileSync(new URL('./held-out.json', import.meta.url), 'utf8'));
   const regressionCases = JSON.parse(readFileSync(new URL('./regressions.json', import.meta.url), 'utf8'));
   const reviewCases = JSON.parse(readFileSync(new URL('./review.json', import.meta.url), 'utf8'));
+  const round3Cases = JSON.parse(readFileSync(new URL('./round3.json', import.meta.url), 'utf8'));
   const engine = createEngine(portfolioData);
+
+  let embedder = null;
+  try {
+    embedder = await createEmbedder();
+  } catch (error) {
+    console.log(`\n== local (hybrid: bge + bm25): could not load embedding model (${error.cause?.message || error.message}). Falling back to BM25.`);
+  }
+  const hybridEngine = embedder ? createEngine(portfolioData, { embedder }) : null;
 
   let rewriter = null;
   if (!args.has('--fast')) {
     try {
       rewriter = await createRewriter();
     } catch (error) {
-      console.log(`\n== local (qwen2.5-0.5b + bm25): could not load model (${error.cause?.message || error.message}). Skipped.`);
+      console.log(`\n== local (qwen2.5-0.5b + hybrid): could not load model (${error.cause?.message || error.message}). Skipped.`);
     }
   }
-  const neuralEngine = rewriter ? createEngine(portfolioData, { rewriter }) : null;
+  const neuralEngine = rewriter ? createEngine(portfolioData, { embedder, rewriter }) : null;
 
   const suites = [
     ['questions.json', mainCases],
     ['held-out.json', heldOutCases],
     ['regressions.json', regressionCases],
     ['review.json', reviewCases],
+    ['round3.json', round3Cases],
   ];
 
   const reports = [];
@@ -137,9 +155,18 @@ async function main() {
       await runSuite(suiteName, cases, 'local (bm25)', async tc => engine.answer(tc.q, tc.history || [], { useCache: false }), verbose),
       await runSuite(suiteName, cases, 'local (cache + bm25)', async tc => engine.answer(tc.q, tc.history || [], { useCache: true }), verbose),
     );
+    if (hybridEngine) {
+      reports.push(
+        await runSuite(suiteName, cases, 'local (hybrid: bge + bm25)', async tc => {
+          const res = await hybridEngine.answerAsync(tc.q, tc.history || [], { useCache: false });
+          const { rewritten: _, ...rest } = res;
+          return rest;
+        }, verbose)
+      );
+    }
     if (neuralEngine) {
       reports.push(
-        await runSuite(suiteName, cases, 'local (qwen2.5-0.5b + bm25)', async tc =>
+        await runSuite(suiteName, cases, 'local (qwen2.5-0.5b + hybrid)', async tc =>
           neuralEngine.answerAsync(tc.q, tc.history || [], { useCache: false }), verbose
         )
       );

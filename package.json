@@ -8,6 +8,8 @@
     "dev:local": "vite --mode cogsworth",
     "cogsworth": "node cogsworth/cli.js",
     "cogsworth:cache": "node cogsworth/generate-cache.js",
+    "cogsworth:embed": "node cogsworth/generate-embeddings.js",
+    "cogsworth:review": "node cogsworth/review-answers.js",
     "cogsworth:eval": "node cogsworth/eval/run-eval.js",
     "build:wasm": "bash systems/build-all.sh",
     "build": "vite build",

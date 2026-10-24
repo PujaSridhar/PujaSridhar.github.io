@@ -5,6 +5,7 @@
 
 export function cogsworthLocal() {
   let cachedRewriterPromise = null;
+  let cachedEmbedderPromise = null;
 
   return {
     name: 'cogsworth-local',
@@ -26,18 +27,24 @@ export function cogsworthLocal() {
           const { createEngine } = await server.ssrLoadModule('/cogsworth/engine.js');
           const { portfolioData } = await server.ssrLoadModule('/portfolio-data.js');
 
+          if (!cachedEmbedderPromise) {
+            const { createEmbedder } = await server.ssrLoadModule('/cogsworth/embeddings.js');
+            cachedEmbedderPromise = createEmbedder().catch(() => null);
+          }
+          const embedder = await cachedEmbedderPromise;
+
           const useNeural = Boolean(neural || process.env.COGSWORTH_NEURAL === '1');
           let rewriter = null;
           if (useNeural) {
             if (!cachedRewriterPromise) {
               const { createRewriter } = await server.ssrLoadModule('/cogsworth/neural.js');
-              cachedRewriterPromise = createRewriter();
+              cachedRewriterPromise = createRewriter().catch(() => null);
             }
             rewriter = await cachedRewriterPromise;
           }
 
-          const engine = createEngine(portfolioData, { rewriter });
-          const result = useNeural
+          const engine = createEngine(portfolioData, { embedder, rewriter });
+          const result = (useNeural || embedder)
             ? await engine.answerAsync(prompt, conversationHistory || [])
             : engine.answer(prompt, conversationHistory || []);
 

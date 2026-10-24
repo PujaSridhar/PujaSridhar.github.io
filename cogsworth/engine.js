@@ -7,14 +7,17 @@
 //   4. compose an extractive answer from portfolio-data.js (or optionally rewrite it with Qwen2.5-0.5B-Instruct)
 
 import defaultCache from './answers.json' with { type: 'json' };
+import defaultEmbeddings from './embeddings.json' with { type: 'json' };
 import { BM25Index } from './bm25.js';
 import { buildChunks, buildEntities } from './chunks.js';
+import { cosineSimilarity } from './embeddings.js';
 import { expandQuery, splitSentences, tokenize } from './text.js';
 
 const NO_ANSWER = "I don't have that information in Puja's portfolio. Try asking about projects, experience, education, skills, hackathons, or how to get in touch.";
 
 const FOLLOW_UP = /\b(it|its|that|this|they|them|those|these|there|more|else|another|same|the project|the role|the company)\b/i;
 const FIRST_PERSON = /\b(I|I'm|I've|I'd|my|me|myself)\b/;
+const YES_NO_RE = /^\s*(has|does|did|is|can|have|was|were)\b/i;
 
 // Ordered: the first matching intent wins. Each answers straight from structured data.
 const INTENTS = [
@@ -32,7 +35,7 @@ const INTENTS = [
   { name: 'projects', pattern: /\b(projects?|built|portfolio pieces)\b/i, listOnly: true },
   { name: 'experience', pattern: /\b(experience|worked|work history|jobs?|internships?|employ\w*|career|roles?)\b/i, listOnly: true },
   { name: 'leadership', pattern: /\b(leadership|led|leader)\b/i, listOnly: true },
-  { name: 'about', pattern: /\b(who is|about (her|puja)(?!['’]s)|introduce|summary|background|tell me about (her|puja|yourself)(?!['’]s)|what does (she|puja) do|passionate about)\b/i },
+  { name: 'about', pattern: /\b(who is\s+(she|puja)|((tell me )?about (her|puja|yourself)|what does (she|puja) do)\s*[.!?]*$|introduce|summary|background|passionate about)\b/i },
 ];
 
 const TECH_QUERY_RE = /\b(has (she|puja) (ever )?(used|worked with|built|done)|does (she|puja) (know|use|have experience with)|did (she|puja) (do anything|work) with|what experience does (she|puja) have with|is (she|puja) (familiar|experienced|good) with)\b/i;
@@ -77,12 +80,28 @@ function buildTechCatalog(data) {
   return catalog;
 }
 
-export function createEngine(data, { cache = defaultCache, rewriter = null, cacheThreshold = 2.4 } = {}) {
+export function createEngine(
+  data,
+  {
+    cache = defaultCache,
+    embeddings = defaultEmbeddings,
+    embedder = null,
+    rewriter = null,
+    cacheThreshold = 2.4,
+  } = {}
+) {
   const chunks = buildChunks(data);
   const entities = buildEntities(data);
   const techCatalog = buildTechCatalog(data);
   const index = new BM25Index();
-  chunks.forEach((chunk, i) => index.add(i, `${chunk.title}. ${chunk.text}`, chunk));
+  chunks.forEach((chunk, i) =>
+    index.add(i, `${chunk.title}. ${chunk.team ? `${chunk.team}. ` : ''}${chunk.text}`, chunk)
+  );
+
+  // Map precomputed chunk embeddings by (title, text) or chunk index for hybrid retrieval.
+  const embList = embeddings?.chunks || [];
+  const embByKey = new Map(embList.map(c => [`${c.title}\n${c.text}`, c.vector]));
+  const chunkVectors = chunks.map((c, i) => embByKey.get(`${c.title}\n${c.text}`) || embList[i]?.vector || null);
 
   // Only serve cache entries that have been reviewed (structured entries count as reviewed).
   const cacheIndex = new BM25Index();
@@ -94,9 +113,14 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
   });
 
   let activeRewriter = rewriter;
+  let activeEmbedder = embedder;
 
   function setRewriter(nextRewriter) {
     activeRewriter = nextRewriter;
+  }
+
+  function setEmbedder(nextEmbedder) {
+    activeEmbedder = nextEmbedder;
   }
 
   function findEntity(text) {
@@ -134,7 +158,7 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
     'ever', 'done', 'do', 'make', 'build', 'past', 'current', 'notable', 'participat', 'earn',
     'complete', 'attend', 'area', 'proficient', 'given', 'give', 'demonstrat', 'demonstrate', 'undergrad',
     'background', 'summary', 'passionate', 'short', 'tell', 'about', 'portfolio', 'experience',
-    'program', 'programming', 'language',
+    'program', 'programming', 'language', 'win', 'won', 'award', 'prize', 'place', 'compet', 'compete',
   ]);
 
   function detectIntent(query, entity) {
@@ -159,6 +183,7 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
       a => new RegExp(`\\b${a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\.js|\\b)`, 'i')
     );
     if (techItem.label === 'Computer Vision') patterns.push(/\b(OpenCV|Facial|CNN)\b/i);
+    if (techItem.label === 'Deep Learning') patterns.push(/\b(Scikit-learn|Isolation Forest|Naive Bayes|CNN|FER-2013)\b/i);
     if (techItem.label === 'RAG' || techItem.label === 'Vector Search') {
       patterns.push(/\b(Vector DB|semantic cache|vector similarity)\b/i);
     }
@@ -167,7 +192,10 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
       const hay = `${p.name} ${p.tech} ${(p.desc || []).join(' ')}`;
       const inTech = patterns.some(re => re.test(p.tech));
       const inConcept =
-        (techItem.label === 'Computer Vision' || techItem.label === 'RAG' || techItem.label === 'Vector Search') &&
+        (techItem.label === 'Computer Vision' ||
+          techItem.label === 'Deep Learning' ||
+          techItem.label === 'RAG' ||
+          techItem.label === 'Vector Search') &&
         patterns.some(re => re.test(hay));
       if (inTech || inConcept) used.push(p.name);
     }
@@ -184,16 +212,18 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
 
   // Deterministic "tech usage" answer for "has she used / does she know X" and tech categories
   // like "databases" or "frontend frameworks", looking X up in skills and in every project's tech field.
+  // Only starts with "Yes." when the question is a yes/no question.
   function answerTechUsage(query, entity) {
     if (entity) return null;
     const lower = (query || '').toLowerCase();
+    const prefix = YES_NO_RE.test(query || '') ? 'Yes. ' : '';
 
     if (/\b(databases?|db)\b/i.test(lower)) {
       const dbSkills = ['PostgreSQL', 'Redis', 'MongoDB', 'Pinecone', 'SQL'];
       const used = data.projects
         .filter(p => dbSkills.some(t => new RegExp(`\\b${t}\\b`, 'i').test(p.tech)))
         .map(p => p.name);
-      return `Yes. PostgreSQL, Redis, MongoDB, and Pinecone are in Puja's Data Engineering skills (and SQL is in Puja's Languages skills) and were used in: ${used.join(', ')}.`;
+      return `${prefix}PostgreSQL, Redis, MongoDB, and Pinecone are in Puja's Data Engineering skills (and SQL is in Puja's Languages skills) and were used in: ${used.join(', ')}.`;
     }
 
     if (/\b(frontend|front-end|web|ui)\s+(frameworks?|libraries|stack|tools?)\b/i.test(lower)) {
@@ -201,21 +231,21 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
       const used = data.projects
         .filter(p => ['React', 'Vite', 'FastAPI', 'Flask', 'Vercel', 'Tailwind'].some(t => new RegExp(`\\b${t}\\b`, 'i').test(p.tech)))
         .map(p => p.name);
-      return `Yes. ${webSkills.join(', ')} are in Puja's Web & API skills and were used in: ${used.join(', ')}.`;
+      return `${prefix}${webSkills.join(', ')} are in Puja's Web & API skills and were used in: ${used.join(', ')}.`;
     }
 
     const catMatches = [
-      { re: /\b(ai\s*(and|&|\/)\s*ml|machine learning)\s+(skills?|tools?)\b/i, cat: 'AI & ML' },
-      { re: /\bdata engineering\s+(skills?|tools?)\b/i, cat: 'Data Engineering' },
-      { re: /\bcloud(\s+and\s+infra(structure)?)?\s+(skills?|tools?)\b/i, cat: 'Cloud & Infra' },
-      { re: /\bsystems(\s+programming)?\s+(skills?|tools?)\b/i, cat: 'Systems' },
+      { re: /\b(ai\s*(and|&|\/)\s*ml|machine learning|deep learning)\s+(skills?|tools?|work|projects?|experience)\b/i, cat: 'AI & ML' },
+      { re: /\bdata engineering\s+(skills?|tools?|work|projects?|experience)\b/i, cat: 'Data Engineering' },
+      { re: /\bcloud(\s+and\s+infra(structure)?)?\s+(skills?|tools?|work|projects?|experience)\b/i, cat: 'Cloud & Infra' },
+      { re: /\bsystems(\s+programming)?\s+(skills?|tools?|work|projects?|experience)\b/i, cat: 'Systems' },
     ];
     for (const { re, cat } of catMatches) {
       if (re.test(lower)) {
         const list = data.skills[cat] || [];
         const catItems = techCatalog.filter(t => t.categories.includes(cat));
         const used = [...new Set(catItems.flatMap(t => findUsedIn(t)))];
-        return `Yes. ${list.join(', ')} are in Puja's ${cat} skills${used.length ? ` and were used in: ${used.join(', ')}` : ''}.`;
+        return `${prefix}${list.join(', ')} are in Puja's ${cat} skills${used.length ? ` and were used in: ${used.join(', ')}` : ''}.`;
       }
     }
 
@@ -250,7 +280,7 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
           ? ` and was used in: ${used.join(', ')}`
           : ` in: ${used.join(', ')}`
         : '';
-      return `Yes. ${skillPart}${usedPart}.`;
+      return `${prefix}${skillPart}${usedPart}.`;
     }
 
     const sameCats = details.every(d => d.item.categories.join('|') === details[0].item.categories.join('|'));
@@ -261,7 +291,7 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
       const used = details[0].used;
       const skillPart = cats.length ? `${names} are in Puja's ${cats.join(' and ')} skills` : `Puja has used ${names}`;
       const usedPart = used.length ? (cats.length ? ` and were used in: ${used.join(', ')}` : ` in: ${used.join(', ')}`) : '';
-      return `Yes. ${skillPart}${usedPart}.`;
+      return `${prefix}${skillPart}${usedPart}.`;
     }
 
     const sentences = details.map(({ item, used }) => {
@@ -275,7 +305,7 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
         : '';
       return `${skillPart}${usedPart}.`;
     });
-    return `Yes. ${sentences.join(' ')}`;
+    return `${prefix}${sentences.join(' ')}`;
   }
 
   // Step 2: match the visitor's question against the reviewed offline cache (answers.json)
@@ -369,9 +399,9 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
     about: () => `In Puja's words: "${splitSentences(data.about).slice(0, 2).join(' ')}"\n` + structured.availability().replace("In Puja's words: ", ''),
   };
 
-  // Steps 2–4 for open questions: retrieve chunks, then pick the sentences
-  // that share the most (rare) terms with the question.
-  function retrieve(query, entity) {
+  // Steps 2–4 for open questions: retrieve chunks with BM25 + optional cosine similarity
+  // (hybrid retrieval), then pick the sentences that best answer the question.
+  function retrieve(query, entity, queryVector = null) {
     const weights = expandQuery(query);
     if (entity) {
       let qStripped = query;
@@ -383,12 +413,47 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
       // falling back to document order so "tell me about X" starts with the intro.
       const results = index.docs
         .filter(doc => doc.meta.entity === entity.name)
-        .map((doc, order) => ({ doc, score: index.scoreDoc(doc, nonEntityWeights) + 1 / (order + 1) }))
+        .map((doc, order) => {
+          const bm25Score = index.scoreDoc(doc, nonEntityWeights);
+          const vec = chunkVectors[doc.id];
+          const cosSim = queryVector && vec ? cosineSimilarity(queryVector, vec) : 0;
+          const semanticBoost = cosSim > 0 ? Math.max(0, cosSim - 0.35) * 1.5 : 0;
+          return {
+            doc,
+            bm25Score,
+            cosSim,
+            score: bm25Score + semanticBoost + 1 / (order + 1),
+          };
+        })
         .sort((a, b) => b.score - a.score)
         .slice(0, 4);
       return { weights, nonEntityWeights, results };
     }
-    return { weights, nonEntityWeights: null, results: index.search(weights, { topK: 4 }) };
+
+    if (queryVector) {
+      const results = index.docs
+        .map(doc => {
+          const bm25Score = index.scoreDoc(doc, weights);
+          const vec = chunkVectors[doc.id];
+          const cosSim = vec ? cosineSimilarity(queryVector, vec) : 0;
+          // Combine lexical BM25 score with semantic cosine similarity above baseline.
+          const score =
+            bm25Score > 0
+              ? bm25Score + Math.max(0, cosSim - 0.35) * 2.5
+              : Math.max(0, cosSim - 0.56) * 8.0;
+          return { doc, bm25Score, cosSim, score };
+        })
+        .filter(result => result.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5);
+      return { weights, nonEntityWeights: null, results };
+    }
+
+    return {
+      weights,
+      nonEntityWeights: null,
+      results: index.search(weights, { topK: 5 }).map(r => ({ ...r, bm25Score: r.score, cosSim: 0 })),
+    };
   }
 
   function composeFromChunks(weights, results, entity, nonEntityWeights = null) {
@@ -396,14 +461,19 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
     const scoreWeights = entity && nonEntityWeights ? nonEntityWeights : weights;
     const candidates = [];
     results.forEach((result, rank) => {
+      const titleTerms = new Set(tokenize(result.doc.meta.title));
       splitSentences(result.doc.meta.text).forEach((sentence, position) => {
         const terms = new Set(tokenize(sentence));
         let score = 0;
-        for (const [term, weight] of scoreWeights) if (terms.has(term)) score += weight * index.idf(term);
+        for (const [term, weight] of scoreWeights) {
+          if (terms.has(term) || titleTerms.has(term)) score += weight * index.idf(term);
+        }
         score += result.score * 0.15;
         if (entity) {
           score += 1.2 / (position + 1);
           if (SUBSTANCE_RE.test(sentence)) score += 1.0;
+        } else if (SUBSTANCE_RE.test(sentence)) {
+          score += 0.6;
         }
         if (sentence.length < 30) score *= 0.5;
         candidates.push({ sentence, score, rank, position, chunkId: result.doc.id, chunk: result.doc.meta });
@@ -450,7 +520,7 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
     return { text, typedTerms };
   }
 
-  function answer(prompt, history = [], { useCache = true } = {}) {
+  function answer(prompt, history = [], { useCache = true, queryVector = null } = {}) {
     const { query, entity, followUp } = resolveQuery(prompt, history);
 
     if (useCache) {
@@ -480,14 +550,17 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
       return { text: techAnswer, intent: 'tech_usage', entity: null, resolvedQuery: query, followUp, sources: ['skills', 'projects'], cached: false };
     }
 
-    const { weights, nonEntityWeights, results } = retrieve(query, entity);
-    // Confidence gate: without a named entity, require a decent BM25 score
-    // relative to how many terms the visitor actually typed.
+    const { weights, nonEntityWeights, results } = retrieve(query, entity, queryVector);
+    // Confidence gate: without a named entity, require a decent BM25/hybrid score
+    // relative to how many terms the visitor actually typed, or high semantic similarity.
     const typedCount = [...weights.values()].filter(w => w === 1).length || 1;
     const topDoc = results[0]?.doc;
     const topScore = results[0]?.score || 0;
+    const topCosSim = results[0]?.cosSim || 0;
     const matchedTerms = topDoc ? [...weights.keys()].filter(t => topDoc.termFreq.has(t)).length : 0;
-    const confident = Boolean(entity) || (topScore / Math.sqrt(typedCount) >= 2.2 && (typedCount < 3 || matchedTerms >= 2));
+    const bm25Confident = topScore / Math.sqrt(typedCount) >= 2.2 && (typedCount < 3 || matchedTerms >= 2);
+    const semanticConfident = Boolean(queryVector && topCosSim >= 0.62 && (matchedTerms >= 1 || topCosSim >= 0.66));
+    const confident = Boolean(entity) || bm25Confident || semanticConfident;
     if (!confident) {
       return { text: NO_ANSWER, intent: 'unknown', entity: null, resolvedQuery: query, followUp, sources: [], cached: false, topScore };
     }
@@ -501,15 +574,26 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
       followUp,
       sources: [...new Set(results.map(r => r.doc.meta.title))],
       cached: false,
+      hybrid: Boolean(queryVector),
       topScore,
     };
   }
 
-  // Async pipeline: checks the answer cache first (unless useCache=false), falls back
-  // to BM25 retrieval, and if a neural rewriter (Qwen2.5-0.5B-Instruct) is attached,
-  // rewrites uncached BM25 retrieval answers into natural third-person prose.
+  // Async pipeline: checks the answer cache first (unless useCache=false), embeds the query
+  // for hybrid BM25 + cosine similarity retrieval when an embedder is available (falling back
+  // to BM25 alone if the embedding model cannot load), and optionally rewrites uncached
+  // retrieval answers with Qwen2.5-0.5B-Instruct.
   async function answerAsync(prompt, history = [], { useCache = true } = {}) {
-    const base = answer(prompt, history, { useCache });
+    const { query } = resolveQuery(prompt, history);
+    let queryVector = null;
+    if (activeEmbedder) {
+      try {
+        queryVector = await activeEmbedder.embed(query);
+      } catch {
+        queryVector = null;
+      }
+    }
+    const base = answer(prompt, history, { useCache, queryVector });
     if (base.cached || base.intent !== 'retrieval' || !activeRewriter) {
       return { ...base, rewritten: false };
     }
@@ -528,5 +612,5 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
     };
   }
 
-  return { answer, answerAsync, setRewriter, matchCache, resolveQuery, retrieve, chunks, entities };
+  return { answer, answerAsync, setRewriter, setEmbedder, matchCache, resolveQuery, retrieve, chunks, entities };
 }

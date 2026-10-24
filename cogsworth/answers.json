@@ -408,7 +408,7 @@
   },
   {
     "q": "When did Puja finish her undergrad in India?",
-    "a": "**About Puja**\nPuja's MS is from Rutgers, Puja's undergrad in AI/ML is from India, but Puja's actual education happened somewhere between watching five agents split a contract analysis into parallel threads and finish in 15 seconds, and asking Puja why Redis was sitting there doing one job when it could clearly handle three.\n\n**Education: BMS Institute of Technology and Management, India**\nBachelor of Engineering in Artificial Intelligence and Machine Learning at BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0.",
+    "a": "**About Puja**\nIn Puja's words: \"My MS is from Rutgers, my undergrad in AI/ML is from India, but my actual education happened somewhere between watching five agents split a contract analysis into parallel threads and finish in 15 seconds, and asking myself why Redis was sitting there doing one job when it could clearly handle three.\"",
     "intent": "retrieval",
     "entity": null,
     "sources": [
@@ -475,7 +475,7 @@
   },
   {
     "q": "What AI and ML skills does Puja have?",
-    "a": "Yes. LLMs, Agentic Pipelines, NLP, Computer Vision, Deep Learning, Transformers, RAG, Vector Search, Prompt Engineering are in Puja's AI & ML skills and were used in: RWJ Health Hackathon, Multilingual Health Misinformation Detection, Sentiment Analysis of Movie Reviews, Emotion Detection from Facial Expressions, Computer Science Grader at Rutgers University, Smart Doc Finder.",
+    "a": "LLMs, Agentic Pipelines, NLP, Computer Vision, Deep Learning, Transformers, RAG, Vector Search, Prompt Engineering are in Puja's AI & ML skills and were used in: RWJ Health Hackathon, Multilingual Health Misinformation Detection, Sentiment Analysis of Movie Reviews, Emotion Detection from Facial Expressions, Credit Card Fraud Detection, Smart Doc Finder.",
     "intent": "tech_usage",
     "entity": null,
     "sources": [
@@ -487,7 +487,7 @@
   },
   {
     "q": "What data engineering tools does Puja know?",
-    "a": "Yes. Apache Airflow, dbt, PostgreSQL, Redis, MongoDB, Pinecone, ETL/ELT, Data Modeling, Medallion Architecture are in Puja's Data Engineering skills and were used in: PostHog Engineering Impact Dashboard, AI Neighborhood Watch, Smart Doc Finder.",
+    "a": "**AI Engineering Intern at Pennant Education (July 2025 - September 2025)**\nIn Puja's words: \"My first real taste of building AI that has to work inside someone else's constraints, not a clean dataset, not a controlled environment, but actual educational workflows with actual stakes. I built agentic RPA solutions in UiPath to automate grading and internal workflows, work that held up well enough to be shaped into a submission for a UAE government-backed startup hackathon, where shortlisted projects got fully funded to build out their vision. I also contributed to an adaptive assessment platform that adjusted to how students were actually learning, and explored how IBM Watson fit into the broader picture. The thing I kept learning: automation is only as smart as the decisions you make about what to automate, and who it's actually for.\"",
     "intent": "tech_usage",
     "entity": null,
     "sources": [
@@ -499,7 +499,7 @@
   },
   {
     "q": "What cloud and infrastructure tools has Puja used?",
-    "a": "Yes. AWS (Lambda, EC2, S3, DynamoDB), Docker, GitHub Actions, CI/CD are in Puja's Cloud & Infra skills and were used in: RWJ Health Hackathon, Smart Doc Finder.",
+    "a": "AWS (Lambda, EC2, S3, DynamoDB), Docker, GitHub Actions, CI/CD are in Puja's Cloud & Infra skills and were used in: RWJ Health Hackathon, Smart Doc Finder.",
     "intent": "tech_usage",
     "entity": null,
     "sources": [
@@ -511,7 +511,7 @@
   },
   {
     "q": "What web frameworks does Puja use?",
-    "a": "Yes. FastAPI, Flask, React, Vite, Vercel Serverless, REST APIs are in Puja's Web & API skills and were used in: PostHog Engineering Impact Dashboard, LocalLens, LexAI, AI Neighborhood Watch, Smart Doc Finder, Systems Sandbox (sys namespace).",
+    "a": "FastAPI, Flask, React, Vite, Vercel Serverless, REST APIs are in Puja's Web & API skills and were used in: PostHog Engineering Impact Dashboard, LocalLens, LexAI, AI Neighborhood Watch, Smart Doc Finder, Systems Sandbox (sys namespace).",
     "intent": "tech_usage",
     "entity": null,
     "sources": [
@@ -523,7 +523,7 @@
   },
   {
     "q": "What systems programming skills does Puja have?",
-    "a": "Yes. WebAssembly, Emscripten, Memory Allocators, C Systems Programming, WASM ABI are in Puja's Systems skills and were used in: Systems Sandbox (sys namespace).",
+    "a": "WebAssembly, Emscripten, Memory Allocators, C Systems Programming, WASM ABI are in Puja's Systems skills and were used in: Systems Sandbox (sys namespace).",
     "intent": "tech_usage",
     "entity": null,
     "sources": [
@@ -596,7 +596,7 @@
   },
   {
     "q": "What experience does Puja have with FastAPI?",
-    "a": "Yes. FastAPI is in Puja's Web & API skills and was used in: PostHog Engineering Impact Dashboard, LocalLens.",
+    "a": "FastAPI is in Puja's Web & API skills and was used in: PostHog Engineering Impact Dashboard, LocalLens.",
     "intent": "tech_usage",
     "entity": null,
     "sources": [
@@ -632,7 +632,7 @@
   },
   {
     "q": "What databases has Puja worked with?",
-    "a": "Yes. PostgreSQL, Redis, MongoDB, and Pinecone are in Puja's Data Engineering skills (and SQL is in Puja's Languages skills) and were used in: PostHog Engineering Impact Dashboard, AI Neighborhood Watch, Smart Doc Finder.",
+    "a": "PostgreSQL, Redis, MongoDB, and Pinecone are in Puja's Data Engineering skills (and SQL is in Puja's Languages skills) and were used in: PostHog Engineering Impact Dashboard, AI Neighborhood Watch, Smart Doc Finder.",
     "intent": "tech_usage",
     "entity": null,
     "sources": [

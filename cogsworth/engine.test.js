@@ -160,6 +160,79 @@ describe('engine', () => {
       }
     }
   });
+
+  it('answers every question in eval/round3.json, only starts tech-usage with Yes. on yes/no questions, and has no asking Puja', async () => {
+    const { default: round3Cases } = await import('./eval/round3.json', { with: { type: 'json' } });
+    const cacheQuestions = new Set(cachedAnswers.map(e => e.q.trim().toLowerCase()));
+    for (const entry of cachedAnswers) {
+      expect(entry.a.toLowerCase()).not.toContain('asking puja');
+    }
+
+    // Yes/no tech-usage questions start with "Yes.", while "What ..." questions do not.
+    expect(engine.answer('Has she used React?').text.startsWith('Yes.')).toBe(true);
+    expect(engine.answer('What databases does she know?').text.startsWith('Yes.')).toBe(false);
+    expect(engine.answer('What frontend frameworks has she used?').text.startsWith('Yes.')).toBe(false);
+
+    for (const tc of round3Cases) {
+      expect(cacheQuestions.has(tc.q.trim().toLowerCase())).toBe(false);
+      const res = engine.answer(tc.q, tc.history || []);
+      if (tc.outOfScope) {
+        expect(res.intent).toBe('unknown');
+      } else {
+        for (const expected of tc.contains || []) {
+          expect(res.text.toLowerCase()).toContain(expected.toLowerCase());
+        }
+        for (const forbidden of tc.forbids || []) {
+          expect(res.text.toLowerCase()).not.toMatch(new RegExp(`\\b${forbidden.toLowerCase()}\\b`));
+        }
+      }
+    }
+  });
+
+  it('combines BM25 and cosine similarity in hybrid retrieval and falls back to BM25 if the embedder fails', async () => {
+    const { default: embData } = await import('./embeddings.json', { with: { type: 'json' } });
+    expect(embData.chunks.length).toBe(engine.chunks.length);
+    expect(embData.dimension).toBe(384);
+
+    // Use a real precomputed chunk vector from embeddings.json to test hybrid retrieval deterministically.
+    const taChunk = embData.chunks.find(c => c.title.includes('Graduate Teaching Assistant'));
+    const mockEmbedder = { embed: async () => taChunk.vector };
+    const hybridEngine = createEngine(portfolioData, { embedder: mockEmbedder });
+    const hybridRes = await hybridEngine.answerAsync('What did Puja teach?', [], { useCache: false });
+    expect(hybridRes.hybrid).toBe(true);
+    expect(hybridRes.text.toLowerCase()).toContain('object-oriented');
+
+    // When the embedder throws / cannot load, answerAsync falls back to BM25 alone without crashing.
+    const brokenEmbedder = {
+      embed: async () => {
+        throw new Error('model unavailable');
+      },
+    };
+    const fallbackEngine = createEngine(portfolioData, { embedder: brokenEmbedder });
+    const fallbackRes = await fallbackEngine.answerAsync('What did Puja teach?', [], { useCache: false });
+    expect(fallbackRes.hybrid).toBe(false);
+    expect(fallbackRes.text.toLowerCase()).toContain('object-oriented');
+  });
+
+  it('supports approving (y), editing (e), and deleting (d) entries in review-answers.js', async () => {
+    const { applyReviewAction, getSourcePreview } = await import('./review-answers.js');
+    const sample = [
+      { q: 'What tech does LocalLens use?', a: 'Draft 1', generator: 'qwen', intent: 'retrieval', reviewed: false },
+      { q: 'Has she used Docker?', a: 'Draft 2', generator: 'template', intent: 'tech_usage', reviewed: false },
+      { q: 'Delete me?', a: 'Draft 3', generator: 'qwen', intent: 'retrieval', reviewed: false },
+    ];
+    expect(getSourcePreview(engine, sample[0])).toContain('Groq');
+
+    expect(applyReviewAction(sample, 0, 'y')).toEqual({ changed: true, status: 'approved' });
+    expect(sample[0].reviewed).toBe(true);
+
+    expect(applyReviewAction(sample, 1, 'e', 'Edited answer')).toEqual({ changed: true, status: 'edited' });
+    expect(sample[1].a).toBe('Edited answer');
+    expect(sample[1].reviewed).toBe(true);
+
+    expect(applyReviewAction(sample, 2, 'd')).toEqual({ changed: true, status: 'deleted' });
+    expect(sample.length).toBe(2);
+  });
 });
 
 describe('neural grounding guard', () => {

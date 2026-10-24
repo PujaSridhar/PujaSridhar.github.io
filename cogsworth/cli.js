@@ -9,6 +9,7 @@
 
 import readline from 'node:readline';
 import { stdin as input, stdout as output } from 'node:process';
+import { createEmbedder, DEFAULT_EMBED_MODEL_ID } from './embeddings.js';
 import { createEngine } from './engine.js';
 import { createRewriter, DEFAULT_MODEL_ID } from './neural.js';
 import { portfolioData } from '../portfolio-data.js';
@@ -16,6 +17,16 @@ import { portfolioData } from '../portfolio-data.js';
 const debug = process.argv.includes('--debug');
 const neural = process.argv.includes('--neural');
 const useCache = !process.argv.includes('--no-cache');
+const noEmbed = process.argv.includes('--no-embed');
+
+let embedder = null;
+if (!noEmbed) {
+  try {
+    embedder = await createEmbedder();
+  } catch {
+    embedder = null;
+  }
+}
 
 let rewriter = null;
 if (neural) {
@@ -23,11 +34,15 @@ if (neural) {
   rewriter = await createRewriter();
 }
 
-const engine = createEngine(portfolioData, { rewriter });
+const engine = createEngine(portfolioData, { embedder, rewriter });
 const history = [];
 const rl = readline.createInterface({ input, output });
 
-const modeLabel = [useCache ? 'cache' : null, neural ? 'qwen2.5-0.5b' : null, 'bm25'].filter(Boolean).join(' + ');
+const modeLabel = [
+  useCache ? 'cache' : null,
+  neural ? 'qwen2.5-0.5b' : null,
+  embedder ? `hybrid (${DEFAULT_EMBED_MODEL_ID} + bm25)` : 'bm25',
+].filter(Boolean).join(' + ');
 console.log(`Cogsworth (${modeLabel}). Ask about Puja's portfolio. Ctrl+C or "exit" to quit.\n`);
 rl.setPrompt('you> ');
 rl.prompt();
@@ -35,7 +50,7 @@ for await (const line of rl) {
   const prompt = line.trim();
   if (prompt === 'exit' || prompt === 'quit') break;
   if (prompt) {
-    const result = neural
+    const result = (neural || embedder)
       ? await engine.answerAsync(prompt, history, { useCache })
       : engine.answer(prompt, history, { useCache });
     console.log(`\n${result.text.replace(/\*\*(.*?)\*\*/g, '\x1b[1m$1\x1b[0m')}\n`);
