@@ -3,12 +3,12 @@
 
 const STOPWORDS = new Set(`
 a about above after again against all am an and any are as at be because been before being below
-between both but by can could did do does doing down during each few for from further had has have
+between both but by can could did do does doing done down during each few for from further had has have
 having he her here hers herself him himself his how i if in into is it its itself just me more most
 my myself no nor not now of off on once only or other our ours ourselves out over own same she should
 so some such than that the their theirs them themselves then there these they this those through to
-too under until up very was we were what when where which while who whom why will with would you your
-yours yourself yourselves puja sridhar puja's tell know show give please also any anything something
+too under until up us very was we were what when where which while who whom why will with would you your
+yours yourself yourselves puja sridhar puja's cogsworth tell know show give please also any anything something
 `.split(/\s+/).filter(Boolean));
 
 // Light suffix stripper. Not Porter, but close enough for a small corpus,
@@ -62,6 +62,9 @@ const SYNONYM_GROUPS = [
   ['project', 'build', 'built', 'app', 'made', 'create', 'portfolio'],
   ['contact', 'email', 'reach', 'linkedin', 'github', 'touch', 'repo', 'repository'],
   ['skill', 'tech', 'stack', 'tool', 'technology', 'framework', 'proficient'],
+  ['frontend', 'front-end', 'ui', 'web', 'react', 'vite', 'tailwind'],
+  ['database', 'db', 'sql', 'postgresql', 'redis', 'mongodb', 'pinecone'],
+  ['healthcare', 'clinical', 'care', 'medication', 'treatment', 'filomena', 'rwj'],
   ['language', 'speak', 'spoken', 'fluent'],
   ['certification', 'certificate', 'certified', 'credential', 'accreditation', 'course'],
   ['talk', 'speech', 'lecture', 'present', 'presentation'],

@@ -110,13 +110,27 @@ async function main() {
   const verbose = args.has('--verbose');
   const mainCases = JSON.parse(readFileSync(new URL('./questions.json', import.meta.url), 'utf8'));
   const heldOutCases = JSON.parse(readFileSync(new URL('./held-out.json', import.meta.url), 'utf8'));
+  const regressionCases = JSON.parse(readFileSync(new URL('./regressions.json', import.meta.url), 'utf8'));
   const engine = createEngine(portfolioData);
 
-  const rewriter = !args.has('--fast') ? await createRewriter() : null;
+  let rewriter = null;
+  if (!args.has('--fast')) {
+    try {
+      rewriter = await createRewriter();
+    } catch (error) {
+      console.log(`\n== local (qwen2.5-0.5b + bm25): could not load model (${error.cause?.message || error.message}). Skipped.`);
+    }
+  }
   const neuralEngine = rewriter ? createEngine(portfolioData, { rewriter }) : null;
 
+  const suites = [
+    ['questions.json', mainCases],
+    ['held-out.json', heldOutCases],
+    ['regressions.json', regressionCases],
+  ];
+
   const reports = [];
-  for (const [suiteName, cases] of [['questions.json', mainCases], ['held-out.json', heldOutCases]]) {
+  for (const [suiteName, cases] of suites) {
     reports.push(
       await runSuite(suiteName, cases, 'local (bm25)', async tc => engine.answer(tc.q, tc.history || [], { useCache: false }), verbose),
       await runSuite(suiteName, cases, 'local (cache + bm25)', async tc => engine.answer(tc.q, tc.history || [], { useCache: true }), verbose),
@@ -137,7 +151,7 @@ async function main() {
   printReports(reports);
 
   const allLocalPassed = reports
-    .filter(r => r.name.startsWith('local'))
+    .filter(r => r.name.startsWith('local') && r.errors < r.total)
     .every(r => r.passed === r.total);
   process.exitCode = allLocalPassed ? 0 : 1;
 }

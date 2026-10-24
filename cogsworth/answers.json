@@ -6,7 +6,8 @@
     "entity": null,
     "sources": [
       "greeting"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Hello",
@@ -15,7 +16,8 @@
     "entity": null,
     "sources": [
       "greeting"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Who is Puja?",
@@ -24,7 +26,8 @@
     "entity": null,
     "sources": [
       "about"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Tell me about Puja",
@@ -33,7 +36,8 @@
     "entity": null,
     "sources": [
       "about"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Give me a quick summary of Puja's background",
@@ -42,7 +46,8 @@
     "entity": null,
     "sources": [
       "about"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What is Puja's background?",
@@ -51,7 +56,8 @@
     "entity": null,
     "sources": [
       "about"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Introduce Puja Sridhar",
@@ -60,7 +66,8 @@
     "entity": null,
     "sources": [
       "about"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What does Puja do?",
@@ -69,7 +76,8 @@
     "entity": null,
     "sources": [
       "about"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What is Puja passionate about building?",
@@ -78,7 +86,8 @@
     "entity": null,
     "sources": [
       "about"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Tell me about yourself",
@@ -87,7 +96,8 @@
     "entity": null,
     "sources": [
       "about"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Where is she based?",
@@ -96,7 +106,8 @@
     "entity": null,
     "sources": [
       "availability"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Where does Puja live?",
@@ -105,7 +116,8 @@
     "entity": null,
     "sources": [
       "availability"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What is Puja's current location?",
@@ -114,7 +126,8 @@
     "entity": null,
     "sources": [
       "availability"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What kind of roles is she looking for?",
@@ -123,7 +136,8 @@
     "entity": null,
     "sources": [
       "availability"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Is Puja open to new roles?",
@@ -132,7 +146,8 @@
     "entity": null,
     "sources": [
       "availability"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Is she available for hire?",
@@ -141,19 +156,18 @@
     "entity": null,
     "sources": [
       "availability"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What positions is Puja interested in?",
-    "a": "**Project: PostHog Engineering Impact Dashboard**\nThe interesting part wasn't the stack.\n\n**Hackathon: Redis Hackathon (Dev.to) (Summer 2025)**\nWe built it because the architecture was interesting, not because it was easy.\n\n**Project: Credit Card Fraud Detection**\nIn Puja's words: \"Built this on my own because the problem genuinely interested me: how do you find the needle when the haystack has millions of legitimate transactions?\"",
-    "intent": "retrieval",
+    "a": "In Puja's words: \"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
+    "intent": "availability",
     "entity": null,
     "sources": [
-      "Project: PostHog Engineering Impact Dashboard",
-      "Hackathon: Redis Hackathon (Dev.to) (Summer 2025)",
-      "Project: Credit Card Fraud Detection",
-      "About Puja"
-    ]
+      "availability"
+    ],
+    "generator": "structured"
   },
   {
     "q": "Is Puja looking for full-time opportunities?",
@@ -162,7 +176,8 @@
     "entity": null,
     "sources": [
       "availability"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Is she open to AI Engineering or Data Engineering roles?",
@@ -171,7 +186,8 @@
     "entity": null,
     "sources": [
       "availability"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Where is she located right now?",
@@ -180,7 +196,8 @@
     "entity": null,
     "sources": [
       "availability"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "How can I contact Puja?",
@@ -189,7 +206,8 @@
     "entity": null,
     "sources": [
       "contact"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "How can I reach out to Puja?",
@@ -198,7 +216,8 @@
     "entity": null,
     "sources": [
       "contact"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What is Puja's email address?",
@@ -207,7 +226,8 @@
     "entity": null,
     "sources": [
       "contact"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What's her LinkedIn?",
@@ -216,7 +236,8 @@
     "entity": null,
     "sources": [
       "contact"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What is Puja's GitHub?",
@@ -225,7 +246,8 @@
     "entity": null,
     "sources": [
       "contact"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "How do I get in touch with her?",
@@ -234,7 +256,8 @@
     "entity": null,
     "sources": [
       "contact"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Where can I find Puja's GitHub and LinkedIn links?",
@@ -243,7 +266,8 @@
     "entity": null,
     "sources": [
       "contact"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Can you share Puja's contact details?",
@@ -252,7 +276,8 @@
     "entity": null,
     "sources": [
       "contact"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Where did she do her masters?",
@@ -261,7 +286,8 @@
     "entity": null,
     "sources": [
       "education"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What was her GPA at Rutgers?",
@@ -270,7 +296,8 @@
     "entity": "Rutgers University - School of Communication and Information",
     "sources": [
       "education"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What did she study in undergrad?",
@@ -279,7 +306,8 @@
     "entity": null,
     "sources": [
       "education"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Tell me about Puja's education",
@@ -288,7 +316,8 @@
     "entity": null,
     "sources": [
       "education"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "When did Puja graduate from Rutgers?",
@@ -297,7 +326,8 @@
     "entity": "Rutgers University - School of Communication and Information",
     "sources": [
       "education"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Where did Puja go to university?",
@@ -306,7 +336,8 @@
     "entity": null,
     "sources": [
       "education"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What degree did Puja get at Rutgers University?",
@@ -315,7 +346,8 @@
     "entity": "Rutgers University",
     "sources": [
       "education"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Where did Puja complete her bachelor's degree?",
@@ -324,7 +356,8 @@
     "entity": null,
     "sources": [
       "education"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What was Puja's undergrad GPA?",
@@ -333,7 +366,8 @@
     "entity": null,
     "sources": [
       "education"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "When did Puja finish her undergrad in India?",
@@ -343,7 +377,8 @@
     "sources": [
       "About Puja",
       "Education: BMS Institute of Technology and Management, India"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "Does Puja have a master's degree in Computer Science?",
@@ -352,7 +387,8 @@
     "entity": null,
     "sources": [
       "education"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What schools did Puja attend?",
@@ -361,7 +397,8 @@
     "entity": null,
     "sources": [
       "education"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What are her skills?",
@@ -370,7 +407,8 @@
     "entity": null,
     "sources": [
       "skills"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What is Puja's tech stack?",
@@ -379,7 +417,8 @@
     "entity": null,
     "sources": [
       "skills"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What programming languages does she know?",
@@ -388,7 +427,8 @@
     "entity": null,
     "sources": [
       "skills"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What AI and ML skills does Puja have?",
@@ -399,7 +439,8 @@
       "Skills: AI & ML",
       "Skills: Tools",
       "About Puja"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What data engineering tools does Puja know?",
@@ -411,7 +452,8 @@
       "Skills: Tools",
       "About Puja",
       "Project: PostHog Engineering Impact Dashboard"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What cloud and infrastructure tools has Puja used?",
@@ -423,7 +465,8 @@
       "Skills: Tools",
       "Skills: Cloud & Infra",
       "About Puja"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What web frameworks does Puja use?",
@@ -435,7 +478,8 @@
       "Hackathon: Redis Hackathon (Dev.to) (Summer 2025)",
       "Skills: Tools",
       "Project: PostHog Engineering Impact Dashboard"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What systems programming skills does Puja have?",
@@ -446,7 +490,8 @@
       "Skills: Systems",
       "Project: Systems Sandbox (sys namespace)",
       "Skills: Tools"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Does she know Docker?",
@@ -456,7 +501,8 @@
     "sources": [
       "Skills: Cloud & Infra",
       "Project: Smart Doc Finder"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "How did she use Redis?",
@@ -467,7 +513,8 @@
       "Hackathon: Redis Hackathon (Dev.to) (Summer 2025)",
       "Project: Smart Doc Finder",
       "Project: PostHog Engineering Impact Dashboard"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Has she worked with Airflow?",
@@ -478,7 +525,8 @@
       "Skills: Data Engineering",
       "Project: PostHog Engineering Impact Dashboard",
       "About Puja"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Did she do anything with WebAssembly?",
@@ -489,7 +537,8 @@
       "Skills: Systems",
       "Project: Systems Sandbox (sys namespace)",
       "About Puja"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "Has Puja used dbt?",
@@ -500,7 +549,8 @@
       "Skills: Data Engineering",
       "Project: PostHog Engineering Impact Dashboard",
       "About Puja"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What experience does Puja have with FastAPI?",
@@ -511,7 +561,8 @@
       "Project: LocalLens",
       "Skills: Web & API",
       "Project: PostHog Engineering Impact Dashboard"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "Does Puja know Python and SQL?",
@@ -523,7 +574,8 @@
       "Certifications",
       "Project: PostHog Engineering Impact Dashboard",
       "Project: Smart Doc Finder"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "Has Puja worked with AWS?",
@@ -533,7 +585,8 @@
     "sources": [
       "Skills: Cloud & Infra",
       "Hackathon: RWJ Health Hackathon (October 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What databases has Puja worked with?",
@@ -542,7 +595,8 @@
     "entity": null,
     "sources": [
       "Project: Smart Doc Finder"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Has Puja built RAG or vector search systems?",
@@ -554,7 +608,8 @@
       "Skills: Systems",
       "Hackathon: Redis Hackathon (Dev.to) (Summer 2025)",
       "Project: Systems Sandbox (sys namespace)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Does Puja have experience with TensorFlow and Keras?",
@@ -566,7 +621,8 @@
       "Project: Emotion Detection from Facial Expressions",
       "Talks",
       "About Puja"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "Has Puja used Scikit-learn?",
@@ -578,7 +634,8 @@
       "Skills: AI & ML",
       "Project: Credit Card Fraud Detection",
       "Project: Sentiment Analysis of Movie Reviews"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "Has Puja worked with React?",
@@ -590,7 +647,8 @@
       "Project: LexAI",
       "Project: Systems Sandbox (sys namespace)",
       "Skills: Web & API"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Does Puja have experience with C programming?",
@@ -602,7 +660,8 @@
       "Certifications",
       "Skills: Languages",
       "Project: Systems Sandbox (sys namespace)"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "Has Puja used ElevenLabs?",
@@ -612,7 +671,8 @@
     "sources": [
       "Project: AI Neighborhood Watch",
       "Hackathon: HackRU (September 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Has Puja worked with Groq?",
@@ -621,7 +681,8 @@
     "entity": null,
     "sources": [
       "Project: LocalLens"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "Has Puja worked with UiPath?",
@@ -631,7 +692,8 @@
     "sources": [
       "Skills: Tools",
       "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "Has she done computer vision work?",
@@ -643,7 +705,8 @@
       "Project: Emotion Detection from Facial Expressions",
       "Computer Science Grader at Rutgers University (September 2024 - December 2025)",
       "Project: LexAI"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Has Puja worked with NLP and Transformers?",
@@ -654,7 +717,8 @@
       "Project: Multilingual Health Misinformation Detection",
       "Skills: AI & ML",
       "Project: Sentiment Analysis of Movie Reviews"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What tools is Puja proficient in?",
@@ -663,7 +727,8 @@
     "entity": null,
     "sources": [
       "skills"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Which languages does she speak?",
@@ -672,7 +737,8 @@
     "entity": null,
     "sources": [
       "languages"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What spoken languages is Puja fluent in?",
@@ -681,7 +747,8 @@
     "entity": null,
     "sources": [
       "languages"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Does Puja speak Tamil and Kannada?",
@@ -690,7 +757,8 @@
     "entity": null,
     "sources": [
       "languages"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "How many human languages does Puja speak?",
@@ -699,7 +767,8 @@
     "entity": null,
     "sources": [
       "languages"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Does Puja speak Hindi?",
@@ -708,7 +777,8 @@
     "entity": null,
     "sources": [
       "languages"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What languages can Puja communicate in?",
@@ -717,7 +787,8 @@
     "entity": null,
     "sources": [
       "languages"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What certifications does she have?",
@@ -726,7 +797,8 @@
     "entity": null,
     "sources": [
       "certifications"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Is Puja certified in Databricks?",
@@ -736,7 +808,8 @@
     "sources": [
       "Certifications",
       "Computer Science Grader at Rutgers University (September 2024 - December 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Does Puja have any cloud certifications?",
@@ -746,7 +819,8 @@
     "sources": [
       "Certifications",
       "Skills: Cloud & Infra"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What credentials or accreditations has Puja earned?",
@@ -755,7 +829,8 @@
     "entity": null,
     "sources": [
       "certifications"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Has Puja completed any DeepLearning.AI or Coursera certificates?",
@@ -765,16 +840,18 @@
     "sources": [
       "Certifications",
       "Computer Science Grader at Rutgers University (September 2024 - December 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about Puja's Generative AI certification",
-    "a": "In Puja's words: \"I build things that don't fit a clean job description. My MS is from Rutgers, my undergrad in AI/ML is from India, but my actual education happened somewhere between watching five agents split a contract analysis into parallel threads and finish in 15 seconds, and asking myself why Redis was sitting there doing one job when it could clearly handle three.\"\n\"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
-    "intent": "about",
+    "a": "Puja's certifications:\n**Academy Accreditation - Generative AI Fundamentals** (Databricks)\n**Academy Accreditation - Databricks Fundamentals** (Databricks)\n**Oracle Cloud Infrastructure 2023 Foundations Associate** (Oracle)\n**Demystifying Machine Learning Concepts** (Impavid Technologies)\n**AI for Everyone** (DeepLearning.AI)\n**Programming for Everybody** (University of Michigan)\n**Python Data Structures** (University of Michigan)",
+    "intent": "certifications",
     "entity": null,
     "sources": [
-      "about"
-    ]
+      "certifications"
+    ],
+    "generator": "structured"
   },
   {
     "q": "List all of Puja's certifications",
@@ -783,7 +860,8 @@
     "entity": null,
     "sources": [
       "certifications"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Has she given any talks?",
@@ -793,7 +871,8 @@
     "sources": [
       "Talks",
       "About Puja"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What presentations or lectures has Puja given?",
@@ -802,16 +881,18 @@
     "entity": null,
     "sources": [
       "talks"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Tell me about Puja's talk on Traffic Management Using AI",
-    "a": "In Puja's words: \"I build things that don't fit a clean job description. My MS is from Rutgers, my undergrad in AI/ML is from India, but my actual education happened somewhere between watching five agents split a contract analysis into parallel threads and finish in 15 seconds, and asking myself why Redis was sitting there doing one job when it could clearly handle three.\"\n\"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
-    "intent": "about",
+    "a": "Talks Puja has given:\n**How to Prepare for an AI Developer role through Campus Placements**, BMS Institute of Technology and Management (Summer 2023)\n**Traffic Management Using AI**, BMS Institute of Technology and Management (Spring 2023)",
+    "intent": "talks",
     "entity": null,
     "sources": [
-      "about"
-    ]
+      "talks"
+    ],
+    "generator": "structured"
   },
   {
     "q": "Did Puja give a talk on preparing for AI developer roles?",
@@ -822,7 +903,8 @@
       "Talks",
       "About Puja",
       "Skills: AI & ML"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Where has Puja spoken?",
@@ -831,7 +913,8 @@
     "entity": null,
     "sources": [
       "languages"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What leadership roles has she had?",
@@ -840,16 +923,18 @@
     "entity": null,
     "sources": [
       "leadership"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Tell me about Puja's leadership experience",
-    "a": "In Puja's words: \"I build things that don't fit a clean job description. My MS is from Rutgers, my undergrad in AI/ML is from India, but my actual education happened somewhere between watching five agents split a contract analysis into parallel threads and finish in 15 seconds, and asking myself why Redis was sitting there doing one job when it could clearly handle three.\"\n\"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
-    "intent": "about",
+    "a": "Puja's leadership roles:\n**Class Representative**, BMS Institute of Technology and Management (June 2020 - May 2023)\n**Event Head**, BMS Institute of Technology and Management (Nov 2022 - Dec 2022)\n**Finance Head**, BMS Institute of Technology and Management (Sep 2019 - Oct 2019)",
+    "intent": "leadership",
     "entity": null,
     "sources": [
-      "about"
-    ]
+      "leadership"
+    ],
+    "generator": "structured"
   },
   {
     "q": "What did Puja do as Class Representative?",
@@ -858,7 +943,8 @@
     "entity": "Class Representative",
     "sources": [
       "Class Representative at BMS Institute of Technology and Management"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What did Puja accomplish as Event Head?",
@@ -867,7 +953,8 @@
     "entity": "Event Head",
     "sources": [
       "Event Head at BMS Institute of Technology and Management"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What did Puja do as Finance Head?",
@@ -876,7 +963,8 @@
     "entity": "Finance Head",
     "sources": [
       "Finance Head at BMS Institute of Technology and Management"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "How did Puja demonstrate leadership in undergrad?",
@@ -885,7 +973,8 @@
     "entity": null,
     "sources": [
       "leadership"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Where has she worked?",
@@ -894,7 +983,8 @@
     "entity": null,
     "sources": [
       "experience"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What is Puja's work experience?",
@@ -903,7 +993,8 @@
     "entity": null,
     "sources": [
       "experience"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What internships has Puja done?",
@@ -912,7 +1003,8 @@
     "entity": null,
     "sources": [
       "experience"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Tell me about Puja's career and jobs",
@@ -921,7 +1013,8 @@
     "entity": null,
     "sources": [
       "experience"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What roles has Puja held?",
@@ -930,7 +1023,8 @@
     "entity": null,
     "sources": [
       "experience"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What did she do at Pennant Education?",
@@ -939,7 +1033,8 @@
     "entity": "Pennant Education",
     "sources": [
       "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about Puja's AI Engineering Intern role at Pennant Education",
@@ -948,7 +1043,8 @@
     "entity": "Pennant Education",
     "sources": [
       "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "When did Puja intern at Pennant Education?",
@@ -957,7 +1053,8 @@
     "entity": "Pennant Education",
     "sources": [
       "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "How long did the Pennant Education internship last?",
@@ -966,7 +1063,8 @@
     "entity": "Pennant Education",
     "sources": [
       "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What did Puja build with UiPath at Pennant Education?",
@@ -975,7 +1073,8 @@
     "entity": "Pennant Education",
     "sources": [
       "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Did Puja work with IBM Watson at Pennant Education?",
@@ -984,7 +1083,8 @@
     "entity": "Pennant Education",
     "sources": [
       "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What did she do as a teaching assistant?",
@@ -993,7 +1093,8 @@
     "entity": "Rutgers University - School of Communication and Information",
     "sources": [
       "Graduate Teaching Assistant at Rutgers University - School of Communication and Information (September 2024 - December 2025)"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "Tell me about Puja's Graduate Teaching Assistant role at Rutgers",
@@ -1002,7 +1103,8 @@
     "entity": "Rutgers University - School of Communication and Information",
     "sources": [
       "Graduate Teaching Assistant at Rutgers University - School of Communication and Information (September 2024 - December 2025)"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "What did Puja do as a Computer Science Grader at Rutgers?",
@@ -1011,7 +1113,8 @@
     "entity": "Rutgers University",
     "sources": [
       "Computer Science Grader at Rutgers University (September 2024 - December 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What topics did Puja grade at Rutgers University?",
@@ -1020,7 +1123,8 @@
     "entity": "Rutgers University",
     "sources": [
       "Computer Science Grader at Rutgers University (September 2024 - December 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "When was Puja a Teaching Assistant at Rutgers?",
@@ -1029,7 +1133,8 @@
     "entity": "Rutgers University - School of Communication and Information",
     "sources": [
       "Graduate Teaching Assistant at Rutgers University - School of Communication and Information (September 2024 - December 2025)"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "What is Filomena?",
@@ -1038,7 +1143,8 @@
     "entity": "HumanFractal.ai (Resolute)",
     "sources": [
       "AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What did Puja do at HumanFractal.ai?",
@@ -1047,16 +1153,18 @@
     "entity": "HumanFractal.ai (Resolute)",
     "sources": [
       "AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about Puja's role at Resolute / HumanFractal",
-    "a": "**AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)**\nFilomena was built for people navigating their medications, treatment processes, and health questions, the kind of questions people usually wait hours to get answered by a human. My job was to make her trustworthy. That meant sitting down with a nutritionist and nurses to understand what a good answer actually looks like before writing a single prompt. That's the part of AI development most people skip.",
+    "a": "**AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)**\nFilomena was built for people navigating their medications, treatment processes, and health questions, the kind of questions people usually wait hours to get answered by a human. Puja's job was to make Filomena trustworthy. That meant sitting down with a nutritionist and nurses to understand what a good answer actually looks like before writing a single prompt. From those conversations Puja designed the response logic, including the boundary: where Filomena stops answering and routes to a medical professional instead. That's the part of AI development most people skip.",
     "intent": "retrieval",
     "entity": "HumanFractal.ai (Resolute)",
     "sources": [
       "AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "How did Puja make Filomena trustworthy?",
@@ -1065,7 +1173,8 @@
     "entity": "HumanFractal.ai (Resolute)",
     "sources": [
       "AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "When did Puja work as an AI Co-pilot Developer?",
@@ -1074,7 +1183,8 @@
     "entity": "HumanFractal.ai (Resolute)",
     "sources": [
       "AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What did Puja do at Exposys Data Labs?",
@@ -1083,7 +1193,8 @@
     "entity": "Exposys Data Labs",
     "sources": [
       "Data Science Intern at Exposys Data Labs (September 2022 - October 2022)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Which model won during Puja's internship at Exposys Data Labs?",
@@ -1092,7 +1203,8 @@
     "entity": "Exposys Data Labs",
     "sources": [
       "Data Science Intern at Exposys Data Labs (September 2022 - October 2022)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What did Puja do at Vaave?",
@@ -1101,7 +1213,8 @@
     "entity": "Vaave",
     "sources": [
       "Alumni Relations Intern at Vaave (November 2020 - December 2021)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about Puja's Alumni Relations Intern role",
@@ -1110,7 +1223,8 @@
     "entity": "Vaave",
     "sources": [
       "Alumni Relations Intern at Vaave (November 2020 - December 2021)"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "What hackathons has she done?",
@@ -1119,7 +1233,8 @@
     "entity": null,
     "sources": [
       "hackathons"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "List the hackathons Puja has participated in",
@@ -1128,7 +1243,8 @@
     "entity": null,
     "sources": [
       "hackathons"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "What did she build at HackRU?",
@@ -1137,7 +1253,8 @@
     "entity": "HackRU",
     "sources": [
       "Hackathon: HackRU (September 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about Puja's HackRU project",
@@ -1146,7 +1263,8 @@
     "entity": "HackRU",
     "sources": [
       "Hackathon: HackRU (September 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Did Puja compete solo at HackRU?",
@@ -1155,7 +1273,8 @@
     "entity": "HackRU",
     "sources": [
       "Hackathon: HackRU (September 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What was the RWJ Health Hackathon about?",
@@ -1164,7 +1283,8 @@
     "entity": "RWJ Health Hackathon",
     "sources": [
       "Hackathon: RWJ Health Hackathon (October 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What did Puja build at the RWJ Health Hackathon?",
@@ -1173,7 +1293,8 @@
     "entity": "RWJ Health Hackathon",
     "sources": [
       "Hackathon: RWJ Health Hackathon (October 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Which LLMs were used in the RWJ Health Hackathon project?",
@@ -1182,7 +1303,8 @@
     "entity": "RWJ Health Hackathon",
     "sources": [
       "Hackathon: RWJ Health Hackathon (October 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What was Puja's role in the RWJ Health Hackathon team?",
@@ -1191,7 +1313,8 @@
     "entity": "RWJ Health Hackathon",
     "sources": [
       "Hackathon: RWJ Health Hackathon (October 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about the Redis Hackathon on Dev.to",
@@ -1200,7 +1323,8 @@
     "entity": "Redis Hackathon (Dev.to)",
     "sources": [
       "Hackathon: Redis Hackathon (Dev.to) (Summer 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What did Puja build for the Redis Hackathon?",
@@ -1209,7 +1333,8 @@
     "entity": "Redis Hackathon (Dev.to)",
     "sources": [
       "Hackathon: Redis Hackathon (Dev.to) (Summer 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What projects has she built?",
@@ -1218,25 +1343,28 @@
     "entity": null,
     "sources": [
       "projects"
-    ]
+    ],
+    "generator": "structured"
   },
   {
     "q": "Tell me about Puja's portfolio projects",
-    "a": "In Puja's words: \"I build things that don't fit a clean job description. My MS is from Rutgers, my undergrad in AI/ML is from India, but my actual education happened somewhere between watching five agents split a contract analysis into parallel threads and finish in 15 seconds, and asking myself why Redis was sitting there doing one job when it could clearly handle three.\"\n\"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
-    "intent": "about",
-    "entity": null,
-    "sources": [
-      "about"
-    ]
-  },
-  {
-    "q": "What are Puja's featured projects?",
     "a": "Puja's projects:\n**PostHog Engineering Impact Dashboard** (March 2026): Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel\n**LocalLens** (February 2026): FastAPI · React · Groq · Google Places API · Foursquare · WalkScore\n**LexAI** (January 2026): Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js\n**AI Neighborhood Watch** (December 2025): Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub\n**Smart Doc Finder** (August 2025): Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker\n**Systems Sandbox (sys namespace)** (May 2026): C, WebAssembly, Emscripten, React\n**AI Bot Rescue Mission** (March 2024): Python, A-Star Algorithm, Heuristics\n**Algorithmic Transformation (Independent Set to Clique)** (May 2024): Python, NetworkX, Pandas, 3D Force Graph\n**Multilingual Health Misinformation Detection** (April 2025): Python, NLP, Transformers\n**Emotion Detection from Facial Expressions** (March 2023): Python, TensorFlow, Keras, OpenCV\n**Sentiment Analysis of Movie Reviews** (December 2022): Python, NLP, Scikit-learn, Naive Bayes\n**Credit Card Fraud Detection** (October 2022): Python, Scikit-learn, Isolation Forest\nAsk about any of them for details.",
     "intent": "projects",
     "entity": null,
     "sources": [
       "projects"
-    ]
+    ],
+    "generator": "structured"
+  },
+  {
+    "q": "What are Puja's featured projects?",
+    "a": "Puja's featured (strongest) portfolio projects:\n**PostHog Engineering Impact Dashboard** (March 2026): Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel\n**LocalLens** (February 2026): FastAPI · React · Groq · Google Places API · Foursquare · WalkScore\n**LexAI** (January 2026): Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js\n**AI Neighborhood Watch** (December 2025): Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub\n**Smart Doc Finder** (August 2025): Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker\nAsk about any of them for details.",
+    "intent": "featured_projects",
+    "entity": null,
+    "sources": [
+      "featured_projects"
+    ],
+    "generator": "structured"
   },
   {
     "q": "Tell me about the PostHog dashboard",
@@ -1245,7 +1373,8 @@
     "entity": "PostHog Engineering Impact Dashboard",
     "sources": [
       "Project: PostHog Engineering Impact Dashboard"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What is the PostHog Engineering Impact Dashboard?",
@@ -1254,7 +1383,8 @@
     "entity": "PostHog Engineering Impact Dashboard",
     "sources": [
       "Project: PostHog Engineering Impact Dashboard"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What tech stack does the PostHog dashboard use?",
@@ -1263,7 +1393,8 @@
     "entity": "PostHog Engineering Impact Dashboard",
     "sources": [
       "Project: PostHog Engineering Impact Dashboard"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "How does the PostHog Engineering Impact Dashboard pipeline work?",
@@ -1272,7 +1403,8 @@
     "entity": "PostHog Engineering Impact Dashboard",
     "sources": [
       "Project: PostHog Engineering Impact Dashboard"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What is LocalLens?",
@@ -1281,7 +1413,8 @@
     "entity": "LocalLens",
     "sources": [
       "Project: LocalLens"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about LocalLens",
@@ -1290,7 +1423,8 @@
     "entity": "LocalLens",
     "sources": [
       "Project: LocalLens"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What tech does LocalLens use?",
@@ -1299,7 +1433,8 @@
     "entity": "LocalLens",
     "sources": [
       "Project: LocalLens"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "How does LocalLens work?",
@@ -1308,7 +1443,8 @@
     "entity": "LocalLens",
     "sources": [
       "Project: LocalLens"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What is LexAI?",
@@ -1317,7 +1453,8 @@
     "entity": "LexAI",
     "sources": [
       "Project: LexAI"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about LexAI",
@@ -1326,7 +1463,8 @@
     "entity": "LexAI",
     "sources": [
       "Project: LexAI"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What tech stack does LexAI use?",
@@ -1335,7 +1473,8 @@
     "entity": "LexAI",
     "sources": [
       "Project: LexAI"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "How do the five agents in LexAI work?",
@@ -1344,7 +1483,8 @@
     "entity": "LexAI",
     "sources": [
       "Project: LexAI"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "How fast does LexAI analyze a contract?",
@@ -1353,7 +1493,8 @@
     "entity": "LexAI",
     "sources": [
       "Project: LexAI"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about AI Neighborhood Watch",
@@ -1362,7 +1503,8 @@
     "entity": "AI Neighborhood Watch",
     "sources": [
       "Project: AI Neighborhood Watch"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What is AI Neighborhood Watch?",
@@ -1371,7 +1513,8 @@
     "entity": "AI Neighborhood Watch",
     "sources": [
       "Project: AI Neighborhood Watch"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What tech stack does AI Neighborhood Watch use?",
@@ -1380,7 +1523,8 @@
     "entity": "AI Neighborhood Watch",
     "sources": [
       "Project: AI Neighborhood Watch"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "How does the daily audio briefing in AI Neighborhood Watch work?",
@@ -1389,7 +1533,8 @@
     "entity": "AI Neighborhood Watch",
     "sources": [
       "Project: AI Neighborhood Watch"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about Smart Doc Finder",
@@ -1398,7 +1543,8 @@
     "entity": "Smart Doc Finder",
     "sources": [
       "Project: Smart Doc Finder"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What is Smart Doc Finder?",
@@ -1407,7 +1553,8 @@
     "entity": "Smart Doc Finder",
     "sources": [
       "Project: Smart Doc Finder"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What tech stack does Smart Doc Finder use?",
@@ -1416,7 +1563,8 @@
     "entity": "Smart Doc Finder",
     "sources": [
       "Project: Smart Doc Finder"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What three jobs does Redis do in Smart Doc Finder?",
@@ -1425,7 +1573,8 @@
     "entity": "Smart Doc Finder",
     "sources": [
       "Project: Smart Doc Finder"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about Systems Sandbox",
@@ -1434,25 +1583,28 @@
     "entity": "Systems Sandbox (sys namespace)",
     "sources": [
       "Project: Systems Sandbox (sys namespace)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What is the Systems Sandbox project?",
-    "a": "**Project: Systems Sandbox (sys namespace)**\nIn Puja's words: \"Systems Sandbox (sys namespace) is built with C, WebAssembly, Emscripten, React. So I answered it directly. Three systems demos, written in C, compiled to WebAssembly, running live in your browser right now. A free-list memory allocator with coalescing.\"",
+    "a": "**Project: Systems Sandbox (sys namespace)**\nSystems Sandbox (sys namespace) is built with C, WebAssembly, Emscripten, React. Three systems demos, written in C, compiled to WebAssembly, running live in your browser right now. A free-list memory allocator with coalescing. A mini shell with pipes, redirection, and a virtual filesystem. A round-robin thread scheduler that shows you deadlocks as they happen.",
     "intent": "retrieval",
     "entity": "Systems Sandbox (sys namespace)",
     "sources": [
       "Project: Systems Sandbox (sys namespace)"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "What three C demos are in Systems Sandbox?",
-    "a": "**Project: Systems Sandbox (sys namespace)**\nIn Puja's words: \"Systems Sandbox (sys namespace) is built with C, WebAssembly, Emscripten, React. So I answered it directly. Three systems demos, written in C, compiled to WebAssembly, running live in your browser right now. A free-list memory allocator with coalescing.\"",
+    "a": "**Project: Systems Sandbox (sys namespace)**\nSystems Sandbox (sys namespace) is built with C, WebAssembly, Emscripten, React. Three systems demos, written in C, compiled to WebAssembly, running live in your browser right now. A free-list memory allocator with coalescing. A mini shell with pipes, redirection, and a virtual filesystem. A round-robin thread scheduler that shows you deadlocks as they happen.",
     "intent": "retrieval",
     "entity": "Systems Sandbox (sys namespace)",
     "sources": [
       "Project: Systems Sandbox (sys namespace)"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "How can I run the Systems Sandbox demos in the terminal?",
@@ -1461,25 +1613,28 @@
     "entity": "Systems Sandbox (sys namespace)",
     "sources": [
       "Project: Systems Sandbox (sys namespace)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about AI Bot Rescue Mission",
-    "a": "**Project: AI Bot Rescue Mission**\nThe project AI Bot Rescue Mission is built with Python, using the A-Star algorithm and heuristics. It features four bots, including a captain, a ship filled with moving aliens, and a fourth bot designed specifically to handle the alien invasion.",
+    "a": "**Project: AI Bot Rescue Mission**\nAI Bot Rescue Mission is built with Python, A-Star Algorithm, Heuristics. Four bots, one trapped captain, a ship full of moving aliens. The fun wasn't building the pathfinder: it was watching how quickly a \"smart\" bot falls apart the moment the aliens start moving, and designing the next one to handle it.",
     "intent": "retrieval",
     "entity": "AI Bot Rescue Mission",
     "sources": [
       "Project: AI Bot Rescue Mission"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "What algorithm does AI Bot Rescue Mission use?",
-    "a": "**Project: AI Bot Rescue Mission**\nAI Bot Rescue Mission is built with Python, A-Star Algorithm, Heuristics. Four bots, one captain, a ship full of moving aliens: a study in how quickly pathfinders break. Four bots, one trapped captain, a ship full of moving aliens. The fun wasn't building the pathfinder: it was watching how quickly a \"smart\" bot falls apart the moment the aliens start moving, and designing the next one to handle it.",
+    "a": "**Project: AI Bot Rescue Mission**\nAI Bot Rescue Mission is built with Python, A-Star Algorithm, Heuristics. Four bots, one captain, a ship full of moving aliens: a study in how quickly pathfinders break. The fun wasn't building the pathfinder: it was watching how quickly a \"smart\" bot falls apart the moment the aliens start moving, and designing the next one to handle it.",
     "intent": "retrieval",
     "entity": "AI Bot Rescue Mission",
     "sources": [
       "Project: AI Bot Rescue Mission"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "Tell me about the Algorithmic Transformation project",
@@ -1488,7 +1643,8 @@
     "entity": "Algorithmic Transformation (Independent Set to Clique)",
     "sources": [
       "Project: Algorithmic Transformation (Independent Set to Clique)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What tech does the Algorithmic Transformation project use?",
@@ -1497,7 +1653,8 @@
     "entity": "Algorithmic Transformation (Independent Set to Clique)",
     "sources": [
       "Project: Algorithmic Transformation (Independent Set to Clique)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about Multilingual Health Misinformation Detection",
@@ -1506,7 +1663,8 @@
     "entity": "Multilingual Health Misinformation Detection",
     "sources": [
       "Project: Multilingual Health Misinformation Detection"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "How does the health misinformation detection project work?",
@@ -1517,7 +1675,8 @@
       "Project: Multilingual Health Misinformation Detection",
       "Project: Credit Card Fraud Detection",
       "Project: Emotion Detection from Facial Expressions"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What did the emotion detection project use?",
@@ -1528,7 +1687,8 @@
       "Project: Emotion Detection from Facial Expressions",
       "Project: Credit Card Fraud Detection",
       "Hackathon: Redis Hackathon (Dev.to) (Summer 2025)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about Emotion Detection from Facial Expressions",
@@ -1537,7 +1697,8 @@
     "entity": "Emotion Detection from Facial Expressions",
     "sources": [
       "Project: Emotion Detection from Facial Expressions"
-    ]
+    ],
+    "generator": "template"
   },
   {
     "q": "What accuracy did the emotion detection CNN achieve?",
@@ -1548,7 +1709,8 @@
       "Project: Emotion Detection from Facial Expressions",
       "Project: Credit Card Fraud Detection",
       "Project: Multilingual Health Misinformation Detection"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about the Sentiment Analysis of Movie Reviews project",
@@ -1557,7 +1719,8 @@
     "entity": "Sentiment Analysis of Movie Reviews",
     "sources": [
       "Project: Sentiment Analysis of Movie Reviews"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "What model and accuracy did the movie review sentiment analysis project have?",
@@ -1568,7 +1731,8 @@
       "Project: Sentiment Analysis of Movie Reviews",
       "Data Science Intern at Exposys Data Labs (September 2022 - October 2022)",
       "Project: LexAI"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Which model won in the fraud detection project?",
@@ -1579,7 +1743,8 @@
       "Project: Credit Card Fraud Detection",
       "Project: Multilingual Health Misinformation Detection",
       "Data Science Intern at Exposys Data Labs (September 2022 - October 2022)"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Tell me about the Credit Card Fraud Detection project",
@@ -1588,7 +1753,8 @@
     "entity": "Credit Card Fraud Detection",
     "sources": [
       "Project: Credit Card Fraud Detection"
-    ]
+    ],
+    "generator": "qwen"
   },
   {
     "q": "Which models did Puja compare in the credit card fraud detection project?",
@@ -1597,6 +1763,7 @@
     "entity": "Credit Card Fraud Detection",
     "sources": [
       "Project: Credit Card Fraud Detection"
-    ]
+    ],
+    "generator": "qwen"
   }
 ]

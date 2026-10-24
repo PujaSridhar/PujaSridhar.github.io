@@ -84,6 +84,51 @@ describe('engine', () => {
 
     const miss = engine.answer('Does she know Rust or Elixir?');
     expect(miss.cached).toBe(false);
+
+    for (const entry of cachedAnswers) {
+      expect(['qwen', 'template', 'structured']).toContain(entry.generator);
+    }
+  });
+
+  it('answers the 7 regression questions and never copies them into answers.json', async () => {
+    const { default: regressions } = await import('./eval/regressions.json', { with: { type: 'json' } });
+    const cacheQuestions = new Set(cachedAnswers.map(e => e.q.trim().toLowerCase()));
+    for (const item of regressions) {
+      expect(cacheQuestions.has(item.q.trim().toLowerCase())).toBe(false);
+    }
+
+    const healthcare = engine.answer('Has Puja done anything in healthcare?');
+    expect(healthcare.text).toContain('RWJ');
+    expect(healthcare.text).toContain('Filomena');
+
+    const frontend = engine.answer('What frontend frameworks does she use?');
+    expect(frontend.text).toContain('React');
+
+    const db = engine.answer('Is Puja good with databases?');
+    expect(db.text).toContain('PostgreSQL');
+    expect(db.text).toContain('Redis');
+    expect(db.text).toContain('MongoDB');
+    expect(db.text).toContain('Pinecone');
+
+    const citizen = engine.answer('Is Puja a US citizen?');
+    expect(citizen.intent).toBe('unknown');
+
+    const cogsworth = engine.answer('What’s Cogsworth?');
+    expect(cogsworth.text).toContain('Cogsworth');
+
+    const hire = engine.answer('Why should I hire Puja?');
+    expect(hire.intent).toBe('pitch');
+    expect(hire.text).toContain('Rutgers');
+    expect(hire.text).toContain('Pennant Education');
+    expect(hire.text).toContain('PostHog');
+
+    const strongest = engine.answer('What’s her strongest project?');
+    expect(strongest.intent).toBe('featured_projects');
+    expect(strongest.text).toContain('PostHog Engineering Impact Dashboard');
+    expect(strongest.text).toContain('LocalLens');
+    expect(strongest.text).toContain('LexAI');
+    expect(strongest.text).toContain('AI Neighborhood Watch');
+    expect(strongest.text).toContain('Smart Doc Finder');
   });
 });
 

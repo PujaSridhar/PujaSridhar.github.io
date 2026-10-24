@@ -18,19 +18,21 @@ const FIRST_PERSON = /\b(I|I'm|I've|I'd|my|me|myself)\b/;
 
 // Ordered: the first matching intent wins. Each answers straight from structured data.
 const INTENTS = [
-  { name: 'greeting', pattern: /^\s*(hi|hello|hey|yo|hiya|good (morning|afternoon|evening))(\s+(there|cogsworth))?\b[\s!.?]*$/i },
+  { name: 'greeting', pattern: /^\s*(hi|hello|hey|yo|hiya|good (morning|afternoon|evening))(\s+(there|cogsworth))?\b[\s!.?]*$|\b(what(['’]?s| is)|who(['’]?s| is)|tell me about)\s+cogsworth\b/i },
+  { name: 'pitch', pattern: /\b(why (should (i|we|you) )?(hire|work with|choose)|reasons? to hire|pitch|what makes (her|puja) stand out)\b/i },
+  { name: 'featured_projects', pattern: /\b(featured|strongest|best|top|favorite|main|notable|impressive|biggest|proudest)\s+(portfolio\s+)?projects?\b/i },
   { name: 'contact', pattern: /\b(contact|e-?mail|reach (her|out|puja)|linkedin|github|repositor\w*|repos?|get in touch|phone)\b/i },
-  { name: 'skills', pattern: /\b(skills?|tech(nical)? stack|technolog(y|ies)|tools|programming languages?|proficient|good at)\b/i },
+  { name: 'skills', pattern: /\b(skills?|tech(nical)? stack|technolog(y|ies)|tools|programming languages?|frontend frameworks?|proficient|good (at|with))\b/i },
   { name: 'languages', pattern: /\b(languages?|speak|spoken|fluent|bilingual)\b/i },
   { name: 'certifications', pattern: /\b(certific\w*|certified|credentials?|accreditations?)\b/i },
   { name: 'talks', pattern: /\b(talks?|lectures?|speeches|spoken at|presentations?)\b/i },
   { name: 'education', pattern: /\b(educat\w*|degrees?|stud(y|ied)|schools?|universit(y|ies)|college|gpa|graduat\w*|masters?|bachelors?|rutgers)\b/i },
-  { name: 'availability', pattern: /\b(based|located|location|live|lives|where is she|open to|looking for|available|availability|relocat\w*|hire|hiring)\b/i },
+  { name: 'availability', pattern: /\b(based|located|location|live|lives|where is she|open to|looking for|interested in|available|availability|relocat\w*|hire|hiring)\b/i },
   { name: 'hackathons', pattern: /\bhackathons?\b/i, listOnly: true },
   { name: 'projects', pattern: /\b(projects?|built|portfolio pieces)\b/i, listOnly: true },
   { name: 'experience', pattern: /\b(experience|worked|work history|jobs?|internships?|employ\w*|career|roles?)\b/i, listOnly: true },
   { name: 'leadership', pattern: /\b(leadership|led|leader)\b/i, listOnly: true },
-  { name: 'about', pattern: /\b(who is|about (her|puja)|introduce|summary|background|tell me about (her|puja|yourself)|what does (she|puja) do|passionate about)\b/i },
+  { name: 'about', pattern: /\b(who is|about (her|puja)(?!['’]s)|introduce|summary|background|tell me about (her|puja|yourself)(?!['’]s)|what does (she|puja) do|passionate about)\b/i },
 ];
 
 export function createEngine(data, { cache = defaultCache, rewriter = null, cacheThreshold = 2.4 } = {}) {
@@ -82,10 +84,11 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
   // Words that say *how* to answer rather than *what about*; they don't stop a
   // list intent from firing ("what projects has she worked on recently").
   const GENERIC = new Set([
-    'work', 'on', 'ha', 'have', 'had', 'held', 'hold', 'recent', 'latest', 'list', 'all', 'main',
+    'work', 'on', 'ha', 'have', 'had', 'hold', 'held', 'recent', 'latest', 'list', 'all', 'main',
     'major', 'favorite', 'featur', 'best', 'kind', 'type', 'role', 'position', 'mani', 'much',
     'ever', 'done', 'do', 'make', 'build', 'past', 'current', 'notable', 'participat', 'earn',
     'complete', 'attend', 'area', 'proficient', 'given', 'give', 'demonstrat', 'demonstrate', 'undergrad',
+    'background', 'summary', 'passionate', 'short', 'tell', 'about', 'portfolio', 'experience',
   ]);
 
   function detectIntent(query, entity) {
@@ -151,6 +154,27 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
 
   const structured = {
     greeting: () => "Hi, I'm Cogsworth, Puja's portfolio assistant. Ask me about Puja's projects, experience, education, skills, hackathons, or how to get in touch.",
+    pitch: () => {
+      const featured = data.projects.filter(p => p.featured).map(p => p.name).join(', ');
+      const roles = data.experience.slice(0, 3).map(e => `${e.role} at ${e.company}`).join(', ');
+      const deg = data.education[0];
+      const skillSummary = Object.entries(data.skills)
+        .map(([cat, list]) => `${cat} (${list.slice(0, 4).join(', ')})`)
+        .join('; ');
+      return [
+        'Why hire Puja:',
+        `**Education:** ${deg.degree} at ${deg.school} (${deg.details}).`,
+        `**Experience:** Hands-on roles including ${roles} — building LLM validation and safety frameworks, serverless AWS pipelines, and production ML systems.`,
+        `**Featured projects:** ${featured}.`,
+        `**Technical skills:** ${skillSummary}.`,
+      ].join('\n');
+    },
+    featured_projects: () => {
+      const featured = data.projects.filter(p => p.featured);
+      return "Puja's featured (strongest) portfolio projects:\n" +
+        featured.map(p => `**${p.name}** (${p.date}): ${p.tech}${p.tagline ? ` — ${p.tagline}` : ''}`).join('\n') +
+        '\nAsk about any of them for details.';
+    },
     contact: () => `You can reach Puja at:\n**Email:** ${data.contact.email}\n**LinkedIn:** ${data.contact.linkedin}\n**GitHub:** ${data.contact.github}`,
     skills: () => 'Puja\'s skills by area:\n' + Object.entries(data.skills).map(([category, list]) => `**${category}:** ${list.join(', ')}`).join('\n'),
     languages: () => 'Puja speaks:\n' + data.languages.map(l => `**${l.lang}:** ${l.proficiency}`).join('\n'),
@@ -195,7 +219,7 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
         for (const [term, weight] of weights) if (terms.has(term)) score += weight * index.idf(term);
         score += result.score * 0.15;
         if (entity) score += 1.5 / (position + 1);
-        if (sentence.length < 25) score *= 0.5;
+        if (sentence.length < 30) score *= 0.5;
         candidates.push({ sentence, score, rank, position, chunkId: result.doc.id, chunk: result.doc.meta });
       });
     });
@@ -203,9 +227,22 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
     const picked = [];
     const perChunk = new Map();
     for (const candidate of candidates.sort((a, b) => b.score - a.score)) {
-      if (picked.length >= (entity ? 4 : 3)) break;
       const used = perChunk.get(candidate.chunk) || 0;
-      if (used >= (entity ? 3 : 2) || candidate.score <= 0) continue;
+      const allowShortExtra = Boolean(entity && candidate.sentence.length < 80 && picked.length === 4 && used === 3);
+      if (picked.length >= (entity ? 4 : 3) && !allowShortExtra) break;
+      if ((used >= (entity ? 3 : 2) && !allowShortExtra) || candidate.score <= 0) continue;
+      const candTokens = tokenize(candidate.sentence);
+      const isDuplicate = picked.some(p => {
+        if (p.chunk.title !== candidate.chunk.title || candTokens.length === 0) return false;
+        const pTokens = tokenize(p.sentence);
+        if (pTokens.length === 0) return false;
+        const pSet = new Set(pTokens);
+        const candSet = new Set(candTokens);
+        const overlapA = candTokens.filter(t => pSet.has(t)).length / candTokens.length;
+        const overlapB = pTokens.filter(t => candSet.has(t)).length / pTokens.length;
+        return overlapA >= 0.75 || overlapB >= 0.75;
+      });
+      if (isDuplicate) continue;
       perChunk.set(candidate.chunk, used + 1);
       picked.push(candidate);
     }

@@ -28,6 +28,7 @@ export function toThirdPerson(text) {
   return (text || '')
     .replace(/In Puja's words:\s*"/g, '')
     .replace(/"$/gm, '')
+    .replace(/\bSo I answered it directly\b/gi, 'Puja answered it directly')
     .replace(/\bmake her trustworthy\b/gi, 'make Filomena trustworthy')
     .replace(/\b(I|Puja)\s+(designed|built|wrote|made|created|ran|owned)\s+([^.!?]*?)\s+myself\b/gi, 'Puja $2 $3')
     .replace(/\bBuilt this on my own\b/g, 'Puja built this independently')
@@ -178,13 +179,13 @@ export async function createRewriter({
     const check = verifyGrounded({
       candidate: cleaned,
       contextText: fullContext,
-      extractiveText: primarySection,
+      extractiveText: extractiveText || primarySection,
       query,
       entity,
     });
 
     if (!check.ok) {
-      return { text: extractiveText, rewritten: false, reason: check.reason, raw: cleanedBody || raw };
+      return { text: toThirdPerson(extractiveText), rewritten: false, reason: check.reason, raw: cleanedBody || raw };
     }
     return { text: cleaned, rewritten: true, reason: 'ok' };
   }
@@ -325,7 +326,9 @@ export function verifyGrounded({ candidate, contextText, extractiveText, query, 
   const bodyLines = (extractiveText || '')
     .split('\n')
     .filter(l => !l.startsWith('**'))
-    .join(' ');
+    .join(' ')
+    .replace(/In Puja's words:\s*"/g, '')
+    .replace(/"$/g, '');
 
   if (/\b(how (many|much|long|fast)|what (percentage|accuracy|gpa|year|date)|when|by what)\b/i.test(query)) {
     const extractiveNums = bodyLines.toLowerCase().match(/\b\d+(?:[–-]\d+|\.\d+)?%?\b/g) || [];
@@ -369,12 +372,25 @@ export function verifyGrounded({ candidate, contextText, extractiveText, query, 
     }
   }
 
-  // 6. When the extractive body has multiple sentences, ensure the rewrite doesn't only
-  // repeat sentence 1 (e.g. the tech stack line) while dropping the rest of the description.
+  // 6. When the extractive body has multiple sentences, ensure the rewrite doesn't drop
+  // either the intro sentence (for roles/hackathons) or the rest of the description.
   const entityStems = new Set(entity ? tokenize(entity.name) : []);
   const bodyCandidateStems = new Set(tokenize(bodyLower));
   const extractiveSentences = splitSentences(bodyLines);
   if (extractiveSentences.length >= 2 && !/\b(tech|stack|tool|use)\b/i.test(query)) {
+    if (!builtWithMatch) {
+      const introTarget = extractiveSentences[0].includes(': ')
+        ? extractiveSentences[0].split(/:\s+/).pop()
+        : extractiveSentences[0];
+      const firstStems = tokenize(introTarget).filter(
+        t => !FRAMING_STEMS.has(t) && !entityStems.has(t)
+      );
+      const matchedFirst = firstStems.filter(t => bodyCandidateStems.has(t));
+      const minFirst = Math.min(2, firstStems.length);
+      if (minFirst > 0 && matchedFirst.length < minFirst) {
+        return { ok: false, reason: 'incomplete-context-coverage' };
+      }
+    }
     const restStems = tokenize(extractiveSentences.slice(1).join(' ')).filter(
       t => !FRAMING_STEMS.has(t) && !entityStems.has(t)
     );
@@ -384,7 +400,23 @@ export function verifyGrounded({ candidate, contextText, extractiveText, query, 
     }
   }
 
-  // 7. At least 62% of content stems in the candidate body must come from the retrieved context.
+  // 7. When the extractive answer spans multiple distinct sections, ensure none are completely dropped.
+  const sections = (extractiveText || '').split('\n\n').filter(Boolean);
+  if (sections.length > 1) {
+    const allSectionStems = sections.map(sec =>
+      new Set(tokenize(sec).filter(t => !FRAMING_STEMS.has(t) && !genericStems.has(t) && !queryTerms.has(t)))
+    );
+    for (let i = 0; i < allSectionStems.length; i++) {
+      const uniqueToSection = [...allSectionStems[i]].filter(
+        t => allSectionStems.every((other, j) => j === i || !other.has(t))
+      );
+      if (uniqueToSection.length > 0 && !uniqueToSection.some(t => candidateTerms.has(t))) {
+        return { ok: false, reason: 'dropped-section' };
+      }
+    }
+  }
+
+  // 8. At least 62% of content stems in the candidate body must come from the retrieved context.
   const candWords = tokenize(bodyLower).filter(t => !FRAMING_STEMS.has(t));
   if (candWords.length > 0) {
     const groundedCount = candWords.filter(t => contextStems.has(t)).length;
