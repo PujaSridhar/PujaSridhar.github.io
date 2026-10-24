@@ -17,6 +17,14 @@ describe('localFallbackAnswer', () => {
     }
   });
 
+  it('never answers a different question carried over from the conversation', () => {
+    const history = [
+      { role: 'user', text: 'how can i contact puja?' },
+      { role: 'assistant', text: 'You can reach Puja at: ...' },
+    ];
+    expect(localFallbackAnswer('what did do at RWJ?', history)).toMatch(UNAVAILABLE);
+  });
+
   it('does not claim skills the portfolio does not list', () => {
     expect(localFallbackAnswer('Does she know Java?')).toMatch(UNAVAILABLE);
     expect(localFallbackAnswer('Has she used Kubernetes?')).toMatch(UNAVAILABLE);
