@@ -75,19 +75,37 @@ describe('engine', () => {
     for (const sentence of splitSentences(quoted)) expect(corpus).toContain(sentence.replace(/"$/, ''));
   });
 
-  it('matches reviewed questions from answers.json above the BM25 threshold and never crosses entities', () => {
+  it('only serves reviewed cache entries at runtime (structured count as reviewed; qwen/template have reviewed: false)', () => {
     expect(cachedAnswers.length).toBeGreaterThanOrEqual(150);
-    const hit = engine.answer('What tech does LocalLens use?');
-    expect(hit.cached).toBe(true);
-    expect(hit.entity).toBe('LocalLens');
-    expect(hit.text).toContain('Groq');
+    for (const entry of cachedAnswers) {
+      expect(['qwen', 'template', 'structured']).toContain(entry.generator);
+      if (entry.generator === 'qwen' || entry.generator === 'template') {
+        expect(entry.reviewed).toBe(false);
+      }
+    }
+
+    // Unreviewed qwen/template entry is skipped at runtime until reviewed is flipped to true.
+    const unreviewed = engine.answer('What tech does LocalLens use?');
+    expect(unreviewed.cached).toBe(false);
+    expect(unreviewed.entity).toBe('LocalLens');
+    expect(unreviewed.text).toContain('Groq');
+
+    // Structured entry counts as reviewed and hits cache.
+    const structuredHit = engine.answer('How can I contact Puja?');
+    expect(structuredHit.cached).toBe(true);
+    expect(structuredHit.text).toContain(portfolioData.contact.email);
+
+    // Explicitly reviewed qwen/template entry is served from cache.
+    const reviewedEngine = createEngine(portfolioData, {
+      cache: cachedAnswers.map(e => (e.q === 'What tech does LocalLens use?' ? { ...e, reviewed: true } : e)),
+    });
+    const reviewedHit = reviewedEngine.answer('What tech does LocalLens use?');
+    expect(reviewedHit.cached).toBe(true);
+    expect(reviewedHit.entity).toBe('LocalLens');
+    expect(reviewedHit.text).toContain('Groq');
 
     const miss = engine.answer('Does she know Rust or Elixir?');
     expect(miss.cached).toBe(false);
-
-    for (const entry of cachedAnswers) {
-      expect(['qwen', 'template', 'structured']).toContain(entry.generator);
-    }
   });
 
   it('answers the 7 regression questions and never copies them into answers.json', async () => {
@@ -130,12 +148,31 @@ describe('engine', () => {
     expect(strongest.text).toContain('AI Neighborhood Watch');
     expect(strongest.text).toContain('Smart Doc Finder');
   });
+
+  it('answers every question in eval/review.json and never copies them into answers.json', async () => {
+    const { default: reviewCases } = await import('./eval/review.json', { with: { type: 'json' } });
+    const cacheQuestions = new Set(cachedAnswers.map(e => e.q.trim().toLowerCase()));
+    for (const tc of reviewCases) {
+      expect(cacheQuestions.has(tc.q.trim().toLowerCase())).toBe(false);
+      const res = engine.answer(tc.q, tc.history || []);
+      for (const expected of tc.contains) {
+        expect(res.text.toLowerCase()).toContain(expected.toLowerCase());
+      }
+    }
+  });
 });
 
 describe('neural grounding guard', () => {
-  it('converts first-person portfolio sentences into third-person with Puja / Puja\'s', () => {
+  it('converts first-person portfolio sentences into third-person, drops emphasis myself, and quotes reflexive myself', () => {
     const converted = normalizeOutput(toThirdPerson('In Puja\'s words: "I built my pipeline and designed the formula myself."'));
     expect(converted).toBe("Puja built Puja's pipeline and designed the formula.");
+
+    const emphasisInline = normalizeOutput(toThirdPerson('A custom impact score I designed myself (because the formula matters).'));
+    expect(emphasisInline).toBe('A custom impact score Puja designed (because the formula matters).');
+    expect(emphasisInline).not.toContain('Puja designed Puja');
+
+    const reflexive = normalizeOutput(toThirdPerson('My MS is from Rutgers, and asking myself why Redis was sitting there doing one job.'));
+    expect(reflexive).toBe('In Puja\'s words: "My MS is from Rutgers, and asking myself why Redis was sitting there doing one job."');
   });
 
   it('rejects invented numbers, pronouns, and ungrounded proper nouns', () => {

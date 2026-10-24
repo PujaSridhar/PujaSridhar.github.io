@@ -23,14 +23,26 @@ const ALLOWED_CAPS = new Set([
   'head', 'representative', 'university', 'school', 'hackathon', 'dashboard',
 ]);
 
-// Deterministically converts first-person portfolio prose into third-person ("Puja" / "Puja's").
-export function toThirdPerson(text) {
-  return (text || '')
-    .replace(/In Puja's words:\s*"/g, '')
-    .replace(/"$/gm, '')
+const REFLEXIVE_MYSELF_RE = /\b(ask|asks|asking|asked|tell|tells|telling|told|teach|teaches|teaching|taught|find|finds|finding|found|push|pushes|pushing|pushed|remind|reminds|reminding|reminded|challenge|challenges|challenging|challenged|convince|convinces|convincing|convinced|see|sees|seeing|saw|keep|keeps|keeping|kept|by|to|for|with|about|at|in|of|on|into|from)\s+myself\b/i;
+
+function convertSentenceToThirdPerson(rawSentence) {
+  const clean = (rawSentence || '')
+    .trim()
+    .replace(/^In Puja's words:\s*"/i, '')
+    .replace(/"$/, '')
+    .trim();
+  if (!clean) return '';
+
+  // Genuinely reflexive ("asking myself", "by myself", etc.): keep as a verbatim quote.
+  if (REFLEXIVE_MYSELF_RE.test(clean)) {
+    return `In Puja's words: "${clean}"`;
+  }
+
+  // Emphasis ("I designed myself", "designed the response logic myself"): drop "myself".
+  return clean
+    .replace(/\s+\bmyself\b/gi, '')
     .replace(/\bSo I answered it directly\b/gi, 'Puja answered it directly')
     .replace(/\bmake her trustworthy\b/gi, 'make Filomena trustworthy')
-    .replace(/\b(I|Puja)\s+(designed|built|wrote|made|created|ran|owned)\s+([^.!?]*?)\s+myself\b/gi, 'Puja $2 $3')
     .replace(/\bBuilt this on my own\b/g, 'Puja built this independently')
     .replace(/\bBuilt and compared\b/g, 'Puja built and compared')
     .replace(/\bBuilt the reduction\b/g, 'Puja built the reduction')
@@ -56,10 +68,34 @@ export function toThirdPerson(text) {
     .replace(/\bmy\b/g, "Puja's")
     .replace(/\bmine\b/g, "Puja's")
     .replace(/\bme\b/g, 'Puja')
-    .replace(/\bmyself\b/g, 'Puja')
     .replace(/\bWe\b/g, 'Puja and the team')
     .replace(/\bwe\b/g, 'Puja and the team')
     .replace(/\bour\b/g, 'their')
+    .trim();
+}
+
+// Deterministically converts first-person portfolio prose into third-person ("Puja" / "Puja's").
+// Never turns "myself" into "Puja": drops it when used for emphasis ("designed myself" -> "designed")
+// and preserves the sentence as a quote ("In Puja's words: ...") when genuinely reflexive ("asking myself").
+export function toThirdPerson(text) {
+  if (!text) return '';
+  return text
+    .split('\n\n')
+    .map(block => {
+      const lines = block.split('\n');
+      const header = lines[0]?.startsWith('**') ? lines[0] : null;
+      const body = (header ? lines.slice(1) : lines)
+        .join(' ')
+        .trim()
+        .replace(/^In Puja's words:\s*"/i, '')
+        .replace(/"$/, '');
+      const converted = splitSentences(body)
+        .map(convertSentenceToThirdPerson)
+        .filter(Boolean)
+        .join(' ');
+      return header ? `${header}\n${converted}` : converted;
+    })
+    .join('\n\n')
     .trim();
 }
 
@@ -196,8 +232,13 @@ export async function createRewriter({
 // Replace accidental pronouns with "Puja" / "Puja's", strip wrapper quotes,
 // and drop any trailing incomplete sentence if token generation hit max_new_tokens.
 export function normalizeOutput(text) {
+  const quotes = [];
   let cleaned = (text || '')
     .trim()
+    .replace(/In Puja's words:\s*"[^"]*"/g, match => {
+      quotes.push(match);
+      return `__QUOTE_${quotes.length - 1}__`;
+    })
     .replace(/^["']|["']$/g, '')
     .replace(/\bPujas\b/g, "Puja's")
     .replace(/\b(to|with|for|from|about|reach|contact|ask)\s+(her|him)\b/gi, '$1 Puja')
@@ -205,7 +246,8 @@ export function normalizeOutput(text) {
     .replace(/\b(she|he)\b/g, 'Puja')
     .replace(/\b(Her|His|Hers)\b/g, "Puja's")
     .replace(/\b(her|his|hers)\b/g, "Puja's")
-    .replace(/\b(herself|himself|myself)\b/gi, 'Puja')
+    .replace(/\b(herself|himself)\b/gi, 'Puja')
+    .replace(/\s+\bmyself\b/gi, '')
     .replace(/\bI'm\b/g, 'Puja is')
     .replace(/\bI've\b/g, 'Puja has')
     .replace(/\bI'd\b/g, 'Puja would')
@@ -218,6 +260,7 @@ export function normalizeOutput(text) {
     .replace(/\bmy\b/g, "Puja's")
     .replace(/\bPuja's\s+Puja's\b/gi, "Puja's")
     .replace(/\bPuja\s+Puja\b/gi, 'Puja')
+    .replace(/__QUOTE_(\d+)__/g, (_, idx) => quotes[Number(idx)])
     .trim();
 
   if (cleaned && !/[.!?]["')]?$/.test(cleaned)) {
@@ -339,8 +382,11 @@ export function verifyGrounded({ candidate, contextText, extractiveText, query, 
 
   const builtWithMatch = bodyLines.match(/is built with ([^.]+)\./i);
   if (builtWithMatch && /\b(tech|stack|tool|use|database|framework|language|besides|built)\b/i.test(query)) {
-    const stackCaps = builtWithMatch[1].match(/\b[A-Z][a-zA-Z0-9.+-]{2,}\b/g) || [];
-    for (const tool of stackCaps) {
+    const stackTools = builtWithMatch[1]
+      .split(/\s*[·,]\s*/)
+      .map(s => s.replace(/\s*\(.*\)/, '').trim())
+      .filter(s => s.length >= 2);
+    for (const tool of stackTools) {
       if (!bodyLower.includes(tool.toLowerCase())) {
         return { ok: false, reason: `dropped-stack-tool:${tool}` };
       }
@@ -363,40 +409,36 @@ export function verifyGrounded({ candidate, contextText, extractiveText, query, 
     if (keptCaps.length < minRequired) {
       return { ok: false, reason: `dropped-tech-terms:${targetCaps.slice(0, 3).join(',')}` };
     }
-  } else {
-    const hyphenTerms = bodyLines.toLowerCase().match(/\b[a-z]{3,}-[a-z]{3,}\b/g) || [];
-    for (const hTerm of hyphenTerms) {
-      if (!bodyLower.includes(hTerm)) {
-        return { ok: false, reason: `dropped-hyphen-term:${hTerm}` };
-      }
+  }
+
+  const hyphenTerms = bodyLines.match(/\b[a-z]{3,}-[a-z]{3,}\b/g) || [];
+  for (const hTerm of hyphenTerms) {
+    if (!bodyLower.includes(hTerm)) {
+      return { ok: false, reason: `dropped-hyphen-term:${hTerm}` };
     }
   }
 
-  // 6. When the extractive body has multiple sentences, ensure the rewrite doesn't drop
-  // either the intro sentence (for roles/hackathons) or the rest of the description.
+  // 6. Ensure every substantive sentence in a multi-sentence extractive body is represented
+  // in the rewrite so Qwen never drops an entire sentence or clause of technical details.
   const entityStems = new Set(entity ? tokenize(entity.name) : []);
   const bodyCandidateStems = new Set(tokenize(bodyLower));
   const extractiveSentences = splitSentences(bodyLines);
   if (extractiveSentences.length >= 2 && !/\b(tech|stack|tool|use)\b/i.test(query)) {
-    if (!builtWithMatch) {
-      const introTarget = extractiveSentences[0].includes(': ')
-        ? extractiveSentences[0].split(/:\s+/).pop()
-        : extractiveSentences[0];
-      const firstStems = tokenize(introTarget).filter(
-        t => !FRAMING_STEMS.has(t) && !entityStems.has(t)
-      );
-      const matchedFirst = firstStems.filter(t => bodyCandidateStems.has(t));
-      const minFirst = Math.min(2, firstStems.length);
-      if (minFirst > 0 && matchedFirst.length < minFirst) {
+    for (let i = 0; i < extractiveSentences.length; i++) {
+      if (i === 0 && builtWithMatch) continue;
+      const rawSent =
+        i === 0 && extractiveSentences[0].includes(': ')
+          ? extractiveSentences[0].split(/:\s+/).pop()
+          : extractiveSentences[i];
+      const sentStems = [
+        ...new Set(tokenize(rawSent).filter(t => !FRAMING_STEMS.has(t) && !entityStems.has(t))),
+      ];
+      if (sentStems.length === 0) continue;
+      const matchedSent = sentStems.filter(t => bodyCandidateStems.has(t));
+      const minRequired = sentStems.length >= 4 ? Math.ceil(sentStems.length * 0.55) : Math.min(2, sentStems.length);
+      if (matchedSent.length < minRequired) {
         return { ok: false, reason: 'incomplete-context-coverage' };
       }
-    }
-    const restStems = tokenize(extractiveSentences.slice(1).join(' ')).filter(
-      t => !FRAMING_STEMS.has(t) && !entityStems.has(t)
-    );
-    const matchedRest = restStems.filter(t => bodyCandidateStems.has(t));
-    if (restStems.length >= 2 && matchedRest.length < 2) {
-      return { ok: false, reason: 'incomplete-context-coverage' };
     }
   }
 

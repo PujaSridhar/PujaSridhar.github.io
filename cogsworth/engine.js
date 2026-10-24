@@ -22,10 +22,10 @@ const INTENTS = [
   { name: 'pitch', pattern: /\b(why (should (i|we|you) )?(hire|work with|choose)|reasons? to hire|pitch|what makes (her|puja) stand out)\b/i },
   { name: 'featured_projects', pattern: /\b(featured|strongest|best|top|favorite|main|notable|impressive|biggest|proudest)\s+(portfolio\s+)?projects?\b/i },
   { name: 'contact', pattern: /\b(contact|e-?mail|reach (her|out|puja)|linkedin|github|repositor\w*|repos?|get in touch|phone)\b/i },
-  { name: 'skills', pattern: /\b(skills?|tech(nical)? stack|technolog(y|ies)|tools|programming languages?|frontend frameworks?|proficient|good (at|with))\b/i },
-  { name: 'languages', pattern: /\b(languages?|speak|spoken|fluent|bilingual)\b/i },
-  { name: 'certifications', pattern: /\b(certific\w*|certified|credentials?|accreditations?)\b/i },
-  { name: 'talks', pattern: /\b(talks?|lectures?|speeches|spoken at|presentations?)\b/i },
+  { name: 'talks', pattern: /\b(talks?|lectures?|speeches|spoken at|where has (she|puja) spoken|presentations?)\b/i },
+  { name: 'skills', pattern: /\b(skills?|tech(nical)? stack|technolog(y|ies)|tools|programming languages?|proficient|good at)\b/i, listOnly: true },
+  { name: 'languages', pattern: /\b(languages?|speak|spoken languages?|fluent|bilingual)\b/i },
+  { name: 'certifications', pattern: /\b(certific\w*|certified|credentials?|accreditations?|coursera|deeplearning\.ai)\b/i },
   { name: 'education', pattern: /\b(educat\w*|degrees?|stud(y|ied)|schools?|universit(y|ies)|college|gpa|graduat\w*|masters?|bachelors?|rutgers)\b/i },
   { name: 'availability', pattern: /\b(based|located|location|live|lives|where is she|open to|looking for|interested in|available|availability|relocat\w*|hire|hiring)\b/i },
   { name: 'hackathons', pattern: /\bhackathons?\b/i, listOnly: true },
@@ -35,15 +35,60 @@ const INTENTS = [
   { name: 'about', pattern: /\b(who is|about (her|puja)(?!['’]s)|introduce|summary|background|tell me about (her|puja|yourself)(?!['’]s)|what does (she|puja) do|passionate about)\b/i },
 ];
 
+const TECH_QUERY_RE = /\b(has (she|puja) (ever )?(used|worked with|built|done)|does (she|puja) (know|use|have experience with)|did (she|puja) (do anything|work) with|what experience does (she|puja) have with|is (she|puja) (familiar|experienced|good) with)\b/i;
+const SUBSTANCE_RE = /\b(built|runs|pulls|parses|renders|synthesizes|stitches|automate|contributed|designed|trained|compiled|allocator|shell|scheduler|pipes|deadlocks|agents|models|streamed|graded|helped|coordinated|\d+)\b/i;
+
+function buildTechCatalog(data) {
+  const catalog = [];
+  const add = (label, aliases, skillCategory = null, displaySkill = label) => {
+    const existing = catalog.find(c => c.label.toLowerCase() === label.toLowerCase());
+    if (existing) {
+      if (skillCategory && !existing.categories.includes(skillCategory)) existing.categories.push(skillCategory);
+      aliases.forEach(a => {
+        if (!existing.aliases.includes(a.toLowerCase())) existing.aliases.push(a.toLowerCase());
+      });
+      return;
+    }
+    catalog.push({
+      label,
+      displaySkill,
+      aliases: [...new Set([label.toLowerCase(), ...aliases.map(a => a.toLowerCase())])],
+      categories: skillCategory ? [skillCategory] : [],
+    });
+  };
+
+  for (const [category, items] of Object.entries(data.skills)) {
+    for (const item of items) {
+      const base = item.replace(/\s*\(.*\)/, '').trim();
+      const aliases = [item, base];
+      if (base === 'Apache Airflow') aliases.push('airflow');
+      if (base === 'C Systems Programming') aliases.push('c programming');
+      if (base === 'Vector Search') aliases.push('vector db', 'vector database');
+      add(base, aliases, category, item);
+    }
+  }
+
+  for (const proj of data.projects) {
+    for (const rawTech of proj.tech.split(/\s*[·,]\s*/)) {
+      const base = rawTech.replace(/\s*\(.*\)/, '').trim();
+      if (base) add(base, [rawTech, base]);
+    }
+  }
+  return catalog;
+}
+
 export function createEngine(data, { cache = defaultCache, rewriter = null, cacheThreshold = 2.4 } = {}) {
   const chunks = buildChunks(data);
   const entities = buildEntities(data);
+  const techCatalog = buildTechCatalog(data);
   const index = new BM25Index();
   chunks.forEach((chunk, i) => index.add(i, `${chunk.title}. ${chunk.text}`, chunk));
 
+  // Only serve cache entries that have been reviewed (structured entries count as reviewed).
   const cacheIndex = new BM25Index();
   (cache || []).forEach((entry, i) => {
-    if (entry && entry.q && entry.a && entry.intent !== 'unknown') {
+    const isReviewed = entry?.reviewed === true || (entry?.generator === 'structured' && entry?.reviewed !== false);
+    if (entry && entry.q && entry.a && entry.intent !== 'unknown' && isReviewed) {
       cacheIndex.add(i, entry.q, entry);
     }
   });
@@ -89,6 +134,7 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
     'ever', 'done', 'do', 'make', 'build', 'past', 'current', 'notable', 'participat', 'earn',
     'complete', 'attend', 'area', 'proficient', 'given', 'give', 'demonstrat', 'demonstrate', 'undergrad',
     'background', 'summary', 'passionate', 'short', 'tell', 'about', 'portfolio', 'experience',
+    'program', 'programming', 'language',
   ]);
 
   function detectIntent(query, entity) {
@@ -105,6 +151,131 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
       return intent.name;
     }
     return null;
+  }
+
+  function findUsedIn(techItem) {
+    const used = [];
+    const patterns = techItem.aliases.map(
+      a => new RegExp(`\\b${a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\.js|\\b)`, 'i')
+    );
+    if (techItem.label === 'Computer Vision') patterns.push(/\b(OpenCV|Facial|CNN)\b/i);
+    if (techItem.label === 'RAG' || techItem.label === 'Vector Search') {
+      patterns.push(/\b(Vector DB|semantic cache|vector similarity)\b/i);
+    }
+
+    for (const p of data.projects) {
+      const hay = `${p.name} ${p.tech} ${(p.desc || []).join(' ')}`;
+      const inTech = patterns.some(re => re.test(p.tech));
+      const inConcept =
+        (techItem.label === 'Computer Vision' || techItem.label === 'RAG' || techItem.label === 'Vector Search') &&
+        patterns.some(re => re.test(hay));
+      if (inTech || inConcept) used.push(p.name);
+    }
+    if (used.length === 0) {
+      for (const e of data.experience) {
+        if (patterns.some(re => re.test(e.desc.join(' ')))) used.push(`${e.role} at ${e.company}`);
+      }
+      for (const h of data.hackathons) {
+        if (patterns.some(re => re.test(h.desc))) used.push(h.name);
+      }
+    }
+    return used;
+  }
+
+  // Deterministic "tech usage" answer for "has she used / does she know X" and tech categories
+  // like "databases" or "frontend frameworks", looking X up in skills and in every project's tech field.
+  function answerTechUsage(query, entity) {
+    if (entity) return null;
+    const lower = (query || '').toLowerCase();
+
+    if (/\b(databases?|db)\b/i.test(lower)) {
+      const dbSkills = ['PostgreSQL', 'Redis', 'MongoDB', 'Pinecone', 'SQL'];
+      const used = data.projects
+        .filter(p => dbSkills.some(t => new RegExp(`\\b${t}\\b`, 'i').test(p.tech)))
+        .map(p => p.name);
+      return `Yes. PostgreSQL, Redis, MongoDB, and Pinecone are in Puja's Data Engineering skills (and SQL is in Puja's Languages skills) and were used in: ${used.join(', ')}.`;
+    }
+
+    if (/\b(frontend|front-end|web|ui)\s+(frameworks?|libraries|stack|tools?)\b/i.test(lower)) {
+      const webSkills = data.skills['Web & API'] || [];
+      const used = data.projects
+        .filter(p => ['React', 'Vite', 'FastAPI', 'Flask', 'Vercel', 'Tailwind'].some(t => new RegExp(`\\b${t}\\b`, 'i').test(p.tech)))
+        .map(p => p.name);
+      return `Yes. ${webSkills.join(', ')} are in Puja's Web & API skills and were used in: ${used.join(', ')}.`;
+    }
+
+    const catMatches = [
+      { re: /\b(ai\s*(and|&|\/)\s*ml|machine learning)\s+(skills?|tools?)\b/i, cat: 'AI & ML' },
+      { re: /\bdata engineering\s+(skills?|tools?)\b/i, cat: 'Data Engineering' },
+      { re: /\bcloud(\s+and\s+infra(structure)?)?\s+(skills?|tools?)\b/i, cat: 'Cloud & Infra' },
+      { re: /\bsystems(\s+programming)?\s+(skills?|tools?)\b/i, cat: 'Systems' },
+    ];
+    for (const { re, cat } of catMatches) {
+      if (re.test(lower)) {
+        const list = data.skills[cat] || [];
+        const catItems = techCatalog.filter(t => t.categories.includes(cat));
+        const used = [...new Set(catItems.flatMap(t => findUsedIn(t)))];
+        return `Yes. ${list.join(', ')} are in Puja's ${cat} skills${used.length ? ` and were used in: ${used.join(', ')}` : ''}.`;
+      }
+    }
+
+    if (!TECH_QUERY_RE.test(lower)) return null;
+
+    const matched = [];
+    for (const item of techCatalog) {
+      const hit = item.aliases.some(
+        a => lower.search(new RegExp(`\\b${a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i')) !== -1
+      );
+      if (hit) matched.push(item);
+    }
+    if (matched.length === 0) return null;
+
+    // Deduplicate when both "C" and "C Systems Programming" match on "C programming".
+    const filtered = matched.filter(
+      item => !(item.label === 'C Systems Programming' && matched.some(other => other.label === 'C'))
+    );
+
+    const details = filtered.map(item => ({
+      item,
+      used: findUsedIn(item),
+    }));
+
+    if (details.length === 1) {
+      const { item, used } = details[0];
+      const skillPart = item.categories.length
+        ? `${item.displaySkill} is in Puja's ${item.categories.join(' and ')} skills`
+        : `Puja has used ${item.displaySkill}`;
+      const usedPart = used.length
+        ? item.categories.length
+          ? ` and was used in: ${used.join(', ')}`
+          : ` in: ${used.join(', ')}`
+        : '';
+      return `Yes. ${skillPart}${usedPart}.`;
+    }
+
+    const sameCats = details.every(d => d.item.categories.join('|') === details[0].item.categories.join('|'));
+    const sameUsed = details.every(d => d.used.join('|') === details[0].used.join('|'));
+    if (sameCats && sameUsed) {
+      const names = details.map(d => d.item.displaySkill).join(' and ');
+      const cats = details[0].item.categories;
+      const used = details[0].used;
+      const skillPart = cats.length ? `${names} are in Puja's ${cats.join(' and ')} skills` : `Puja has used ${names}`;
+      const usedPart = used.length ? (cats.length ? ` and were used in: ${used.join(', ')}` : ` in: ${used.join(', ')}`) : '';
+      return `Yes. ${skillPart}${usedPart}.`;
+    }
+
+    const sentences = details.map(({ item, used }) => {
+      const skillPart = item.categories.length
+        ? `${item.displaySkill} is in Puja's ${item.categories.join(' and ')} skills`
+        : `Puja has used ${item.displaySkill}`;
+      const usedPart = used.length
+        ? item.categories.length
+          ? ` and was used in: ${used.join(', ')}`
+          : ` in: ${used.join(', ')}`
+        : '';
+      return `${skillPart}${usedPart}.`;
+    });
+    return `Yes. ${sentences.join(' ')}`;
   }
 
   // Step 2: match the visitor's question against the reviewed offline cache (answers.json)
@@ -125,18 +296,24 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
     const weights = expandQuery(query);
     const entityName = entity?.name || null;
     const entityTokens = new Set(entity ? tokenize(entity.name) : []);
+    const queryIntent = detectIntent(query, entity);
     const candidates = cacheIndex
       .search(weights, { topK: 5 })
-      .filter(r => (r.doc.meta.entity || null) === entityName);
+      .filter(r => (r.doc.meta.entity || null) === entityName)
+      .filter(r => !queryIntent || r.doc.meta.intent === queryIntent);
+
+    for (const candidate of candidates) {
+      const entry = candidate.doc.meta;
+      const cacheTerms = tokenize(entry.q);
+      if (cacheTerms.length > 0 && typedTerms.join(' ') === cacheTerms.join(' ')) {
+        return { entry, score: candidate.score };
+      }
+    }
 
     for (const candidate of candidates) {
       const entry = candidate.doc.meta;
       const cacheTerms = tokenize(entry.q);
       if (cacheTerms.length === 0) continue;
-
-      if (typedTerms.join(' ') === cacheTerms.join(' ')) {
-        return { entry, score: candidate.score };
-      }
 
       const cacheExpanded = expandQuery(entry.q);
       const queryHits = typedTerms.filter(t => cacheExpanded.has(t) || entityTokens.has(t)).length;
@@ -197,40 +374,55 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
   function retrieve(query, entity) {
     const weights = expandQuery(query);
     if (entity) {
+      let qStripped = query;
+      for (const alias of entity.aliases) {
+        qStripped = qStripped.replace(new RegExp(`\\b${alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'ig'), ' ');
+      }
+      const nonEntityWeights = expandQuery(qStripped);
       // A named project/role/hackathon: answer only from its own chunks, best match first,
       // falling back to document order so "tell me about X" starts with the intro.
       const results = index.docs
         .filter(doc => doc.meta.entity === entity.name)
-        .map((doc, order) => ({ doc, score: index.scoreDoc(doc, weights) + 1 / (order + 1) }))
+        .map((doc, order) => ({ doc, score: index.scoreDoc(doc, nonEntityWeights) + 1 / (order + 1) }))
         .sort((a, b) => b.score - a.score)
         .slice(0, 4);
-      return { weights, results };
+      return { weights, nonEntityWeights, results };
     }
-    return { weights, results: index.search(weights, { topK: 4 }) };
+    return { weights, nonEntityWeights: null, results: index.search(weights, { topK: 4 }) };
   }
 
-  function composeFromChunks(weights, results, entity) {
+  function composeFromChunks(weights, results, entity, nonEntityWeights = null) {
     const typedTerms = [...weights].filter(([, w]) => w === 1).map(([t]) => t);
+    const scoreWeights = entity && nonEntityWeights ? nonEntityWeights : weights;
     const candidates = [];
     results.forEach((result, rank) => {
       splitSentences(result.doc.meta.text).forEach((sentence, position) => {
         const terms = new Set(tokenize(sentence));
         let score = 0;
-        for (const [term, weight] of weights) if (terms.has(term)) score += weight * index.idf(term);
+        for (const [term, weight] of scoreWeights) if (terms.has(term)) score += weight * index.idf(term);
         score += result.score * 0.15;
-        if (entity) score += 1.5 / (position + 1);
+        if (entity) {
+          score += 1.2 / (position + 1);
+          if (SUBSTANCE_RE.test(sentence)) score += 1.0;
+        }
         if (sentence.length < 30) score *= 0.5;
         candidates.push({ sentence, score, rank, position, chunkId: result.doc.id, chunk: result.doc.meta });
       });
     });
 
+    const sortedCandidates = candidates.sort((a, b) => b.score - a.score);
+    const bestScore = sortedCandidates[0]?.score || 0;
+    const bestChunk = sortedCandidates[0]?.chunk;
+
     const picked = [];
     const perChunk = new Map();
-    for (const candidate of candidates.sort((a, b) => b.score - a.score)) {
+    for (const candidate of sortedCandidates) {
       const used = perChunk.get(candidate.chunk) || 0;
       const allowShortExtra = Boolean(entity && candidate.sentence.length < 80 && picked.length === 4 && used === 3);
       if (picked.length >= (entity ? 4 : 3) && !allowShortExtra) break;
       if ((used >= (entity ? 3 : 2) && !allowShortExtra) || candidate.score <= 0) continue;
+      // Drop sentences from other chunks that score much lower than the best one.
+      if (!entity && candidate.chunk !== bestChunk && candidate.score < bestScore * 0.45) continue;
       const candTokens = tokenize(candidate.sentence);
       const isDuplicate = picked.some(p => {
         if (p.chunk.title !== candidate.chunk.title || candTokens.length === 0) return false;
@@ -283,7 +475,12 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
       return { text: structured[intent](), intent, entity: entity?.name || null, resolvedQuery: query, followUp, sources: [intent], cached: false };
     }
 
-    const { weights, results } = retrieve(query, entity);
+    const techAnswer = answerTechUsage(query, entity);
+    if (techAnswer) {
+      return { text: techAnswer, intent: 'tech_usage', entity: null, resolvedQuery: query, followUp, sources: ['skills', 'projects'], cached: false };
+    }
+
+    const { weights, nonEntityWeights, results } = retrieve(query, entity);
     // Confidence gate: without a named entity, require a decent BM25 score
     // relative to how many terms the visitor actually typed.
     const typedCount = [...weights.values()].filter(w => w === 1).length || 1;
@@ -295,7 +492,7 @@ export function createEngine(data, { cache = defaultCache, rewriter = null, cach
       return { text: NO_ANSWER, intent: 'unknown', entity: null, resolvedQuery: query, followUp, sources: [], cached: false, topScore };
     }
 
-    const { text } = composeFromChunks(weights, results, entity);
+    const { text } = composeFromChunks(weights, results, entity, nonEntityWeights);
     return {
       text: text || NO_ANSWER,
       intent: 'retrieval',

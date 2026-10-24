@@ -38,7 +38,13 @@ export function buildEntities(data) {
   const entities = [];
   const add = (name, aliases) => entities.push({ name, aliases: [...new Set(aliases.map(a => a.toLowerCase()))] });
 
-  data.projects.forEach(p => add(p.name, [p.name, p.slug, p.slug.replace(/-/g, ' '), p.name.replace(/\s*\(.*\)/, '')]));
+  data.projects.forEach(p => add(p.name, [
+    p.name,
+    p.slug,
+    p.slug.replace(/-/g, ' '),
+    p.name.replace(/\s*\(.*\)/, ''),
+    p.name.replace(/^Multilingual\s+/i, ''),
+  ]));
   // Roles also match on their last two words: "teaching assistant", "engineering intern".
   data.experience.forEach(e => {
     const baseCompany = e.company.replace(/\s*\(.*\)/, '').trim();

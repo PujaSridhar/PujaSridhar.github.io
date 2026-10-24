@@ -64,7 +64,7 @@ const SYNONYM_GROUPS = [
   ['skill', 'tech', 'stack', 'tool', 'technology', 'framework', 'proficient'],
   ['frontend', 'front-end', 'ui', 'web', 'react', 'vite', 'tailwind'],
   ['database', 'db', 'sql', 'postgresql', 'redis', 'mongodb', 'pinecone'],
-  ['healthcare', 'clinical', 'care', 'medication', 'treatment', 'filomena', 'rwj'],
+  ['healthcare', 'health', 'medical', 'clinical', 'care', 'medication', 'treatment', 'filomena', 'rwj', 'coordination'],
   ['language', 'speak', 'spoken', 'fluent'],
   ['certification', 'certificate', 'certified', 'credential', 'accreditation', 'course'],
   ['talk', 'speech', 'lecture', 'present', 'presentation'],
@@ -76,6 +76,7 @@ const SYNONYM_GROUPS = [
   ['wasm', 'webassembly', 'emscripten', 'allocator', 'system'],
   ['vision', 'image', 'facial', 'opencv', 'face', 'video', 'camera'],
   ['teach', 'teaching', 'ta', 'assistant', 'grader', 'grade'],
+  ['fast', 'quick', 'speed', 'time', 'seconds', 'latency'],
 ];
 
 const SYNONYMS = new Map();

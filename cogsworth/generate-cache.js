@@ -313,7 +313,7 @@ async function main() {
     const item = QUESTION_BANK[i];
     const base = engine.answer(item.q, [], { useCache: false });
     let finalAnswer = buildCleanExtractiveAnswer(base, item.mustContain);
-    let generator = base.intent === 'retrieval' ? 'template' : 'structured';
+    let generator = base.intent === 'retrieval' || base.intent === 'tech_usage' ? 'template' : 'structured';
 
     if (base.intent === 'retrieval' && !extractiveOnly) {
       const primarySection = base.text.split('\n\n')[0] || base.text;
@@ -367,7 +367,7 @@ async function main() {
     const missing = (item.mustContain || []).filter(f => !finalAnswer.toLowerCase().includes(f.toLowerCase()));
     if (missing.length > 0) {
       finalAnswer = buildCleanExtractiveAnswer(base, []);
-      generator = base.intent === 'retrieval' ? 'template' : 'structured';
+      generator = base.intent === 'retrieval' || base.intent === 'tech_usage' ? 'template' : 'structured';
     }
 
     entries.push({
@@ -377,6 +377,7 @@ async function main() {
       entity: base.entity || null,
       sources: base.sources,
       generator,
+      reviewed: generator === 'structured',
     });
 
     if ((i + 1) % 25 === 0 || i === QUESTION_BANK.length - 1) {

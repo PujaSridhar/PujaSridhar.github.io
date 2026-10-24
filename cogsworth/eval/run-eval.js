@@ -111,6 +111,7 @@ async function main() {
   const mainCases = JSON.parse(readFileSync(new URL('./questions.json', import.meta.url), 'utf8'));
   const heldOutCases = JSON.parse(readFileSync(new URL('./held-out.json', import.meta.url), 'utf8'));
   const regressionCases = JSON.parse(readFileSync(new URL('./regressions.json', import.meta.url), 'utf8'));
+  const reviewCases = JSON.parse(readFileSync(new URL('./review.json', import.meta.url), 'utf8'));
   const engine = createEngine(portfolioData);
 
   let rewriter = null;
@@ -127,6 +128,7 @@ async function main() {
     ['questions.json', mainCases],
     ['held-out.json', heldOutCases],
     ['regressions.json', regressionCases],
+    ['review.json', reviewCases],
   ];
 
   const reports = [];
