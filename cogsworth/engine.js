@@ -88,6 +88,11 @@ function buildTechCatalog(data) {
   return catalog;
 }
 
+// "a, b and c" for short lists in prose answers.
+function listJoin(items) {
+  return items.length <= 1 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items.at(-1)}`;
+}
+
 export function createEngine(
   data,
   {
@@ -374,21 +379,26 @@ export function createEngine(
   const structured = {
     greeting: () =>
       "I'm Cogsworth, Puja Sridhar's portfolio assistant. Ask about Puja's projects, engineering experience, technical decisions, education, hackathons, or contact details.",
+    // pitch, featured_projects and about are hand-summarized, so every claim must trace to a
+    // sentence in portfolio-data.js; roles and degrees are read from the data, not retyped.
     pitch: () => {
-      const featured = data.projects.filter(p => p.featured).map(p => p.name).join(', ');
-      const roles = data.experience.slice(0, 3).map(e => `${e.role} at ${e.company}`).join(', ');
-      const deg = data.education[0];
+      const [ms] = data.education;
+      const builderRoles = data.experience
+        .filter(e => /Engineer|Developer|Data Scien/.test(e.role))
+        .map(e => `${e.role} at ${e.company}`);
       return [
-        `Puja holds a ${deg.degree} from ${deg.school} (${deg.details}) and has delivered production AI and data systems as ${roles}.`,
-        `Across featured projects (${featured}), Puja owns end-to-end architecture in Python, C, SQL, and React — including Airflow/dbt/PostgreSQL/FastAPI pipelines, parallel multi-agent LLM orchestration, Redis vector search and semantic caching, and WebAssembly systems.`,
+        `Puja holds a ${ms.degree} from ${ms.school} (${ms.details}) and has worked as ${listJoin(builderRoles)}.`,
+        `Puja works in ${listJoin(data.skills.Languages)}, and built the PostHog Engineering Impact Dashboard pipeline (Airflow, dbt across six models, FastAPI, Redis); Puja's LexAI runs five agents on a contract, two of them in parallel, for a full analysis in 15–25 seconds.`,
+        'At HackRU, Puja built AI Neighborhood Watch solo; at the RWJ Health Hackathon (team of 10), Puja owned the backend with one other engineer.',
+        'In Puja\'s words: "I care about the decisions underneath the code."',
       ].join(' ');
     },
     featured_projects: () => {
       const featured = data.projects.filter(p => p.featured);
       return (
-        "Puja's featured projects (owned end-to-end):\n" +
+        "Puja's featured projects:\n" +
         featured.map(p => `**${p.name}** (${p.date}): ${p.tech}`).join('\n') +
-        '\nKey technical decisions include Airflow/dbt/FastAPI/Redis analytics across six models (PostHog), two-stage Groq intent and vibe scoring (LocalLens), five parallel contract-analysis agents finishing in 15–25 seconds (LexAI), real-time Leaflet incident mapping with ElevenLabs/pydub briefings (AI Neighborhood Watch), and single-instance Redis event streaming, vector search, and semantic caching (Smart Doc Finder).'
+        '\nKey technical decisions: Airflow and dbt across six models feeding FastAPI and Redis (PostHog), a Groq agent that parses intent plus a second agent that scores venues against the vibe (LocalLens), five agents analyzing a contract in 15–25 seconds (LexAI), Leaflet incident mapping with ElevenLabs and pydub audio briefings (AI Neighborhood Watch), and one Redis instance doing event streaming, vector search and semantic caching (Smart Doc Finder, built by a team of 2).'
       );
     },
     contact: () => `You can reach Puja at:\n**Email:** ${data.contact.email}\n**LinkedIn:** ${data.contact.linkedin}\n**GitHub:** ${data.contact.github}`,
@@ -405,11 +415,15 @@ export function createEngine(
     projects: () => 'Puja\'s projects:\n' + data.projects.map(p => `**${p.name}** (${p.date}): ${p.tech}`).join('\n') + '\nAsk about any of them for details.',
     experience: () => 'Puja\'s experience:\n' + data.experience.map(e => `**${e.role}**, ${e.company} (${e.period})`).join('\n') + '\nAsk about any role for details.',
     leadership: () => 'Puja\'s leadership roles:\n' + data.leadership.map(l => `**${l.role}**, ${l.org} (${l.period})`).join('\n'),
-    about: () => [
-      'Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles.',
-      'Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly.',
-      'In Puja\'s words: "I care about the decisions underneath the code."',
-    ].join(' '),
+    about: () => {
+      const [ms, be] = data.education;
+      return [
+        `Puja holds a ${ms.degree} from ${ms.school} (${ms.details}) and a ${be.degree} from ${be.school} (${be.details}).`,
+        'Puja is based in San Jose and is looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE.',
+        'Recent work spans data pipelines (Airflow, dbt, FastAPI and Redis in the PostHog Engineering Impact Dashboard), multi-agent LLM systems (five agents in LexAI, two of them in parallel), and C systems compiled to WebAssembly (Systems Sandbox).',
+        'In Puja\'s words: "I care about the decisions underneath the code."',
+      ].join(' ');
+    },
   };
 
   // A chunk's semantic score is its best match: the whole paragraph or any one sentence in it,

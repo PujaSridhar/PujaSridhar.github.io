@@ -1,0 +1,9 @@
+{
+  "name": "cogsworth-tools",
+  "private": true,
+  "description": "Offline model tooling for the Cogsworth engine (embeddings, Qwen rewriter, eval). Installed separately so site and Vercel builds skip it.",
+  "type": "module",
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.1"
+  }
+}

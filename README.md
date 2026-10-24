@@ -97,10 +97,11 @@ This keeps the answers accurate and specific to my actual background — not a m
 | Answer | Gemini generates text | Structured answers for lists (skills, contact, education, …) and the best-matching sentences for everything else |
 
 ```bash
+npm run cogsworth:setup                   # one-time: install the offline model tooling (embeddings, Qwen)
 npm run cogsworth                         # chat with the local engine in your terminal (--debug shows how it decided)
 npm run dev:local                         # run the site with /api/chat answered by the local engine
 npm run cogsworth:eval                    # score the local engine on cogsworth/eval/questions.json
-npm run cogsworth:eval -- --compare-prod  # score local and live Gemini side by side
+npm run cogsworth:eval -- --compare-prod  # score local and live Gemini side by side (uses Gemini quota)
 ```
 
 ---
