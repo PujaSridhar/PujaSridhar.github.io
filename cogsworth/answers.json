@@ -23,7 +23,7 @@
   },
   {
     "q": "Who is Puja?",
-    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "a": "Puja holds a Masters of Science in Computer Science from Rutgers University, The State University of New Jersey (Graduated Jan 2026 | GPA: 3.8/4.0) and a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management, India (Graduated May 2023 | GPA: 8.64/10.0). Puja is based in San Jose and is looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE. Recent work spans data pipelines (Airflow, dbt, FastAPI and Redis in the PostHog Engineering Impact Dashboard), multi-agent LLM systems (five agents in LexAI, two of them in parallel), and C systems compiled to WebAssembly (Systems Sandbox). In Puja's words: \"I care about the decisions underneath the code.\"",
     "intent": "about",
     "entity": null,
     "sources": [
@@ -34,7 +34,7 @@
   },
   {
     "q": "Tell me about Puja",
-    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "a": "Puja holds a Masters of Science in Computer Science from Rutgers University, The State University of New Jersey (Graduated Jan 2026 | GPA: 3.8/4.0) and a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management, India (Graduated May 2023 | GPA: 8.64/10.0). Puja is based in San Jose and is looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE. Recent work spans data pipelines (Airflow, dbt, FastAPI and Redis in the PostHog Engineering Impact Dashboard), multi-agent LLM systems (five agents in LexAI, two of them in parallel), and C systems compiled to WebAssembly (Systems Sandbox). In Puja's words: \"I care about the decisions underneath the code.\"",
     "intent": "about",
     "entity": null,
     "sources": [
@@ -45,7 +45,7 @@
   },
   {
     "q": "Give me a quick summary of Puja's background",
-    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "a": "Puja holds a Masters of Science in Computer Science from Rutgers University, The State University of New Jersey (Graduated Jan 2026 | GPA: 3.8/4.0) and a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management, India (Graduated May 2023 | GPA: 8.64/10.0). Puja is based in San Jose and is looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE. Recent work spans data pipelines (Airflow, dbt, FastAPI and Redis in the PostHog Engineering Impact Dashboard), multi-agent LLM systems (five agents in LexAI, two of them in parallel), and C systems compiled to WebAssembly (Systems Sandbox). In Puja's words: \"I care about the decisions underneath the code.\"",
     "intent": "about",
     "entity": null,
     "sources": [
@@ -56,7 +56,7 @@
   },
   {
     "q": "What is Puja's background?",
-    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "a": "Puja holds a Masters of Science in Computer Science from Rutgers University, The State University of New Jersey (Graduated Jan 2026 | GPA: 3.8/4.0) and a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management, India (Graduated May 2023 | GPA: 8.64/10.0). Puja is based in San Jose and is looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE. Recent work spans data pipelines (Airflow, dbt, FastAPI and Redis in the PostHog Engineering Impact Dashboard), multi-agent LLM systems (five agents in LexAI, two of them in parallel), and C systems compiled to WebAssembly (Systems Sandbox). In Puja's words: \"I care about the decisions underneath the code.\"",
     "intent": "about",
     "entity": null,
     "sources": [
@@ -67,7 +67,7 @@
   },
   {
     "q": "Introduce Puja Sridhar",
-    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "a": "Puja holds a Masters of Science in Computer Science from Rutgers University, The State University of New Jersey (Graduated Jan 2026 | GPA: 3.8/4.0) and a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management, India (Graduated May 2023 | GPA: 8.64/10.0). Puja is based in San Jose and is looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE. Recent work spans data pipelines (Airflow, dbt, FastAPI and Redis in the PostHog Engineering Impact Dashboard), multi-agent LLM systems (five agents in LexAI, two of them in parallel), and C systems compiled to WebAssembly (Systems Sandbox). In Puja's words: \"I care about the decisions underneath the code.\"",
     "intent": "about",
     "entity": null,
     "sources": [
@@ -78,7 +78,7 @@
   },
   {
     "q": "What does Puja do?",
-    "a": "I don't have that information in Puja's portfolio. Try asking about projects, experience, education, skills, hackathons, or how to get in touch.",
+    "a": "Puja holds a Masters of Science in Computer Science from Rutgers University, The State University of New Jersey (Graduated Jan 2026 | GPA: 3.8/4.0) and a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management, India (Graduated May 2023 | GPA: 8.64/10.0). Puja is based in San Jose and is looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE. Recent work spans data pipelines (Airflow, dbt, FastAPI and Redis in the PostHog Engineering Impact Dashboard), multi-agent LLM systems (five agents in LexAI, two of them in parallel), and C systems compiled to WebAssembly (Systems Sandbox). In Puja's words: \"I care about the decisions underneath the code.\"",
     "intent": "about",
     "entity": null,
     "sources": [
@@ -89,7 +89,7 @@
   },
   {
     "q": "What is Puja passionate about building?",
-    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "a": "Puja holds a Masters of Science in Computer Science from Rutgers University, The State University of New Jersey (Graduated Jan 2026 | GPA: 3.8/4.0) and a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management, India (Graduated May 2023 | GPA: 8.64/10.0). Puja is based in San Jose and is looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE. Recent work spans data pipelines (Airflow, dbt, FastAPI and Redis in the PostHog Engineering Impact Dashboard), multi-agent LLM systems (five agents in LexAI, two of them in parallel), and C systems compiled to WebAssembly (Systems Sandbox). In Puja's words: \"I care about the decisions underneath the code.\"",
     "intent": "about",
     "entity": null,
     "sources": [
@@ -100,7 +100,7 @@
   },
   {
     "q": "Tell me about yourself",
-    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "a": "Puja holds a Masters of Science in Computer Science from Rutgers University, The State University of New Jersey (Graduated Jan 2026 | GPA: 3.8/4.0) and a Bachelor of Engineering in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management, India (Graduated May 2023 | GPA: 8.64/10.0). Puja is based in San Jose and is looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE. Recent work spans data pipelines (Airflow, dbt, FastAPI and Redis in the PostHog Engineering Impact Dashboard), multi-agent LLM systems (five agents in LexAI, two of them in parallel), and C systems compiled to WebAssembly (Systems Sandbox). In Puja's words: \"I care about the decisions underneath the code.\"",
     "intent": "about",
     "entity": null,
     "sources": [
@@ -1462,7 +1462,7 @@
   },
   {
     "q": "What are Puja's featured projects?",
-    "a": "Puja's featured projects (owned end-to-end):\n**PostHog Engineering Impact Dashboard** (March 2026): Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel\n**LocalLens** (February 2026): FastAPI · React · Groq · Google Places API · Foursquare · WalkScore\n**LexAI** (January 2026): Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js\n**AI Neighborhood Watch** (December 2025): Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub\n**Smart Doc Finder** (August 2025): Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker\nKey technical decisions include Airflow/dbt/FastAPI/Redis analytics across six models (PostHog), two-stage Groq intent and vibe scoring (LocalLens), five parallel contract-analysis agents finishing in 15–25 seconds (LexAI), real-time Leaflet incident mapping with ElevenLabs/pydub briefings (AI Neighborhood Watch), and single-instance Redis event streaming, vector search, and semantic caching (Smart Doc Finder).",
+    "a": "Puja's featured projects:\n**PostHog Engineering Impact Dashboard** (March 2026): Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel\n**LocalLens** (February 2026): FastAPI · React · Groq · Google Places API · Foursquare · WalkScore\n**LexAI** (January 2026): Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js\n**AI Neighborhood Watch** (December 2025): Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub\n**Smart Doc Finder** (August 2025): Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker\nKey technical decisions: Airflow and dbt across six models feeding FastAPI and Redis (PostHog), a Groq agent that parses intent plus a second agent that scores venues against the vibe (LocalLens), five agents analyzing a contract in 15–25 seconds (LexAI), Leaflet incident mapping with ElevenLabs and pydub audio briefings (AI Neighborhood Watch), and one Redis instance doing event streaming, vector search and semantic caching (Smart Doc Finder, built by a team of 2).",
     "intent": "featured_projects",
     "entity": null,
     "sources": [
@@ -1495,7 +1495,7 @@
   },
   {
     "q": "What tech stack does the PostHog dashboard use?",
-    "a": "**Project: PostHog Engineering Impact Dashboard**\nPostHog Engineering Impact Dashboard is built with Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel. Engineering teams generate a lot of data and almost no insight. Puja built the end-to-end pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it: leaderboards, trend charts, a custom impact score Puja designed (because the formula matters as much as the infrastructure).",
+    "a": "**Project: PostHog Engineering Impact Dashboard**\nPostHog Engineering Impact Dashboard is built with Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel. Engineering teams generate a lot of data and almost no insight. Puja built the whole pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it: leaderboards, trend charts, a custom impact score Puja designed (because the formula matters as much as the infrastructure).",
     "intent": "retrieval",
     "entity": "PostHog Engineering Impact Dashboard",
     "sources": [
@@ -1506,7 +1506,7 @@
   },
   {
     "q": "How does the PostHog Engineering Impact Dashboard pipeline work?",
-    "a": "**Project: PostHog Engineering Impact Dashboard**\nPostHog Engineering Impact Dashboard is built with Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel. Engineering teams generate a lot of data and almost no insight. Puja built the end-to-end pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it: leaderboards, trend charts, a custom impact score Puja designed (because the formula matters as much as the infrastructure).",
+    "a": "**Project: PostHog Engineering Impact Dashboard**\nPostHog Engineering Impact Dashboard is built with Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel. Engineering teams generate a lot of data and almost no insight. Puja built the whole pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it: leaderboards, trend charts, a custom impact score Puja designed (because the formula matters as much as the infrastructure).",
     "intent": "retrieval",
     "entity": "PostHog Engineering Impact Dashboard",
     "sources": [

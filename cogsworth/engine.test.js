@@ -291,3 +291,38 @@ describe('neural grounding guard', () => {
     ).toContain('invented-proper-noun');
   });
 });
+
+describe('structured answers stay within portfolio-data.js', () => {
+  const engine = createEngine(portfolioData, { cache: [] });
+  const source = JSON.stringify(portfolioData);
+  const questions = {
+    greeting: 'Hi',
+    about: 'Who is Puja?',
+    pitch: 'Why should I hire Puja?',
+    featured_projects: 'What are her featured projects?',
+    availability: 'Where is she based?',
+    contact: 'How can I contact Puja?',
+    education: 'What did she study?',
+    skills: 'What are her skills?',
+    languages: 'Which languages does she speak?',
+    certifications: 'What certifications does she have?',
+    talks: 'Has she given any talks?',
+    hackathons: 'What hackathons has she done?',
+    projects: 'What projects has she built?',
+    experience: 'Where has she worked?',
+    leadership: 'What leadership roles has she had?',
+  };
+  // A capitalized run ending in a job-title word, e.g. "Senior Data Engineer" or "Event Head".
+  const TITLE = /\b(?:[A-Z][\w.&()-]*\s+){0,3}(?:Engineer|Developer|Scientist|Architect|Intern|Assistant|Grader|Representative|Head|Lead|Manager|Director|Founder|Senior|Staff|Principal)\b/g;
+
+  for (const [intent, question] of Object.entries(questions)) {
+    it(`${intent} makes no inflated or invented claims`, () => {
+      const { text, intent: routed } = engine.answer(question, [], { useCache: false });
+      expect(routed).toBe(intent);
+      expect(text).not.toMatch(/end-to-end|delivered production/i);
+      for (const title of text.match(TITLE) || []) {
+        expect(source, `"${title}" is not in portfolio-data.js`).toContain(title.trim());
+      }
+    });
+  }
+});

@@ -44,7 +44,7 @@ function convertSentenceToThirdPerson(rawSentence) {
   // and convert casual first-person transitions into concise third-person ownership statements.
   return clean
     .replace(/\s+\bmyself\b/gi, '')
-    .replace(/\bSo I built the whole pipeline\./gi, 'Puja built the end-to-end pipeline.')
+    .replace(/\bSo I built the whole pipeline\./gi, 'Puja built the whole pipeline.')
     .replace(/\bSo I answered it directly\./gi, 'Puja built three C systems demos to demonstrate low-level execution.')
     .replace(/\bSo I answered it directly\b/gi, 'Puja answered it directly')
     .replace(/\bI built the map\./gi, 'Puja built the real-time incident map.')
@@ -214,7 +214,7 @@ export async function createRewriter({
         content: [
           'Context:',
           '**Project: PostHog Engineering Impact Dashboard**',
-          'PostHog Engineering Impact Dashboard is built with Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel. Puja built the end-to-end pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it.',
+          'PostHog Engineering Impact Dashboard is built with Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel. Puja built the whole pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it.',
           '',
           'Question: Tell me about the PostHog dashboard',
         ].join('\n'),
@@ -222,7 +222,7 @@ export async function createRewriter({
       {
         role: 'assistant',
         content:
-          'Puja owned and built the end-to-end PostHog Engineering Impact Dashboard using Python, Airflow, dbt, PostgreSQL, FastAPI, Redis, React, and Vercel. In the pipeline, Airflow pulls daily from GitHub, dbt transforms the data across six models, FastAPI serves it with Redis hit/miss caching, and a React dashboard renders the metrics.',
+          'Puja built the PostHog Engineering Impact Dashboard pipeline using Python, Airflow, dbt, PostgreSQL, FastAPI, Redis, React, and Vercel. In the pipeline, Airflow pulls daily from GitHub, dbt transforms the data across six models, FastAPI serves it with Redis hit/miss caching, and a React dashboard renders the metrics.',
       },
       {
         role: 'user',

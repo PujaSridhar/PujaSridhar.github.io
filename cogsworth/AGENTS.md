@@ -12,7 +12,10 @@ machine: no API keys, no network, no external services.
   returns intents built directly from `portfolio-data.js` (a correct answer or none), so don't widen
   `EXACT_INTENTS` without the owner's approval, and keep `engine.js` free of imports that pull in the
   embedding/LLM runtime (use `similarity.js`, not `embeddings.js`), or the Vercel bundle exceeds 250 MB.
-- Keep it dependency-free (plain Node.js ESM). No paid APIs or hosted model calls.
+- The engine itself (`engine.js` and what it imports) stays dependency-free plain Node.js ESM. The only
+  dependency, `@huggingface/transformers`, lives in `cogsworth/package.json` (install it with
+  `npm run cogsworth:setup`) so the GitHub Pages and Vercel builds never download it. Never add it, or
+  any model runtime, to the root `package.json`. No paid APIs or hosted model calls.
 - Answers must only contain text that exists in `portfolio-data.js`. Never invent facts.
 - Don't guess pronouns for Puja in generated answer text; use "Puja" / "Puja's".
 
@@ -21,7 +24,7 @@ machine: no API keys, no network, no external services.
 Apply this guide everywhere Cogsworth writes text (structured answers, BM25/hybrid composition, Qwen rewrite prompts, and `answers.json` regeneration). Cogsworth's voice is professional and concise, like a senior engineer's summary:
 
 1. **Lead with outcome, scope, and Puja's ownership.** State what was built or achieved, its scope, and Puja's specific role/ownership first.
-2. **Name 1–2 key technical decisions.** Follow with the concrete architectural or implementation choices (e.g., Airflow + dbt across six models, five parallel contract-analysis agents, Redis doing event streaming + vector search + semantic caching, C compiled to WebAssembly).
+2. **Name 1–2 key technical decisions.** Follow with the concrete architectural or implementation choices (e.g., Airflow + dbt across six models, five contract-analysis agents, two of them in parallel, Redis doing event streaming + vector search + semantic caching, C compiled to WebAssembly).
 3. **Use 2–4 sentences at most.** Keep answers tight and information-dense.
 4. **No slang or hype in Cogsworth's own words; at most one short `"In Puja's words"` quote at the end.** Avoid promotional filler or casual slang in Cogsworth's third-person narration. If a verbatim first-person quote from `portfolio-data.js` adds context, place at most one short `In Puja's words: "..."` quote at the end.
 5. **Never inflate seniority or invent impact.** State roles, titles, team sizes, and metrics exactly as they appear in `portfolio-data.js`.
@@ -41,6 +44,9 @@ Apply this guide everywhere Cogsworth writes text (structured answers, BM25/hybr
 | `generate-cache.js` | Offline script (`npm run cogsworth:cache`) that builds `answers.json` using BM25 + `Qwen2.5-0.5B-Instruct` |
 | `review-answers.js` | Interactive CLI (`npm run cogsworth:review`) to approve (`y`), edit (`e`), or delete (`d`) unreviewed cache entries |
 | `neural.js` | Optional `Qwen2.5-0.5B-Instruct` rewriter via `transformers.js` (WebGPU/WASM) with strict grounding checks |
+| `similarity.js` | Cosine similarity, kept apart from `embeddings.js` so `engine.js` never imports the model runtime |
+| `fallback.js` | What production `api/chat.js` serves when Gemini fails: exact structured answers only |
+| `package.json` | The offline tooling's own dependencies (`@huggingface/transformers`); see `npm run cogsworth:setup` |
 | `engine.js` | The pipeline: follow-up resolution → reviewed cache match → intent detection → tech usage → hybrid (BM25 + cosine) retrieval → answer composition |
 | `cli.js` | Terminal chat (`npm run cogsworth -- --debug`, `--neural` to enable `Qwen2.5-0.5B-Instruct`) |
 | `vite-plugin.js` | Serves `/api/chat` from the engine when running `npm run dev:local` |
@@ -50,7 +56,17 @@ Apply this guide everywhere Cogsworth writes text (structured answers, BM25/hybr
 | `eval/review.json` | Round 2 review evaluation suite (never copied into `answers.json`) |
 | `eval/round3.json` | Round 3 evaluation suite (never copied into `answers.json`) |
 | `eval/run-eval.js` | Scores BM25, Cache + BM25, Hybrid (`bge + bm25`), and `Qwen2.5-0.5B-Instruct`; `--compare-prod` also scores live Gemini |
-| `engine.test.js` | Unit tests (Vitest) |
+| `engine.test.js`, `fallback.test.js` | Unit tests (Vitest), including a guard that structured answers make no claims beyond `portfolio-data.js` |
+
+## Setup
+
+```bash
+npm install                 # site + engine (no model runtime)
+npm run cogsworth:setup     # offline model tooling: embeddings, Qwen, hybrid eval
+```
+
+Without `cogsworth:setup`, everything still runs; the CLI and eval fall back to BM25 and skip the
+hybrid and Qwen modes.
 
 ## Workflow for any change
 
