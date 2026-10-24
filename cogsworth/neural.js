@@ -25,6 +25,8 @@ const ALLOWED_CAPS = new Set([
 
 const REFLEXIVE_MYSELF_RE = /\b(ask|asks|asking|asked|tell|tells|telling|told|teach|teaches|teaching|taught|find|finds|finding|found|push|pushes|pushing|pushed|remind|reminds|reminding|reminded|challenge|challenges|challenging|challenged|convince|convinces|convincing|convinced|see|sees|seeing|saw|keep|keeps|keeping|kept|by|to|for|with|about|at|in|of|on|into|from)\s+myself\b/i;
 
+const TRAILING_COMMENTARY_RE = /^(The interesting part wasn't the stack\.|It was deciding what to measure and why\.|That's a different kind of understanding than passing a course\.|Good reminder that the model selection process matters as much as the model itself\.|That's the part of AI development most people skip\.|We didn't\.|The parallelism isn't a flex:|Not simulated\.|Not faked\.|No static data\.|No pre-curated lists\.|It shipped\.|It worked\.|It's still live\.)$/i;
+
 function convertSentenceToThirdPerson(rawSentence) {
   const clean = (rawSentence || '')
     .trim()
@@ -38,10 +40,17 @@ function convertSentenceToThirdPerson(rawSentence) {
     return `In Puja's words: "${clean}"`;
   }
 
-  // Emphasis ("I designed myself", "designed the response logic myself"): drop "myself".
+  // Emphasis ("I designed myself", "designed the response logic myself"): drop "myself",
+  // and convert casual first-person transitions into concise third-person ownership statements.
   return clean
     .replace(/\s+\bmyself\b/gi, '')
+    .replace(/\bSo I built the whole pipeline\./gi, 'Puja built the end-to-end pipeline.')
+    .replace(/\bSo I answered it directly\./gi, 'Puja built three C systems demos to demonstrate low-level execution.')
     .replace(/\bSo I answered it directly\b/gi, 'Puja answered it directly')
+    .replace(/\bI built the map\./gi, 'Puja built the real-time incident map.')
+    .replace(/\bBut the part I'm most proud of is the daily briefing:\s*/gi, 'For the daily briefing, ')
+    .replace(/\bMy job was to make her trustworthy\./gi, 'Puja owned response trustworthiness for Filomena.')
+    .replace(/\bThat meant sitting down\b/gi, 'Puja sat down')
     .replace(/\bmake her trustworthy\b/gi, 'make Filomena trustworthy')
     .replace(/\bBuilt this on my own\b/g, 'Puja built this independently')
     .replace(/\bBuilt and compared\b/g, 'Puja built and compared')
@@ -51,7 +60,7 @@ function convertSentenceToThirdPerson(rawSentence) {
     .replace(/\bCoordinated alumni\b/g, 'Puja coordinated alumni')
     .replace(/\bTrained a Transformer\b/g, 'Puja trained a Transformer')
     .replace(/\bTrained on FER-2013\b/g, 'Puja trained it on FER-2013')
-    .replace(/\bWanted to know\b/g, 'Puja wanted to know')
+    .replace(/\bWanted to know\b/g, 'Puja investigated')
     .replace(/\bCompared Isolation Forest\b/g, 'Puja compared Isolation Forest')
     .replace(/\bTwo of us built\b/g, 'Puja and a teammate built')
     .replace(/\bI'm\b/g, 'Puja is')
@@ -74,11 +83,11 @@ function convertSentenceToThirdPerson(rawSentence) {
     .trim();
 }
 
-// Deterministically converts first-person portfolio prose into third-person ("Puja" / "Puja's").
-// Never turns "myself" into "Puja": drops it when used for emphasis ("designed myself" -> "designed")
-// and preserves the sentence as a quote ("In Puja's words: ...") when genuinely reflexive ("asking myself").
+// Deterministically converts first-person portfolio prose into concise, professional third-person
+// ("Puja" / "Puja's") following the Answer Style Guide (2–4 sentences, at most one short quote at the end).
 export function toThirdPerson(text) {
   if (!text) return '';
+  let quoteUsed = false;
   return text
     .split('\n\n')
     .map(block => {
@@ -89,10 +98,30 @@ export function toThirdPerson(text) {
         .trim()
         .replace(/^In Puja's words:\s*"/i, '')
         .replace(/"$/, '');
-      const converted = splitSentences(body)
+      const rawSentences = splitSentences(body);
+      const filteredSentences =
+        rawSentences.length > 2
+          ? rawSentences.filter(s => !TRAILING_COMMENTARY_RE.test(s.trim()))
+          : rawSentences;
+      const maxSents = rawSentences.some(s => s.length < 80) ? 5 : 4;
+      const convertedList = (filteredSentences.length ? filteredSentences : rawSentences)
+        .slice(0, maxSents)
         .map(convertSentenceToThirdPerson)
-        .filter(Boolean)
-        .join(' ');
+        .filter(Boolean);
+
+      const plain = [];
+      const quotes = [];
+      for (const s of convertedList) {
+        if (s.startsWith("In Puja's words:")) {
+          if (!quoteUsed) {
+            quotes.push(s);
+            quoteUsed = true;
+          }
+        } else {
+          plain.push(s);
+        }
+      }
+      const converted = [...plain, ...quotes].slice(0, maxSents).join(' ');
       return header ? `${header}\n${converted}` : converted;
     })
     .join('\n\n')
@@ -158,10 +187,11 @@ export async function createRewriter({
         role: 'system',
         content: [
           "You are Cogsworth, the assistant for Puja Sridhar's portfolio.",
-          'Combine ALL sentences in the Context into 2 factual sentences that directly answer the Question.',
-          'Copy every tool name, metric, hyphenated term, and key noun verbatim from the Context.',
-          'Never expand acronyms, never explain what tools are, and never add commentary outside the Context.',
-          'Always use "Puja" or "Puja\'s" (never "she", "her", "I", or "my").',
+          'Write in a professional, concise senior-engineer summary voice (2-4 sentences at most):',
+          "1. Lead with outcome, scope, and Puja's ownership.",
+          '2. Name 1-2 key technical decisions (tools, architecture, metrics) copied verbatim from the Context.',
+          '3. Use no slang or hype in your own words, and never inflate seniority or invent impact outside the Context.',
+          '4. Always use "Puja" or "Puja\'s" (never "she", "her", "I", or "my").',
         ].join(' '),
       },
       {
@@ -177,14 +207,14 @@ export async function createRewriter({
       {
         role: 'assistant',
         content:
-          'As a Data Science Intern at Exposys Data Labs (September 2022 - October 2022), Puja built and compared four regression models to predict startup profitability, where Random Forest won at 96% accuracy.',
+          'As a Data Science Intern at Exposys Data Labs (September 2022 - October 2022), Puja built and compared four regression models to predict startup profitability, where Random Forest achieved the highest accuracy at 96%.',
       },
       {
         role: 'user',
         content: [
           'Context:',
           '**Project: PostHog Engineering Impact Dashboard**',
-          'PostHog Engineering Impact Dashboard is built with Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it.',
+          'PostHog Engineering Impact Dashboard is built with Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel. Puja built the end-to-end pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it.',
           '',
           'Question: Tell me about the PostHog dashboard',
         ].join('\n'),
@@ -192,7 +222,7 @@ export async function createRewriter({
       {
         role: 'assistant',
         content:
-          'Puja built the PostHog Engineering Impact Dashboard with Python, Airflow, dbt, PostgreSQL, FastAPI, Redis, React, and Vercel. In the pipeline, Airflow pulls daily from GitHub, dbt shapes the data across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it.',
+          'Puja owned and built the end-to-end PostHog Engineering Impact Dashboard using Python, Airflow, dbt, PostgreSQL, FastAPI, Redis, React, and Vercel. In the pipeline, Airflow pulls daily from GitHub, dbt transforms the data across six models, FastAPI serves it with Redis hit/miss caching, and a React dashboard renders the metrics.',
       },
       {
         role: 'user',
@@ -318,6 +348,13 @@ export function verifyGrounded({ candidate, contextText, extractiveText, query, 
   if (!/[.!?]["')]?$/.test(bodyCandidate)) {
     return { ok: false, reason: 'incomplete-sentence' };
   }
+  const candSentences = splitSentences(bodyCandidate);
+  if (candSentences.length > 4 && !(candSentences.length === 5 && candSentences.some(s => s.length < 80))) {
+    return { ok: false, reason: 'too-many-sentences' };
+  }
+  if ((candidate.match(/In Puja's words:/g) || []).length > 1) {
+    return { ok: false, reason: 'multiple-quotes' };
+  }
   if (PRONOUN_RE.test(bodyCandidate)) {
     return { ok: false, reason: 'contains-pronoun' };
   }
@@ -326,6 +363,12 @@ export function verifyGrounded({ candidate, contextText, extractiveText, query, 
   const candidateLower = candidate.toLowerCase();
   const bodyLower = bodyCandidate.toLowerCase();
   const contextStems = new Set(tokenize(contextLower));
+
+  // Reject inflated seniority titles that do not appear in the source context.
+  const seniorityMatch = bodyLower.match(/\b(senior|staff|principal|director|vp|chief|manager)\b/);
+  if (seniorityMatch && !contextLower.includes(seniorityMatch[1])) {
+    return { ok: false, reason: `inflated-seniority:${seniorityMatch[1]}` };
+  }
 
   // 1. Every number in the candidate body must appear in the context.
   const candidateNums = bodyLower.match(/\b\d+(?:\.\d+)?%?\b/g) || [];

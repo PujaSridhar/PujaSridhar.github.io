@@ -280,8 +280,14 @@ async function generateWithOllama(model, query, contextText) {
       messages: [
         {
           role: 'system',
-          content:
-            "You are Cogsworth, the assistant for Puja Sridhar's portfolio. Rewrite the Context into 1-3 factual sentences answering the Question. Use ONLY facts from the Context, keep all technical terms verbatim, and refer to Puja as 'Puja' or 'Puja's' (no pronouns).",
+          content: [
+            "You are Cogsworth, the assistant for Puja Sridhar's portfolio.",
+            'Write in a professional, concise senior-engineer summary voice (2-4 sentences at most):',
+            "1. Lead with outcome, scope, and Puja's ownership.",
+            '2. Name 1-2 key technical decisions (tools, architecture, metrics) copied verbatim from the Context.',
+            '3. Use no slang or hype in your own words, and never inflate seniority or invent impact outside the Context.',
+            '4. Always use "Puja" or "Puja\'s" (never "she", "her", "I", or "my").',
+          ].join(' '),
         },
         {
           role: 'user',

@@ -359,28 +359,27 @@ export function createEngine(
     return null;
   }
 
+  const COMMENTARY_SENTENCE_RE = /^(So I answered it directly\.|The interesting part wasn't the stack\.|It was deciding what to measure and why\.|That's a different kind of understanding than passing a course\.|Good reminder that the model selection process matters as much as the model itself\.|That's the part of AI development most people skip\.|We didn't\.|The parallelism isn't a flex:|Not simulated\.|Not faked\.|No static data\.|No pre-curated lists\.|It shipped\.|It worked\.|It's still live\.|There's no map\.|No categories\.|No way to just know what's been happening nearby\.|Solo\.|One sprint\.|No teammates to blame if it broke\.)$/i;
+
   const structured = {
-    greeting: () => "Hi, I'm Cogsworth, Puja's portfolio assistant. Ask me about Puja's projects, experience, education, skills, hackathons, or how to get in touch.",
+    greeting: () =>
+      "I'm Cogsworth, Puja Sridhar's portfolio assistant. Ask about Puja's projects, engineering experience, technical decisions, education, hackathons, or contact details.",
     pitch: () => {
       const featured = data.projects.filter(p => p.featured).map(p => p.name).join(', ');
       const roles = data.experience.slice(0, 3).map(e => `${e.role} at ${e.company}`).join(', ');
       const deg = data.education[0];
-      const skillSummary = Object.entries(data.skills)
-        .map(([cat, list]) => `${cat} (${list.slice(0, 4).join(', ')})`)
-        .join('; ');
       return [
-        'Why hire Puja:',
-        `**Education:** ${deg.degree} at ${deg.school} (${deg.details}).`,
-        `**Experience:** Hands-on roles including ${roles} — building LLM validation and safety frameworks, serverless AWS pipelines, and production ML systems.`,
-        `**Featured projects:** ${featured}.`,
-        `**Technical skills:** ${skillSummary}.`,
-      ].join('\n');
+        `Puja holds a ${deg.degree} from ${deg.school} (${deg.details}) and has delivered production AI and data systems as ${roles}.`,
+        `Across featured projects (${featured}), Puja owns end-to-end architecture in Python, C, SQL, and React — including Airflow/dbt/PostgreSQL/FastAPI pipelines, parallel multi-agent LLM orchestration, Redis vector search and semantic caching, and WebAssembly systems.`,
+      ].join(' ');
     },
     featured_projects: () => {
       const featured = data.projects.filter(p => p.featured);
-      return "Puja's featured (strongest) portfolio projects:\n" +
-        featured.map(p => `**${p.name}** (${p.date}): ${p.tech}${p.tagline ? ` — ${p.tagline}` : ''}`).join('\n') +
-        '\nAsk about any of them for details.';
+      return (
+        "Puja's featured projects (owned end-to-end):\n" +
+        featured.map(p => `**${p.name}** (${p.date}): ${p.tech}`).join('\n') +
+        '\nKey technical decisions include Airflow/dbt/FastAPI/Redis analytics across six models (PostHog), two-stage Groq intent and vibe scoring (LocalLens), five parallel contract-analysis agents finishing in 15–25 seconds (LexAI), real-time Leaflet incident mapping with ElevenLabs/pydub briefings (AI Neighborhood Watch), and single-instance Redis event streaming, vector search, and semantic caching (Smart Doc Finder).'
+      );
     },
     contact: () => `You can reach Puja at:\n**Email:** ${data.contact.email}\n**LinkedIn:** ${data.contact.linkedin}\n**GitHub:** ${data.contact.github}`,
     skills: () => 'Puja\'s skills by area:\n' + Object.entries(data.skills).map(([category, list]) => `**${category}:** ${list.join(', ')}`).join('\n'),
@@ -390,13 +389,17 @@ export function createEngine(
     education: () => 'Puja\'s education:\n' + data.education.map(e => `**${e.degree}**, ${e.school}. ${e.details}`).join('\n'),
     availability: () => {
       const sentences = splitSentences(data.about).filter(s => /^(Based in|Looking for)/.test(s));
-      return `In Puja's words: "${sentences.join(' ')}"`;
+      return `Puja is based in San Jose and is open to AI Engineering, Data Engineering, ML Engineering, or SWE roles. In Puja's words: "${sentences.join(' ')}"`;
     },
     hackathons: () => 'Puja\'s hackathons:\n' + data.hackathons.map(h => `**${h.name}** (${h.date}, ${h.team})`).join('\n') + '\nAsk about any of them for details.',
     projects: () => 'Puja\'s projects:\n' + data.projects.map(p => `**${p.name}** (${p.date}): ${p.tech}`).join('\n') + '\nAsk about any of them for details.',
     experience: () => 'Puja\'s experience:\n' + data.experience.map(e => `**${e.role}**, ${e.company} (${e.period})`).join('\n') + '\nAsk about any role for details.',
     leadership: () => 'Puja\'s leadership roles:\n' + data.leadership.map(l => `**${l.role}**, ${l.org} (${l.period})`).join('\n'),
-    about: () => `In Puja's words: "${splitSentences(data.about).slice(0, 2).join(' ')}"\n` + structured.availability().replace("In Puja's words: ", ''),
+    about: () => [
+      'Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles.',
+      'Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly.',
+      'In Puja\'s words: "I care about the decisions underneath the code."',
+    ].join(' '),
   };
 
   // Steps 2–4 for open questions: retrieve chunks with BM25 + optional cosine similarity
@@ -475,7 +478,8 @@ export function createEngine(
         } else if (SUBSTANCE_RE.test(sentence)) {
           score += 0.6;
         }
-        if (sentence.length < 30) score *= 0.5;
+        if (COMMENTARY_SENTENCE_RE.test(sentence.trim())) score *= 0.25;
+        else if (sentence.length < 30) score *= 0.5;
         candidates.push({ sentence, score, rank, position, chunkId: result.doc.id, chunk: result.doc.meta });
       });
     });
@@ -513,9 +517,23 @@ export function createEngine(
 
     const groups = new Map();
     for (const item of picked) groups.set(item.chunk.title, [...(groups.get(item.chunk.title) || []), item.sentence]);
-    const text = [...groups].map(([title, sentences]) => {
-      const body = sentences.join(' ');
-      return FIRST_PERSON.test(body) ? `**${title}**\nIn Puja's words: "${body}"` : `**${title}**\n${body}`;
+    const groupEntries = [...groups];
+    let quoteEmitted = false;
+    const text = groupEntries.map(([title, sentences], idx) => {
+      const thirdPersonSents = sentences.filter(s => !FIRST_PERSON.test(s));
+      const firstPersonSents = sentences.filter(s => FIRST_PERSON.test(s));
+      const isLastWithQuote =
+        firstPersonSents.length > 0 &&
+        !quoteEmitted &&
+        groupEntries.slice(idx + 1).every(([, sents]) => sents.every(s => !FIRST_PERSON.test(s)));
+      if (isLastWithQuote) {
+        quoteEmitted = true;
+        const quotePart = `In Puja's words: "${firstPersonSents.join(' ')}"`;
+        const body = thirdPersonSents.length ? `${thirdPersonSents.join(' ')} ${quotePart}` : quotePart;
+        return `**${title}**\n${body}`;
+      }
+      const body = thirdPersonSents.length ? thirdPersonSents.join(' ') : sentences.join(' ');
+      return `**${title}**\n${body}`;
     }).join('\n\n');
     return { text, typedTerms };
   }
