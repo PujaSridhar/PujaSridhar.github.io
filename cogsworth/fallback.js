@@ -29,9 +29,11 @@ const UNAVAILABLE =
   "Puja's contact details, skills, education, and lists of projects, roles, and hackathons.\n" +
   `For anything else, reach Puja directly:\n**Email:** ${contact.email}\n**LinkedIn:** ${contact.linkedin}`;
 
-const engine = createEngine(portfolioData);
+// No answer cache: every answer is rebuilt from portfolio-data.js, so an edit there (a new
+// email, a new skill) can never be contradicted by a stale cached entry.
+const engine = createEngine(portfolioData, { cache: [] });
 
 export function localFallbackAnswer(prompt, conversationHistory = []) {
-  const result = engine.answer(prompt, conversationHistory || []);
+  const result = engine.answer(prompt, conversationHistory || [], { useCache: false });
   return EXACT_INTENTS.has(result.intent) ? result.text : UNAVAILABLE;
 }
