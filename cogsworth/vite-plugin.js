@@ -4,6 +4,8 @@
 // the plain `npm run dev` proxy to Vercel are untouched.
 
 export function cogsworthLocal() {
+  let cachedRewriterPromise = null;
+
   return {
     name: 'cogsworth-local',
     apply: 'serve',
@@ -13,7 +15,7 @@ export function cogsworthLocal() {
         try {
           let body = '';
           for await (const chunk of req) body += chunk;
-          const { prompt, conversationHistory } = JSON.parse(body || '{}');
+          const { prompt, conversationHistory, neural } = JSON.parse(body || '{}');
           if (!prompt) {
             res.statusCode = 400;
             res.setHeader('Content-Type', 'application/json');
@@ -23,8 +25,28 @@ export function cogsworthLocal() {
           // ssrLoadModule picks up edits to portfolio-data.js and the engine without a restart.
           const { createEngine } = await server.ssrLoadModule('/cogsworth/engine.js');
           const { portfolioData } = await server.ssrLoadModule('/portfolio-data.js');
-          const result = createEngine(portfolioData).answer(prompt, conversationHistory || []);
-          server.config.logger.info(`[cogsworth] ${result.intent}${result.entity ? ` (${result.entity})` : ''}: ${prompt}`);
+
+          const useNeural = Boolean(neural || process.env.COGSWORTH_NEURAL === '1');
+          let rewriter = null;
+          if (useNeural) {
+            if (!cachedRewriterPromise) {
+              const { createRewriter } = await server.ssrLoadModule('/cogsworth/neural.js');
+              cachedRewriterPromise = createRewriter();
+            }
+            rewriter = await cachedRewriterPromise;
+          }
+
+          const engine = createEngine(portfolioData, { rewriter });
+          const result = useNeural
+            ? await engine.answerAsync(prompt, conversationHistory || [])
+            : engine.answer(prompt, conversationHistory || []);
+
+          const flags = [
+            result.entity ? `entity=${result.entity}` : null,
+            result.cached ? 'cached' : null,
+            result.rewritten ? 'neural' : null,
+          ].filter(Boolean).join(', ');
+          server.config.logger.info(`[cogsworth] ${result.intent}${flags ? ` (${flags})` : ''}: ${prompt}`);
 
           res.setHeader('Content-Type', 'text/plain; charset=utf-8');
           // Stream word by word so the terminal's typing effect behaves as it does with Gemini.

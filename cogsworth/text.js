@@ -60,7 +60,7 @@ const SYNONYM_GROUPS = [
   ['job', 'work', 'role', 'employ', 'experience', 'intern', 'internship', 'career', 'company', 'position'],
   ['school', 'study', 'degree', 'university', 'college', 'education', 'gpa', 'graduate', 'master', 'bachelor', 'ms'],
   ['project', 'build', 'built', 'app', 'made', 'create', 'portfolio'],
-  ['contact', 'email', 'reach', 'linkedin', 'github', 'touch'],
+  ['contact', 'email', 'reach', 'linkedin', 'github', 'touch', 'repo', 'repository'],
   ['skill', 'tech', 'stack', 'tool', 'technology', 'framework', 'proficient'],
   ['language', 'speak', 'spoken', 'fluent'],
   ['certification', 'certificate', 'certified', 'credential', 'accreditation', 'course'],

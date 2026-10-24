@@ -19,11 +19,14 @@ machine: no API keys, no network, no external services.
 | `text.js` | Tokenizer, stemmer, stopwords, synonym expansion, sentence splitter |
 | `bm25.js` | BM25 ranking index (replaces embeddings + Pinecone) |
 | `chunks.js` | Turns `portfolio-data.js` into searchable chunks and named entities (projects, companies, hackathons) |
-| `engine.js` | The pipeline: follow-up resolution → intent detection → retrieval → answer composition |
-| `cli.js` | Terminal chat (`npm run cogsworth -- --debug`) |
+| `answers.json` | Offline cache of ~170 reviewed visitor Q&A pairs grounded in `portfolio-data.js` |
+| `generate-cache.js` | Offline script (`npm run cogsworth:cache`) that builds `answers.json` using BM25 + `Qwen2.5-0.5B-Instruct` |
+| `neural.js` | Optional `Qwen2.5-0.5B-Instruct` rewriter via `transformers.js` (WebGPU/WASM) with strict grounding checks |
+| `engine.js` | The pipeline: follow-up resolution → cache match → intent detection → BM25 retrieval → answer composition |
+| `cli.js` | Terminal chat (`npm run cogsworth -- --debug`, `--neural` to enable `Qwen2.5-0.5B-Instruct`) |
 | `vite-plugin.js` | Serves `/api/chat` from the engine when running `npm run dev:local` |
 | `eval/questions.json` | Test questions with the facts each answer must contain |
-| `eval/run-eval.js` | Scores the engine; `--compare-prod` also scores live Gemini |
+| `eval/run-eval.js` | Scores BM25, Cache + BM25, and `Qwen2.5-0.5B-Instruct`; `--compare-prod` also scores live Gemini |
 | `engine.test.js` | Unit tests (Vitest) |
 
 ## Workflow for any change

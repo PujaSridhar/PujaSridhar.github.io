@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
+import cachedAnswers from './answers.json' with { type: 'json' };
 import { BM25Index } from './bm25.js';
 import { createEngine } from './engine.js';
+import { normalizeOutput, toThirdPerson, verifyGrounded } from './neural.js';
 import { expandQuery, splitSentences, stem, tokenize } from './text.js';
 import { portfolioData } from '../portfolio-data.js';
 
@@ -65,11 +67,72 @@ describe('engine', () => {
     expect(engine.answer('Who won the 2018 World Cup?').intent).toBe('unknown');
   });
 
-  it('only answers with sentences that exist in the portfolio', () => {
+  it('only answers with sentences that exist in the portfolio when using the BM25 fallback', () => {
     const corpus = engine.chunks.map(chunk => `${chunk.title} ${chunk.text}`).join(' ');
-    const { text } = engine.answer('How did she use Redis?');
+    const { text } = engine.answer('How did she use Redis?', [], { useCache: false });
     const quoted = text.split('\n').filter(line => !line.startsWith('**')).join(' ')
       .replace(/In Puja's words: "|"$/g, '');
     for (const sentence of splitSentences(quoted)) expect(corpus).toContain(sentence.replace(/"$/, ''));
+  });
+
+  it('matches reviewed questions from answers.json above the BM25 threshold and never crosses entities', () => {
+    expect(cachedAnswers.length).toBeGreaterThanOrEqual(150);
+    const hit = engine.answer('What tech does LocalLens use?');
+    expect(hit.cached).toBe(true);
+    expect(hit.entity).toBe('LocalLens');
+    expect(hit.text).toContain('Groq');
+
+    const miss = engine.answer('Does she know Rust or Elixir?');
+    expect(miss.cached).toBe(false);
+  });
+});
+
+describe('neural grounding guard', () => {
+  it('converts first-person portfolio sentences into third-person with Puja / Puja\'s', () => {
+    const converted = normalizeOutput(toThirdPerson('In Puja\'s words: "I built my pipeline and designed the formula myself."'));
+    expect(converted).toBe("Puja built Puja's pipeline and designed the formula.");
+  });
+
+  it('rejects invented numbers, pronouns, and ungrounded proper nouns', () => {
+    const context = 'Puja built Credit Card Fraud Detection with Python, Scikit-learn, Isolation Forest.';
+    expect(
+      verifyGrounded({
+        candidate: 'In Credit Card Fraud Detection, Isolation Forest won.',
+        contextText: context,
+        extractiveText: context,
+        query: 'Which model won in the fraud detection project?',
+        entity: { name: 'Credit Card Fraud Detection' },
+      }).ok
+    ).toBe(true);
+
+    expect(
+      verifyGrounded({
+        candidate: 'In Credit Card Fraud Detection, Isolation Forest won with 99% accuracy.',
+        contextText: context,
+        extractiveText: context,
+        query: 'Which model won in the fraud detection project?',
+        entity: { name: 'Credit Card Fraud Detection' },
+      }).reason
+    ).toContain('invented-number');
+
+    expect(
+      verifyGrounded({
+        candidate: 'She built Credit Card Fraud Detection with Isolation Forest.',
+        contextText: context,
+        extractiveText: context,
+        query: 'Which model won in the fraud detection project?',
+        entity: { name: 'Credit Card Fraud Detection' },
+      }).reason
+    ).toBe('contains-pronoun');
+
+    expect(
+      verifyGrounded({
+        candidate: 'Puja built Credit Card Fraud Detection with PyTorch and Isolation Forest.',
+        contextText: context,
+        extractiveText: context,
+        query: 'Which model won in the fraud detection project?',
+        entity: { name: 'Credit Card Fraud Detection' },
+      }).reason
+    ).toContain('invented-proper-noun');
   });
 });

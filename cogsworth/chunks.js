@@ -21,7 +21,7 @@ export function buildChunks(data) {
     proj.desc.forEach(paragraph => push('projects', proj.name, `Project: ${proj.name}`, paragraph));
   });
   data.hackathons.forEach(h => push('hackathons', h.name, `Hackathon: ${h.name} (${h.date})`, h.desc));
-  data.leadership.forEach(lead => push('leadership', lead.role, `${lead.role} at ${lead.org}`, lead.points.join(' ')));
+  data.leadership.forEach(lead => push('leadership', lead.role, `Leadership: ${lead.role} at ${lead.org}`, lead.points.join(' ')));
   data.talks.forEach(talk => push('talks', talk.title, 'Talks', `Talk "${talk.title}" at ${talk.venue}.`));
   data.certifications.forEach(cert => push('certifications', cert.name, 'Certifications', `Certification "${cert.name}" from ${cert.issuer}.`));
   Object.entries(data.skills).forEach(([category, list]) =>
@@ -40,7 +40,22 @@ export function buildEntities(data) {
 
   data.projects.forEach(p => add(p.name, [p.name, p.slug, p.name.replace(/\s*\(.*\)/, '')]));
   // Roles also match on their last two words: "teaching assistant", "engineering intern".
-  data.experience.forEach(e => add(e.company, [e.company, e.company.split(/[\s(-]/)[0], e.role, e.role.split(' ').slice(-2).join(' ')]));
+  data.experience.forEach(e => {
+    const baseCompany = e.company.replace(/\s*\(.*\)/, '').trim();
+    const parenMatch = e.company.match(/\(([^)]+)\)/);
+    const domainPrefix = baseCompany.split('.')[0];
+    const extra = e.company.includes('HumanFractal') ? ['filomena'] : [];
+    add(e.company, [
+      e.company,
+      baseCompany,
+      domainPrefix,
+      ...(parenMatch ? [parenMatch[1]] : []),
+      e. company.split(/[\s(-]/)[0],
+      e.role,
+      e.role.split(' ').slice(-2).join(' '),
+      ...extra,
+    ]);
+  });
   data.hackathons.forEach(h => add(h.name, [h.name, h.name.replace(/\s*\(.*\)/, '')]));
   data.education.forEach(e => add(e.school, [e.school, e.school.split(',')[0]]));
   data.leadership.forEach(l => add(l.role, [l.role]));
