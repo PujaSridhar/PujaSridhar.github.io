@@ -37,9 +37,8 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
+        const { prompt, conversationHistory } = req.body || {};
         try {
-            const { prompt, conversationHistory } = req.body;
-
             if (!prompt) {
                 return res.status(400).json({ error: 'Prompt is required' });
             }
@@ -114,7 +113,17 @@ export default async function handler(req, res) {
             console.error('Error in RAG pipeline:', error);
             if (res.headersSent) {
                 res.end();
-            } else {
+                return;
+            }
+            // Gemini or Pinecone failed (e.g. quota exhausted): answer from the local engine,
+            // which only serves answers built directly from portfolio-data.js. Loaded lazily
+            // so a problem in it can never affect the normal Gemini path.
+            try {
+                const { localFallbackAnswer } = await import('../cogsworth/fallback.js');
+                res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+                res.status(200).send(localFallbackAnswer(prompt, conversationHistory));
+            } catch (fallbackError) {
+                console.error('Local fallback failed:', fallbackError);
                 res.status(500).json({ error: 'An internal server error occurred.' });
             }
         }

@@ -1,0 +1,9 @@
+[
+  { "q": "Has Puja done anything in healthcare?", "contains": ["RWJ", "Filomena"] },
+  { "q": "What frontend frameworks does she use?", "contains": ["React"] },
+  { "q": "Is Puja good with databases?", "contains": ["PostgreSQL", "Redis", "MongoDB", "Pinecone"] },
+  { "q": "Is Puja a US citizen?", "outOfScope": true },
+  { "q": "What’s Cogsworth?", "contains": ["Cogsworth", "portfolio assistant"] },
+  { "q": "Why should I hire Puja?", "contains": ["Rutgers", "Pennant Education", "PostHog", "Python"] },
+  { "q": "What’s her strongest project?", "contains": ["PostHog Engineering Impact Dashboard", "LocalLens", "LexAI", "AI Neighborhood Watch", "Smart Doc Finder"] }
+]

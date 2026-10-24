@@ -1,0 +1,21 @@
+[
+  { "q": "Has she used React?", "contains": ["Yes.", "React", "Web & API", "LocalLens", "Smart Doc Finder"] },
+  { "q": "Does she know FastAPI?", "contains": ["Yes.", "FastAPI", "Web & API", "PostHog Engineering Impact Dashboard", "LocalLens"] },
+  { "q": "Has she used WebAssembly?", "contains": ["Yes.", "WebAssembly", "Systems", "Systems Sandbox"] },
+  { "q": "Has she used Docker?", "contains": ["Yes.", "Docker", "Cloud & Infra", "Smart Doc Finder"] },
+  { "q": "What databases does she know?", "contains": ["PostgreSQL", "Redis", "MongoDB", "Pinecone", "SQL", "Smart Doc Finder"] },
+  { "q": "What frontend frameworks has she used?", "contains": ["React", "Vite", "Web & API", "LocalLens"] },
+  { "q": "Where has she spoken?", "contains": ["Traffic Management Using AI", "BMS Institute of Technology"] },
+  { "q": "Which venues has she spoken at?", "contains": ["BMS Institute of Technology", "Traffic Management Using AI"] },
+  { "q": "How fast does LexAI finish analyzing a contract?", "contains": ["15–25 seconds"] },
+  { "q": "Can you explain the AI Neighborhood Watch project?", "contains": ["Leaflet", "Gemini", "ElevenLabs", "Ava", "Mateo"] },
+  { "q": "What did Puja build for AI Neighborhood Watch?", "contains": ["Leaflet", "ElevenLabs", "pydub"] },
+  { "q": "What did Puja work on during her Pennant Education internship?", "contains": ["UiPath", "grading", "UAE"] },
+  { "q": "How did Puja use UiPath at Pennant Education?", "contains": ["UiPath", "grading", "UAE"] },
+  { "q": "What did Puja do to make Filomena trustworthy?", "contains": ["nutritionist", "nurses", "medical professional"] },
+  { "q": "What is Multilingual Health Misinformation Detection?", "contains": ["Transformer", "languages", "monolingual"] },
+  { "q": "How does Multilingual Health Misinformation Detection flag false claims?", "contains": ["Transformer", "languages", "monolingual"] },
+  { "q": "What are the C demos in the Systems Sandbox project?", "contains": ["WebAssembly", "free-list memory allocator", "mini shell", "round-robin thread scheduler"] },
+  { "q": "Does she have experience with AWS?", "contains": ["Yes.", "AWS (Lambda, EC2, S3, DynamoDB)", "Cloud & Infra", "RWJ Health Hackathon"] },
+  { "q": "Did Puja earn any DeepLearning.AI or Coursera certificates?", "contains": ["AI for Everyone", "DeepLearning.AI", "University of Michigan"] }
+]

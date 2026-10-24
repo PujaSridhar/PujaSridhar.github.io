@@ -1,0 +1,8 @@
+[
+  { "q": "What did Puja teach?", "contains": ["object-oriented"] },
+  { "q": "Did Puja ever work on a team?", "contains": ["RWJ"] },
+  { "q": "What did the grader job involve?", "contains": ["graph search"] },
+  { "q": "Has Puja won any hackathons?", "contains": ["RWJ Health Hackathon", "HackRU", "Redis Hackathon"], "forbids": ["won"] },
+  { "q": "Tell me about her machine learning work", "contains": ["Multilingual Health Misinformation Detection", "Emotion Detection from Facial Expressions", "Sentiment Analysis of Movie Reviews", "Credit Card Fraud Detection"] },
+  { "q": "What does Puja do outside of work?", "outOfScope": true }
+]

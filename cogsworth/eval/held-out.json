@@ -1,0 +1,42 @@
+[
+  { "q": "Hey there!", "contains": ["Cogsworth"] },
+  { "q": "What city is Puja currently living in?", "contains": ["San Jose"] },
+  { "q": "How do I send Puja an email?", "contains": ["pujasridhar28@gmail.com"] },
+  { "q": "Where can I see Puja's code repositories?", "contains": ["github.com/pujasridhar"] },
+  { "q": "What university did Puja attend in New Jersey?", "contains": ["Rutgers"] },
+  { "q": "What was Puja's undergraduate GPA in India?", "contains": ["8.64"] },
+  { "q": "Can Puja speak Telugu or Hindi?", "contains": ["Telugu", "Hindi"] },
+  { "q": "Which Oracle certification did Puja earn?", "contains": ["Oracle Cloud Infrastructure"] },
+  { "q": "What talk did Puja deliver in Spring 2023?", "contains": ["Traffic Management Using AI"] },
+  { "q": "By what percentage did Puja reduce operational expenses as Finance Head?", "contains": ["15%"] },
+  { "q": "How many classmates did Puja represent as Class Representative?", "contains": ["60"] },
+  { "q": "What voices are used for the morning podcast in AI Neighborhood Watch?", "contains": ["Ava", "Mateo"] },
+  { "q": "How many dbt models are in the PostHog Engineering Impact Dashboard?", "contains": ["six"] },
+  { "q": "How many seconds does LexAI take to finish a contract analysis?", "contains": ["15–25 seconds"] },
+  { "q": "Which database besides Redis is used in Smart Doc Finder?", "contains": ["MongoDB"] },
+  { "q": "What terminal commands run the WebAssembly demos in Systems Sandbox?", "contains": ["sys --alloc", "sys --shell", "sys --threads"] },
+  { "q": "What pathfinding algorithm did Puja use in the alien ship rescue project?", "contains": ["A-Star"] },
+  { "q": "Which graph library did Puja use for the Independent Set to Clique reduction?", "contains": ["NetworkX"] },
+  { "q": "What dataset was the facial emotion recognition CNN trained on?", "contains": ["FER-2013"] },
+  { "q": "What accuracy did Naive Bayes get on the movie review dataset?", "contains": ["95%"] },
+  { "q": "What accuracy did Random Forest achieve at Exposys Data Labs?", "contains": ["96%"] },
+  { "q": "How many alumni contacts did Puja coordinate outreach for at Vaave?", "contains": ["200+"] },
+  {
+    "q": "Which authentication service did they use on top of it?",
+    "history": [
+      { "role": "user", "text": "What was the RWJ Health Hackathon about?" },
+      { "role": "assistant", "text": "They built a cross-platform AI chat app for care coordination." }
+    ],
+    "contains": ["Cognito"]
+  },
+  {
+    "q": "Who did she sit down with before writing prompts for it?",
+    "history": [
+      { "role": "user", "text": "What is Filomena?" },
+      { "role": "assistant", "text": "Filomena helps patients navigate medications and treatment questions." }
+    ],
+    "contains": ["nutritionist", "nurses"]
+  },
+  { "q": "What is the capital of Australia?", "outOfScope": true },
+  { "q": "Can you book me a flight to New York?", "outOfScope": true }
+]

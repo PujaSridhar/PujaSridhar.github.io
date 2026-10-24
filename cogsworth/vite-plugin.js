@@ -1,0 +1,73 @@
+// cogsworth/vite-plugin.js
+// Dev-only: serves POST /api/chat from the local engine so the real terminal UI
+// can be tried against it. Enabled by `npm run dev:local`; production builds and
+// the plain `npm run dev` proxy to Vercel are untouched.
+
+export function cogsworthLocal() {
+  let cachedRewriterPromise = null;
+  let cachedEmbedderPromise = null;
+
+  return {
+    name: 'cogsworth-local',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/chat', async (req, res, next) => {
+        if (req.method !== 'POST') return next();
+        try {
+          let body = '';
+          for await (const chunk of req) body += chunk;
+          const { prompt, conversationHistory, neural } = JSON.parse(body || '{}');
+          if (!prompt) {
+            res.statusCode = 400;
+            res.setHeader('Content-Type', 'application/json');
+            return res.end(JSON.stringify({ error: 'Prompt is required' }));
+          }
+
+          // ssrLoadModule picks up edits to portfolio-data.js and the engine without a restart.
+          const { createEngine } = await server.ssrLoadModule('/cogsworth/engine.js');
+          const { portfolioData } = await server.ssrLoadModule('/portfolio-data.js');
+
+          if (!cachedEmbedderPromise) {
+            const { createEmbedder } = await server.ssrLoadModule('/cogsworth/embeddings.js');
+            cachedEmbedderPromise = createEmbedder().catch(() => null);
+          }
+          const embedder = await cachedEmbedderPromise;
+
+          const useNeural = Boolean(neural || process.env.COGSWORTH_NEURAL === '1');
+          let rewriter = null;
+          if (useNeural) {
+            if (!cachedRewriterPromise) {
+              const { createRewriter } = await server.ssrLoadModule('/cogsworth/neural.js');
+              cachedRewriterPromise = createRewriter().catch(() => null);
+            }
+            rewriter = await cachedRewriterPromise;
+          }
+
+          const engine = createEngine(portfolioData, { embedder, rewriter });
+          const result = (useNeural || embedder)
+            ? await engine.answerAsync(prompt, conversationHistory || [])
+            : engine.answer(prompt, conversationHistory || []);
+
+          const flags = [
+            result.entity ? `entity=${result.entity}` : null,
+            result.cached ? 'cached' : null,
+            result.rewritten ? 'neural' : null,
+          ].filter(Boolean).join(', ');
+          server.config.logger.info(`[cogsworth] ${result.intent}${flags ? ` (${flags})` : ''}: ${prompt}`);
+
+          res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+          // Stream word by word so the terminal's typing effect behaves as it does with Gemini.
+          for (const piece of result.text.match(/\S+\s*/g) || []) {
+            res.write(piece);
+            await new Promise(resolve => setTimeout(resolve, 12));
+          }
+          res.end();
+        } catch (error) {
+          server.config.logger.error(`[cogsworth] ${error.stack}`);
+          if (!res.headersSent) res.statusCode = 500;
+          res.end();
+        }
+      });
+    },
+  };
+}

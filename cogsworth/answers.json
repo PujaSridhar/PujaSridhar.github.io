@@ -1,0 +1,1911 @@
+[
+  {
+    "q": "Hi",
+    "a": "I'm Cogsworth, Puja Sridhar's portfolio assistant. Ask about Puja's projects, engineering experience, technical decisions, education, hackathons, or contact details.",
+    "intent": "greeting",
+    "entity": null,
+    "sources": [
+      "greeting"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Hello",
+    "a": "I'm Cogsworth, Puja Sridhar's portfolio assistant. Ask about Puja's projects, engineering experience, technical decisions, education, hackathons, or contact details.",
+    "intent": "greeting",
+    "entity": null,
+    "sources": [
+      "greeting"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Who is Puja?",
+    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "intent": "about",
+    "entity": null,
+    "sources": [
+      "about"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about Puja",
+    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "intent": "about",
+    "entity": null,
+    "sources": [
+      "about"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Give me a quick summary of Puja's background",
+    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "intent": "about",
+    "entity": null,
+    "sources": [
+      "about"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "What is Puja's background?",
+    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "intent": "about",
+    "entity": null,
+    "sources": [
+      "about"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Introduce Puja Sridhar",
+    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "intent": "about",
+    "entity": null,
+    "sources": [
+      "about"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "What does Puja do?",
+    "a": "I don't have that information in Puja's portfolio. Try asking about projects, experience, education, skills, hackathons, or how to get in touch.",
+    "intent": "about",
+    "entity": null,
+    "sources": [
+      "about"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "What is Puja passionate about building?",
+    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "intent": "about",
+    "entity": null,
+    "sources": [
+      "about"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about yourself",
+    "a": "Puja holds an MS in Computer Science from Rutgers University (3.8/4.0 GPA) and a BE in Artificial Intelligence and Machine Learning from BMS Institute of Technology and Management in India (8.64/10.0 GPA), and is based in San Jose targeting AI Engineering, Data Engineering, ML Engineering, or SWE roles. Puja owns end-to-end architecture across data pipelines (Airflow, dbt, FastAPI, Redis on PostHog), multi-agent LLM systems (five parallel contract agents in LexAI, Groq intent routing in LocalLens), and low-level C systems compiled to WebAssembly. In Puja's words: \"I care about the decisions underneath the code.\"",
+    "intent": "about",
+    "entity": null,
+    "sources": [
+      "about"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Where is she based?",
+    "a": "Puja is based in San Jose and is open to AI Engineering, Data Engineering, ML Engineering, or SWE roles. In Puja's words: \"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
+    "intent": "availability",
+    "entity": null,
+    "sources": [
+      "availability"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Where does Puja live?",
+    "a": "Puja is based in San Jose and is open to AI Engineering, Data Engineering, ML Engineering, or SWE roles. In Puja's words: \"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
+    "intent": "availability",
+    "entity": null,
+    "sources": [
+      "availability"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "What is Puja's current location?",
+    "a": "Puja is based in San Jose and is open to AI Engineering, Data Engineering, ML Engineering, or SWE roles. In Puja's words: \"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
+    "intent": "availability",
+    "entity": null,
+    "sources": [
+      "availability"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "What kind of roles is she looking for?",
+    "a": "Puja is based in San Jose and is open to AI Engineering, Data Engineering, ML Engineering, or SWE roles. In Puja's words: \"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
+    "intent": "availability",
+    "entity": null,
+    "sources": [
+      "availability"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Is Puja open to new roles?",
+    "a": "Puja is based in San Jose and is open to AI Engineering, Data Engineering, ML Engineering, or SWE roles. In Puja's words: \"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
+    "intent": "availability",
+    "entity": null,
+    "sources": [
+      "availability"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Is she available for hire?",
+    "a": "Puja is based in San Jose and is open to AI Engineering, Data Engineering, ML Engineering, or SWE roles. In Puja's words: \"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
+    "intent": "availability",
+    "entity": null,
+    "sources": [
+      "availability"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "What positions is Puja interested in?",
+    "a": "Puja is based in San Jose and is open to AI Engineering, Data Engineering, ML Engineering, or SWE roles. In Puja's words: \"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
+    "intent": "availability",
+    "entity": null,
+    "sources": [
+      "availability"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Is Puja looking for full-time opportunities?",
+    "a": "Puja is based in San Jose and is open to AI Engineering, Data Engineering, ML Engineering, or SWE roles. In Puja's words: \"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
+    "intent": "availability",
+    "entity": null,
+    "sources": [
+      "availability"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Is she open to AI Engineering or Data Engineering roles?",
+    "a": "**AI Engineering Intern at Pennant Education (July 2025 - September 2025)**\nMy first real taste of building AI that has to work inside someone else's constraints, not a clean dataset, not a controlled environment, but actual educational workflows with actual stakes. In Puja's words: \"I built agentic RPA solutions in UiPath to automate grading and internal workflows, work that held up well enough to be shaped into a submission for a UAE government-backed startup hackathon, where shortlisted projects got fully funded to build out their vision. I also contributed to an adaptive assessment platform that adjusted to how students were actually learning, and explored how IBM Watson fit into the broader picture. The thing I kept learning: automation is only as smart as the decisions you make about what to automate, and who it's actually for.\"",
+    "intent": "availability",
+    "entity": null,
+    "sources": [
+      "availability"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Where is she located right now?",
+    "a": "Puja is based in San Jose and is open to AI Engineering, Data Engineering, ML Engineering, or SWE roles. In Puja's words: \"Based in San Jose. Looking for roles in AI Engineering, Data Engineering, ML Engineering, or SWE, anywhere intelligence and infrastructure actually have to talk to each other.\"",
+    "intent": "availability",
+    "entity": null,
+    "sources": [
+      "availability"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "How can I contact Puja?",
+    "a": "You can reach Puja at:\n**Email:** pujasridhar28@gmail.com\n**LinkedIn:** https://www.linkedin.com/in/pujasridhar/\n**GitHub:** https://github.com/pujasridhar",
+    "intent": "contact",
+    "entity": null,
+    "sources": [
+      "contact"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "How can I reach out to Puja?",
+    "a": "You can reach Puja at:\n**Email:** pujasridhar28@gmail.com\n**LinkedIn:** https://www.linkedin.com/in/pujasridhar/\n**GitHub:** https://github.com/pujasridhar",
+    "intent": "contact",
+    "entity": null,
+    "sources": [
+      "contact"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What is Puja's email address?",
+    "a": "You can reach Puja at:\n**Email:** pujasridhar28@gmail.com\n**LinkedIn:** https://www.linkedin.com/in/pujasridhar/\n**GitHub:** https://github.com/pujasridhar",
+    "intent": "contact",
+    "entity": null,
+    "sources": [
+      "contact"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What's her LinkedIn?",
+    "a": "You can reach Puja at:\n**Email:** pujasridhar28@gmail.com\n**LinkedIn:** https://www.linkedin.com/in/pujasridhar/\n**GitHub:** https://github.com/pujasridhar",
+    "intent": "contact",
+    "entity": null,
+    "sources": [
+      "contact"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What is Puja's GitHub?",
+    "a": "You can reach Puja at:\n**Email:** pujasridhar28@gmail.com\n**LinkedIn:** https://www.linkedin.com/in/pujasridhar/\n**GitHub:** https://github.com/pujasridhar",
+    "intent": "contact",
+    "entity": null,
+    "sources": [
+      "contact"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "How do I get in touch with her?",
+    "a": "You can reach Puja at:\n**Email:** pujasridhar28@gmail.com\n**LinkedIn:** https://www.linkedin.com/in/pujasridhar/\n**GitHub:** https://github.com/pujasridhar",
+    "intent": "contact",
+    "entity": null,
+    "sources": [
+      "contact"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Where can I find Puja's GitHub and LinkedIn links?",
+    "a": "You can reach Puja at:\n**Email:** pujasridhar28@gmail.com\n**LinkedIn:** https://www.linkedin.com/in/pujasridhar/\n**GitHub:** https://github.com/pujasridhar",
+    "intent": "contact",
+    "entity": null,
+    "sources": [
+      "contact"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Can you share Puja's contact details?",
+    "a": "You can reach Puja at:\n**Email:** pujasridhar28@gmail.com\n**LinkedIn:** https://www.linkedin.com/in/pujasridhar/\n**GitHub:** https://github.com/pujasridhar",
+    "intent": "contact",
+    "entity": null,
+    "sources": [
+      "contact"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Where did she do her masters?",
+    "a": "Puja's education:\n**Masters of Science in Computer Science**, Rutgers University, The State University of New Jersey. Graduated Jan 2026 | GPA: 3.8/4.0\n**Bachelor of Engineering in Artificial Intelligence and Machine Learning**, BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0",
+    "intent": "education",
+    "entity": null,
+    "sources": [
+      "education"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What was her GPA at Rutgers?",
+    "a": "Puja's education:\n**Masters of Science in Computer Science**, Rutgers University, The State University of New Jersey. Graduated Jan 2026 | GPA: 3.8/4.0\n**Bachelor of Engineering in Artificial Intelligence and Machine Learning**, BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0",
+    "intent": "education",
+    "entity": "Rutgers University - School of Communication and Information",
+    "sources": [
+      "education"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What did she study in undergrad?",
+    "a": "Puja's education:\n**Masters of Science in Computer Science**, Rutgers University, The State University of New Jersey. Graduated Jan 2026 | GPA: 3.8/4.0\n**Bachelor of Engineering in Artificial Intelligence and Machine Learning**, BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0",
+    "intent": "education",
+    "entity": null,
+    "sources": [
+      "education"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Tell me about Puja's education",
+    "a": "Puja's education:\n**Masters of Science in Computer Science**, Rutgers University, The State University of New Jersey. Graduated Jan 2026 | GPA: 3.8/4.0\n**Bachelor of Engineering in Artificial Intelligence and Machine Learning**, BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0",
+    "intent": "education",
+    "entity": null,
+    "sources": [
+      "education"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "When did Puja graduate from Rutgers?",
+    "a": "Puja's education:\n**Masters of Science in Computer Science**, Rutgers University, The State University of New Jersey. Graduated Jan 2026 | GPA: 3.8/4.0\n**Bachelor of Engineering in Artificial Intelligence and Machine Learning**, BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0",
+    "intent": "education",
+    "entity": "Rutgers University - School of Communication and Information",
+    "sources": [
+      "education"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Where did Puja go to university?",
+    "a": "Puja's education:\n**Masters of Science in Computer Science**, Rutgers University, The State University of New Jersey. Graduated Jan 2026 | GPA: 3.8/4.0\n**Bachelor of Engineering in Artificial Intelligence and Machine Learning**, BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0",
+    "intent": "education",
+    "entity": null,
+    "sources": [
+      "education"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What degree did Puja get at Rutgers University?",
+    "a": "Puja's education:\n**Masters of Science in Computer Science**, Rutgers University, The State University of New Jersey. Graduated Jan 2026 | GPA: 3.8/4.0\n**Bachelor of Engineering in Artificial Intelligence and Machine Learning**, BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0",
+    "intent": "education",
+    "entity": "Rutgers University",
+    "sources": [
+      "education"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Where did Puja complete her bachelor's degree?",
+    "a": "Puja's education:\n**Masters of Science in Computer Science**, Rutgers University, The State University of New Jersey. Graduated Jan 2026 | GPA: 3.8/4.0\n**Bachelor of Engineering in Artificial Intelligence and Machine Learning**, BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0",
+    "intent": "education",
+    "entity": null,
+    "sources": [
+      "education"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What was Puja's undergrad GPA?",
+    "a": "Puja's education:\n**Masters of Science in Computer Science**, Rutgers University, The State University of New Jersey. Graduated Jan 2026 | GPA: 3.8/4.0\n**Bachelor of Engineering in Artificial Intelligence and Machine Learning**, BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0",
+    "intent": "education",
+    "entity": null,
+    "sources": [
+      "education"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "When did Puja finish her undergrad in India?",
+    "a": "**About Puja**\nIn Puja's words: \"My MS is from Rutgers, my undergrad in AI/ML is from India, but my actual education happened somewhere between watching five agents split a contract analysis into parallel threads and finish in 15 seconds, and asking myself why Redis was sitting there doing one job when it could clearly handle three.\"",
+    "intent": "retrieval",
+    "entity": null,
+    "sources": [
+      "About Puja",
+      "Education: BMS Institute of Technology and Management, India"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Does Puja have a master's degree in Computer Science?",
+    "a": "Puja's education:\n**Masters of Science in Computer Science**, Rutgers University, The State University of New Jersey. Graduated Jan 2026 | GPA: 3.8/4.0\n**Bachelor of Engineering in Artificial Intelligence and Machine Learning**, BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0",
+    "intent": "education",
+    "entity": null,
+    "sources": [
+      "education"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What schools did Puja attend?",
+    "a": "Puja's education:\n**Masters of Science in Computer Science**, Rutgers University, The State University of New Jersey. Graduated Jan 2026 | GPA: 3.8/4.0\n**Bachelor of Engineering in Artificial Intelligence and Machine Learning**, BMS Institute of Technology and Management, India. Graduated May 2023 | GPA: 8.64/10.0",
+    "intent": "education",
+    "entity": null,
+    "sources": [
+      "education"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What are her skills?",
+    "a": "Puja's skills by area:\n**Languages:** Python, C, SQL, JavaScript, Bash\n**AI & ML:** LLMs, Agentic Pipelines, NLP, Computer Vision, Deep Learning, Transformers, RAG, Vector Search, Prompt Engineering\n**Data Engineering:** Apache Airflow, dbt, PostgreSQL, Redis, MongoDB, Pinecone, ETL/ELT, Data Modeling, Medallion Architecture\n**Systems:** WebAssembly, Emscripten, Memory Allocators, C Systems Programming, WASM ABI\n**Web & API:** FastAPI, Flask, React, Vite, Vercel Serverless, REST APIs\n**Cloud & Infra:** AWS (Lambda, EC2, S3, DynamoDB), Docker, GitHub Actions, CI/CD\n**Tools:** Git, UiPath, Tableau, TensorFlow, Keras, Scikit-learn",
+    "intent": "skills",
+    "entity": null,
+    "sources": [
+      "skills"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What is Puja's tech stack?",
+    "a": "Puja's skills by area:\n**Languages:** Python, C, SQL, JavaScript, Bash\n**AI & ML:** LLMs, Agentic Pipelines, NLP, Computer Vision, Deep Learning, Transformers, RAG, Vector Search, Prompt Engineering\n**Data Engineering:** Apache Airflow, dbt, PostgreSQL, Redis, MongoDB, Pinecone, ETL/ELT, Data Modeling, Medallion Architecture\n**Systems:** WebAssembly, Emscripten, Memory Allocators, C Systems Programming, WASM ABI\n**Web & API:** FastAPI, Flask, React, Vite, Vercel Serverless, REST APIs\n**Cloud & Infra:** AWS (Lambda, EC2, S3, DynamoDB), Docker, GitHub Actions, CI/CD\n**Tools:** Git, UiPath, Tableau, TensorFlow, Keras, Scikit-learn",
+    "intent": "skills",
+    "entity": null,
+    "sources": [
+      "skills"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What programming languages does she know?",
+    "a": "Puja's skills by area:\n**Languages:** Python, C, SQL, JavaScript, Bash\n**AI & ML:** LLMs, Agentic Pipelines, NLP, Computer Vision, Deep Learning, Transformers, RAG, Vector Search, Prompt Engineering\n**Data Engineering:** Apache Airflow, dbt, PostgreSQL, Redis, MongoDB, Pinecone, ETL/ELT, Data Modeling, Medallion Architecture\n**Systems:** WebAssembly, Emscripten, Memory Allocators, C Systems Programming, WASM ABI\n**Web & API:** FastAPI, Flask, React, Vite, Vercel Serverless, REST APIs\n**Cloud & Infra:** AWS (Lambda, EC2, S3, DynamoDB), Docker, GitHub Actions, CI/CD\n**Tools:** Git, UiPath, Tableau, TensorFlow, Keras, Scikit-learn",
+    "intent": "skills",
+    "entity": null,
+    "sources": [
+      "skills"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What AI and ML skills does Puja have?",
+    "a": "LLMs, Agentic Pipelines, NLP, Computer Vision, Deep Learning, Transformers, RAG, Vector Search, Prompt Engineering are in Puja's AI & ML skills and were used in: RWJ Health Hackathon, Multilingual Health Misinformation Detection, Sentiment Analysis of Movie Reviews, Emotion Detection from Facial Expressions, Credit Card Fraud Detection, Smart Doc Finder.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What data engineering tools does Puja know?",
+    "a": "**AI Engineering Intern at Pennant Education (July 2025 - September 2025)**\nPuja's first real taste of building AI that has to work inside someone else's constraints, not a clean dataset, not a controlled environment, but actual educational workflows with actual stakes. Puja built agentic RPA solutions in UiPath to automate grading and internal workflows, work that held up well enough to be shaped into a submission for a UAE government-backed startup hackathon, where shortlisted projects got fully funded to build out their vision. Puja also contributed to an adaptive assessment platform that adjusted to how students were actually learning, and explored how IBM Watson fit into the broader picture. The thing Puja kept learning: automation is only as smart as the decisions you make about what to automate, and who it's actually for.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What cloud and infrastructure tools has Puja used?",
+    "a": "AWS (Lambda, EC2, S3, DynamoDB), Docker, GitHub Actions, CI/CD are in Puja's Cloud & Infra skills and were used in: RWJ Health Hackathon, Smart Doc Finder.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What web frameworks does Puja use?",
+    "a": "FastAPI, Flask, React, Vite, Vercel Serverless, REST APIs are in Puja's Web & API skills and were used in: PostHog Engineering Impact Dashboard, LocalLens, LexAI, AI Neighborhood Watch, Smart Doc Finder, Systems Sandbox (sys namespace).",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What systems programming skills does Puja have?",
+    "a": "WebAssembly, Emscripten, Memory Allocators, C Systems Programming, WASM ABI are in Puja's Systems skills and were used in: Systems Sandbox (sys namespace).",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Does she know Docker?",
+    "a": "Yes. Docker is in Puja's Cloud & Infra skills and was used in: Smart Doc Finder.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "How did she use Redis?",
+    "a": "**Hackathon: Redis Hackathon (Dev.to) (Summer 2025)**\nPuja and Puja's teammate used Redis in their project by building Smart Doc Finder, which utilized event streaming through Streams, vector similarity search using Redis Cloud, and semantic caching simultaneously.",
+    "intent": "retrieval",
+    "entity": null,
+    "sources": [
+      "Hackathon: Redis Hackathon (Dev.to) (Summer 2025)",
+      "Project: Smart Doc Finder",
+      "Project: PostHog Engineering Impact Dashboard"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Has she worked with Airflow?",
+    "a": "Yes. Apache Airflow is in Puja's Data Engineering skills and was used in: PostHog Engineering Impact Dashboard. Puja has used Airflow in: PostHog Engineering Impact Dashboard.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Did she do anything with WebAssembly?",
+    "a": "Yes. WebAssembly is in Puja's Systems skills and was used in: Systems Sandbox (sys namespace).",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Has Puja used dbt?",
+    "a": "Yes. dbt is in Puja's Data Engineering skills and was used in: PostHog Engineering Impact Dashboard.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What experience does Puja have with FastAPI?",
+    "a": "FastAPI is in Puja's Web & API skills and was used in: PostHog Engineering Impact Dashboard, LocalLens.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Does Puja know Python and SQL?",
+    "a": "Yes. Python is in Puja's Languages skills and was used in: PostHog Engineering Impact Dashboard, Smart Doc Finder, AI Bot Rescue Mission, Algorithmic Transformation (Independent Set to Clique), Multilingual Health Misinformation Detection, Emotion Detection from Facial Expressions, Sentiment Analysis of Movie Reviews, Credit Card Fraud Detection. SQL is in Puja's Languages skills.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Has Puja worked with AWS?",
+    "a": "Yes. AWS (Lambda, EC2, S3, DynamoDB) is in Puja's Cloud & Infra skills and was used in: RWJ Health Hackathon.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What databases has Puja worked with?",
+    "a": "PostgreSQL, Redis, MongoDB, and Pinecone are in Puja's Data Engineering skills (and SQL is in Puja's Languages skills) and were used in: PostHog Engineering Impact Dashboard, AI Neighborhood Watch, Smart Doc Finder.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Has Puja built RAG or vector search systems?",
+    "a": "Yes. RAG and Vector Search are in Puja's AI & ML skills and were used in: Smart Doc Finder.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Does Puja have experience with TensorFlow and Keras?",
+    "a": "Yes. TensorFlow and Keras are in Puja's Tools skills and were used in: Emotion Detection from Facial Expressions.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Has Puja used Scikit-learn?",
+    "a": "Yes. Scikit-learn is in Puja's Tools skills and was used in: Sentiment Analysis of Movie Reviews, Credit Card Fraud Detection.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Has Puja worked with React?",
+    "a": "Yes. React is in Puja's Web & API skills and was used in: PostHog Engineering Impact Dashboard, LocalLens, LexAI, Smart Doc Finder, Systems Sandbox (sys namespace).",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Does Puja have experience with C programming?",
+    "a": "Yes. C is in Puja's Languages skills and was used in: Systems Sandbox (sys namespace).",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Has Puja used ElevenLabs?",
+    "a": "Yes. Puja has used ElevenLabs in: AI Neighborhood Watch.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Has Puja worked with Groq?",
+    "a": "Yes. Puja has used Groq in: LocalLens.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Has Puja worked with UiPath?",
+    "a": "Yes. UiPath is in Puja's Tools skills and was used in: AI Engineering Intern at Pennant Education.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Has she done computer vision work?",
+    "a": "Yes. Computer Vision is in Puja's AI & ML skills and was used in: Emotion Detection from Facial Expressions.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Has Puja worked with NLP and Transformers?",
+    "a": "Yes. NLP is in Puja's AI & ML skills and was used in: Multilingual Health Misinformation Detection, Sentiment Analysis of Movie Reviews. Transformers is in Puja's AI & ML skills and was used in: Multilingual Health Misinformation Detection.",
+    "intent": "tech_usage",
+    "entity": null,
+    "sources": [
+      "skills",
+      "projects"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What tools is Puja proficient in?",
+    "a": "Puja's skills by area:\n**Languages:** Python, C, SQL, JavaScript, Bash\n**AI & ML:** LLMs, Agentic Pipelines, NLP, Computer Vision, Deep Learning, Transformers, RAG, Vector Search, Prompt Engineering\n**Data Engineering:** Apache Airflow, dbt, PostgreSQL, Redis, MongoDB, Pinecone, ETL/ELT, Data Modeling, Medallion Architecture\n**Systems:** WebAssembly, Emscripten, Memory Allocators, C Systems Programming, WASM ABI\n**Web & API:** FastAPI, Flask, React, Vite, Vercel Serverless, REST APIs\n**Cloud & Infra:** AWS (Lambda, EC2, S3, DynamoDB), Docker, GitHub Actions, CI/CD\n**Tools:** Git, UiPath, Tableau, TensorFlow, Keras, Scikit-learn",
+    "intent": "skills",
+    "entity": null,
+    "sources": [
+      "skills"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Which languages does she speak?",
+    "a": "Puja speaks:\n**English:** Native / Bilingual\n**Hindi:** Native / Bilingual\n**Tamil:** Native / Bilingual\n**Kannada:** Professional Working Proficiency\n**Telugu:** Conversational",
+    "intent": "languages",
+    "entity": null,
+    "sources": [
+      "languages"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What spoken languages is Puja fluent in?",
+    "a": "Puja speaks:\n**English:** Native / Bilingual\n**Hindi:** Native / Bilingual\n**Tamil:** Native / Bilingual\n**Kannada:** Professional Working Proficiency\n**Telugu:** Conversational",
+    "intent": "languages",
+    "entity": null,
+    "sources": [
+      "languages"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Does Puja speak Tamil and Kannada?",
+    "a": "Puja speaks:\n**English:** Native / Bilingual\n**Hindi:** Native / Bilingual\n**Tamil:** Native / Bilingual\n**Kannada:** Professional Working Proficiency\n**Telugu:** Conversational",
+    "intent": "languages",
+    "entity": null,
+    "sources": [
+      "languages"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "How many human languages does Puja speak?",
+    "a": "Puja speaks:\n**English:** Native / Bilingual\n**Hindi:** Native / Bilingual\n**Tamil:** Native / Bilingual\n**Kannada:** Professional Working Proficiency\n**Telugu:** Conversational",
+    "intent": "languages",
+    "entity": null,
+    "sources": [
+      "languages"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Does Puja speak Hindi?",
+    "a": "Puja speaks:\n**English:** Native / Bilingual\n**Hindi:** Native / Bilingual\n**Tamil:** Native / Bilingual\n**Kannada:** Professional Working Proficiency\n**Telugu:** Conversational",
+    "intent": "languages",
+    "entity": null,
+    "sources": [
+      "languages"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What languages can Puja communicate in?",
+    "a": "Puja speaks:\n**English:** Native / Bilingual\n**Hindi:** Native / Bilingual\n**Tamil:** Native / Bilingual\n**Kannada:** Professional Working Proficiency\n**Telugu:** Conversational",
+    "intent": "languages",
+    "entity": null,
+    "sources": [
+      "languages"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What certifications does she have?",
+    "a": "Puja's certifications:\n**Academy Accreditation - Generative AI Fundamentals** (Databricks)\n**Academy Accreditation - Databricks Fundamentals** (Databricks)\n**Oracle Cloud Infrastructure 2023 Foundations Associate** (Oracle)\n**Demystifying Machine Learning Concepts** (Impavid Technologies)\n**AI for Everyone** (DeepLearning.AI)\n**Programming for Everybody** (University of Michigan)\n**Python Data Structures** (University of Michigan)",
+    "intent": "certifications",
+    "entity": null,
+    "sources": [
+      "certifications"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Is Puja certified in Databricks?",
+    "a": "**Certifications**\nYes, Puja is certified in both Databricks' Academy Accreditation for Databricks Fundamentals and Databricks' Academy Accreditation for Generative AI Fundamentals.",
+    "intent": "retrieval",
+    "entity": null,
+    "sources": [
+      "Certifications",
+      "Computer Science Grader at Rutgers University (September 2024 - December 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Does Puja have any cloud certifications?",
+    "a": "**Certifications**\nYes, Puja has both Oracle Cloud Infrastructure 2023 Foundations Associate and Academy Accreditation - Databricks Fundamentals certifications.",
+    "intent": "retrieval",
+    "entity": null,
+    "sources": [
+      "Certifications",
+      "Skills: Cloud & Infra"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What credentials or accreditations has Puja earned?",
+    "a": "Puja's certifications:\n**Academy Accreditation - Generative AI Fundamentals** (Databricks)\n**Academy Accreditation - Databricks Fundamentals** (Databricks)\n**Oracle Cloud Infrastructure 2023 Foundations Associate** (Oracle)\n**Demystifying Machine Learning Concepts** (Impavid Technologies)\n**AI for Everyone** (DeepLearning.AI)\n**Programming for Everybody** (University of Michigan)\n**Python Data Structures** (University of Michigan)",
+    "intent": "certifications",
+    "entity": null,
+    "sources": [
+      "certifications"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Has Puja completed any DeepLearning.AI or Coursera certificates?",
+    "a": "Puja's certifications:\n**Academy Accreditation - Generative AI Fundamentals** (Databricks)\n**Academy Accreditation - Databricks Fundamentals** (Databricks)\n**Oracle Cloud Infrastructure 2023 Foundations Associate** (Oracle)\n**Demystifying Machine Learning Concepts** (Impavid Technologies)\n**AI for Everyone** (DeepLearning.AI)\n**Programming for Everybody** (University of Michigan)\n**Python Data Structures** (University of Michigan)",
+    "intent": "certifications",
+    "entity": null,
+    "sources": [
+      "certifications"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Tell me about Puja's Generative AI certification",
+    "a": "Puja's certifications:\n**Academy Accreditation - Generative AI Fundamentals** (Databricks)\n**Academy Accreditation - Databricks Fundamentals** (Databricks)\n**Oracle Cloud Infrastructure 2023 Foundations Associate** (Oracle)\n**Demystifying Machine Learning Concepts** (Impavid Technologies)\n**AI for Everyone** (DeepLearning.AI)\n**Programming for Everybody** (University of Michigan)\n**Python Data Structures** (University of Michigan)",
+    "intent": "certifications",
+    "entity": null,
+    "sources": [
+      "certifications"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "List all of Puja's certifications",
+    "a": "Puja's certifications:\n**Academy Accreditation - Generative AI Fundamentals** (Databricks)\n**Academy Accreditation - Databricks Fundamentals** (Databricks)\n**Oracle Cloud Infrastructure 2023 Foundations Associate** (Oracle)\n**Demystifying Machine Learning Concepts** (Impavid Technologies)\n**AI for Everyone** (DeepLearning.AI)\n**Programming for Everybody** (University of Michigan)\n**Python Data Structures** (University of Michigan)",
+    "intent": "certifications",
+    "entity": null,
+    "sources": [
+      "certifications"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Has she given any talks?",
+    "a": "**Talks**\nTalk \"Traffic Management Using AI\" at BMS Institute of Technology and Management. Talk \"How to Prepare for an AI Developer role through Campus Placements\" at BMS Institute of Technology and Management.",
+    "intent": "retrieval",
+    "entity": null,
+    "sources": [
+      "Talks",
+      "About Puja"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What presentations or lectures has Puja given?",
+    "a": "Talks Puja has given:\n**How to Prepare for an AI Developer role through Campus Placements**, BMS Institute of Technology and Management (Summer 2023)\n**Traffic Management Using AI**, BMS Institute of Technology and Management (Spring 2023)",
+    "intent": "talks",
+    "entity": null,
+    "sources": [
+      "talks"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Tell me about Puja's talk on Traffic Management Using AI",
+    "a": "Talks Puja has given:\n**How to Prepare for an AI Developer role through Campus Placements**, BMS Institute of Technology and Management (Summer 2023)\n**Traffic Management Using AI**, BMS Institute of Technology and Management (Spring 2023)",
+    "intent": "talks",
+    "entity": null,
+    "sources": [
+      "talks"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Did Puja give a talk on preparing for AI developer roles?",
+    "a": "**Talks**\nYes, Puja gave a talk titled \"How to Prepare for an AI Developer Role through Campus Placements\" at BMS Institute of Technology and Management.",
+    "intent": "retrieval",
+    "entity": null,
+    "sources": [
+      "Talks",
+      "About Puja",
+      "Skills: AI & ML"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Where has Puja spoken?",
+    "a": "Talks Puja has given:\n**How to Prepare for an AI Developer role through Campus Placements**, BMS Institute of Technology and Management (Summer 2023)\n**Traffic Management Using AI**, BMS Institute of Technology and Management (Spring 2023)",
+    "intent": "talks",
+    "entity": null,
+    "sources": [
+      "talks"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What leadership roles has she had?",
+    "a": "Puja's leadership roles:\n**Class Representative**, BMS Institute of Technology and Management (June 2020 - May 2023)\n**Event Head**, BMS Institute of Technology and Management (Nov 2022 - Dec 2022)\n**Finance Head**, BMS Institute of Technology and Management (Sep 2019 - Oct 2019)",
+    "intent": "leadership",
+    "entity": null,
+    "sources": [
+      "leadership"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Tell me about Puja's leadership experience",
+    "a": "Puja's leadership roles:\n**Class Representative**, BMS Institute of Technology and Management (June 2020 - May 2023)\n**Event Head**, BMS Institute of Technology and Management (Nov 2022 - Dec 2022)\n**Finance Head**, BMS Institute of Technology and Management (Sep 2019 - Oct 2019)",
+    "intent": "leadership",
+    "entity": null,
+    "sources": [
+      "leadership"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What did Puja do as Class Representative?",
+    "a": "**Class Representative at BMS Institute of Technology and Management**\nPuja communicated essential updates and announcements from the school administration to over 60 classmates, while maintaining departmental discipline and resulting in a 15% annual reduction in misconduct incidents.",
+    "intent": "retrieval",
+    "entity": "Class Representative",
+    "sources": [
+      "Class Representative at BMS Institute of Technology and Management"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What did Puja accomplish as Event Head?",
+    "a": "**Event Head at BMS Institute of Technology and Management**\nAs an Event Head at BMS Institute of Technology and Management, Puja executed event strategies that were aligned with the organization's objectives, resulting in a 20% increase in event attendance. Additionally, Puja fostered a collaborative and high-performance environment among the team members.",
+    "intent": "retrieval",
+    "entity": "Event Head",
+    "sources": [
+      "Event Head at BMS Institute of Technology and Management"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What did Puja do as Finance Head?",
+    "a": "**Finance Head at BMS Institute of Technology and Management**\nPuja implemented cost-saving measures that resulted in a 15% reduction in operational expenses. Puja led and motivated a finance team, fostering a culture of excellence and accountability.",
+    "intent": "retrieval",
+    "entity": "Finance Head",
+    "sources": [
+      "Finance Head at BMS Institute of Technology and Management"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "How did Puja demonstrate leadership in undergrad?",
+    "a": "Puja's leadership roles:\n**Class Representative**, BMS Institute of Technology and Management (June 2020 - May 2023)\n**Event Head**, BMS Institute of Technology and Management (Nov 2022 - Dec 2022)\n**Finance Head**, BMS Institute of Technology and Management (Sep 2019 - Oct 2019)",
+    "intent": "leadership",
+    "entity": null,
+    "sources": [
+      "leadership"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Where has she worked?",
+    "a": "Puja's experience:\n**AI Engineering Intern**, Pennant Education (July 2025 - September 2025)\n**Graduate Teaching Assistant**, Rutgers University - School of Communication and Information (September 2024 - December 2025)\n**Computer Science Grader**, Rutgers University (September 2024 - December 2025)\n**AI Co-pilot Developer**, HumanFractal.ai (Resolute) (February 2023 - May 2023)\n**Data Science Intern**, Exposys Data Labs (September 2022 - October 2022)\n**Alumni Relations Intern**, Vaave (November 2020 - December 2021)\nAsk about any role for details.",
+    "intent": "experience",
+    "entity": null,
+    "sources": [
+      "experience"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What is Puja's work experience?",
+    "a": "Puja's experience:\n**AI Engineering Intern**, Pennant Education (July 2025 - September 2025)\n**Graduate Teaching Assistant**, Rutgers University - School of Communication and Information (September 2024 - December 2025)\n**Computer Science Grader**, Rutgers University (September 2024 - December 2025)\n**AI Co-pilot Developer**, HumanFractal.ai (Resolute) (February 2023 - May 2023)\n**Data Science Intern**, Exposys Data Labs (September 2022 - October 2022)\n**Alumni Relations Intern**, Vaave (November 2020 - December 2021)\nAsk about any role for details.",
+    "intent": "experience",
+    "entity": null,
+    "sources": [
+      "experience"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What internships has Puja done?",
+    "a": "Puja's experience:\n**AI Engineering Intern**, Pennant Education (July 2025 - September 2025)\n**Graduate Teaching Assistant**, Rutgers University - School of Communication and Information (September 2024 - December 2025)\n**Computer Science Grader**, Rutgers University (September 2024 - December 2025)\n**AI Co-pilot Developer**, HumanFractal.ai (Resolute) (February 2023 - May 2023)\n**Data Science Intern**, Exposys Data Labs (September 2022 - October 2022)\n**Alumni Relations Intern**, Vaave (November 2020 - December 2021)\nAsk about any role for details.",
+    "intent": "experience",
+    "entity": null,
+    "sources": [
+      "experience"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Tell me about Puja's career and jobs",
+    "a": "Puja's experience:\n**AI Engineering Intern**, Pennant Education (July 2025 - September 2025)\n**Graduate Teaching Assistant**, Rutgers University - School of Communication and Information (September 2024 - December 2025)\n**Computer Science Grader**, Rutgers University (September 2024 - December 2025)\n**AI Co-pilot Developer**, HumanFractal.ai (Resolute) (February 2023 - May 2023)\n**Data Science Intern**, Exposys Data Labs (September 2022 - October 2022)\n**Alumni Relations Intern**, Vaave (November 2020 - December 2021)\nAsk about any role for details.",
+    "intent": "experience",
+    "entity": null,
+    "sources": [
+      "experience"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What roles has Puja held?",
+    "a": "Puja's experience:\n**AI Engineering Intern**, Pennant Education (July 2025 - September 2025)\n**Graduate Teaching Assistant**, Rutgers University - School of Communication and Information (September 2024 - December 2025)\n**Computer Science Grader**, Rutgers University (September 2024 - December 2025)\n**AI Co-pilot Developer**, HumanFractal.ai (Resolute) (February 2023 - May 2023)\n**Data Science Intern**, Exposys Data Labs (September 2022 - October 2022)\n**Alumni Relations Intern**, Vaave (November 2020 - December 2021)\nAsk about any role for details.",
+    "intent": "experience",
+    "entity": null,
+    "sources": [
+      "experience"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What did she do at Pennant Education?",
+    "a": "**AI Engineering Intern at Pennant Education (July 2025 - September 2025)**\nPuja's first real taste of building AI that has to work inside someone else's constraints, not a clean dataset, not a controlled environment, but actual educational workflows with actual stakes. Puja built agentic RPA solutions in UiPath to automate grading and internal workflows, work that held up well enough to be shaped into a submission for a UAE government-backed startup hackathon, where shortlisted projects got fully funded to build out their vision. Puja also contributed to an adaptive assessment platform that adjusted to how students were actually learning, and explored how IBM Watson fit into the broader picture. The thing Puja kept learning: automation is only as smart as the decisions you make about what to automate, and who it's actually for.",
+    "intent": "retrieval",
+    "entity": "Pennant Education",
+    "sources": [
+      "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about Puja's AI Engineering Intern role at Pennant Education",
+    "a": "**AI Engineering Intern at Pennant Education (July 2025 - September 2025)**\nPuja's first real taste of building AI that has to work inside someone else's constraints, not a clean dataset, not a controlled environment, but actual educational workflows with actual stakes. Puja built agentic RPA solutions in UiPath to automate grading and internal workflows, work that held up well enough to be shaped into a submission for a UAE government-backed startup hackathon, where shortlisted projects got fully funded to build out their vision. Puja also contributed to an adaptive assessment platform that adjusted to how students were actually learning, and explored how IBM Watson fit into the broader picture. The thing Puja kept learning: automation is only as smart as the decisions you make about what to automate, and who it's actually for.",
+    "intent": "retrieval",
+    "entity": "Pennant Education",
+    "sources": [
+      "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "When did Puja intern at Pennant Education?",
+    "a": "**AI Engineering Intern at Pennant Education (July 2025 - September 2025)**\nPuja's first real taste of building AI that has to work inside someone else's constraints, not a clean dataset, not a controlled environment, but actual educational workflows with actual stakes. Puja built agentic RPA solutions in UiPath to automate grading and internal workflows, work that held up well enough to be shaped into a submission for a UAE government-backed startup hackathon, where shortlisted projects got fully funded to build out their vision. Puja also contributed to an adaptive assessment platform that adjusted to how students were actually learning, and explored how IBM Watson fit into the broader picture. The thing Puja kept learning: automation is only as smart as the decisions you make about what to automate, and who it's actually for.",
+    "intent": "retrieval",
+    "entity": "Pennant Education",
+    "sources": [
+      "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "How long did the Pennant Education internship last?",
+    "a": "**AI Engineering Intern at Pennant Education (July 2025 - September 2025)**\nPuja's first real taste of building AI that has to work inside someone else's constraints, not a clean dataset, not a controlled environment, but actual educational workflows with actual stakes. Puja built agentic RPA solutions in UiPath to automate grading and internal workflows, work that held up well enough to be shaped into a submission for a UAE government-backed startup hackathon, where shortlisted projects got fully funded to build out their vision. Puja also contributed to an adaptive assessment platform that adjusted to how students were actually learning, and explored how IBM Watson fit into the broader picture. The thing Puja kept learning: automation is only as smart as the decisions you make about what to automate, and who it's actually for.",
+    "intent": "retrieval",
+    "entity": "Pennant Education",
+    "sources": [
+      "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What did Puja build with UiPath at Pennant Education?",
+    "a": "**AI Engineering Intern at Pennant Education (July 2025 - September 2025)**\nPuja's first real taste of building AI that has to work inside someone else's constraints, not a clean dataset, not a controlled environment, but actual educational workflows with actual stakes. Puja built agentic RPA solutions in UiPath to automate grading and internal workflows, work that held up well enough to be shaped into a submission for a UAE government-backed startup hackathon, where shortlisted projects got fully funded to build out their vision. Puja also contributed to an adaptive assessment platform that adjusted to how students were actually learning, and explored how IBM Watson fit into the broader picture. The thing Puja kept learning: automation is only as smart as the decisions you make about what to automate, and who it's actually for.",
+    "intent": "retrieval",
+    "entity": "Pennant Education",
+    "sources": [
+      "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Did Puja work with IBM Watson at Pennant Education?",
+    "a": "**AI Engineering Intern at Pennant Education (July 2025 - September 2025)**\nYes, Puja worked with IBM Watson at Pennant Education. The thing Puja kept learning was that automation is only as smart as the decisions made about what to automate, and who it's actually for.",
+    "intent": "retrieval",
+    "entity": "Pennant Education",
+    "sources": [
+      "AI Engineering Intern at Pennant Education (July 2025 - September 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What did she do as a teaching assistant?",
+    "a": "**Graduate Teaching Assistant at Rutgers University - School of Communication and Information (September 2024 - December 2025)**\nPuja helped students get their footing in object-oriented programming: classes, inheritance, polymorphism, and fielded a lot of questions that turned out to be about deeper confusion than the assignment itself revealed.",
+    "intent": "retrieval",
+    "entity": "Rutgers University - School of Communication and Information",
+    "sources": [
+      "Graduate Teaching Assistant at Rutgers University - School of Communication and Information (September 2024 - December 2025)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about Puja's Graduate Teaching Assistant role at Rutgers",
+    "a": "**Graduate Teaching Assistant at Rutgers University - School of Communication and Information (September 2024 - December 2025)**\nPuja helped students get their footing in object-oriented programming: classes, inheritance, polymorphism, and fielded a lot of questions that turned out to be about deeper confusion than the assignment itself revealed.",
+    "intent": "retrieval",
+    "entity": "Rutgers University - School of Communication and Information",
+    "sources": [
+      "Graduate Teaching Assistant at Rutgers University - School of Communication and Information (September 2024 - December 2025)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What did Puja do as a Computer Science Grader at Rutgers?",
+    "a": "**Computer Science Grader at Rutgers University (September 2024 - December 2025)**\nPuja graded assignments in computer science, focusing on topics such as graph search, probabilistic inference, constraint satisfaction, and deep learning.",
+    "intent": "retrieval",
+    "entity": "Rutgers University",
+    "sources": [
+      "Computer Science Grader at Rutgers University (September 2024 - December 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What topics did Puja grade at Rutgers University?",
+    "a": "**Computer Science Grader at Rutgers University (September 2024 - December 2025)**\nPuja graded assignments in computer science, focusing on graph search, probabilistic inference, constraint satisfaction, and deep learning.",
+    "intent": "retrieval",
+    "entity": "Rutgers University",
+    "sources": [
+      "Computer Science Grader at Rutgers University (September 2024 - December 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "When was Puja a Teaching Assistant at Rutgers?",
+    "a": "**Graduate Teaching Assistant at Rutgers University - School of Communication and Information (September 2024 - December 2025)**\nPuja helped students get their footing in object-oriented programming: classes, inheritance, polymorphism, and fielded a lot of questions that turned out to be about deeper confusion than the assignment itself revealed.",
+    "intent": "retrieval",
+    "entity": "Rutgers University - School of Communication and Information",
+    "sources": [
+      "Graduate Teaching Assistant at Rutgers University - School of Communication and Information (September 2024 - December 2025)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What is Filomena?",
+    "a": "**AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)**\nFilomena was built for people navigating their medications, treatment processes, and health questions, the kind of questions people usually wait hours to get answered by a human. Puja's job was to make Filomena trustworthy. From those conversations Puja designed the response logic, including the boundary: where Filomena stops answering and routes to a medical professional instead.",
+    "intent": "retrieval",
+    "entity": "HumanFractal.ai (Resolute)",
+    "sources": [
+      "AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What did Puja do at HumanFractal.ai?",
+    "a": "**AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)**\nFilomena was built for people navigating their medications, treatment processes, and health questions, the kind of questions people usually wait hours to get answered by a human. Puja's job was to make Filomena trustworthy. Puja sat down with a nutritionist and nurses to understand what a good answer actually looks like before writing a single prompt.",
+    "intent": "retrieval",
+    "entity": "HumanFractal.ai (Resolute)",
+    "sources": [
+      "AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about Puja's role at Resolute / HumanFractal",
+    "a": "**AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)**\nFilomena was built for people navigating their medications, treatment processes, and health questions, the kind of questions people usually wait hours to get answered by a human. Puja owned response trustworthiness for Filomena. Puja sat down with a nutritionist and nurses to understand what a good answer actually looks like before writing a single prompt. Getting that line right wasn't a technical problem. From those conversations Puja designed the response logic, including the boundary: where Filomena stops answering and routes to a medical professional instead.",
+    "intent": "retrieval",
+    "entity": "HumanFractal.ai (Resolute)",
+    "sources": [
+      "AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "How did Puja make Filomena trustworthy?",
+    "a": "**AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)**\nFilomena was built for people navigating their medications, treatment processes, and health questions, the kind of questions people usually wait hours to get answered by a human. Puja owned response trustworthiness for Filomena. Puja sat down with a nutritionist and nurses to understand what a good answer actually looks like before writing a single prompt. Getting that line right wasn't a technical problem. From those conversations Puja designed the response logic, including the boundary: where Filomena stops answering and routes to a medical professional instead.",
+    "intent": "retrieval",
+    "entity": "HumanFractal.ai (Resolute)",
+    "sources": [
+      "AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "When did Puja work as an AI Co-pilot Developer?",
+    "a": "**AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)**\nFilomena was built for people navigating their medications, treatment processes, and health questions, the kind of questions people usually wait hours to get answered by a human. Puja's job was to make Filomena trustworthy. That means Puja sat down with a nutritionist and nurses to understand what a good answer actually looks like before writing a single prompt.",
+    "intent": "retrieval",
+    "entity": "HumanFractal.ai (Resolute)",
+    "sources": [
+      "AI Co-pilot Developer at HumanFractal.ai (Resolute) (February 2023 - May 2023)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What did Puja do at Exposys Data Labs?",
+    "a": "**Data Science Intern at Exposys Data Labs (September 2022 - October 2022)**\nPuja built and compared four regression models to predict startup profitability. Random Forest won at 96% accuracy.",
+    "intent": "retrieval",
+    "entity": "Exposys Data Labs",
+    "sources": [
+      "Data Science Intern at Exposys Data Labs (September 2022 - October 2022)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Which model won during Puja's internship at Exposys Data Labs?",
+    "a": "**Data Science Intern at Exposys Data Labs (September 2022 - October 2022)**\nDuring Puja's internship at Exposys Data Labs, Puja built and compared four regression models to predict startup profitability. The Random Forest model won at 96% accuracy.",
+    "intent": "retrieval",
+    "entity": "Exposys Data Labs",
+    "sources": [
+      "Data Science Intern at Exposys Data Labs (September 2022 - October 2022)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What did Puja do at Vaave?",
+    "a": "**Alumni Relations Intern at Vaave (November 2020 - December 2021)**\nAs an Alumni Relations Intern at Vaave (November 2020 - December 2021), Puja coordinated alumni outreach across 200+ contacts, organized virtual networking events, and helped build the connective tissue between people who'd already graduated and students figuring out what came next.",
+    "intent": "retrieval",
+    "entity": "Vaave",
+    "sources": [
+      "Alumni Relations Intern at Vaave (November 2020 - December 2021)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about Puja's Alumni Relations Intern role",
+    "a": "**Alumni Relations Intern at Vaave (November 2020 - December 2021)**\nPuja coordinated alumni outreach across 200+ contacts, organized virtual networking events, and helped build the connective tissue between people who'd already graduated and students figuring out what came next.",
+    "intent": "retrieval",
+    "entity": "Vaave",
+    "sources": [
+      "Alumni Relations Intern at Vaave (November 2020 - December 2021)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What hackathons has she done?",
+    "a": "Puja's hackathons:\n**RWJ Health Hackathon** (October 2025, Team of 10 (4 medical students, 6 engineers))\n**HackRU** (September 2025, Solo)\n**Redis Hackathon (Dev.to)** (Summer 2025, Team of 2)\nAsk about any of them for details.",
+    "intent": "hackathons",
+    "entity": null,
+    "sources": [
+      "hackathons"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "List the hackathons Puja has participated in",
+    "a": "Puja's hackathons:\n**RWJ Health Hackathon** (October 2025, Team of 10 (4 medical students, 6 engineers))\n**HackRU** (September 2025, Solo)\n**Redis Hackathon (Dev.to)** (Summer 2025, Team of 2)\nAsk about any of them for details.",
+    "intent": "hackathons",
+    "entity": null,
+    "sources": [
+      "hackathons"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What did she build at HackRU?",
+    "a": "**Hackathon: HackRU (September 2025)**\nPuja built AI Neighborhood Watch from scratch, real-time incident reporting, Gemini-powered categorization, a live Leaflet map, and an ElevenLabs audio briefing pipeline, all in a single hackathon.",
+    "intent": "retrieval",
+    "entity": "HackRU",
+    "sources": [
+      "Hackathon: HackRU (September 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about Puja's HackRU project",
+    "a": "**Hackathon: HackRU (September 2025)**\nPuja built AI Neighborhood Watch from scratch, real-time incident reporting, Gemini-powered categorization, a live Leaflet map, and an ElevenLabs audio briefing pipeline, in a single hackathon. Every architectural decision was Puja's to own, which means every wrong decision was Puja's to correct at 2am.",
+    "intent": "retrieval",
+    "entity": "HackRU",
+    "sources": [
+      "Hackathon: HackRU (September 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Did Puja compete solo at HackRU?",
+    "a": "**Hackathon: HackRU (September 2025)**\nSolo. No teammates to blame if it broke. Puja built AI Neighborhood Watch from scratch, real-time incident reporting, Gemini-powered categorization, a live Leaflet map, and an ElevenLabs audio briefing pipeline, in a single hackathon. Every architectural decision was Puja's to own, which meant every wrong one was Puja's to fix at 2am.",
+    "intent": "retrieval",
+    "entity": "HackRU",
+    "sources": [
+      "Hackathon: HackRU (September 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What was the RWJ Health Hackathon about?",
+    "a": "**Hackathon: RWJ Health Hackathon (October 2025)**\nTen people in a room, four medical students, six engineers, with one question: can Puja and the team make care coordination faster without making it worse? Puja owned the backend with one other engineer. Puja and the team built a cross-platform AI chat app that streamed responses across five LLMs simultaneously, ChatGPT, Claude, Gemini, Cohere, Mistral, with image generation and AWS Cognito auth on top. The medical students kept asking for things that sounded simple and turned out not to be.",
+    "intent": "retrieval",
+    "entity": "RWJ Health Hackathon",
+    "sources": [
+      "Hackathon: RWJ Health Hackathon (October 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What did Puja build at the RWJ Health Hackathon?",
+    "a": "**Hackathon: RWJ Health Hackathon (October 2025)**\nTen people in a room, four medical students, six engineers, with one question: can Puja and the team make care coordination faster without making it worse? Puja owned the backend with one other engineer. Puja and the team built a cross-platform AI chat app that streamed responses across five LLMs simultaneously, ChatGPT, Claude, Gemini, Cohere, Mistral, with image generation and AWS Cognito auth on top. The medical students kept asking for things that sounded simple and turned out not to be.",
+    "intent": "retrieval",
+    "entity": "RWJ Health Hackathon",
+    "sources": [
+      "Hackathon: RWJ Health Hackathon (October 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Which LLMs were used in the RWJ Health Hackathon project?",
+    "a": "**Hackathon: RWJ Health Hackathon (October 2025)**\nThe RWJ Health Hackathon project involved Ten people in a room, including four medical students and six engineers. The team focused on building a cross-platform AI chat app that utilized five LLMs simultaneously. These five LLMs included ChatGPT, Claude, Gemini, Cohere, and Mistral.",
+    "intent": "retrieval",
+    "entity": "RWJ Health Hackathon",
+    "sources": [
+      "Hackathon: RWJ Health Hackathon (October 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What was Puja's role in the RWJ Health Hackathon team?",
+    "a": "**Hackathon: RWJ Health Hackathon (October 2025)**\nTen people in a room, four medical students, six engineers, with one question: can Puja and the team make care coordination faster without making it worse? Puja owned the backend with one other engineer. Puja and the team built a cross-platform AI chat app that streamed responses across five LLMs simultaneously, ChatGPT, Claude, Gemini, Cohere, Mistral, with image generation and AWS Cognito auth on top. The medical students kept asking for things that sounded simple and turned out not to be.",
+    "intent": "retrieval",
+    "entity": "RWJ Health Hackathon",
+    "sources": [
+      "Hackathon: RWJ Health Hackathon (October 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about the Redis Hackathon on Dev.to",
+    "a": "**Hackathon: Redis Hackathon (Dev.to) (Summer 2025)**\nThe constraint was Redis. The question was: how far can you push it past the obvious use case? Puja and a teammate built Smart Doc Finder, a document search system where Redis does event streaming via Streams, vector similarity search via Redis Cloud, and semantic caching all at once. One service, three jobs, zero excuses for keyword-only search.",
+    "intent": "retrieval",
+    "entity": "Redis Hackathon (Dev.to)",
+    "sources": [
+      "Hackathon: Redis Hackathon (Dev.to) (Summer 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What did Puja build for the Redis Hackathon?",
+    "a": "**Hackathon: Redis Hackathon (Dev.to) (Summer 2025)**\nThe constraint was Redis. The question was: how far can you push it past the obvious use case? Puja and a teammate built Smart Doc Finder, a document search system where Redis does event streaming via Streams, vector similarity search via Redis Cloud, and semantic caching all at once. Puja and the team built it because the architecture was interesting, not because it was easy.",
+    "intent": "retrieval",
+    "entity": "Redis Hackathon (Dev.to)",
+    "sources": [
+      "Hackathon: Redis Hackathon (Dev.to) (Summer 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What projects has she built?",
+    "a": "Puja's projects:\n**PostHog Engineering Impact Dashboard** (March 2026): Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel\n**LocalLens** (February 2026): FastAPI · React · Groq · Google Places API · Foursquare · WalkScore\n**LexAI** (January 2026): Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js\n**AI Neighborhood Watch** (December 2025): Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub\n**Smart Doc Finder** (August 2025): Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker\n**Systems Sandbox (sys namespace)** (May 2026): C, WebAssembly, Emscripten, React\n**AI Bot Rescue Mission** (March 2024): Python, A-Star Algorithm, Heuristics\n**Algorithmic Transformation (Independent Set to Clique)** (May 2024): Python, NetworkX, Pandas, 3D Force Graph\n**Multilingual Health Misinformation Detection** (April 2025): Python, NLP, Transformers\n**Emotion Detection from Facial Expressions** (March 2023): Python, TensorFlow, Keras, OpenCV\n**Sentiment Analysis of Movie Reviews** (December 2022): Python, NLP, Scikit-learn, Naive Bayes\n**Credit Card Fraud Detection** (October 2022): Python, Scikit-learn, Isolation Forest\nAsk about any of them for details.",
+    "intent": "projects",
+    "entity": null,
+    "sources": [
+      "projects"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "Tell me about Puja's portfolio projects",
+    "a": "Puja's projects:\n**PostHog Engineering Impact Dashboard** (March 2026): Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel\n**LocalLens** (February 2026): FastAPI · React · Groq · Google Places API · Foursquare · WalkScore\n**LexAI** (January 2026): Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js\n**AI Neighborhood Watch** (December 2025): Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub\n**Smart Doc Finder** (August 2025): Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker\n**Systems Sandbox (sys namespace)** (May 2026): C, WebAssembly, Emscripten, React\n**AI Bot Rescue Mission** (March 2024): Python, A-Star Algorithm, Heuristics\n**Algorithmic Transformation (Independent Set to Clique)** (May 2024): Python, NetworkX, Pandas, 3D Force Graph\n**Multilingual Health Misinformation Detection** (April 2025): Python, NLP, Transformers\n**Emotion Detection from Facial Expressions** (March 2023): Python, TensorFlow, Keras, OpenCV\n**Sentiment Analysis of Movie Reviews** (December 2022): Python, NLP, Scikit-learn, Naive Bayes\n**Credit Card Fraud Detection** (October 2022): Python, Scikit-learn, Isolation Forest\nAsk about any of them for details.",
+    "intent": "projects",
+    "entity": null,
+    "sources": [
+      "projects"
+    ],
+    "generator": "structured",
+    "reviewed": true
+  },
+  {
+    "q": "What are Puja's featured projects?",
+    "a": "Puja's featured projects (owned end-to-end):\n**PostHog Engineering Impact Dashboard** (March 2026): Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel\n**LocalLens** (February 2026): FastAPI · React · Groq · Google Places API · Foursquare · WalkScore\n**LexAI** (January 2026): Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js\n**AI Neighborhood Watch** (December 2025): Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub\n**Smart Doc Finder** (August 2025): Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker\nKey technical decisions include Airflow/dbt/FastAPI/Redis analytics across six models (PostHog), two-stage Groq intent and vibe scoring (LocalLens), five parallel contract-analysis agents finishing in 15–25 seconds (LexAI), real-time Leaflet incident mapping with ElevenLabs/pydub briefings (AI Neighborhood Watch), and single-instance Redis event streaming, vector search, and semantic caching (Smart Doc Finder).",
+    "intent": "featured_projects",
+    "entity": null,
+    "sources": [
+      "featured_projects"
+    ],
+    "generator": "structured",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about the PostHog dashboard",
+    "a": "**Project: PostHog Engineering Impact Dashboard**\nPuja built the entire PostHog Engineering Impact Dashboard using Python, Airflow, dbt, PostgreSQL, FastAPI, Redis, React, and Vercel. Airflow was used to pull data from GitHub, dbt was used to shape the data into meaningful insights across six models, FastAPI served the data, Redis provided caching, and a React dashboard rendered the final product.",
+    "intent": "retrieval",
+    "entity": "PostHog Engineering Impact Dashboard",
+    "sources": [
+      "Project: PostHog Engineering Impact Dashboard"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What is the PostHog Engineering Impact Dashboard?",
+    "a": "**Project: PostHog Engineering Impact Dashboard**\nThe PostHog Engineering Impact Dashboard is a project developed by Puja Sridhar using Python, Airflow, dbt, PostgreSQL, FastAPI, Redis, React, and Vercel.",
+    "intent": "retrieval",
+    "entity": "PostHog Engineering Impact Dashboard",
+    "sources": [
+      "Project: PostHog Engineering Impact Dashboard"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What tech stack does the PostHog dashboard use?",
+    "a": "**Project: PostHog Engineering Impact Dashboard**\nPostHog Engineering Impact Dashboard is built with Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel. Engineering teams generate a lot of data and almost no insight. Puja built the end-to-end pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it: leaderboards, trend charts, a custom impact score Puja designed (because the formula matters as much as the infrastructure).",
+    "intent": "retrieval",
+    "entity": "PostHog Engineering Impact Dashboard",
+    "sources": [
+      "Project: PostHog Engineering Impact Dashboard"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "How does the PostHog Engineering Impact Dashboard pipeline work?",
+    "a": "**Project: PostHog Engineering Impact Dashboard**\nPostHog Engineering Impact Dashboard is built with Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel. Engineering teams generate a lot of data and almost no insight. Puja built the end-to-end pipeline. Airflow pulls daily from GitHub, dbt shapes it into something meaningful across six models, FastAPI serves it, Redis caches it with hit/miss transparency, and a React dashboard renders it: leaderboards, trend charts, a custom impact score Puja designed (because the formula matters as much as the infrastructure).",
+    "intent": "retrieval",
+    "entity": "PostHog Engineering Impact Dashboard",
+    "sources": [
+      "Project: PostHog Engineering Impact Dashboard"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What is LocalLens?",
+    "a": "**Project: LocalLens**\nLocalLens is built with FastAPI · React · Groq · Google Places API · Foursquare · WalkScore. \"Cafe\" returns every coffee shop within two miles. LocalLens is what happens when you stop treating search as keyword matching and start treating it as intent. A Groq agent parses what you actually mean, live APIs pull real venues, and a second agent scores each one against your vibe (not just your category) before writing you a neighborhood snapshot.",
+    "intent": "retrieval",
+    "entity": "LocalLens",
+    "sources": [
+      "Project: LocalLens"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about LocalLens",
+    "a": "**Project: LocalLens**\nPuja built the LocalLens project using FastAPI, React, Groq, Google Places API, Foursquare, and WalkScore.",
+    "intent": "retrieval",
+    "entity": "LocalLens",
+    "sources": [
+      "Project: LocalLens"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What tech does LocalLens use?",
+    "a": "**Project: LocalLens**\nPuja used FastAPI, React, Groq, Google Places API, Foursquare, and WalkScore in Puja's project. The Groq agent was responsible for parsing what you actually meant, while Live APIs pulled real venues, and a second agent scored each one against your vibe (not just your category).",
+    "intent": "retrieval",
+    "entity": "LocalLens",
+    "sources": [
+      "Project: LocalLens"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "How does LocalLens work?",
+    "a": "**Project: LocalLens**\nLocalLens is built with FastAPI · React · Groq · Google Places API · Foursquare · WalkScore. \"Cafe\" returns every coffee shop within two miles. LocalLens is what happens when you stop treating search as keyword matching and start treating it as intent. A Groq agent parses what you actually mean, live APIs pull real venues, and a second agent scores each one against your vibe (not just your category) before writing you a neighborhood snapshot.",
+    "intent": "retrieval",
+    "entity": "LocalLens",
+    "sources": [
+      "Project: LocalLens"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What is LexAI?",
+    "a": "**Project: LexAI**\nLexAI is built with Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js. Most people sign contracts they don't fully understand. LexAI runs five agents on your contract. Full analysis in 15–25 seconds.",
+    "intent": "retrieval",
+    "entity": "LexAI",
+    "sources": [
+      "Project: LexAI"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about LexAI",
+    "a": "**Project: LexAI**\nLexAI is built with Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js. Most people sign contracts they don't fully understand. LexAI runs five agents on your contract. Full analysis in 15–25 seconds.",
+    "intent": "retrieval",
+    "entity": "LexAI",
+    "sources": [
+      "Project: LexAI"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What tech stack does LexAI use?",
+    "a": "**Project: LexAI**\nLexAI is built with Gemini 2.5 Flash, Vercel Serverless, React 18 (CDN), and Node.js. Most people sign contracts they don't fully understand. The most significant technology stack used by LexAI includes Gemini 2.5 Flash, Vercel Serverless, React 18 (CDN), and Node.js.",
+    "intent": "retrieval",
+    "entity": "LexAI",
+    "sources": [
+      "Project: LexAI"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "How do the five agents in LexAI work?",
+    "a": "**Project: LexAI**\nLexAI is built with Gemini 2.5 Flash · Vercel Serverless · React 18 (CDN) · Node.js. Most people sign contracts they don't fully understand. LexAI runs five agents on your contract. One figures out what kind of document it is.",
+    "intent": "retrieval",
+    "entity": "LexAI",
+    "sources": [
+      "Project: LexAI"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "How fast does LexAI analyze a contract?",
+    "a": "**Project: LexAI**\nMost people sign contracts they don't fully understand. Because contract review is genuinely hard, slow, and expensive if you want it done right. LexAI runs five agents on your contract. Full analysis in 15–25 seconds.",
+    "intent": "retrieval",
+    "entity": "LexAI",
+    "sources": [
+      "Project: LexAI"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about AI Neighborhood Watch",
+    "a": "**Project: AI Neighborhood Watch**\nAI Neighborhood Watch is built with Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub. Safety information in most neighborhoods lives in three different Facebook groups, a NextDoor thread, and someone's memory. Residents drop incidents on a Leaflet layer, Gemini auto-categorizes them, and everything renders as color-coded markers in real time. For the daily briefing, two AI voices, Ava and Mateo, get a script generated each morning, ElevenLabs synthesizes them separately, and pydub stitches them into a broadcast-ready MP3.",
+    "intent": "retrieval",
+    "entity": "AI Neighborhood Watch",
+    "sources": [
+      "Project: AI Neighborhood Watch"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What is AI Neighborhood Watch?",
+    "a": "**Project: AI Neighborhood Watch**\nAI Neighborhood Watch is built with Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub. Safety information in most neighborhoods lives in three different Facebook groups, a NextDoor thread, and someone's memory. Residents drop incidents on a Leaflet layer, Gemini auto-categorizes them, and everything renders as color-coded markers in real time. For the daily briefing, two AI voices, Ava and Mateo, get a script generated each morning, ElevenLabs synthesizes them separately, and pydub stitches them into a broadcast-ready MP3.",
+    "intent": "retrieval",
+    "entity": "AI Neighborhood Watch",
+    "sources": [
+      "Project: AI Neighborhood Watch"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What tech stack does AI Neighborhood Watch use?",
+    "a": "**Project: AI Neighborhood Watch**\nAI Neighborhood Watch is built with Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub. Safety information in most neighborhoods lives in three different Facebook groups, a NextDoor thread, and someone's memory. Residents drop incidents on a Leaflet layer, Gemini auto-categorizes them, and everything renders as color-coded markers in real time. For the daily briefing, two AI voices, Ava and Mateo, get a script generated each morning, ElevenLabs synthesizes them separately, and pydub stitches them into a broadcast-ready MP3.",
+    "intent": "retrieval",
+    "entity": "AI Neighborhood Watch",
+    "sources": [
+      "Project: AI Neighborhood Watch"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "How does the daily audio briefing in AI Neighborhood Watch work?",
+    "a": "**Project: AI Neighborhood Watch**\nAI Neighborhood Watch is built with Flask · PostgreSQL · Gemini · ElevenLabs · Leaflet.js · Tailwind · pydub. Residents drop incidents on a Leaflet layer, Gemini auto-categorizes them, and everything renders as color-coded markers in real time. Puja built the real-time incident map. For the daily briefing, two AI voices, Ava and Mateo, get a script generated each morning, ElevenLabs synthesizes them separately, and pydub stitches them into a broadcast-ready MP3.",
+    "intent": "retrieval",
+    "entity": "AI Neighborhood Watch",
+    "sources": [
+      "Project: AI Neighborhood Watch"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about Smart Doc Finder",
+    "a": "**Project: Smart Doc Finder**\nSmart Doc Finder is built with Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker. Keyword search has one fatal flaw: you have to remember exactly how something was worded to find it. That's not how memory works, and it's not how understanding works either. Smart Doc Finder watches your document directory in real time via Redis Streams, chunks anything large into contextual blocks, embeds every chunk into Redis Vector Search, and checks a semantic cache before it even runs a query, so if someone asked something similar recently, it returns instantly.",
+    "intent": "retrieval",
+    "entity": "Smart Doc Finder",
+    "sources": [
+      "Project: Smart Doc Finder"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What is Smart Doc Finder?",
+    "a": "**Project: Smart Doc Finder**\nSmart Doc Finder is a project built with Python, Redis (Streams + Vector DB + Semantic Cache), MongoDB, React, and Docker.",
+    "intent": "retrieval",
+    "entity": "Smart Doc Finder",
+    "sources": [
+      "Project: Smart Doc Finder"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What tech stack does Smart Doc Finder use?",
+    "a": "**Project: Smart Doc Finder**\nSmart Doc Finder is built with Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker. Keyword search has one fatal flaw: you have to remember exactly how something was worded to find it. That's not how memory works, and it's not how understanding works either. Smart Doc Finder watches your document directory in real time via Redis Streams, chunks anything large into contextual blocks, embeds every chunk into Redis Vector Search, and checks a semantic cache before it even runs a query, so if someone asked something similar recently, it returns instantly.",
+    "intent": "retrieval",
+    "entity": "Smart Doc Finder",
+    "sources": [
+      "Project: Smart Doc Finder"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What three jobs does Redis do in Smart Doc Finder?",
+    "a": "**Project: Smart Doc Finder**\nSmart Doc Finder is built with Python · Redis (Streams + Vector DB + Semantic Cache) · MongoDB · React · Docker. Smart Doc Finder watches your document directory in real time via Redis Streams, chunks anything large into contextual blocks, embeds every chunk into Redis Vector Search, and checks a semantic cache before it even runs a query, so if someone asked something similar recently, it returns instantly. One Redis instance. Three jobs: event streaming, vector database, semantic cache.",
+    "intent": "retrieval",
+    "entity": "Smart Doc Finder",
+    "sources": [
+      "Project: Smart Doc Finder"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about Systems Sandbox",
+    "a": "**Project: Systems Sandbox (sys namespace)**\nSystems Sandbox (sys namespace) is built with C, WebAssembly, Emscripten, React. Three systems demos, written in C, compiled to WebAssembly, running live in your browser right now. A free-list memory allocator with coalescing. Type sys --alloc, sys --shell, or sys --threads and run them yourself.",
+    "intent": "retrieval",
+    "entity": "Systems Sandbox (sys namespace)",
+    "sources": [
+      "Project: Systems Sandbox (sys namespace)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What is the Systems Sandbox project?",
+    "a": "**Project: Systems Sandbox (sys namespace)**\nSystems Sandbox (sys namespace) is built with C, WebAssembly, Emscripten, React. Three systems demos, written in C, compiled to WebAssembly, running live in your browser right now. A free-list memory allocator with coalescing. Type sys --alloc, sys --shell, or sys --threads and run them yourself.",
+    "intent": "retrieval",
+    "entity": "Systems Sandbox (sys namespace)",
+    "sources": [
+      "Project: Systems Sandbox (sys namespace)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What three C demos are in Systems Sandbox?",
+    "a": "**Project: Systems Sandbox (sys namespace)**\nSystems Sandbox (sys namespace) is built with C, WebAssembly, Emscripten, React. Three systems demos, written in C, compiled to WebAssembly, running live in your browser right now. A free-list memory allocator with coalescing. A mini shell with pipes, redirection, and a virtual filesystem. A round-robin thread scheduler that shows you deadlocks as they happen.",
+    "intent": "retrieval",
+    "entity": "Systems Sandbox (sys namespace)",
+    "sources": [
+      "Project: Systems Sandbox (sys namespace)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "How can I run the Systems Sandbox demos in the terminal?",
+    "a": "**Project: Systems Sandbox (sys namespace)**\nSystems Sandbox (sys namespace) is built with C, WebAssembly, Emscripten, React. Three systems demos, written in C, compiled to WebAssembly, running live in your browser right now. A free-list memory allocator with coalescing. Type sys --alloc, sys --shell, or sys --threads and run them yourself.",
+    "intent": "retrieval",
+    "entity": "Systems Sandbox (sys namespace)",
+    "sources": [
+      "Project: Systems Sandbox (sys namespace)"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about AI Bot Rescue Mission",
+    "a": "**Project: AI Bot Rescue Mission**\nAI Bot Rescue Mission is built with Python, A-Star Algorithm, Heuristics. Four bots, one trapped captain, a ship full of moving aliens. The fun wasn't building the pathfinder: it was watching how quickly a \"smart\" bot falls apart the moment the aliens start moving, and designing the next one to handle it.",
+    "intent": "retrieval",
+    "entity": "AI Bot Rescue Mission",
+    "sources": [
+      "Project: AI Bot Rescue Mission"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What algorithm does AI Bot Rescue Mission use?",
+    "a": "**Project: AI Bot Rescue Mission**\nAI Bot Rescue Mission is built with Python, A-Star Algorithm, Heuristics. Four bots, one captain, a ship full of moving aliens: a study in how quickly pathfinders break. The fun wasn't building the pathfinder: it was watching how quickly a \"smart\" bot falls apart the moment the aliens start moving, and designing the next one to handle it.",
+    "intent": "retrieval",
+    "entity": "AI Bot Rescue Mission",
+    "sources": [
+      "Project: AI Bot Rescue Mission"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about the Algorithmic Transformation project",
+    "a": "**Project: Algorithmic Transformation (Independent Set to Clique)**\nPuja built the Algorithmic Transformation project by building with Python, NetworkX, Pandas, and 3D Force Graphs. The project involved making the reduction visible through the use of complement graphs, cliques, and 3D Force Graphs.",
+    "intent": "retrieval",
+    "entity": "Algorithmic Transformation (Independent Set to Clique)",
+    "sources": [
+      "Project: Algorithmic Transformation (Independent Set to Clique)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What tech does the Algorithmic Transformation project use?",
+    "a": "**Project: Algorithmic Transformation (Independent Set to Clique)**\nThe Project: Algorithmic Transformation uses Python, NetworkX, Pandas, and 3D Force Graphs. The NP reduction part was made visible by using Complement Graphs, Cliques, and 3D Force Graphs.",
+    "intent": "retrieval",
+    "entity": "Algorithmic Transformation (Independent Set to Clique)",
+    "sources": [
+      "Project: Algorithmic Transformation (Independent Set to Clique)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about Multilingual Health Misinformation Detection",
+    "a": "**Project: Multilingual Health Misinformation Detection**\nMultilingual Health Misinformation Detection is built with Python, NLP, Transformers. Transformer model that flags false health claims across languages, including ones monolingual models quietly miss. Health misinformation doesn't stay in one language, and neither should the tools that catch it.",
+    "intent": "retrieval",
+    "entity": "Multilingual Health Misinformation Detection",
+    "sources": [
+      "Project: Multilingual Health Misinformation Detection"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "How does the health misinformation detection project work?",
+    "a": "**Project: Multilingual Health Misinformation Detection**\nMultilingual Health Misinformation Detection is built with Python, NLP, Transformers. Transformer model that flags false health claims across languages, including ones monolingual models quietly miss. Health misinformation doesn't stay in one language, and neither should the tools that catch it.",
+    "intent": "retrieval",
+    "entity": "Multilingual Health Misinformation Detection",
+    "sources": [
+      "Project: Multilingual Health Misinformation Detection"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What did the emotion detection project use?",
+    "a": "**Project: Emotion Detection from Facial Expressions**\nEmotion Detection from Facial Expressions is built with Python, TensorFlow, Keras, OpenCV.\n\n**Project: Credit Card Fraud Detection**\nCredit Card Fraud Detection is built with Python, Scikit-learn, Isolation Forest.\n\n**Hackathon: Redis Hackathon (Dev.to) (Summer 2025)**\nThe question was: how far can you push it past the obvious use case?",
+    "intent": "retrieval",
+    "entity": null,
+    "sources": [
+      "Project: Emotion Detection from Facial Expressions",
+      "Project: Credit Card Fraud Detection",
+      "Hackathon: Redis Hackathon (Dev.to) (Summer 2025)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about Emotion Detection from Facial Expressions",
+    "a": "**Project: Emotion Detection from Facial Expressions**\nEmotion Detection from Facial Expressions is built with Python, TensorFlow, Keras, OpenCV. CNN trained on FER-2013, wired into OpenCV for real-time video. 96% accuracy. Puja investigated how well a CNN could read a face in real time. Puja trained it on FER-2013, wired it into OpenCV, and got to 96% accuracy, and a new appreciation for how much information lives in a half-second expression.",
+    "intent": "retrieval",
+    "entity": "Emotion Detection from Facial Expressions",
+    "sources": [
+      "Project: Emotion Detection from Facial Expressions"
+    ],
+    "generator": "template",
+    "reviewed": false
+  },
+  {
+    "q": "What accuracy did the emotion detection CNN achieve?",
+    "a": "**Project: Emotion Detection from Facial Expressions**\nEmotion Detection from Facial Expressions is built with Python, TensorFlow, Keras, OpenCV. CNN trained on FER-2013, wired into OpenCV for real-time video. 96% accuracy. Puja wanted to know how well a CNN could read a face in real time.",
+    "intent": "retrieval",
+    "entity": null,
+    "sources": [
+      "Project: Emotion Detection from Facial Expressions",
+      "Project: Credit Card Fraud Detection",
+      "Project: Multilingual Health Misinformation Detection"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about the Sentiment Analysis of Movie Reviews project",
+    "a": "**Project: Sentiment Analysis of Movie Reviews**\nSentiment Analysis of Movie Reviews is built with Python, NLP, Scikit-learn, Naive Bayes. Naive Bayes on 1,000+ reviews, 95% accuracy. Puja's first real look at how probabilistic models handle language. Naive Bayes on 1,000+ reviews, 95% accuracy, and a reminder that simple models, done well, are still worth understanding before you reach for something heavier.",
+    "intent": "retrieval",
+    "entity": "Sentiment Analysis of Movie Reviews",
+    "sources": [
+      "Project: Sentiment Analysis of Movie Reviews"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "What model and accuracy did the movie review sentiment analysis project have?",
+    "a": "**Project: Sentiment Analysis of Movie Reviews**\nSentiment Analysis of Movie Reviews is built with Python, NLP, Scikit-learn, Naive Bayes. Naive Bayes on 1,000+ reviews, 95% accuracy. Naive Bayes on 1,000+ reviews, 95% accuracy, and a reminder that simple models, done well, are still worth understanding before you reach for something heavier.",
+    "intent": "retrieval",
+    "entity": null,
+    "sources": [
+      "Project: Sentiment Analysis of Movie Reviews",
+      "Data Science Intern at Exposys Data Labs (September 2022 - October 2022)",
+      "Project: LexAI"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Which model won in the fraud detection project?",
+    "a": "**Project: Credit Card Fraud Detection**\nIsolation Forest won in the fraud detection project.",
+    "intent": "retrieval",
+    "entity": null,
+    "sources": [
+      "Project: Credit Card Fraud Detection",
+      "Project: Multilingual Health Misinformation Detection",
+      "Data Science Intern at Exposys Data Labs (September 2022 - October 2022)"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Tell me about the Credit Card Fraud Detection project",
+    "a": "**Project: Credit Card Fraud Detection**\nCredit Card Fraud Detection is built with Python, Scikit-learn, Isolation Forest. Isolation Forest beats LOF and SVM on anomaly detection. Puja built this independently because the problem genuinely interested Puja: how do you find the needle when the haystack has millions of legitimate transactions? Isolation Forest won, and the gap between them taught Puja more about anomaly detection than Puja expected going in.",
+    "intent": "retrieval",
+    "entity": "Credit Card Fraud Detection",
+    "sources": [
+      "Project: Credit Card Fraud Detection"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  },
+  {
+    "q": "Which models did Puja compare in the credit card fraud detection project?",
+    "a": "**Project: Credit Card Fraud Detection**\nCredit Card Fraud Detection is built with Python, Scikit-learn, Isolation Forest. Isolation Forest beats LOF and SVM on anomaly detection. Puja built this independently because the problem genuinely interested Puja: how do you find the needle when the haystack has millions of legitimate transactions? Isolation Forest won, and the gap between them taught Puja more about anomaly detection than Puja expected going in.",
+    "intent": "retrieval",
+    "entity": "Credit Card Fraud Detection",
+    "sources": [
+      "Project: Credit Card Fraud Detection"
+    ],
+    "generator": "qwen",
+    "reviewed": false
+  }
+]

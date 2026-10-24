@@ -86,6 +86,23 @@ When you ask a question in plain English, Cogsworth doesn't just pass it to a la
 
 This keeps the answers accurate and specific to my actual background — not a model hallucinating a plausible-sounding resume.
 
+### Local engine (in development)
+
+`cogsworth/` holds a from-scratch replacement for the Gemini + Pinecone pipeline that needs no API keys or external services. It isn't wired into production yet; it runs only on your machine until it matches Gemini on the eval set.
+
+| Step | Production (`api/chat.js`) | Local engine (`cogsworth/`) |
+|---|---|---|
+| Follow-up questions | Gemini rewrites the question | Rules that carry the last-mentioned project/role forward |
+| Retrieval | Gemini embeddings + Pinecone | Hand-written BM25 ranking with synonym expansion |
+| Answer | Gemini generates text | Structured answers for lists (skills, contact, education, …) and the best-matching sentences for everything else |
+
+```bash
+npm run cogsworth                         # chat with the local engine in your terminal (--debug shows how it decided)
+npm run dev:local                         # run the site with /api/chat answered by the local engine
+npm run cogsworth:eval                    # score the local engine on cogsworth/eval/questions.json
+npm run cogsworth:eval -- --compare-prod  # score local and live Gemini side by side
+```
+
 ---
 
 ## Terminal UX details
