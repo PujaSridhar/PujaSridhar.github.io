@@ -33,7 +33,10 @@ const UNAVAILABLE =
 // email, a new skill) can never be contradicted by a stale cached entry.
 const engine = createEngine(portfolioData, { cache: [] });
 
-export function localFallbackAnswer(prompt, conversationHistory = []) {
-  const result = engine.answer(prompt, conversationHistory || [], { useCache: false });
+// Conversation history is deliberately ignored. None of the exact answers depend on context,
+// and follow-up resolution can borrow the previous question: after "how can I contact Puja?",
+// a terse "what did do at RWJ?" was answered with contact details.
+export function localFallbackAnswer(prompt) {
+  const result = engine.answer(prompt, [], { useCache: false });
   return EXACT_INTENTS.has(result.intent) ? result.text : UNAVAILABLE;
 }
