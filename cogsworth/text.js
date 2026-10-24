@@ -15,7 +15,7 @@ yours yourself yourselves puja sridhar puja's cogsworth tell know show give plea
 // and it treats "projects"/"project" and "built"/"building" consistently.
 const IRREGULAR = {
   built: 'build', made: 'make', ran: 'run', led: 'lead', wrote: 'write',
-  did: 'do', done: 'do', won: 'win', spoke: 'speak', studied: 'study', went: 'go',
+  did: 'do', done: 'do', won: 'win', spoke: 'speak', studied: 'study', proudest: 'proud', went: 'go',
 };
 
 export function stem(word) {
@@ -71,6 +71,7 @@ const SYNONYM_GROUPS = [
   ['hackathon', 'competition', 'hack', 'sprint'],
   ['leadership', 'leader', 'lead', 'head', 'representative'],
   ['location', 'live', 'based', 'city', 'jose', 'san'],
+  ['gpt', 'openai', 'chatgpt'],
   ['ai', 'ml', 'llm', 'agent', 'agentic', 'machine', 'learning'],
   ['data', 'pipeline', 'etl', 'airflow', 'dbt', 'warehouse'],
   ['wasm', 'webassembly', 'emscripten', 'allocator', 'system'],

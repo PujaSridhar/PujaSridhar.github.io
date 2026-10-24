@@ -4,6 +4,12 @@
 
 export const DEFAULT_EMBED_MODEL_ID = 'Xenova/bge-small-en-v1.5';
 
+// From the BAAI/bge-small-en-v1.5 model card: the [CLS] token is the sentence embedding
+// (1_Pooling/config.json sets pooling_mode_cls_token), and short retrieval queries get
+// this instruction prefix while the passages they search do not.
+const POOLING = 'cls';
+export const QUERY_INSTRUCTION = 'Represent this sentence for searching relevant passages: ';
+
 export function cleanTextForEmbedding(text) {
   return (text || '')
     .replace(/\b(puja['’]?s?|sridhar|cogsworth)\b/gi, ' ')
@@ -51,12 +57,21 @@ export async function createEmbedder({
     });
   }
 
+  // Passages (portfolio chunks and sentences) are embedded as-is.
   async function embed(text) {
     const cleaned = cleanTextForEmbedding(text);
     if (!cleaned) return null;
-    const out = await extractor(cleaned, { pooling: 'mean', normalize: true });
+    const out = await extractor(cleaned, { pooling: POOLING, normalize: true });
     return Array.from(out.data);
   }
 
-  return { embed, modelId };
+  // Visitor questions get the retrieval instruction so they land near the passages that answer them.
+  async function embedQuery(text) {
+    const cleaned = cleanTextForEmbedding(text);
+    if (!cleaned) return null;
+    const out = await extractor(QUERY_INSTRUCTION + cleaned, { pooling: POOLING, normalize: true });
+    return Array.from(out.data);
+  }
+
+  return { embed, embedQuery, modelId };
 }

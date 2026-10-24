@@ -6,10 +6,14 @@
 
 import { writeFileSync } from 'node:fs';
 import { buildChunks } from './chunks.js';
+import { splitSentences } from './text.js';
 import { createEmbedder, DEFAULT_EMBED_MODEL_ID } from './embeddings.js';
 import { portfolioData } from '../portfolio-data.js';
 
 const OUTPUT_URL = new URL('./embeddings.json', import.meta.url);
+
+// Four decimals keep cosine scores stable to ~1e-4 while roughly halving the file size.
+const round = vector => vector.map(v => Number(v.toFixed(4)));
 
 async function main() {
   const chunks = buildChunks(portfolioData);
@@ -20,8 +24,14 @@ async function main() {
   for (let i = 0; i < chunks.length; i++) {
     const chunk = chunks[i];
     const inputText = `${chunk.title}. ${chunk.team ? `${chunk.team}. ` : ''}${chunk.text}`;
-    const rawVec = await embedder.embed(inputText);
-    const vector = rawVec.map(v => Number(v.toFixed(6)));
+    const vector = round(await embedder.embed(inputText));
+    // Sentence vectors let a single line ("the part I'm most proud of") be found even when
+    // the rest of its paragraph is about something else.
+    const sentences = [];
+    for (const sentence of splitSentences(chunk.text)) {
+      const sentenceVector = await embedder.embed(sentence);
+      if (sentenceVector) sentences.push({ text: sentence, vector: round(sentenceVector) });
+    }
     records.push({
       id: i,
       section: chunk.section,
@@ -29,6 +39,7 @@ async function main() {
       title: chunk.title,
       text: chunk.text,
       vector,
+      sentences,
     });
   }
 
@@ -38,7 +49,7 @@ async function main() {
     chunks: records,
   };
 
-  writeFileSync(OUTPUT_URL, JSON.stringify(payload, null, 2) + '\n', 'utf8');
+  writeFileSync(OUTPUT_URL, JSON.stringify(payload) + '\n', 'utf8');
   console.log(`Wrote ${records.length} chunk embeddings (${payload.dimension}-d) to cogsworth/embeddings.json`);
 }
 

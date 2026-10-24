@@ -13,6 +13,14 @@ import { buildChunks, buildEntities } from './chunks.js';
 import { cosineSimilarity } from './embeddings.js';
 import { expandQuery, splitSentences, tokenize } from './text.js';
 
+// Hybrid retrieval tuning. RRF_K is the standard Reciprocal Rank Fusion constant. The two
+// cosine thresholds come from the eval sets (bge-small-en-v1.5, CLS pooling, query prefix):
+// every out-of-scope question's best match scored <= 0.581, while most answerable ones score
+// higher, so semantic similarity alone only vouches for an answer above 0.60.
+const RRF_K = 60;
+const SEMANTIC_FLOOR = 0.5;
+const SEMANTIC_CONFIDENT = 0.6;
+
 const NO_ANSWER = "I don't have that information in Puja's portfolio. Try asking about projects, experience, education, skills, hackathons, or how to get in touch.";
 
 const FOLLOW_UP = /\b(it|its|that|this|they|them|those|these|there|more|else|another|same|the project|the role|the company)\b/i;
@@ -102,6 +110,8 @@ export function createEngine(
   const embList = embeddings?.chunks || [];
   const embByKey = new Map(embList.map(c => [`${c.title}\n${c.text}`, c.vector]));
   const chunkVectors = chunks.map((c, i) => embByKey.get(`${c.title}\n${c.text}`) || embList[i]?.vector || null);
+  const sentenceVectors = new Map();
+  for (const c of embList) for (const sentence of c.sentences || []) sentenceVectors.set(sentence.text, sentence.vector);
 
   // Only serve cache entries that have been reviewed (structured entries count as reviewed).
   const cacheIndex = new BM25Index();
@@ -402,6 +412,18 @@ export function createEngine(
     ].join(' '),
   };
 
+  // A chunk's semantic score is its best match: the whole paragraph or any one sentence in it,
+  // so a single line ("the part I'm most proud of") can surface its paragraph.
+  function semanticScore(doc, queryVector) {
+    if (!queryVector) return 0;
+    let best = chunkVectors[doc.id] ? cosineSimilarity(queryVector, chunkVectors[doc.id]) : 0;
+    for (const sentence of splitSentences(doc.meta.text)) {
+      const vec = sentenceVectors.get(sentence);
+      if (vec) best = Math.max(best, cosineSimilarity(queryVector, vec));
+    }
+    return best;
+  }
+
   // Steps 2–4 for open questions: retrieve chunks with BM25 + optional cosine similarity
   // (hybrid retrieval), then pick the sentences that best answer the question.
   function retrieve(query, entity, queryVector = null) {
@@ -418,8 +440,7 @@ export function createEngine(
         .filter(doc => doc.meta.entity === entity.name)
         .map((doc, order) => {
           const bm25Score = index.scoreDoc(doc, nonEntityWeights);
-          const vec = chunkVectors[doc.id];
-          const cosSim = queryVector && vec ? cosineSimilarity(queryVector, vec) : 0;
+          const cosSim = semanticScore(doc, queryVector);
           const semanticBoost = cosSim > 0 ? Math.max(0, cosSim - 0.35) * 1.5 : 0;
           return {
             doc,
@@ -434,22 +455,25 @@ export function createEngine(
     }
 
     if (queryVector) {
-      const results = index.docs
-        .map(doc => {
-          const bm25Score = index.scoreDoc(doc, weights);
-          const vec = chunkVectors[doc.id];
-          const cosSim = vec ? cosineSimilarity(queryVector, vec) : 0;
-          // Combine lexical BM25 score with semantic cosine similarity above baseline.
-          const score =
-            bm25Score > 0
-              ? bm25Score + Math.max(0, cosSim - 0.35) * 2.5
-              : Math.max(0, cosSim - 0.56) * 8.0;
-          return { doc, bm25Score, cosSim, score };
-        })
-        .filter(result => result.score > 0)
+      // Reciprocal Rank Fusion: BM25 scores (~5–30) and cosine similarities (~0.4–0.7) live on
+      // different scales, so combine their rankings instead of adding the raw numbers.
+      const scored = index.docs.map(doc => ({
+        doc,
+        bm25Score: index.scoreDoc(doc, weights),
+        cosSim: semanticScore(doc, queryVector),
+      }));
+      const fused = new Map(scored.map(r => [r, 0]));
+      scored.filter(r => r.bm25Score > 0).sort((a, b) => b.bm25Score - a.bm25Score)
+        .forEach((r, rank) => fused.set(r, fused.get(r) + 1 / (RRF_K + rank + 1)));
+      scored.filter(r => r.cosSim >= SEMANTIC_FLOOR).sort((a, b) => b.cosSim - a.cosSim)
+        .forEach((r, rank) => fused.set(r, fused.get(r) + 1 / (RRF_K + rank + 1)));
+      const results = scored
+        .map(r => ({ ...r, score: fused.get(r) }))
+        .filter(r => r.score > 0)
         .sort((a, b) => b.score - a.score)
         .slice(0, 5);
-      return { weights, nonEntityWeights: null, results };
+      const topSemantic = Math.max(0, ...scored.map(r => r.cosSim));
+      return { weights, nonEntityWeights: null, results, topSemantic };
     }
 
     return {
@@ -459,7 +483,7 @@ export function createEngine(
     };
   }
 
-  function composeFromChunks(weights, results, entity, nonEntityWeights = null) {
+  function composeFromChunks(weights, results, entity, nonEntityWeights = null, queryVector = null) {
     const typedTerms = [...weights].filter(([, w]) => w === 1).map(([t]) => t);
     const scoreWeights = entity && nonEntityWeights ? nonEntityWeights : weights;
     const candidates = [];
@@ -472,6 +496,11 @@ export function createEngine(
           if (terms.has(term) || titleTerms.has(term)) score += weight * index.idf(term);
         }
         score += result.score * 0.15;
+        // Semantic match for this exact sentence, scaled to sit alongside the lexical idf sum.
+        // Skipped inside a named project, where the portfolio's own order already leads with
+        // the overview a visitor asking "tell me about X" expects.
+        const sentenceVec = !entity && queryVector && sentenceVectors.get(sentence);
+        if (sentenceVec) score += Math.max(0, cosineSimilarity(queryVector, sentenceVec) - 0.5) * 20;
         if (entity) {
           score += 1.2 / (position + 1);
           if (SUBSTANCE_RE.test(sentence)) score += 1.0;
@@ -568,22 +597,25 @@ export function createEngine(
       return { text: techAnswer, intent: 'tech_usage', entity: null, resolvedQuery: query, followUp, sources: ['skills', 'projects'], cached: false };
     }
 
-    const { weights, nonEntityWeights, results } = retrieve(query, entity, queryVector);
+    const { weights, nonEntityWeights, results, topSemantic = 0 } = retrieve(query, entity, queryVector);
     // Confidence gate: without a named entity, require a decent BM25/hybrid score
     // relative to how many terms the visitor actually typed, or high semantic similarity.
     const typedCount = [...weights.values()].filter(w => w === 1).length || 1;
-    const topDoc = results[0]?.doc;
     const topScore = results[0]?.score || 0;
-    const topCosSim = results[0]?.cosSim || 0;
+    // Judge the lexical side on its own best BM25 hit: in hybrid mode results are ordered by
+    // fused rank, and their fused scores are not on the BM25 scale this threshold expects.
+    const topLexical = results.reduce((best, r) => ((r.bm25Score ?? r.score) > (best?.bm25Score ?? best?.score ?? 0) ? r : best), null);
+    const topBm25 = topLexical ? (topLexical.bm25Score ?? topLexical.score) : 0;
+    const topDoc = topLexical?.doc;
     const matchedTerms = topDoc ? [...weights.keys()].filter(t => topDoc.termFreq.has(t)).length : 0;
-    const bm25Confident = topScore / Math.sqrt(typedCount) >= 2.2 && (typedCount < 3 || matchedTerms >= 2);
-    const semanticConfident = Boolean(queryVector && topCosSim >= 0.62 && (matchedTerms >= 1 || topCosSim >= 0.66));
+    const bm25Confident = topBm25 / Math.sqrt(typedCount) >= 2.2 && (typedCount < 3 || matchedTerms >= 2);
+    const semanticConfident = Boolean(queryVector && topSemantic >= SEMANTIC_CONFIDENT);
     const confident = Boolean(entity) || bm25Confident || semanticConfident;
     if (!confident) {
       return { text: NO_ANSWER, intent: 'unknown', entity: null, resolvedQuery: query, followUp, sources: [], cached: false, topScore };
     }
 
-    const { text } = composeFromChunks(weights, results, entity, nonEntityWeights);
+    const { text } = composeFromChunks(weights, results, entity, nonEntityWeights, queryVector);
     return {
       text: text || NO_ANSWER,
       intent: 'retrieval',
@@ -606,7 +638,7 @@ export function createEngine(
     let queryVector = null;
     if (activeEmbedder) {
       try {
-        queryVector = await activeEmbedder.embed(query);
+        queryVector = await (activeEmbedder.embedQuery || activeEmbedder.embed)(query);
       } catch {
         queryVector = null;
       }
