@@ -16,6 +16,7 @@ yours yourself yourselves puja sridhar puja's cogsworth tell know show give plea
 const IRREGULAR = {
   built: 'build', made: 'make', ran: 'run', led: 'lead', wrote: 'write',
   did: 'do', done: 'do', won: 'win', spoke: 'speak', studied: 'study', proudest: 'proud', went: 'go',
+  agentic: 'agent',
 };
 
 export function stem(word) {
@@ -88,10 +89,17 @@ for (const group of SYNONYM_GROUPS) {
   }
 }
 
+// Abbreviations visitors type for words the portfolio spells out. These expand at full
+// weight, because the short form never appears in portfolio-data.js.
+const ABBREVIATIONS = {
+  ta: ['teach', 'assistant'],
+  tas: ['teach', 'assistant'],
+};
+
 // Returns Map<term, weight>: typed terms weigh 1, synonym expansions 0.3.
 export function expandQuery(text) {
   const weights = new Map();
-  const terms = tokenize(text);
+  const terms = tokenize(text).flatMap(term => ABBREVIATIONS[term] || [term]);
   for (const term of terms) weights.set(term, 1);
   for (const term of terms) {
     for (const synonym of SYNONYMS.get(term) || []) {
