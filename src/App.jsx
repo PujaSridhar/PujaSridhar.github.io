@@ -39,6 +39,8 @@ function triggerResumeDownload(url) {
   document.body.removeChild(link);
 }
 
+const INTERACTIVE_IN_OUTPUT = 'a, button, input, select, textarea, label, [role="button"], .shell-demo, .thread-demo, .alloc-demo';
+
 function isCoarsePointer() {
   return typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches;
 }
@@ -131,6 +133,14 @@ export default function App() {
     const stopFollowing = () => {
       followOutputRef.current = false;
     };
+    // Once the visitor presses anything in the output (a demo button, a block),
+    // stop moving the view under their pointer. Clickable commands are the
+    // exception: they add a new entry, which turns following back on.
+    const stopFollowingOnPress = (event) => {
+      if (!event.target.closest?.('[data-cmd]')) {
+        stopFollowing();
+      }
+    };
 
     follow();
     const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(follow) : null;
@@ -140,11 +150,13 @@ export default function App() {
     }
     terminal.addEventListener('wheel', stopFollowing, { passive: true });
     terminal.addEventListener('touchmove', stopFollowing, { passive: true });
+    terminal.addEventListener('pointerdown', stopFollowingOnPress, { passive: true });
 
     return () => {
       observer?.disconnect();
       terminal.removeEventListener('wheel', stopFollowing);
       terminal.removeEventListener('touchmove', stopFollowing);
+      terminal.removeEventListener('pointerdown', stopFollowingOnPress);
     };
   }, [terminalHistory, terminalMode]);
 
@@ -677,13 +689,17 @@ export default function App() {
                 event.preventDefault();
                 handleSubmit(runTarget.dataset.cmd);
                 if (!isCoarsePointer()) {
-                  inputRef.current?.focus();
+                  inputRef.current?.focus({ preventScroll: true });
                 }
                 return;
               }
-              if (event.target.tagName.toLowerCase() !== 'a') {
-                inputRef.current?.focus();
+              // Leave focus alone when a demo's own control or a link was pressed:
+              // focusing the prompt would jump the view to the bottom and, on
+              // phones, pop up the keyboard.
+              if (event.target.closest?.(INTERACTIVE_IN_OUTPUT)) {
+                return;
               }
+              inputRef.current?.focus({ preventScroll: true });
             }}
             onKeyDown={(event) => {
               const runTarget = event.target.closest?.('[data-cmd]');

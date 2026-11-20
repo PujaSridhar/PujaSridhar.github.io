@@ -133,6 +133,7 @@ body {
 /* Commands in help and the boot text that run on click/tap. Same look as any
    command; only a faint underline on hover, focus or press. */
 .run-command {
+  white-space: nowrap;
     cursor: pointer;
     text-decoration: underline transparent;
     text-underline-offset: 3px;
