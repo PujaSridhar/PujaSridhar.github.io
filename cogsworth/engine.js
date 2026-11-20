@@ -21,6 +21,10 @@ const RRF_K = 60;
 const SEMANTIC_FLOOR = 0.5;
 const SEMANTIC_CONFIDENT = 0.6;
 
+// Creative or general-purpose requests ("write me a poem") are out of scope even when a
+// word like "write" happens to match portfolio text.
+const CREATIVE_REQUEST_RE = /\b(poems?|haikus?|jokes?|limericks?|riddles?|lyrics)\b/i;
+
 const NO_ANSWER = "I don't have that information in Puja's portfolio. Try asking about projects, experience, education, skills, hackathons, or how to get in touch.";
 
 const FOLLOW_UP = /\b(it|its|that|this|they|them|those|these|there|more|else|another|same|the project|the role|the company)\b/i;
@@ -596,6 +600,9 @@ export function createEngine(
     const resolved = resolveQuery(prompt, history);
     const { query, followUp } = resolved;
     const entity = hackathonForProject(query, resolved.entity);
+    if (CREATIVE_REQUEST_RE.test(prompt || '')) {
+      return { text: NO_ANSWER, intent: 'unknown', entity: null, resolvedQuery: query, followUp, sources: [], cached: false };
+    }
 
     if (useCache) {
       const hit = matchCache(query, entity);
