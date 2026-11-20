@@ -36,3 +36,14 @@ export function makeCommandEntry(text) {
 export function makeComponentEntry(componentName, props = {}) {
   return { id: crypto.randomUUID(), type: 'component', componentName, props };
 }
+
+// Where the terminal should scroll after output changes. Short output: stick to
+// the bottom like a real terminal. Output taller than the screen (a demo, a long
+// answer): keep the command that produced it at the top so the start is visible.
+export function getFollowScrollTop({ scrollHeight, clientHeight, commandTop = null, padding = 8 }) {
+  const bottom = Math.max(0, scrollHeight - clientHeight);
+  if (commandTop === null || commandTop === undefined) {
+    return bottom;
+  }
+  return Math.max(0, Math.min(bottom, commandTop - padding));
+}

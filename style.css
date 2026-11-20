@@ -30,12 +30,35 @@ body {
     opacity: 0.15;
 }
 
+/* One scroll: the page itself never scrolls; the page fills the screen and only
+   the terminal (or the standard view's content) scrolls inside it. */
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+#root {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 .terminal-container {
     position: relative;
     z-index: 3;
     display: flex;
     flex-direction: column;
-    height: 95vh;
+    flex: 1;
+    min-height: 0;
 }
 
 #terminal,
@@ -45,6 +68,7 @@ body {
     transition: background-color 0.3s;
     flex-grow: 1;
     overflow-y: auto;
+    overscroll-behavior: contain;
     min-height: 0;
 }
 
@@ -798,10 +822,6 @@ body.dark #moon-icon {
         padding: 1rem;
     }
 
-    .terminal-container {
-        height: 90vh;
-    }
-
     #contact-icons-container {
         flex-direction: column;
         align-items: center;
@@ -1023,6 +1043,13 @@ body.dark #moon-icon {
     button,
     canvas {
         display: none !important;
+    }
+
+    /* Let the page flow across printed pages */
+    html, body, #root, .terminal-container, #terminal, #gui-mode {
+        height: auto !important;
+        overflow: visible !important;
+        display: block !important;
     }
 
     /* Force light background and dark text regardless of theme */

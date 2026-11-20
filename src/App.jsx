@@ -15,7 +15,7 @@ import {
   buildThemeListHtml,
   getCommandEntries,
 } from './utils/terminalContent.js';
-import { makeCommandEntry, makeComponentEntry, makeOutputEntry, parseMarkdown } from './utils/terminalHelpers.js';
+import { getFollowScrollTop, makeCommandEntry, makeComponentEntry, makeOutputEntry, parseMarkdown } from './utils/terminalHelpers.js';
 import { applyTheme, getSavedTheme } from './utils/themeUtils.js';
 
 function getSharedPrefix(matches) {
@@ -55,6 +55,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('About');
   const [showGuiHint, setShowGuiHint] = useState(() => localStorage.getItem('guiHintSeen') !== 'true');
   const terminalRef = useRef(null);
+  const followOutputRef = useRef(true);
   const inputRef = useRef(null);
   const canvasRef = useRef(null);
   const conversationHistoryRef = useRef([]);
@@ -101,10 +102,50 @@ export default function App() {
     return () => clearTimeout(timeout);
   }, [showGuiHint]);
 
+  // Follow new output: on every new entry, and again whenever the output grows
+  // afterwards (a WASM demo finishing its load, a streamed Cogsworth answer),
+  // until the visitor scrolls the terminal themselves.
   useEffect(() => {
-    if (terminalMode && terminalRef.current) {
-      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    followOutputRef.current = true;
+  }, [terminalHistory.length]);
+
+  useEffect(() => {
+    const terminal = terminalRef.current;
+    if (!terminalMode || !terminal) {
+      return undefined;
     }
+
+    const follow = () => {
+      if (!followOutputRef.current) {
+        return;
+      }
+      const commands = terminal.querySelectorAll('[data-entry-type="command"]');
+      const lastCommand = commands[commands.length - 1];
+      terminal.scrollTop = getFollowScrollTop({
+        scrollHeight: terminal.scrollHeight,
+        clientHeight: terminal.clientHeight,
+        commandTop: lastCommand ? lastCommand.offsetTop : null,
+      });
+    };
+
+    const stopFollowing = () => {
+      followOutputRef.current = false;
+    };
+
+    follow();
+    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(follow) : null;
+    const output = terminal.querySelector('#output');
+    if (observer && output) {
+      observer.observe(output);
+    }
+    terminal.addEventListener('wheel', stopFollowing, { passive: true });
+    terminal.addEventListener('touchmove', stopFollowing, { passive: true });
+
+    return () => {
+      observer?.disconnect();
+      terminal.removeEventListener('wheel', stopFollowing);
+      terminal.removeEventListener('touchmove', stopFollowing);
+    };
   }, [terminalHistory, terminalMode]);
 
   useEffect(() => {
