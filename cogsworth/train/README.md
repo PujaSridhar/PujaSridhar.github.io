@@ -37,7 +37,10 @@ out of memory on Qwen's big vocabulary), and the whole notebook takes roughly an
 3. **Import the notebook:** kaggle.com → Code → New Notebook → File → Import Notebook → `cogsworth/train/kaggle/cogsworth-train.ipynb`.
 4. In the notebook: **Add Input** → your dataset. **Settings → Accelerator → GPU T4** (x1 or x2, it uses one).
    **Settings → Internet → On** (Kaggle asks you to verify a phone number once).
-5. **Run All.** Then download `cogsworth-out.zip` from the Output tab.
+5. **Run All.** The last cell scores the model right there and prints the table (see below). Then download
+   `cogsworth-out.zip` and `report.md` from the Output tab. Scoring needs the whole repo as the input: either add
+   the GitHub repo itself as a dataset (Datasets → New Dataset → GitHub) instead of the zip, or attach no input and
+   the notebook clones it.
 
 The notebook trains, answers every eval question with the trained model and with the untuned base model, exports
 the browser model and zips the LoRA adapter (~35 MB), `cogsworth-web/` and both answer files. To try the
