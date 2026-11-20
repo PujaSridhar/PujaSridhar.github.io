@@ -37,6 +37,22 @@ describe('parseMarkdown', () => {
   it('converts newlines to <br>', () => {
     expect(parseMarkdown('a\nb')).toBe('a<br>b');
   });
+
+  it('turns "* " list items into bullets instead of leaving raw asterisks', () => {
+    expect(parseMarkdown('Built:\n* LocalLens\n* LexAI')).toBe('Built:<br>• LocalLens<br>• LexAI');
+  });
+
+  it('handles "- " list items and keeps bold inside them', () => {
+    expect(parseMarkdown('- **LexAI**: contracts')).toBe('• <span class="command">LexAI</span>: contracts');
+  });
+
+  it('keeps indentation for nested list items', () => {
+    expect(parseMarkdown('  * nested')).toBe('&nbsp;&nbsp;• nested');
+  });
+
+  it('does not treat a hyphen inside a sentence as a bullet', () => {
+    expect(parseMarkdown('real-time map')).toBe('real-time map');
+  });
 });
 
 describe('entry factories', () => {

@@ -17,6 +17,9 @@ export function sanitizeHtml(text) {
 
 export function parseMarkdown(text) {
   return sanitizeHtml(text)
+    // List items ("* item", "- item", "+ item") become terminal-style bullets,
+    // before the italic rule can mistake a leading "*" for emphasis.
+    .replace(/^([ \t]*)[*+-][ \t]+/gm, (_, indent) => `${'&nbsp;'.repeat(indent.length)}• `)
     .replace(/\*\*(.*?)\*\*/g, '<span class="command">$1</span>')
     .replace(/\*(.*?)\*/g, '<i>$1</i>')
     .replace(/\n/g, '<br>');

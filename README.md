@@ -22,7 +22,7 @@ Type `help` to see what's available. Type `diff` or `patch notes` if you want th
 
 | Command | What it does |
 |---|---|
-| `log` | My career as a system log — from Pondicherry to San Jose |
+| `log` | My career as a system log — from Bangalore to San Jose |
 | `projects <slug>` | Deep-dive on a project: pipeline, stack, highlights, screenshots |
 | `diff` | What changed between v24 and v25 of me |
 | `patch notes` | v25.0.0 release notes — deprecations, additions, known bugs |

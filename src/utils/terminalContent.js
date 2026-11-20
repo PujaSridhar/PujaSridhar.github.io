@@ -195,14 +195,13 @@ function buildLogHtml() {
   return (
     `<div class="skills-category-title">[SYSTEM LOG] Puja Sridhar - Career &amp; Life Events</div><pre class="log-entry">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-<span class="command">[2001-06-28]</span> BOOT        Initialized. Location: Pondicherry, India.
-
-<span class="command">[2003]</span>       MIGRATED    Bangalore. Age 2. Didn't choose it.
+<span class="command">[BOOT]</span>       INIT        Bangalore, India.
                          Grew up on gojju avalaki, pineapple gojju,
                          mudde saru, and the kind of Bangalore sweet
                          sambar that ruins all other sambar forever.    
 
-<span class="command">[2019-09-01]</span> ENROLLED    B.E. in Computer Science. Bangalore.
+<span class="command">[2019-09-01]</span> ENROLLED    B.E. in AI &amp; ML @ BMS Institute of Technology
+                         and Management, Bangalore.
                          First line of code. First all-nighter.
                          First "why does this work, I changed nothing."
 
@@ -259,7 +258,7 @@ function buildVersionHtml() {
   Status:         stable. took a minute. worth it.
 
   Operator:       Puja Sridhar
-  Origin:         Pondicherry → Bangalore → New Brunswick, NJ
+  Origin:         Bangalore → New Brunswick, NJ
   Current node:   San Jose, CA
 
   Core modules:
