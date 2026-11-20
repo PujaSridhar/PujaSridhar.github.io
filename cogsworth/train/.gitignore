@@ -1,0 +1,7 @@
+eval/out/
+python/out/
+python/work/
+python/__pycache__/
+.venv/
+.hf-cache/
+slurm/*.log
