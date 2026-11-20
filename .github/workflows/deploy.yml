@@ -3,22 +3,22 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Let a deploy that has started finish; a newer push queues behind it
+# instead of cancelling it halfway.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -37,6 +37,15 @@ jobs:
         with:
           path: ./dist
 
+  # Deploy runs as its own job, after the build job has finished, so the
+  # uploaded artifact is visible to deploy-pages when it looks it up.
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
