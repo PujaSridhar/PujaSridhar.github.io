@@ -1,0 +1,11 @@
+# Versions the kit was tested with (CPU smoke test). torch is not pinned: use the one
+# Kaggle / the cluster provides (CUDA build), any 2.x from the last year works.
+transformers==4.57.6
+peft==0.22.0
+accelerate==1.16.0
+optimum==2.1.0
+optimum-onnx==0.1.0
+onnx==1.23.2
+onnx-ir
+onnxruntime==1.32.0
+sentencepiece
