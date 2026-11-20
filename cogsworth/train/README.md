@@ -26,8 +26,8 @@ What's here:
 
 ## Train on Kaggle (main path)
 
-Kaggle's free T4 (16 GB) is plenty: the default 0.5B model trains in fp16 in roughly 20–30 minutes, and the
-whole notebook finishes in well under an hour. You get about 30 GPU hours a week.
+Kaggle's free T4 (16 GB) is plenty: the default 0.5B model trains in fp16 one example at a time (larger batches run
+out of memory on Qwen's big vocabulary), and the whole notebook takes roughly an hour. You get about 30 GPU hours a week.
 
 1. **Package the kit** on your laptop, from the repo root:
    ```
