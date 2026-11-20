@@ -18,6 +18,8 @@
   { "q": "Where has she worked?", "contains": ["Pennant Education"] },
   { "q": "What leadership roles has she had?", "contains": ["Class Representative"] },
   { "q": "What is LexAI?", "contains": ["agents", "contract"] },
+  { "q": "What is FinSight?", "contains": ["Mistral", "earnings"] },
+  { "q": "Tell me about Silhouette", "contains": ["solver", "rules"] },
   { "q": "What tech does LocalLens use?", "contains": ["Groq"] },
   { "q": "Tell me about the PostHog dashboard", "contains": ["Airflow", "dbt"] },
   { "q": "What did she build at HackRU?", "contains": ["Neighborhood Watch"] },

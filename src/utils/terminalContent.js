@@ -311,6 +311,40 @@ function buildExperienceHtml() {
 }
 
 const FEATURED_PROJECTS = {
+  finsight: {
+    name: 'FinSight',
+    tagline: 'Fine-tuned Mistral-7B that turns earnings press releases into structured JSON',
+    tech: 'Python · Mistral-7B · QLoRA (PEFT, bitsandbytes) · Transformers · vLLM · FastAPI · SEC EDGAR + XBRL',
+    github: 'https://github.com/PujaSridhar/finsight',
+    live: null,
+    pipeline: [
+      'Pull earnings releases (8-K Item 2.02, Exhibit 99.1) from SEC EDGAR; keep the opening plus the income statement',
+      'Label each release with the figures the company later filed in XBRL, plus year-ago and year-to-date distractor values',
+      'Keep a release only if its labelled figures appear in the text; split train / validation / test by company',
+      'QLoRA fine-tune of Mistral-7B-Instruct in 4-bit on a 16 GB T4, loss on the JSON answer only',
+      'Compare base, base + retrieved examples, fine-tuned, and a hosted model on accuracy, cost per release and latency',
+      'Serve with vLLM behind FastAPI; a live watcher answers new filings and scores them against the later 10-Q',
+    ],
+    highlight:
+      'Labels are free and checkable: the company files the same figures in XBRL weeks later. Comparison results are pending and will be added once they have run.',
+  },
+  silhouette: {
+    name: 'Silhouette',
+    tagline: 'A styling reasoning engine: a solver picks the outfit, rules explain why it works',
+    tech: 'Python · OR-Tools CP-SAT · YAML rules engine · CIEDE2000 colour · JavaScript · Mask2Former (W1)',
+    github: 'https://github.com/PujaSridhar/silhouette',
+    live: null,
+    pipeline: [
+      'Garments and a body frame are described with explicit fields (rise, length, volume, structure, colour)',
+      'Geometry turns each outfit into a visual break point and a lift score: how much longer the leg line reads',
+      '18 rules written as YAML: hard constraints for feasibility, weighted soft rules for the score',
+      'Exact solver enumerates every candidate (158 µs each); CP-SAT plans a week of outfits from one shared wardrobe',
+      'Explanations are rendered from the rules that fired, with the numbers that made them fire',
+      'Eval harness fits rule weights from ratings and only accepts weights that beat the hand-set ones out of sample',
+    ],
+    highlight:
+      'A JavaScript port of the rules runs the interactive demo and replays 76 cases from the Python engine, matching all 76. Expert labels and the W1 garment segmenter are next.',
+  },
   posthog: {
     name: 'PostHog Engineering Impact Dashboard',
     tagline: 'Production data pipeline: GitHub API → Airflow → dbt → FastAPI → Redis → React',

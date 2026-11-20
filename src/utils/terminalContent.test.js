@@ -24,6 +24,19 @@ describe('getCommandEntries', () => {
     expect(entry.html).toContain('Stack');
   });
 
+  it('gives every featured project a full deep-dive and lists it under Featured', () => {
+    const [list] = getCommandEntries('projects');
+    const featuredSection = list.html.split('Other Work')[0];
+    portfolioData.projects
+      .filter((project) => project.featured)
+      .forEach((project) => {
+        const [entry] = getCommandEntries(`projects ${project.slug}`);
+        expect(entry.html).toContain(project.name);
+        expect(entry.html).toContain('Pipeline');
+        expect(featuredSection).toContain(`projects ${project.slug}`);
+      });
+  });
+
   it('returns a not-found message for an unknown project slug', () => {
     const [entry] = getCommandEntries('projects nonexistent-slug');
     expect(entry.html).toContain('Project not found');
