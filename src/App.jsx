@@ -15,7 +15,7 @@ import {
   buildThemeListHtml,
   getCommandEntries,
 } from './utils/terminalContent.js';
-import { makeCommandEntry, makeComponentEntry, makeOutputEntry, parseMarkdown } from './utils/terminalHelpers.js';
+import { getFollowScrollTop, makeCommandEntry, makeComponentEntry, makeOutputEntry, parseMarkdown } from './utils/terminalHelpers.js';
 import { applyTheme, getSavedTheme } from './utils/themeUtils.js';
 
 function getSharedPrefix(matches) {
@@ -39,6 +39,12 @@ function triggerResumeDownload(url) {
   document.body.removeChild(link);
 }
 
+const INTERACTIVE_IN_OUTPUT = 'a, button, input, select, textarea, label, [role="button"], .shell-demo, .thread-demo, .alloc-demo';
+
+function isCoarsePointer() {
+  return typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches;
+}
+
 export default function App() {
   const [terminalHistory, setTerminalHistory] = useState(() => [getBootEntry()]);
   const [commandHistory, setCommandHistory] = useState([]);
@@ -51,6 +57,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('About');
   const [showGuiHint, setShowGuiHint] = useState(() => localStorage.getItem('guiHintSeen') !== 'true');
   const terminalRef = useRef(null);
+  const followOutputRef = useRef(true);
   const inputRef = useRef(null);
   const canvasRef = useRef(null);
   const conversationHistoryRef = useRef([]);
@@ -97,10 +104,60 @@ export default function App() {
     return () => clearTimeout(timeout);
   }, [showGuiHint]);
 
+  // Follow new output: on every new entry, and again whenever the output grows
+  // afterwards (a WASM demo finishing its load, a streamed Cogsworth answer),
+  // until the visitor scrolls the terminal themselves.
   useEffect(() => {
-    if (terminalMode && terminalRef.current) {
-      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    followOutputRef.current = true;
+  }, [terminalHistory.length]);
+
+  useEffect(() => {
+    const terminal = terminalRef.current;
+    if (!terminalMode || !terminal) {
+      return undefined;
     }
+
+    const follow = () => {
+      if (!followOutputRef.current) {
+        return;
+      }
+      const commands = terminal.querySelectorAll('[data-entry-type="command"]');
+      const lastCommand = commands[commands.length - 1];
+      terminal.scrollTop = getFollowScrollTop({
+        scrollHeight: terminal.scrollHeight,
+        clientHeight: terminal.clientHeight,
+        commandTop: lastCommand ? lastCommand.offsetTop : null,
+      });
+    };
+
+    const stopFollowing = () => {
+      followOutputRef.current = false;
+    };
+    // Once the visitor presses anything in the output (a demo button, a block),
+    // stop moving the view under their pointer. Clickable commands are the
+    // exception: they add a new entry, which turns following back on.
+    const stopFollowingOnPress = (event) => {
+      if (!event.target.closest?.('[data-cmd]')) {
+        stopFollowing();
+      }
+    };
+
+    follow();
+    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(follow) : null;
+    const output = terminal.querySelector('#output');
+    if (observer && output) {
+      observer.observe(output);
+    }
+    terminal.addEventListener('wheel', stopFollowing, { passive: true });
+    terminal.addEventListener('touchmove', stopFollowing, { passive: true });
+    terminal.addEventListener('pointerdown', stopFollowingOnPress, { passive: true });
+
+    return () => {
+      observer?.disconnect();
+      terminal.removeEventListener('wheel', stopFollowing);
+      terminal.removeEventListener('touchmove', stopFollowing);
+      terminal.removeEventListener('pointerdown', stopFollowingOnPress);
+    };
   }, [terminalHistory, terminalMode]);
 
   useEffect(() => {
@@ -625,7 +682,30 @@ export default function App() {
             className="w-full rounded-lg shadow-2xl shadow-stone-500/20 p-4 flex flex-col"
             onClick={(event) => {
               initAudio();
-              if (event.target.tagName.toLowerCase() !== 'a') {
+              const runTarget = event.target.closest?.('[data-cmd]');
+              if (runTarget) {
+                // Clickable command: run it as if typed. On touch screens, leave the
+                // input unfocused so the tap doesn't pop up the on-screen keyboard.
+                event.preventDefault();
+                handleSubmit(runTarget.dataset.cmd);
+                if (!isCoarsePointer()) {
+                  inputRef.current?.focus({ preventScroll: true });
+                }
+                return;
+              }
+              // Leave focus alone when a demo's own control or a link was pressed:
+              // focusing the prompt would jump the view to the bottom and, on
+              // phones, pop up the keyboard.
+              if (event.target.closest?.(INTERACTIVE_IN_OUTPUT)) {
+                return;
+              }
+              inputRef.current?.focus({ preventScroll: true });
+            }}
+            onKeyDown={(event) => {
+              const runTarget = event.target.closest?.('[data-cmd]');
+              if (runTarget && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                handleSubmit(runTarget.dataset.cmd);
                 inputRef.current?.focus();
               }
             }}

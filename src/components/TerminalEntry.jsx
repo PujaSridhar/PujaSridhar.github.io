@@ -8,7 +8,7 @@ const AllocDemo = lazy(() => import('./AllocDemo.jsx').then((module) => ({ defau
 export function TerminalEntry({ entry, onShellExit }) {
   if (entry.type === 'command') {
     return (
-      <div className="output-entry">
+      <div className="output-entry" data-entry-type="command">
         <div className="prompt-line-wrapper">
           <span className="prompt-live text-lg">{PROMPT_TEXT}</span>
           <span className="command text-lg" style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
