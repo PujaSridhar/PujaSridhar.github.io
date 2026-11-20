@@ -61,6 +61,34 @@ export const portfolioData = {
     ],
     projects: [
         {
+            name: "FinSight",
+            slug: "finsight",
+            tagline: "A Mistral-7B model trained to read an earnings press release and return its key figures as JSON",
+            tech: "Python · Mistral-7B · QLoRA (PEFT, bitsandbytes) · Transformers · vLLM · FastAPI · SEC EDGAR + XBRL",
+            date: "November 2026",
+            featured: true,
+            desc: [
+                "When a company reports a quarter, the four numbers a trading desk wants first (revenue, net income, diluted EPS and the period end) sit in a press release next to year-ago and year-to-date figures that look almost the same. FinSight fine-tunes Mistral-7B-Instruct with QLoRA to read an earnings release and return those four fields as JSON.",
+                "The labels come free from the SEC. I pull each release (8-K Exhibit 99.1) from EDGAR, label it with the figures the company later filed in XBRL, and keep it only when those exact figures appear in the text the model reads. Train, validation and test are split by company, so the test set is made of companies the model never saw. Training runs in 4-bit on a free 16 GB T4.",
+                "A first adapter is trained. The comparison against base Mistral, base Mistral with retrieved examples, and a large hosted model, on accuracy, cost per release and latency, is the next result, and its numbers go here once it has run. The repo also has vLLM serving behind a FastAPI endpoint, a CI eval gate, and a live watcher that answers new releases as they are filed and scores itself weeks later against the 10-Q."
+            ],
+            url: "https://github.com/PujaSridhar/finsight"
+        },
+        {
+            name: "Silhouette",
+            slug: "silhouette",
+            tagline: "A styling reasoning engine built on a solver that picks the outfit and explicit rules that explain why it works",
+            tech: "Python · OR-Tools CP-SAT · YAML rules engine · CIEDE2000 colour · JavaScript · Mask2Former (W1)",
+            date: "November 2026",
+            featured: true,
+            desc: [
+                "Most wardrobe apps match garments by how they look. Silhouette is a styling reasoning engine: a solver assembles outfits against explicit styling rules and explains, with numbers, why each one works on a given frame. A language model never picks the outfit.",
+                "The core measurement is lift: how much longer the leg line reads than it really is, based on where the outfit puts the visual break. Eighteen rules, written as YAML, score proportion, volume balance and CIEDE2000 colour contrast at the break. An exact solver checks every candidate outfit (158 µs each), a CP-SAT planner picks a week of outfits from one shared wardrobe, and every line of explanation comes from a rule that fired, not from generated text.",
+                "The rule weights were set by hand, so I built an eval harness to fit them: a sampler that aims for rule coverage, Spearman and weighted kappa, and a fitter that only writes new weights when they beat the hand-set ones on held-out outfits. Against a synthetic rater it moved both planted weights the right way. Next are real expert labels (none yet) and garment segmentation, a Mask2Former model on Fashionpedia that is written but not yet trained."
+            ],
+            url: "https://github.com/PujaSridhar/silhouette"
+        },
+        {
             name: "PostHog Engineering Impact Dashboard",
             slug: "posthog",
             tech: "Python · Airflow · dbt · PostgreSQL · FastAPI · Redis · React · Vercel",
