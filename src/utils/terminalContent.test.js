@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { portfolioData } from '../../portfolio-data.js';
-import { getBootEntry, getCommandEntries } from './terminalContent.js';
+import { getBootEntry, getCommandEntries, runnableCommand } from './terminalContent.js';
+import { COMMAND_GROUPS } from '../constants/terminal.js';
 
 describe('getCommandEntries', () => {
   it('returns help output for "help"', () => {
@@ -32,5 +33,29 @@ describe('getCommandEntries', () => {
   it('falls back to sys help for unknown sys subcommands', () => {
     const [entry] = getCommandEntries('sys --bogus');
     expect(entry.html).toContain('sys');
+  });
+});
+
+describe('clickable commands', () => {
+  it('marks every command in help as runnable', () => {
+    const [entry] = getCommandEntries('help');
+    COMMAND_GROUPS.flatMap(({ commands }) => commands).forEach((command) => {
+      expect(entry.html).toContain(`data-cmd="${command}"`);
+    });
+    expect(entry.html).toContain('data-cmd="clear"');
+    expect(entry.html).toContain('data-cmd="all"');
+  });
+
+  it('makes "help" in the boot text runnable', () => {
+    expect(getBootEntry().html).toContain('data-cmd="help"');
+  });
+
+  it('keeps placeholders like "man [command]" as plain text', () => {
+    const [entry] = getCommandEntries('help');
+    expect(entry.html).not.toContain('data-cmd="man [command]"');
+  });
+
+  it('escapes quotes in the command attribute', () => {
+    expect(runnableCommand('say "hi"')).toContain('data-cmd="say &quot;hi&quot;"');
   });
 });

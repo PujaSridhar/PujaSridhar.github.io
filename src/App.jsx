@@ -39,6 +39,10 @@ function triggerResumeDownload(url) {
   document.body.removeChild(link);
 }
 
+function isCoarsePointer() {
+  return typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches;
+}
+
 export default function App() {
   const [terminalHistory, setTerminalHistory] = useState(() => [getBootEntry()]);
   const [commandHistory, setCommandHistory] = useState([]);
@@ -625,7 +629,26 @@ export default function App() {
             className="w-full rounded-lg shadow-2xl shadow-stone-500/20 p-4 flex flex-col"
             onClick={(event) => {
               initAudio();
+              const runTarget = event.target.closest?.('[data-cmd]');
+              if (runTarget) {
+                // Clickable command: run it as if typed. On touch screens, leave the
+                // input unfocused so the tap doesn't pop up the on-screen keyboard.
+                event.preventDefault();
+                handleSubmit(runTarget.dataset.cmd);
+                if (!isCoarsePointer()) {
+                  inputRef.current?.focus();
+                }
+                return;
+              }
               if (event.target.tagName.toLowerCase() !== 'a') {
+                inputRef.current?.focus();
+              }
+            }}
+            onKeyDown={(event) => {
+              const runTarget = event.target.closest?.('[data-cmd]');
+              if (runTarget && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                handleSubmit(runTarget.dataset.cmd);
                 inputRef.current?.focus();
               }
             }}

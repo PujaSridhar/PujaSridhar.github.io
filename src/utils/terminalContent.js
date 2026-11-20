@@ -2,6 +2,13 @@ import { portfolioData } from '../../portfolio-data.js';
 import { CALENDLY_URL, COMMAND_GROUPS, COMMAND_MANUALS, COMMAND_NAMES, EMAIL_HREF, RESUME_URL, THEMES } from '../constants/terminal.js';
 import { formatBreaks, makeOutputEntry } from './terminalHelpers.js';
 
+// A command name the visitor can click or tap to run, as if they had typed it.
+// It looks like any other command name; App.jsx handles the click via data-cmd.
+export function runnableCommand(command, label = command) {
+  const safe = String(command).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  return `<span class="command run-command" role="button" tabindex="0" data-cmd="${safe}">${label}</span>`;
+}
+
 export function getBootEntry() {
   return makeOutputEntry(
     `Booting Cogsworth v25.0.0...<br><br>` +
@@ -10,7 +17,7 @@ export function getBootEntry() {
     `Turing asked if it could think.<br><br>` +
     `I'm still working on the answer.<br>` +
     `So far: production pipelines, parallel agents, and one memory allocator compiled to WebAssembly at 2am.<br><br>` +
-    `Type <span class="command">'help'</span> to see what's here, or ask Cogsworth anything —<br>` +
+    `Type ${runnableCommand('help', "'help'")} to see what's here, or ask Cogsworth anything —<br>` +
     `it answers from my actual portfolio, not from thin air.`
   );
 }
@@ -19,14 +26,14 @@ export function buildHelpHtml() {
   const groups = COMMAND_GROUPS.map(
     ({ title, commands }) =>
       `<div class="skills-category-title">${title}</div>` +
-      `${commands.map((command) => `<span class="command">${command}</span>`).join(', ')}`
+      `${commands.map((command) => runnableCommand(command)).join(', ')}`
   ).join('<br><br>');
 
   return (
     `You can ask me anything — <i>"What has Puja built with AI?"</i> or <i>"Is she available to hire?"</i><br><br>` +
     `Or use a command:<br><br>` +
     `${groups}` +
-    `<br><br>Type <span class="command">man [command]</span> for details · <span class="command">clear</span> to reset · <span class="command">all</span> to dump everything`
+    `<br><br>Type <span class="command">man [command]</span> for details · ${runnableCommand('clear')} to reset · ${runnableCommand('all')} to dump everything`
   );
 }
 
