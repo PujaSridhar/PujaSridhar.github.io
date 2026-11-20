@@ -63,6 +63,10 @@ describe('clickable commands', () => {
     expect(getBootEntry().html).toContain('data-cmd="help"');
   });
 
+  it('tells visitors they can tap "help" in the boot text', () => {
+    expect(getBootEntry().html).toContain('Type or tap <span');
+  });
+
   it('keeps placeholders like "man [command]" as plain text', () => {
     const [entry] = getCommandEntries('help');
     expect(entry.html).not.toContain('data-cmd="man [command]"');

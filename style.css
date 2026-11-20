@@ -130,12 +130,16 @@ body {
     color: var(--color-accent);
 }
 
-/* Commands in help and the boot text that run on click/tap. Same look as any
-   command; only a faint underline on hover, focus or press. */
+/* Commands in help and the boot text that run on click/tap. A faint dotted
+   underline in the command's own color marks them as tappable (phones have no
+   hover); it brightens on hover, focus or press. */
 .run-command {
-  white-space: nowrap;
+    white-space: nowrap;
     cursor: pointer;
-    text-decoration: underline transparent;
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
     text-underline-offset: 3px;
     transition: text-decoration-color 0.15s;
     -webkit-tap-highlight-color: transparent;
@@ -144,7 +148,7 @@ body {
 .run-command:hover,
 .run-command:focus-visible,
 .run-command:active {
-    text-decoration-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+    text-decoration-color: currentColor;
     outline: none;
 }
 

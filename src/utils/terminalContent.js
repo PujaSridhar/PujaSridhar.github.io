@@ -17,7 +17,7 @@ export function getBootEntry() {
     `Turing asked if it could think.<br><br>` +
     `I'm still working on the answer.<br>` +
     `So far: production pipelines, parallel agents, and one memory allocator compiled to WebAssembly at 2am.<br><br>` +
-    `Type ${runnableCommand('help', "'help'")} to see what's here, or ask Cogsworth anything —<br>` +
+    `Type or tap ${runnableCommand('help', "'help'")} to see what's here, or ask Cogsworth anything —<br>` +
     `it answers from my actual portfolio, not from thin air.`
   );
 }
