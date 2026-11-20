@@ -1,17 +1,17 @@
 # Cogsworth local engine — notes for coding agents
 
-This folder is a from-scratch replacement for the production chat pipeline
-(`api/chat.js`, which uses Gemini + Pinecone). It runs entirely on the local
+This folder is Cogsworth's chat engine. Production (`api/chat.js`) serves `engine.answer()`
+directly; it replaced the earlier Gemini + Pinecone pipeline. It runs entirely on the local
 machine: no API keys, no network, no external services.
 
 ## Ground rules
 
-- Do **not** edit `api/chat.js`, `index-data.mjs`, or `.github/workflows/`. Those are production.
-  The local engine only replaces production once its eval score matches Gemini's.
-- `fallback.js` is the one piece production uses: `api/chat.js` serves it when Gemini fails. It only
-  returns intents built directly from `portfolio-data.js` (a correct answer or none), so don't widen
-  `EXACT_INTENTS` without the owner's approval, and keep `engine.js` free of imports that pull in the
-  embedding/LLM runtime (use `similarity.js`, not `embeddings.js`), or the Vercel bundle exceeds 250 MB.
+- Do **not** edit `api/chat.js`, `index-data.mjs`, or `.github/workflows/` without the owner's approval. Those are production.
+  Every change to `engine.js`, `text.js` or `chunks.js` reaches visitors directly, so the eval must stay green.
+- Keep `engine.js` free of imports that pull in the embedding/LLM runtime (use `similarity.js`, not
+  `embeddings.js`), or the Vercel bundle exceeds 250 MB.
+- `fallback.js` (exact structured answers only) is no longer used by production; keep it for its tests
+  until the owner decides to remove it. Don't widen `EXACT_INTENTS` without the owner's approval.
 - The engine itself (`engine.js` and what it imports) stays dependency-free plain Node.js ESM. The only
   dependency, `@huggingface/transformers`, lives in `cogsworth/package.json` (install it with
   `npm run cogsworth:setup`) so the GitHub Pages and Vercel builds never download it. Never add it, or

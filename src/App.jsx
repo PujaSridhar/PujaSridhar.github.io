@@ -200,8 +200,7 @@ export default function App() {
         id: requestId,
         type: 'output',
         html:
-          `<span class="command">[COMPUTING EMBEDDINGS...]</span><br>` +
-          `Loading context from Pinecone and the chat history...`,
+          `<span class="command">[SEARCHING PORTFOLIO...]</span>`,
       },
     ]);
 
