@@ -55,6 +55,7 @@ Apply this guide everywhere Cogsworth writes text (structured answers, BM25/hybr
 | `eval/regressions.json` | Regression evaluation suite (never copied into `answers.json`) |
 | `eval/review.json` | Round 2 review evaluation suite (never copied into `answers.json`) |
 | `eval/round3.json` | Round 3 evaluation suite (never copied into `answers.json`) |
+| `eval/fresh.json` | 40 recruiter-style questions written after the engine was tuned (abbreviations, "can she build X", follow-ups, prompt injection; never copied into `answers.json`) |
 | `eval/run-eval.js` | Scores BM25, Cache + BM25, Hybrid (`bge + bm25`), and `Qwen2.5-0.5B-Instruct`; `--compare-prod` also scores live Gemini |
 | `engine.test.js`, `fallback.test.js` | Unit tests (Vitest), including a guard that structured answers make no claims beyond `portfolio-data.js` |
 

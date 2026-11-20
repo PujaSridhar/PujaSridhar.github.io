@@ -121,6 +121,7 @@ async function main() {
   const regressionCases = JSON.parse(readFileSync(new URL('./regressions.json', import.meta.url), 'utf8'));
   const reviewCases = JSON.parse(readFileSync(new URL('./review.json', import.meta.url), 'utf8'));
   const round3Cases = JSON.parse(readFileSync(new URL('./round3.json', import.meta.url), 'utf8'));
+  const freshCases = JSON.parse(readFileSync(new URL('./fresh.json', import.meta.url), 'utf8'));
   const engine = createEngine(portfolioData);
 
   let embedder = null;
@@ -147,6 +148,7 @@ async function main() {
     ['regressions.json', regressionCases],
     ['review.json', reviewCases],
     ['round3.json', round3Cases],
+    ['fresh.json', freshCases],
   ];
 
   const reports = [];

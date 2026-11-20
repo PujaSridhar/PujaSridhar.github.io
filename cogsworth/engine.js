@@ -46,7 +46,7 @@ const INTENTS = [
   { name: 'about', pattern: /\b(who is\s+(she|puja)|((tell me )?about (her|puja|yourself)|what does (she|puja) do)\s*[.!?]*$|introduce|summary|background|passionate about)\b/i },
 ];
 
-const TECH_QUERY_RE = /\b(has (she|puja) (ever )?(used|worked with|built|done)|does (she|puja) (know|use|have experience with)|did (she|puja) (do anything|work) with|what experience does (she|puja) have with|is (she|puja) (familiar|experienced|good) with)\b/i;
+const TECH_QUERY_RE = /\b(can (she|puja) build|has (she|puja) (ever )?(used|worked with|built|done)|does (she|puja) (know|use|have experience with)|did (she|puja) (do anything|work) with|what experience does (she|puja) have with|is (she|puja) (familiar|experienced|good) with)\b/i;
 const SUBSTANCE_RE = /\b(built|runs|pulls|parses|renders|synthesizes|stitches|automate|contributed|designed|trained|compiled|allocator|shell|scheduler|pipes|deadlocks|agents|models|streamed|graded|helped|coordinated|\d+)\b/i;
 
 function buildTechCatalog(data) {
@@ -75,6 +75,7 @@ function buildTechCatalog(data) {
       if (base === 'Apache Airflow') aliases.push('airflow');
       if (base === 'C Systems Programming') aliases.push('c programming');
       if (base === 'Vector Search') aliases.push('vector db', 'vector database');
+      if (base === 'Agentic Pipelines') aliases.push('agentic', 'agentic systems', 'multi-agent', 'ai agents');
       add(base, aliases, category, item);
     }
   }
@@ -173,7 +174,7 @@ export function createEngine(
     'ever', 'done', 'do', 'make', 'build', 'past', 'current', 'notable', 'participat', 'earn',
     'complete', 'attend', 'area', 'proficient', 'given', 'give', 'demonstrat', 'demonstrate', 'undergrad',
     'background', 'summary', 'passionate', 'short', 'tell', 'about', 'portfolio', 'experience',
-    'program', 'programming', 'language', 'win', 'won', 'award', 'prize', 'place', 'compet', 'compete',
+    'program', 'programming', 'language', 'win', 'won', 'award', 'prize', 'place', 'compet', 'compete', 'year', 'many',
   ]);
 
   function detectIntent(query, entity) {
@@ -202,16 +203,15 @@ export function createEngine(
     if (techItem.label === 'RAG' || techItem.label === 'Vector Search') {
       patterns.push(/\b(Vector DB|semantic cache|vector similarity)\b/i);
     }
+    // Projects describe agents and the models they call rather than naming the skill.
+    if (techItem.label === 'Agentic Pipelines') patterns.push(/\bagents?\b/i);
+    if (techItem.label === 'LLMs') patterns.push(/\b(Gemini|Groq|LLMs?)\b/i);
+    const conceptLabels = ['Computer Vision', 'Deep Learning', 'RAG', 'Vector Search', 'Agentic Pipelines', 'LLMs'];
 
     for (const p of data.projects) {
       const hay = `${p.name} ${p.tech} ${(p.desc || []).join(' ')}`;
       const inTech = patterns.some(re => re.test(p.tech));
-      const inConcept =
-        (techItem.label === 'Computer Vision' ||
-          techItem.label === 'Deep Learning' ||
-          techItem.label === 'RAG' ||
-          techItem.label === 'Vector Search') &&
-        patterns.some(re => re.test(hay));
+      const inConcept = conceptLabels.includes(techItem.label) && patterns.some(re => re.test(hay));
       if (inTech || inConcept) used.push(p.name);
     }
     if (used.length === 0) {
@@ -581,8 +581,21 @@ export function createEngine(
     return { text, typedTerms };
   }
 
+  // "Which hackathon was Smart Doc Finder built for?" names the project but asks about the
+  // hackathon, whose own entry is the one that says so. Switch to that hackathon's entry.
+  function hackathonForProject(query, entity) {
+    if (!entity || !/\bhack(athon)?s?\b/i.test(query || '')) return entity;
+    if (data.hackathons.some(h => h.name === entity.name)) return entity;
+    const project = data.projects.find(p => p.name === entity.name);
+    if (!project) return entity;
+    const hackathon = data.hackathons.find(h => h.desc.includes(project.name));
+    return (hackathon && entities.find(e => e.name === hackathon.name)) || entity;
+  }
+
   function answer(prompt, history = [], { useCache = true, queryVector = null } = {}) {
-    const { query, entity, followUp } = resolveQuery(prompt, history);
+    const resolved = resolveQuery(prompt, history);
+    const { query, followUp } = resolved;
+    const entity = hackathonForProject(query, resolved.entity);
 
     if (useCache) {
       const hit = matchCache(query, entity);
