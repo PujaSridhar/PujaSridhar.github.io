@@ -46,15 +46,19 @@ export function createModelResponder({ engine, data, generate, maxNewTokens = 22
   return { reply, contextFor };
 }
 
+// The site bundles this file (src/utils/cogsworthLocal.js), so nothing here may be resolvable by the
+// bundler: browsers load transformers.js from the CDN (the version cogsworth/ installs for Node), Node
+// loads the installed package. Specifiers are built at runtime so Vite leaves them alone.
+const TRANSFORMERS_CDN = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.1';
+
 async function loadTransformers() {
+  if (typeof window !== 'undefined') return import(/* @vite-ignore */ TRANSFORMERS_CDN);
+  const pkg = ['@huggingface', 'transformers'].join('/');
   try {
-    return await import('@huggingface/transformers');
+    return await import(/* @vite-ignore */ pkg);
   } catch {
-    try {
-      return await import(new URL('../node_modules/@huggingface/transformers/dist/transformers.node.mjs', import.meta.url).href);
-    } catch {
-      return await import(/* @vite-ignore */ 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.4.0');
-    }
+    const local = ['..', 'node_modules', pkg, 'dist', 'transformers.node.mjs'].join('/');
+    return import(/* @vite-ignore */ new URL(local, import.meta.url).href);
   }
 }
 

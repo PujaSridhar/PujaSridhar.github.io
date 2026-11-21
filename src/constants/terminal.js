@@ -1,4 +1,5 @@
 import { portfolioData } from '../../portfolio-data.js';
+import { OWN_MODEL_DOWNLOAD, OWN_MODEL_ID } from '../utils/cogsworthLocal.js';
 
 export const PROMPT_TEXT = 'Cogsworth@linux ~ % ';
 export const RESUME_URL = 'https://drive.google.com/file/d/1XrZ5vb9nad2WnyswQOYPBe3D7speSn6T/view?usp=sharing';
@@ -163,6 +164,7 @@ export const DEFAULT_THEME = 'ivory';
 
 export const COMMAND_NAMES = [
   'cogsworth --version',
+  ...(OWN_MODEL_ID ? ['cogsworth --model'] : []),
   'availability',
   'download resume',
   'diff',
@@ -201,7 +203,7 @@ export const COMMAND_NAMES = [
 export const COMMAND_GROUPS = [
   {
     title: 'About this site',
-    commands: ['cogsworth --version', 'diff', 'patch notes', 'decisions', 'diagnostics', 'theme --list', 'creator'],
+    commands: ['cogsworth --version', ...(OWN_MODEL_ID ? ['cogsworth --model'] : []), 'diff', 'patch notes', 'decisions', 'diagnostics', 'theme --list', 'creator'],
   },
   {
     title: 'Portfolio',
@@ -222,6 +224,11 @@ export const COMMAND_GROUPS = [
 ];
 
 export const COMMAND_MANUALS = {
+  'cogsworth --model': {
+    summary: "Try Puja's own fine-tuned model, running in your browser.",
+    usage: 'cogsworth --model [on|off]',
+    description: `Without an argument, explains the model. "on" downloads it (${OWN_MODEL_DOWNLOAD}, once) and lets it answer; replies it can't back with the portfolio fall back to the engine. "off" returns to the default assistant.`,
+  },
   'cogsworth --version': {
     summary: 'Show the current Cogsworth release metadata.',
     usage: 'cogsworth --version',
