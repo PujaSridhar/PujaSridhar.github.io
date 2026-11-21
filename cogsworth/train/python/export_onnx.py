@@ -8,9 +8,12 @@ Output layout is what transformers.js expects for a local or Hugging Face model 
       config.json, generation_config.json, tokenizer.json, tokenizer_config.json, ...
       onnx/model_quantized.onnx   int8 weights        -> dtype: 'q8'
       onnx/model_q4.onnx          4-bit MatMul weights -> dtype: 'q4'
-    out/merged/                   the merged PyTorch model (for generate.py --model)
+    <work>/merged/                the merged PyTorch model (for generate.py --model)
 
-The fp32 ONNX export is an intermediate and is deleted unless --keep-fp32 is passed.
+<work> is --work, by default the folder that holds --out. The fp32 ONNX export is an intermediate in
+<work>/onnx-fp32 and is deleted unless --keep-fp32 is passed. Both are about 4 bytes per parameter (6 GB each
+for a 1.5B model), and the ONNX exporter briefly writes the fp32 weights twice, so point --work at a disk with
+room (on Kaggle, /tmp rather than the 20 GB /kaggle/working).
 """
 import argparse
 import json
@@ -98,10 +101,12 @@ def main():
     p.add_argument("--formats", default="q8", help="q8 (ship this), q4 (MatMulNBits; very slow on CPU and larger for Qwen)")
     p.add_argument("--block-size", type=int, default=32)
     p.add_argument("--keep-fp32", action="store_true")
+    p.add_argument("--work", default=None, help="scratch folder for the merged model and fp32 ONNX (default: next to --out)")
     args = p.parse_args()
 
     out = Path(args.out)
-    work = out.parent
+    work = Path(args.work) if args.work else out.parent
+    work.mkdir(parents=True, exist_ok=True)
     merged_dir = Path(args.merged) if args.merged else merge(args.base, args.adapter, work / "merged")
     tmp = work / "onnx-fp32"
     log("Merged model ready:", merged_dir)
