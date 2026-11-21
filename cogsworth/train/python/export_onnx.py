@@ -15,12 +15,18 @@ The fp32 ONNX export is an intermediate and is deleted unless --keep-fp32 is pas
 import argparse
 import json
 import shutil
+import time
 from pathlib import Path
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from common import DEFAULT_BASE
+
+
+def log(*args):
+    """Timestamped and flushed, so a slow stage shows up in a notebook or Slurm log while it runs."""
+    print(time.strftime("[%H:%M:%S]"), *args, flush=True)
 
 TOKENIZER_FILES = ["tokenizer.json", "tokenizer_config.json", "special_tokens_map.json", "vocab.json", "merges.txt",
                    "added_tokens.json", "chat_template.jinja"]
@@ -29,7 +35,7 @@ TOKENIZER_FILES = ["tokenizer.json", "tokenizer_config.json", "special_tokens_ma
 def merge(base, adapter, merged_dir):
     from peft import PeftModel
 
-    print(f"Merging {adapter} into {base} ...")
+    log(f"Merging {adapter} into {base} ...")
     model = AutoModelForCausalLM.from_pretrained(base, dtype=torch.float32)
     model = PeftModel.from_pretrained(model, adapter).merge_and_unload()
     model.save_pretrained(merged_dir, safe_serialization=True)
@@ -40,7 +46,7 @@ def merge(base, adapter, merged_dir):
 def export_fp32(merged_dir, onnx_dir):
     from optimum.exporters.onnx import main_export
 
-    print("Exporting to ONNX (text-generation-with-past) ...")
+    log("Exporting to ONNX (text-generation-with-past) ...")
     main_export(str(merged_dir), output=str(onnx_dir), task="text-generation-with-past", device="cpu",
                 do_validation=False)
     return Path(onnx_dir) / "model.onnx"
@@ -66,7 +72,7 @@ def save_model(model, path):
 def quantize_q8(fp32_path, out_path):
     from onnxruntime.quantization import QuantType, quantize_dynamic
 
-    print("Quantizing to int8 (q8) ...")
+    log("Quantizing to int8 (q8) ...")
     quantize_dynamic(str(fp32_path), str(out_path), weight_type=QuantType.QInt8, per_channel=True,
                      reduce_range=False, use_external_data_format=False,
                      extra_options={"MatMulConstBOnly": True})
@@ -76,7 +82,7 @@ def quantize_q4(fp32_path, out_path, block_size):
     import onnx
     from onnxruntime.quantization.matmul_nbits_quantizer import MatMulNBitsQuantizer
 
-    print("Quantizing MatMul weights to 4-bit (q4) ...")
+    log("Quantizing MatMul weights to 4-bit (q4) ...")
     model = onnx.load(str(fp32_path))
     quant = MatMulNBitsQuantizer(model, bits=4, block_size=block_size, is_symmetric=True)
     quant.process()
@@ -98,7 +104,9 @@ def main():
     work = out.parent
     merged_dir = Path(args.merged) if args.merged else merge(args.base, args.adapter, work / "merged")
     tmp = work / "onnx-fp32"
+    log("Merged model ready:", merged_dir)
     fp32 = export_fp32(merged_dir, tmp)
+    log(f"fp32 ONNX written ({mb(fp32):,.0f} MB)")
 
     onnx_out = out / "onnx"
     onnx_out.mkdir(parents=True, exist_ok=True)

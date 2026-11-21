@@ -182,7 +182,13 @@ export function buildDataset({ seed = 7 } = {}) {
     `Puja builds things that don't fit a clean job description: agentic pipelines, production data pipelines, and systems demos in C compiled to WebAssembly. Puja holds an MS in Computer Science from Rutgers University, is based in San Jose, and is looking for roles in ${roles}.`,
     `Puja is based in San Jose and holds a Masters of Science in Computer Science from Rutgers. Puja cares about the decisions underneath the code, and the portfolio covers AI agents, data engineering and systems work. Puja is looking for roles in ${roles}.`,
   ]);
-  for (const t of ['Who is {O}?', 'Tell me about {O}', 'Who is Puja Sridhar?', 'Give me a quick intro to Puja', 'What does {S} do?', 'Summarize {P} background', 'What is {P} background?', 'Introduce Puja', 'What kind of engineer is {S}?', 'Describe Puja in a few sentences']) {
+  for (const t of ['Who is {O}?', 'Tell me about {O}', 'Who is Puja Sridhar?', 'Give me a quick intro to Puja', 'What does {S} do?', 'Summarize {P} background', 'What is {P} background?', 'Introduce Puja', 'What kind of engineer is {S}?', 'Describe Puja in a few sentences',
+    // "Who is Puja?" itself is an eval question, so it never reaches training; these paraphrases keep the
+    // model from answering it like "Who are you?" (the first Kaggle run said "Puja Sridhar is an AI assistant").
+    "Who's Puja Sridhar?", 'Who exactly is Puja?', 'So who is this Puja?', 'Whose portfolio is this?',
+    'Who is the person behind this portfolio?', 'What should I know about Puja?', "Give me Puja's elevator pitch",
+    'Tell me about Puja Sridhar', 'Can you tell me who Puja is?', 'Quick summary of Puja?', "What's Puja's story?",
+    'Give me an overview of Puja', "I'm a recruiter, who is Puja?", 'Who is the Puja this site is about?']) {
     for (let i = 0; i < 2; i++) add('about', fill(t, R), aboutAnswer(), { gold: [{ section: 'about' }, { id: 'overview:education' }] });
   }
   for (const t of ['Where is {S} based?', 'Where does {S} live?', 'Which city is {S} in?', 'Is {S} in the Bay Area?', 'Where is {S} located?']) {

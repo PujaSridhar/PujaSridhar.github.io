@@ -29,18 +29,20 @@ What's here:
 Kaggle's free T4 (16 GB) is plenty: the default 0.5B model trains in fp16 one example at a time (larger batches run
 out of memory on Qwen's big vocabulary), and the whole notebook takes roughly an hour. You get about 30 GPU hours a week.
 
-1. **Package the kit** on your laptop, from the repo root:
-   ```
-   cd cogsworth/train && zip -r ~/cogsworth-train.zip data python -x 'python/__pycache__/*' 'python/out/*'
-   ```
-2. **Upload it as a dataset:** kaggle.com → Datasets → New Dataset → drop in `cogsworth-train.zip`. Any name works. Keep it private.
-3. **Import the notebook:** kaggle.com → Code → New Notebook → File → Import Notebook → `cogsworth/train/kaggle/cogsworth-train.ipynb`.
-4. In the notebook: **Add Input** → your dataset. **Settings → Accelerator → GPU T4** (x1 or x2, it uses one).
-   **Settings → Internet → On** (Kaggle asks you to verify a phone number once).
-5. **Run All.** The last cell scores the model right there and prints the table (see below). Then download
-   `cogsworth-out.zip` and `report.md` from the Output tab. Scoring needs the whole repo as the input: either add
-   the GitHub repo itself as a dataset (Datasets → New Dataset → GitHub) instead of the zip, or attach no input and
-   the notebook clones it.
+1. **Import the notebook:** kaggle.com → Code → New Notebook → File → Import Notebook → `cogsworth/train/kaggle/cogsworth-train.ipynb`.
+2. **Settings → Accelerator → GPU T4** (x1 or x2, it uses one). **Settings → Internet → On** (Kaggle asks you
+   to verify a phone number once). With Internet on, the notebook clones the repo (`REPO_REF` in the second
+   cell, `main` by default), so it always trains on the current data and needs no dataset.
+3. **Save Version → Save & Run All.** It runs in the background; the log prints the score table twice, first for
+   the answers (right after training) and then for the browser model. Then download `cogsworth-out.zip` and
+   `report.md` from the Output tab.
+
+Without Internet, zip the kit (`cd cogsworth/train && zip -r ~/cogsworth-train.zip data python -x 'python/__pycache__/*' 'python/out/*'`),
+upload it as a private dataset and add it as the notebook's input. Training then works, but scoring needs the
+whole repo, so upload the repo instead (Datasets → New Dataset → GitHub) if you want the scores on Kaggle.
+
+The adapter and answers are zipped before the browser export, and the export is capped at 40 minutes, so a stuck
+export can't lose the training run or burn the GPU quota.
 
 The notebook trains, answers every eval question with the trained model and with the untuned base model, exports
 the browser model and zips the LoRA adapter (~35 MB), `cogsworth-web/` and both answer files. To try the
