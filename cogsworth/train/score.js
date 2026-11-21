@@ -169,7 +169,14 @@ function writeReport(cases, systems, reports) {
 async function main() {
   const suites = opt('--suites')?.split(',');
   const allCases = loadEvalCases();
-  const cases = suites ? allCases.filter(c => suites.includes(c.suite)) : allCases;
+  const inSuites = suites ? allCases.filter(c => suites.includes(c.suite)) : allCases;
+  // --limit N scores an evenly spaced sample of N questions (every suite stays represented): the browser model
+  // runs on CPU, which on Kaggle takes about 45 seconds an answer.
+  const limit = Number(opt('--limit')) || 0;
+  const cases = limit && limit < inSuites.length
+    ? inSuites.filter((_, i) => Math.floor((i * limit) / inSuites.length) !== Math.floor(((i - 1) * limit) / inSuites.length))
+    : inSuites;
+  if (cases.length < inSuites.length) console.log(`Scoring a sample of ${cases.length} of ${inSuites.length} eval questions`);
   if (args.includes('--fetch-gemini')) return fetchGemini(allCases);
   if (!existsSync(GEMINI_FILE)) writeGeminiTemplate(allCases);
 

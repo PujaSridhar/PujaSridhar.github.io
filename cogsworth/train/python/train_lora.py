@@ -72,8 +72,11 @@ def main():
     p.add_argument("--rank", type=int, default=16)
     p.add_argument("--alpha", type=int, default=32)
     p.add_argument("--dropout", type=float, default=0.05)
-    p.add_argument("--batch", type=int, default=4)
-    p.add_argument("--grad-accum", type=int, default=4)
+    # One sequence per step: Qwen's 152k-word vocabulary makes the logits of a ~2k-token example
+    # about 1.2 GB in fp32, so batch 4 runs out of memory on a 16 GB T4. 16 accumulation steps keep
+    # the effective batch at 16. On an A100 you can use --batch 4 --grad-accum 4 to go faster.
+    p.add_argument("--batch", type=int, default=1)
+    p.add_argument("--grad-accum", type=int, default=16)
     p.add_argument("--max-len", type=int, default=2048)
     p.add_argument("--precision", default="auto", choices=["auto", "fp16", "bf16", "fp32"])
     p.add_argument("--no-gradient-checkpointing", action="store_true")

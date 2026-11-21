@@ -8,19 +8,28 @@ Output layout is what transformers.js expects for a local or Hugging Face model 
       config.json, generation_config.json, tokenizer.json, tokenizer_config.json, ...
       onnx/model_quantized.onnx   int8 weights        -> dtype: 'q8'
       onnx/model_q4.onnx          4-bit MatMul weights -> dtype: 'q4'
-    out/merged/                   the merged PyTorch model (for generate.py --model)
+    <work>/merged/                the merged PyTorch model (for generate.py --model)
 
-The fp32 ONNX export is an intermediate and is deleted unless --keep-fp32 is passed.
+<work> is --work, by default the folder that holds --out. The fp32 ONNX export is an intermediate in
+<work>/onnx-fp32 and is deleted unless --keep-fp32 is passed. Both are about 4 bytes per parameter (6 GB each
+for a 1.5B model), and the ONNX exporter briefly writes the fp32 weights twice, so point --work at a disk with
+room (on Kaggle, /tmp rather than the 20 GB /kaggle/working).
 """
 import argparse
 import json
 import shutil
+import time
 from pathlib import Path
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from common import DEFAULT_BASE
+
+
+def log(*args):
+    """Timestamped and flushed, so a slow stage shows up in a notebook or Slurm log while it runs."""
+    print(time.strftime("[%H:%M:%S]"), *args, flush=True)
 
 TOKENIZER_FILES = ["tokenizer.json", "tokenizer_config.json", "special_tokens_map.json", "vocab.json", "merges.txt",
                    "added_tokens.json", "chat_template.jinja"]
@@ -29,7 +38,7 @@ TOKENIZER_FILES = ["tokenizer.json", "tokenizer_config.json", "special_tokens_ma
 def merge(base, adapter, merged_dir):
     from peft import PeftModel
 
-    print(f"Merging {adapter} into {base} ...")
+    log(f"Merging {adapter} into {base} ...")
     model = AutoModelForCausalLM.from_pretrained(base, dtype=torch.float32)
     model = PeftModel.from_pretrained(model, adapter).merge_and_unload()
     model.save_pretrained(merged_dir, safe_serialization=True)
@@ -40,7 +49,7 @@ def merge(base, adapter, merged_dir):
 def export_fp32(merged_dir, onnx_dir):
     from optimum.exporters.onnx import main_export
 
-    print("Exporting to ONNX (text-generation-with-past) ...")
+    log("Exporting to ONNX (text-generation-with-past) ...")
     main_export(str(merged_dir), output=str(onnx_dir), task="text-generation-with-past", device="cpu",
                 do_validation=False)
     return Path(onnx_dir) / "model.onnx"
@@ -66,7 +75,7 @@ def save_model(model, path):
 def quantize_q8(fp32_path, out_path):
     from onnxruntime.quantization import QuantType, quantize_dynamic
 
-    print("Quantizing to int8 (q8) ...")
+    log("Quantizing to int8 (q8) ...")
     quantize_dynamic(str(fp32_path), str(out_path), weight_type=QuantType.QInt8, per_channel=True,
                      reduce_range=False, use_external_data_format=False,
                      extra_options={"MatMulConstBOnly": True})
@@ -76,7 +85,7 @@ def quantize_q4(fp32_path, out_path, block_size):
     import onnx
     from onnxruntime.quantization.matmul_nbits_quantizer import MatMulNBitsQuantizer
 
-    print("Quantizing MatMul weights to 4-bit (q4) ...")
+    log("Quantizing MatMul weights to 4-bit (q4) ...")
     model = onnx.load(str(fp32_path))
     quant = MatMulNBitsQuantizer(model, bits=4, block_size=block_size, is_symmetric=True)
     quant.process()
@@ -89,16 +98,20 @@ def main():
     p.add_argument("--adapter", default=None, help="LoRA adapter; omit with --merged to export an already merged model")
     p.add_argument("--merged", default=None, help="already merged model folder")
     p.add_argument("--out", default="out/cogsworth-web")
-    p.add_argument("--formats", default="q8,q4")
+    p.add_argument("--formats", default="q8", help="q8 (ship this), q4 (MatMulNBits; very slow on CPU and larger for Qwen)")
     p.add_argument("--block-size", type=int, default=32)
     p.add_argument("--keep-fp32", action="store_true")
+    p.add_argument("--work", default=None, help="scratch folder for the merged model and fp32 ONNX (default: next to --out)")
     args = p.parse_args()
 
     out = Path(args.out)
-    work = out.parent
+    work = Path(args.work) if args.work else out.parent
+    work.mkdir(parents=True, exist_ok=True)
     merged_dir = Path(args.merged) if args.merged else merge(args.base, args.adapter, work / "merged")
     tmp = work / "onnx-fp32"
+    log("Merged model ready:", merged_dir)
     fp32 = export_fp32(merged_dir, tmp)
+    log(f"fp32 ONNX written ({mb(fp32):,.0f} MB)")
 
     onnx_out = out / "onnx"
     onnx_out.mkdir(parents=True, exist_ok=True)
