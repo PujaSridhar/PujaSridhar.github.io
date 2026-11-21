@@ -95,7 +95,7 @@ def main():
     p.add_argument("--adapter", default=None, help="LoRA adapter; omit with --merged to export an already merged model")
     p.add_argument("--merged", default=None, help="already merged model folder")
     p.add_argument("--out", default="out/cogsworth-web")
-    p.add_argument("--formats", default="q8,q4")
+    p.add_argument("--formats", default="q8", help="q8 (ship this), q4 (MatMulNBits; very slow on CPU and larger for Qwen)")
     p.add_argument("--block-size", type=int, default=32)
     p.add_argument("--keep-fp32", action="store_true")
     args = p.parse_args()

@@ -135,7 +135,7 @@ context, already published in transformers.js format by onnx-community, and the 
 | 0.5B | ~0.5 GB | ~0.8 GB |
 | 1.5B | ~1.5 GB | ~2 GB |
 
-Ship q8. The q4 export only quantizes the matrix multiplies, and Qwen's large vocabulary table stays in full precision, so q4 ends up bigger.
+Ship q8 (the default; the Kaggle run made a 497 MB q8 model in about two minutes). The q4 export only quantizes the matrix multiplies, and Qwen's large vocabulary table stays in full precision, so q4 ends up bigger, and on Kaggle it ran for over an hour without finishing. Build it only with `--formats q8,q4`.
 On a laptop with WebGPU expect a reply in a second or two; on WASM, several seconds; most phones will struggle.
 
 **How close to Gemini?** On questions about the portfolio, with the facts handed to it, a fine-tuned 0.5B model can
