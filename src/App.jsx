@@ -17,6 +17,7 @@ import {
 } from './utils/terminalContent.js';
 import { getFollowScrollTop, makeCommandEntry, makeComponentEntry, makeOutputEntry, parseMarkdown } from './utils/terminalHelpers.js';
 import { applyTheme, getSavedTheme } from './utils/themeUtils.js';
+import { OWN_MODEL_DOWNLOAD, OWN_MODEL_ID, describeDownload, engineFallbackAnswer, loadOwnModel } from './utils/cogsworthLocal.js';
 
 function getSharedPrefix(matches) {
   return matches.reduce((prefix, command) => {
@@ -62,6 +63,8 @@ export default function App() {
   const canvasRef = useRef(null);
   const conversationHistoryRef = useRef([]);
   const activeRequestRef = useRef(null);
+  // Puja's own fine-tuned model, once a visitor opts in with "cogsworth --model on".
+  const ownModelRef = useRef(null);
   const sessionStartedAtRef = useRef(Date.now());
   const currentYear = new Date().getFullYear();
   const weatherText = useIpWeather();
@@ -186,7 +189,39 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleWindowKeyDown);
   }, [terminalMode]);
 
+  async function answerWithOwnModel(userInput) {
+    const requestId = crypto.randomUUID();
+    const history = conversationHistoryRef.current;
+    const setEntry = (html) =>
+      setTerminalHistory((previous) => previous.map((entry) => (entry.id === requestId ? { ...entry, html } : entry)));
+
+    setTerminalHistory((previous) => [
+      ...previous,
+      { id: requestId, type: 'output', html: `<span class="command">[RUNNING PUJA'S MODEL IN YOUR BROWSER...]</span>` },
+    ]);
+
+    let text;
+    let note;
+    try {
+      const result = await ownModelRef.current.reply(userInput, history);
+      text = result.text;
+      note = result.source === 'model'
+        ? "answered by Puja's fine-tuned model"
+        : "answered by the engine: the model's reply wasn't fully backed by the portfolio";
+    } catch (error) {
+      console.error('Own model failed:', error);
+      text = await engineFallbackAnswer(userInput);
+      note = 'answered by the engine: the model failed to run';
+    }
+    conversationHistoryRef.current = [...history, { role: 'user', text: userInput }, { role: 'assistant', text }];
+    setEntry(`${parseMarkdown(text)}<br><span class="dim">(${note})</span>`);
+  }
+
   async function requestAssistant(userInput) {
+    if (ownModelRef.current) {
+      return answerWithOwnModel(userInput);
+    }
+
     const requestId = crypto.randomUUID();
     const abortController = new AbortController();
     const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -250,6 +285,10 @@ export default function App() {
         }
       }
 
+      if (!fullResponseText.trim()) {
+        throw new Error('Empty response');
+      }
+
       conversationHistoryRef.current = [...nextConversationHistory, { role: 'assistant', text: fullResponseText }];
     } catch (error) {
       if (error.name === 'AbortError') {
@@ -262,12 +301,17 @@ export default function App() {
       }
 
       console.error('AI Fetch Error:', error);
+      // The server couldn't be reached (or answered nothing): answer in the browser with the engine.
+      let html = "<span class='error'>Error: the assistant timed out or could not connect.</span>";
+      try {
+        const text = await engineFallbackAnswer(userInput);
+        conversationHistoryRef.current = [...nextConversationHistory, { role: 'assistant', text }];
+        html = parseMarkdown(text);
+      } catch (fallbackError) {
+        console.error('Browser fallback failed:', fallbackError);
+      }
       setTerminalHistory((previous) =>
-        previous.map((entry) =>
-          entry.id === requestId
-            ? { ...entry, html: "<span class='error'>Error: the assistant timed out or could not connect.</span>" }
-            : entry
-        )
+        previous.map((entry) => (entry.id === requestId ? { ...entry, html } : entry))
       );
     } finally {
       if (activeRequestRef.current?.id === requestId) {
@@ -358,6 +402,46 @@ export default function App() {
     setInputValue('');
   }
 
+  function handleModelCommand(action) {
+    const say = (html) => setTerminalHistory((previous) => [...previous, makeOutputEntry(html)]);
+
+    if (action === 'off') {
+      ownModelRef.current = null;
+      say("Back to the default assistant. Type <span class=\"command\">cogsworth --model on</span> to switch again.");
+      return;
+    }
+
+    if (action !== 'on') {
+      say(
+        `Puja fine-tuned her own small language model (Qwen2.5 0.5B, LoRA) on her portfolio. It runs entirely in your ` +
+          `browser, so it's a one-time ${OWN_MODEL_DOWNLOAD} download, and on a laptop each reply takes a few seconds.<br>` +
+          `Every reply is checked against the portfolio, and the engine answers instead when it isn't backed by it.<br>` +
+          (ownModelRef.current ? `It's on now. Type <span class="command">cogsworth --model off</span> to switch back.` : `Type <span class="command">cogsworth --model on</span> to try it.`)
+      );
+      return;
+    }
+
+    if (ownModelRef.current) {
+      say("Puja's model is already answering. Ask anything.");
+      return;
+    }
+
+    const progressId = crypto.randomUUID();
+    const setProgress = (html) =>
+      setTerminalHistory((previous) => previous.map((entry) => (entry.id === progressId ? { ...entry, html } : entry)));
+    setTerminalHistory((previous) => [...previous, { id: progressId, type: 'output', html: `Loading Puja's model (${OWN_MODEL_DOWNLOAD})...` }]);
+
+    loadOwnModel({ onProgress: (event) => { const line = describeDownload(event); if (line) setProgress(line); } })
+      .then((responder) => {
+        ownModelRef.current = responder;
+        setProgress("Puja's model is loaded and answering in your browser. Ask anything, or type <span class=\"command\">cogsworth --model off</span> to switch back.");
+      })
+      .catch((error) => {
+        console.error('Could not load the model:', error);
+        setProgress("<span class='error'>Couldn't load the model in this browser.</span> The default assistant is still answering.");
+      });
+  }
+
   function handleSubmit(rawInput = inputValue) {
     const userInput = rawInput.trim();
     if (!userInput) {
@@ -371,6 +455,14 @@ export default function App() {
     const [commandToken, ...args] = userInput.split(/\s+/);
     const normalizedInput = COMMAND_NAMES.includes(normalizedFullInput) ? normalizedFullInput : commandToken.toLowerCase();
     let commandEntries;
+
+    const modelMatch = OWN_MODEL_ID && normalizedFullInput.match(/^cogsworth\s+--model(?:\s+(on|off))?$/);
+    if (modelMatch) {
+      recordCommand(userInput);
+      setTerminalHistory((previous) => [...previous, makeCommandEntry(userInput)]);
+      handleModelCommand(modelMatch[1]);
+      return;
+    }
 
     if (normalizedFullInput === 'diagnostics') {
       recordCommand(userInput);

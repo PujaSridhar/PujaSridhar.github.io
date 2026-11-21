@@ -115,7 +115,23 @@ Where it can run:
   rather than in this repo or GitHub Pages, which caps files at 100 MB.
 - **On a separate host** with a GPU or a large CPU box, if you'd rather not make visitors download it.
 
-Wiring it into the terminal UI is a follow-up PR once you're happy with the scores. This one only adds the kit.
+## Put the model on the site
+
+The site already has the opt-in wired up: `cogsworth --model` in the terminal explains the model, `cogsworth --model on`
+downloads it into the visitor's browser and lets it answer (with the grounding guard, so the engine answers whenever a
+reply isn't backed by the portfolio), and `cogsworth --model off` switches back. Your engine (or Gemini, until PR 20)
+stays the default for everyone else. The command stays hidden until the model is published:
+
+1. Unzip `cogsworth-out.zip` from the Kaggle Output tab. You need the `cogsworth-web/` folder (config, tokenizer and
+   `onnx/model_quantized.onnx`, about 500 MB for the 0.5B).
+2. On huggingface.co, create a **public** model repo (for example `cogsworth-0.5b`) and upload the *contents* of
+   `cogsworth-web/`, keeping the `onnx/` subfolder. The browser downloads it from there, so it has to be public.
+3. Set `OWN_MODEL_ID` in `src/utils/cogsworthLocal.js` to `"<your-hf-username>/cogsworth-0.5b"` and deploy.
+
+Ship the 0.5B, not the 1.5B: the 1.5B's browser build is about three times larger, too heavy for most visitors.
+
+When `/api/chat` can't be reached at all (or answers nothing), the terminal also answers in the browser with the
+engine's exact answers, the same safety net the server uses when Gemini fails.
 
 ## The model, and honest expectations
 
